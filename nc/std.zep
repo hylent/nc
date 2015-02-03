@@ -83,7 +83,7 @@ class Std
         return strtolower(preg_replace("/([A-Z])/", sep . "$1", lcfirst(from)));
     }
 
-    public static function valueOfArray(array data, string key)
+    public static function valueOfArray(array data, string key, var defaultValue = null)
     {
         var parts, part, value, tmpValue;
 
@@ -92,7 +92,7 @@ class Std
 
         for part in parts {
             if typeof value != "array" || ! fetch tmpValue, value[part] {
-                return;
+                return defaultValue;
             }
             let value = tmpValue;
         }
@@ -122,78 +122,6 @@ class Std
         }
 
         return strtr(translation, replacements);
-    }
-
-    public static function arrayToCsvString(array data, array header = null, boolean bom = false) -> string
-    {
-        var newData, indexes, index, line, d, dd;
-        string ddString, content;
-
-        if count(header) > 0 {
-            let newData = [];
-
-            let indexes = array_keys(header);
-            let newData[] = array_values(header);
-
-            for d in data {
-                if unlikely typeof d != "array" {
-                    throw new Exception("Invalid data item, array required");
-                }
-
-                let line = [];
-
-                for index in indexes {
-                    if fetch dd, d[index] && is_scalar(dd) {
-                        let line[] = dd;
-                    } else {
-                        let line[] = "";
-                    }
-                }
-
-                let newData[] = line;
-            }
-
-            return self::arrayToCsvString(newData, null, bom);
-        }
-
-        let content = "";
-
-        for d in data {
-            if unlikely typeof d != "array" {
-                throw new Exception("Invalid data item, array required");
-            }
-
-            let line = [];
-
-            for dd in d {
-                if ! is_scalar(dd) {
-                    let line[] = "";
-                    continue;
-                }
-
-                if is_numeric(dd) {
-                    let line[] = "\t" . (string) dd;
-                    continue;
-                }
-
-                let ddString = (string) dd;
-
-                if strpbrk(ddString, ",\"\n") === false {
-                    let line[] = ddString;
-                    continue;
-                }
-
-                let line[] = "\"" . str_replace("\"", "\"\"", ddString) . "\"";
-            }
-
-            let content .= join(",", line) . PHP_EOL;
-        }
-
-        if bom {
-            return pack("nc", 0xEFBB, 0xBF) . content;
-        }
-
-        return content;
     }
 
     public static function indexedData(array data, string indexKey) -> array
@@ -404,5 +332,4 @@ class Std
 
         return "";
     }
-
 }
