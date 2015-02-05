@@ -7,11 +7,11 @@ use Nc\Std;
 
 class Uploader implements StorageBackendAwareInterface
 {
-    const FILE_ARRAY_NOT_FOUND = 0x1001;
-    const FILE_ARRAY_MISSING_VALUE = 0x1002;
-    const SIZE_TOO_LARGE = 0x1003;
-    const EXTENSION_INVALID = 0x1004;
-    const STORAGE_FAILED = 0x1005;
+    const FILE_ARRAY_NOT_FOUND = 0x11;
+    const FILE_ARRAY_MISSING_VALUE = 0x12;
+    const SIZE_TOO_LARGE = 0x13;
+    const EXTENSION_INVALID = 0x14;
+    const STORAGE_FAILED = 0x15;
 
     protected storageBackend;
     protected validExtensions;
@@ -22,7 +22,9 @@ class Uploader implements StorageBackendAwareInterface
 
     public function __construct(string validExtensions, string maxSize = "2M") -> void
     {
-        let this->validExtensions = array_flip(explode(",", validExtensions->lower()));
+        let this->validExtensions = array_flip(
+            preg_split("@[,/\\s\\|]+@", validExtensions->lower(), -1, PREG_SPLIT_NO_EMPTY)
+        );
         let this->maxSize = Std::sizeToByte(maxSize);
     }
 
@@ -77,24 +79,28 @@ class Uploader implements StorageBackendAwareInterface
         }
 
         let this->fileArray = fa;
+        let this->fileArray["tmpName"] = tmpName;
         let this->fileArray["extension"] = extension;
         let this->fileArray["uri"] = uri;
 
         return uri;
     }
 
-    public function getLastError() -> long
+    public function lastError() -> long
     {
         return this->lastError;
+    }
+
+    public function fileArray() -> array
+    {
+        return this->fileArray;
     }
 
     public function __get(string name)
     {
         var value;
-        string nameUncamelCase;
 
-        let nameUncamelCase = (string) Std::uncamelCase(name, "_");
-        if fetch value, this->fileArray[nameUncamelCase] {
+        if fetch value, this->fileArray[name] {
             return value;
         }
     }
