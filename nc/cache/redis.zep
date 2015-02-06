@@ -70,7 +70,7 @@ class Redis extends CacheAdapter
         let a = this->redis->mget(keys);
         for i, k in keys {
             if fetch v, a[i] && v !== false {
-                let data[k] = this->getSerializer()->unserialize(v);
+                let data[k] = this->serializer->unserialize(v);
             }
         }
 
@@ -90,7 +90,7 @@ class Redis extends CacheAdapter
         let realGroup = CacheInterface::GROUP_PREFIX . group;
 
         for k, v in keyValues {
-            let data[k] = this->getSerializer()->serialize(v);
+            let data[k] = this->serializer->serialize(v);
         }
 
         this->redis->delete(realGroup);
@@ -108,7 +108,7 @@ class Redis extends CacheAdapter
 
         let data = [];
         for k, v in a {
-            let data[k] = this->getSerializer()->unserialize(v);
+            let data[k] = this->serializer->unserialize(v);
         }
 
         return data;
@@ -124,7 +124,7 @@ class Redis extends CacheAdapter
         var k, v, data = [];
 
         for k, v in keyValues {
-            let data[k] = this->getSerializer()->serialize(v);
+            let data[k] = this->serializer->serialize(v);
         }
 
         this->redis->hmset(CacheInterface::GROUP_PREFIX . group, data);
@@ -141,7 +141,7 @@ class Redis extends CacheAdapter
 
         for k, v in a {
             if v !== false {
-                let data[k] = this->getSerializer()->unserialize(v);
+                let data[k] = this->serializer->unserialize(v);
             }
         }
 

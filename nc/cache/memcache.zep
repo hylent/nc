@@ -101,7 +101,7 @@ class Memcache extends CacheAdapter
         let a = this->memcache->get(keys);
         if typeof a == "array" && a {
             for k, v in a {
-                let data[k] = this->getSerializer()->unserialize(v);
+                let data[k] = this->serializer->unserialize(v);
             }
         }
 

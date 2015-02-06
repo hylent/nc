@@ -75,7 +75,7 @@ class Apc extends CacheAdapter
         var k, v, data = [];
 
         for k, v in keyValues {
-            let data[k] = this->getSerializer()->serialize(v);
+            let data[k] = this->serializer->serialize(v);
         }
 
         apc_store(data, expiredAt - time());
@@ -88,7 +88,7 @@ class Apc extends CacheAdapter
         let r = apc_fetch(keys);
         if typeof r == "array" && r {
             for k, v in r {
-                let data[k] = this->getSerializer()->unserialize(v);
+                let data[k] = this->serializer->unserialize(v);
             }
         }
 

@@ -56,7 +56,7 @@ abstract class CacheAdapter implements CacheInterface, SerializerAwareInterface
 
     public function set(string key, var value, long lifetime = 0) -> void
     {
-        this->rawSet(key, this->getSerializer()->serialize(value), lifetime);
+        this->rawSet(key, this->serializer->serialize(value), lifetime);
     }
 
     public function get(string key)
@@ -68,7 +68,7 @@ abstract class CacheAdapter implements CacheInterface, SerializerAwareInterface
             return;
         }
 
-        return this->getSerializer()->unserialize(r);
+        return this->serializer->unserialize(r);
     }
 
     public function delete(string key) -> void
