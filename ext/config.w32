@@ -1,0 +1,24 @@
+ARG_ENABLE("nc", "enable nc", "no");
+
+if (PHP_NC != "no") {
+  EXTENSION("nc", "nc.c", null, "-I"+configure_module_dirname);
+  ADD_SOURCES(configure_module_dirname + "/kernel", "main.c memory.c exception.c hash.c debug.c backtrace.c object.c array.c string.c fcall.c require.c file.c operators.c concat.c variables.c filter.c iterator.c exit.c", "nc");
+  ADD_SOURCES(configure_module_dirname + "/kernel/extended", "array.c", "nc");
+  
+  ADD_SOURCES(configure_module_dirname + "/nc/cache", "apc.zep.c cacheadapter.zep.c cacheawareinterface.zep.c cacheinterface.zep.c exception.zep.c file.zep.c memcache.zep.c redis.zep.c", "nc");
+	ADD_SOURCES(configure_module_dirname + "/nc/db", "dbadapter.zep.c dbawareinterface.zep.c dbinterface.zep.c exception.zep.c oci.zep.c pdo.zep.c queryexception.zep.c", "nc");
+	ADD_SOURCES(configure_module_dirname + "/nc/db/query", "dbqueryadapter.zep.c exception.zep.c mysql.zep.c oracle.zep.c pgsql.zep.c", "nc");
+	ADD_SOURCES(configure_module_dirname + "/nc", "exception.zep.c std.zep.c", "nc");
+	ADD_SOURCES(configure_module_dirname + "/nc/image/backend", "exception.zep.c gd.zep.c imagebackendadapter.zep.c imagebackendinterface.zep.c imagick.zep.c", "nc");
+	ADD_SOURCES(configure_module_dirname + "/nc/image", "exception.zep.c image.zep.c item.zep.c text.zep.c", "nc");
+	ADD_SOURCES(configure_module_dirname + "/nc/loader", "classpath.zep.c exception.zep.c loaderadapter.zep.c loaderinterface.zep.c namespacedirectory.zep.c", "nc");
+	ADD_SOURCES(configure_module_dirname + "/nc/log/backend", "exception.zep.c file.zep.c logbackendawareinterface.zep.c logbackendinterface.zep.c nil.zep.c", "nc");
+	ADD_SOURCES(configure_module_dirname + "/nc/log", "exception.zep.c logger.zep.c", "nc");
+	ADD_SOURCES(configure_module_dirname + "/nc/message", "exception.zep.c", "nc");
+	ADD_SOURCES(configure_module_dirname + "/nc/message/sender", "exception.zep.c messagesenderawareinterface.zep.c messagesenderinterface.zep.c smtp.zep.c", "nc");
+	ADD_SOURCES(configure_module_dirname + "/nc/serializer", "exception.zep.c igbinary.zep.c json.zep.c php.zep.c serializerawareinterface.zep.c serializerinterface.zep.c", "nc");
+	ADD_SOURCES(configure_module_dirname + "/nc/storage/backend", "exception.zep.c filesystem.zep.c ftp.zep.c storagebackendadapter.zep.c storagebackendawareinterface.zep.c storagebackendinterface.zep.c", "nc");
+	ADD_SOURCES(configure_module_dirname + "/nc/storage", "exception.zep.c uploader.zep.c", "nc");
+	ADD_SOURCES(configure_module_dirname + "/nc/storage/namepolicy", "storagenamepolicyawareinterface.zep.c storagenamepolicyinterface.zep.c uuid.zep.c", "nc");
+  ADD_FLAG("CFLAGS_NC", "/D ZEPHIR_RELEASE");
+}
