@@ -100,30 +100,6 @@ class Std
         return value;
     }
 
-    public static function translate(array translations, string original, array args) -> string
-    {
-        var translation, replacements, k, v;
-
-        if fetch translation, translations[original] {
-            if unlikely typeof translation != "string" {
-                throw new Exception("Invalid translation type");
-            }
-        } else {
-            let translation = original;
-        }
-
-        if count(args) < 1 {
-            return translation;
-        }
-
-        let replacements = [];
-        for k, v in args {
-            let replacements["%" . k . "%"] = v;
-        }
-
-        return strtr(translation, replacements);
-    }
-
     public static function indexedData(array data, string indexKey) -> array
     {
         var k, v, arr = [], indexValue;
