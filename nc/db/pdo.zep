@@ -1,16 +1,21 @@
-namespace Nc\Db\Connection;
+namespace Nc\Db;
 
-class Pdo extends DbConnectionAdapter
+class Pdo extends DbAdapter
 {
     protected pdo;
 
     public function __construct() -> void
     {
+        var pdo;
+
         if unlikely ! extension_loaded("pdo") {
             throw new Exception("Missing extension: pdo");
         }
 
-        let this->pdo = (new \ReflectionClass("PDO"))->newInstanceArgs(func_get_args());
+        let pdo = (new \ReflectionClass("PDO"))->newInstanceArgs(func_get_args());
+
+        let this->pdo = pdo;
+        let this->queryClass = "Nc\\Db\\Query\\" . ucfirst(pdo->getAttribute(\Pdo::ATTR_DRIVER_NAME));
     }
 
     public function begin() -> boolean
@@ -61,9 +66,9 @@ class Pdo extends DbConnectionAdapter
         if count(params) > 0 {
             for k, v in params {
                 if typeof v == "string" {
-                    stmt->bindParam(k, "" . v, \Pdo::PARAM_STR, strlen(v));
+                    stmt->bindParam(":" . k, "" . v, \Pdo::PARAM_STR, strlen(v));
                 } else {
-                    stmt->bindValue(k, v);
+                    stmt->bindValue(":" . k, v);
                 }
             }
         }
@@ -75,19 +80,19 @@ class Pdo extends DbConnectionAdapter
             throw new QueryException(err[2] . "[SQL:] " . sql);
         }
 
-        switch (flag & DbConnectionInterface::FETCH_MASK) {
-            case DbConnectionInterface::ALL:
+        switch (flag & DbInterface::FETCH_MASK) {
+            case DbInterface::ALL:
                 return stmt->fetchAll(\Pdo::FETCH_ASSOC);
 
-            case DbConnectionInterface::ROW:
+            case DbInterface::ROW:
                 let row = stmt->$fetch(\Pdo::FETCH_ASSOC);
                 return row ? row : null;
 
-            case DbConnectionInterface::ONE:
+            case DbInterface::ONE:
                 let item = stmt->fetchColumn();
                 return item;
 
-            case DbConnectionInterface::COLUMN:
+            case DbInterface::COLUMN:
                 let data = [];
                 loop {
                     let item = stmt->fetchColumn();

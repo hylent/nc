@@ -1,6 +1,6 @@
-namespace Nc\Db\Connection;
+namespace Nc\Db;
 
-class Oci extends DbConnectionAdapter
+class Oci extends DbAdapter
 {
     protected oci;
 
@@ -18,6 +18,7 @@ class Oci extends DbConnectionAdapter
         }
 
         let this->oci = oci;
+        let this->queryClass = "Nc\\Db\\Query\\Oracle";
     }
 
     public function begin() -> boolean
@@ -69,7 +70,7 @@ class Oci extends DbConnectionAdapter
 
         if count(params) > 0 {
             for k, v in params {
-                oci_bind_by_name(stmt, k, v);
+                oci_bind_by_name(stmt, ":" . k, v);
             }
         }
 
@@ -83,13 +84,13 @@ class Oci extends DbConnectionAdapter
             throw new QueryException(errMsg . "[SQL:] " . sql);
         }
 
-        let flagVar = flag & DbConnectionInterface::FETCH_MASK;
+        let flagVar = flag & DbInterface::FETCH_MASK;
 
         if flagVar {
             let mode = OCI_RETURN_NULLS + OCI_RETURN_LOBS;
 
             switch (flagVar) {
-            case DbConnectionInterface::ALL:
+            case DbInterface::ALL:
                 let mode += OCI_ASSOC;
                 let data = [];
                 loop {
@@ -101,18 +102,18 @@ class Oci extends DbConnectionAdapter
                 }
                 return data;
 
-            case DbConnectionInterface::ROW:
+            case DbInterface::ROW:
                 let row = oci_fetch_array(stmt, mode + OCI_ASSOC);
                 return row ? array_change_key_case(row) : null;
 
-            case DbConnectionInterface::ONE:
+            case DbInterface::ONE:
                 let row = oci_fetch_array(stmt, mode + OCI_NUM);
                 if row && typeof row == "array" && fetch item, row[0] {
                     return item;
                 }
                 return "";
 
-            case DbConnectionInterface::COLUMN:
+            case DbInterface::COLUMN:
                 let mode += OCI_NUM;
                 let data = [];
                 loop {

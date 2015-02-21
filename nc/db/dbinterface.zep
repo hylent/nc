@@ -1,6 +1,6 @@
-namespace Nc\Db\Connection;
+namespace Nc\Db;
 
-interface DbConnectionInterface
+interface DbInterface
 {
     const READ = 1;
     const WRITE = 2;
@@ -29,4 +29,8 @@ interface DbConnectionInterface
 
     public function quote(string value) -> string;
     public function query(long flag, string sql, array params = null);
+
+    public function setQueryClass(string queryClass) -> void;
+    public function getQueryClass() -> string;
+    public function __invoke(string table, string tableAlias = "");
 }

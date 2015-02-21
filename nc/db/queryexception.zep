@@ -1,4 +1,4 @@
-namespace Nc\Db\Connection;
+namespace Nc\Db;
 
 class QueryException extends Exception
 {

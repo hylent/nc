@@ -1,4 +1,4 @@
-namespace Nc\Db\Connection;
+namespace Nc\Db\Query;
 
 use Nc\Db\Exception as Ex;
 
