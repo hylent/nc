@@ -24,7 +24,7 @@
 
 ZEPHIR_INIT_CLASS(Nc_Db_Query_Mysql) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Nc\\Db\\Query, Mysql, nc, db_query_mysql, nc_db_query_dbqueryadapter_ce, nc_db_query_mysql_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Nc\\Db\\Query, Mysql, nc, db_query_mysql, nc_db_query_dbqueryabstract_ce, nc_db_query_mysql_method_entry, 0);
 
 	return SUCCESS;
 

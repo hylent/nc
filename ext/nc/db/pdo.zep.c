@@ -25,7 +25,7 @@
 
 ZEPHIR_INIT_CLASS(Nc_Db_Pdo) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Nc\\Db, Pdo, nc, db_pdo, nc_db_dbadapter_ce, nc_db_pdo_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Nc\\Db, Pdo, nc, db_pdo, nc_db_dbabstract_ce, nc_db_pdo_method_entry, 0);
 
 	zend_declare_property_null(nc_db_pdo_ce, SL("pdo"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
@@ -71,65 +71,6 @@ PHP_METHOD(Nc_Db_Pdo, __construct) {
 	ZEPHIR_CONCAT_SV(_10, "Nc\\Db\\Query\\", _8);
 	zephir_update_property_this(this_ptr, SL("queryClass"), _10 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
-
-}
-
-PHP_METHOD(Nc_Db_Pdo, begin) {
-
-	int ZEPHIR_LAST_CALL_STATUS;
-	zval *_0, *_1, *_2 = NULL;
-
-	ZEPHIR_MM_GROW();
-
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("inTransaction"), PH_NOISY_CC);
-	if (unlikely(!(!zephir_is_true(_0)))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_exception_ce, "Already in transaction", "nc/db/pdo.zep", 24);
-		return;
-	}
-	_1 = zephir_fetch_nproperty_this(this_ptr, SL("pdo"), PH_NOISY_CC);
-	ZEPHIR_CALL_METHOD(&_2, _1, "begintransaction", NULL);
-	zephir_check_call_status();
-	if (zephir_is_true(_2)) {
-		zephir_update_property_this(this_ptr, SL("inTransaction"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
-		RETURN_MM_BOOL(1);
-	}
-	RETURN_MM_BOOL(0);
-
-}
-
-PHP_METHOD(Nc_Db_Pdo, commit) {
-
-	int ZEPHIR_LAST_CALL_STATUS;
-	zval *_0, *_1 = NULL;
-
-	ZEPHIR_MM_GROW();
-
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("pdo"), PH_NOISY_CC);
-	ZEPHIR_CALL_METHOD(&_1, _0, "commit", NULL);
-	zephir_check_call_status();
-	if (zephir_is_true(_1)) {
-		zephir_update_property_this(this_ptr, SL("inTransaction"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
-		RETURN_MM_BOOL(1);
-	}
-	RETURN_MM_BOOL(0);
-
-}
-
-PHP_METHOD(Nc_Db_Pdo, rollback) {
-
-	int ZEPHIR_LAST_CALL_STATUS;
-	zval *_0, *_1 = NULL;
-
-	ZEPHIR_MM_GROW();
-
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("pdo"), PH_NOISY_CC);
-	ZEPHIR_CALL_METHOD(&_1, _0, "rollback", NULL);
-	zephir_check_call_status();
-	if (zephir_is_true(_1)) {
-		zephir_update_property_this(this_ptr, SL("inTransaction"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
-		RETURN_MM_BOOL(1);
-	}
-	RETURN_MM_BOOL(0);
 
 }
 
@@ -180,7 +121,7 @@ PHP_METHOD(Nc_Db_Pdo, query) {
 	ZEPHIR_CALL_METHOD(&stmt, _0, "prepare", NULL, sql);
 	zephir_check_call_status();
 	if (zephir_fast_count_int(params TSRMLS_CC) > 0) {
-		zephir_is_iterable(params, &_2, &_1, 0, 0, "nc/db/pdo.zep", 74);
+		zephir_is_iterable(params, &_2, &_1, 0, 0, "nc/db/pdo.zep", 40);
 		for (
 		  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -213,12 +154,12 @@ PHP_METHOD(Nc_Db_Pdo, query) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(_6);
 		object_init_ex(_6, nc_db_queryexception_ce);
-		zephir_array_fetch_long(&_10, err, 2, PH_NOISY | PH_READONLY, "nc/db/pdo.zep", 80 TSRMLS_CC);
+		zephir_array_fetch_long(&_10, err, 2, PH_NOISY | PH_READONLY, "nc/db/pdo.zep", 46 TSRMLS_CC);
 		ZEPHIR_INIT_LNVAR(_4);
 		ZEPHIR_CONCAT_VSV(_4, _10, "[SQL:] ", sql);
 		ZEPHIR_CALL_METHOD(NULL, _6, "__construct", NULL, _4);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_6, "nc/db/pdo.zep", 80 TSRMLS_CC);
+		zephir_throw_exception_debug(_6, "nc/db/pdo.zep", 46 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -258,13 +199,55 @@ PHP_METHOD(Nc_Db_Pdo, query) {
 				if (Z_TYPE_P(item) != IS_STRING) {
 					break;
 				}
-				zephir_array_append(&data, item, PH_SEPARATE, "nc/db/pdo.zep", 102);
+				zephir_array_append(&data, item, PH_SEPARATE, "nc/db/pdo.zep", 68);
 			}
 			RETURN_CCTOR(data);
 		}
 	} while(0);
 
 	RETURN_MM_BOOL(1);
+
+}
+
+PHP_METHOD(Nc_Db_Pdo, tryToBegin) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *_0;
+
+	ZEPHIR_MM_GROW();
+
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("pdo"), PH_NOISY_CC);
+	ZEPHIR_RETURN_CALL_METHOD(_0, "begintransaction", NULL);
+	zephir_check_call_status();
+	RETURN_MM();
+
+}
+
+PHP_METHOD(Nc_Db_Pdo, tryToCommit) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *_0;
+
+	ZEPHIR_MM_GROW();
+
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("pdo"), PH_NOISY_CC);
+	ZEPHIR_RETURN_CALL_METHOD(_0, "commit", NULL);
+	zephir_check_call_status();
+	RETURN_MM();
+
+}
+
+PHP_METHOD(Nc_Db_Pdo, tryToRollback) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *_0;
+
+	ZEPHIR_MM_GROW();
+
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("pdo"), PH_NOISY_CC);
+	ZEPHIR_RETURN_CALL_METHOD(_0, "rollback", NULL);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 

@@ -24,7 +24,7 @@
 
 ZEPHIR_INIT_CLASS(Nc_Cache_Memcache) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Nc\\Cache, Memcache, nc, cache_memcache, nc_cache_cacheadapter_ce, nc_cache_memcache_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Nc\\Cache, Memcache, nc, cache_memcache, nc_cache_cacheabstract_ce, nc_cache_memcache_method_entry, 0);
 
 	zend_declare_property_null(nc_cache_memcache_ce, SL("memcache"), ZEND_ACC_PROTECTED TSRMLS_CC);
 

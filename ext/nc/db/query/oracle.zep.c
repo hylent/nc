@@ -25,7 +25,7 @@
 
 ZEPHIR_INIT_CLASS(Nc_Db_Query_Oracle) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Nc\\Db\\Query, Oracle, nc, db_query_oracle, nc_db_query_dbqueryadapter_ce, nc_db_query_oracle_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Nc\\Db\\Query, Oracle, nc, db_query_oracle, nc_db_query_dbqueryabstract_ce, nc_db_query_oracle_method_entry, 0);
 
 	return SUCCESS;
 

@@ -26,7 +26,7 @@
 
 ZEPHIR_INIT_CLASS(Nc_Cache_File) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Nc\\Cache, File, nc, cache_file, nc_cache_cacheadapter_ce, nc_cache_file_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Nc\\Cache, File, nc, cache_file, nc_cache_cacheabstract_ce, nc_cache_file_method_entry, 0);
 
 	zend_declare_property_null(nc_cache_file_ce, SL("directory"), ZEND_ACC_PROTECTED TSRMLS_CC);
 

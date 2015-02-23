@@ -24,7 +24,7 @@
 
 ZEPHIR_INIT_CLASS(Nc_Cache_Apc) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Nc\\Cache, Apc, nc, cache_apc, nc_cache_cacheadapter_ce, nc_cache_apc_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Nc\\Cache, Apc, nc, cache_apc, nc_cache_cacheabstract_ce, nc_cache_apc_method_entry, 0);
 
 	return SUCCESS;
 

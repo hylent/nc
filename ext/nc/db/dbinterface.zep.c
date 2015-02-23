@@ -34,13 +34,13 @@ ZEPHIR_INIT_CLASS(Nc_Db_DbInterface) {
 
 }
 
+ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, inTransaction);
+
 ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, begin);
 
 ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, commit);
 
 ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, rollback);
-
-ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, inTransaction);
 
 ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, savepoint);
 
@@ -51,6 +51,12 @@ ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, releaseLastSavepoint);
 ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, rollbackToSavepoint);
 
 ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, rollbackToLastSavepoint);
+
+ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, transactionAtomic);
+
+ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, savepointAtomic);
+
+ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, atomic);
 
 ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, quote);
 

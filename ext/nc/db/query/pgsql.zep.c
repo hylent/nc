@@ -24,7 +24,7 @@
 
 ZEPHIR_INIT_CLASS(Nc_Db_Query_Pgsql) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Nc\\Db\\Query, Pgsql, nc, db_query_pgsql, nc_db_query_dbqueryadapter_ce, nc_db_query_pgsql_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Nc\\Db\\Query, Pgsql, nc, db_query_pgsql, nc_db_query_dbqueryabstract_ce, nc_db_query_pgsql_method_entry, 0);
 
 	return SUCCESS;
 

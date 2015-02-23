@@ -127,11 +127,11 @@ PHP_METHOD(Nc_Std, uuid) {
 
 PHP_METHOD(Nc_Std, randString) {
 
-	zephir_fcall_cache_entry *_6 = NULL;
-	zephir_nts_static zephir_fcall_cache_entry *_4 = NULL;
+	zephir_fcall_cache_entry *_7 = NULL;
+	zephir_nts_static zephir_fcall_cache_entry *_5 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *charList = NULL, *result;
-	zval *len_param = NULL, *charList_param = NULL, _0 = zval_used_for_init, *_1 = NULL, _2 = zval_used_for_init, *_3 = NULL, *_5 = NULL;
+	zval *len_param = NULL, *charList_param = NULL, *_0 = NULL, _1 = zval_used_for_init, *_2 = NULL, _3 = zval_used_for_init, *_4 = NULL, *_6 = NULL;
 	long len, maxIndex;
 
 	ZEPHIR_MM_GROW();
@@ -151,33 +151,33 @@ PHP_METHOD(Nc_Std, randString) {
 	if (unlikely(len < 1)) {
 		RETURN_MM_STRING("", 1);
 	}
-	if (!(charList && Z_STRLEN_P(charList))) {
+	if (zephir_fast_strlen_ev(charList) < 1) {
 		ZEPHIR_INIT_NVAR(charList);
 		ZVAL_STRING(charList, "0123456789abcdefghijklmnopqrstuvwxyz", 1);
 	}
-	ZEPHIR_SINIT_VAR(_0);
-	ZVAL_STRING(&_0, "utf-8", 0);
-	ZEPHIR_CALL_FUNCTION(&_1, "mb_strlen", NULL, charList, &_0);
+	ZEPHIR_SINIT_VAR(_1);
+	ZVAL_STRING(&_1, "utf-8", 0);
+	ZEPHIR_CALL_FUNCTION(&_2, "mb_strlen", NULL, charList, &_1);
 	zephir_check_call_status();
-	maxIndex = (zephir_get_intval(_1) - 1);
+	maxIndex = (zephir_get_intval(_2) - 1);
 	while (1) {
 		if (!(len)) {
 			break;
 		}
 		len--;
-		ZEPHIR_SINIT_NVAR(_0);
-		ZVAL_LONG(&_0, 0);
-		ZEPHIR_SINIT_NVAR(_2);
-		ZVAL_LONG(&_2, maxIndex);
-		ZEPHIR_CALL_FUNCTION(&_3, "mt_rand", &_4, &_0, &_2);
+		ZEPHIR_SINIT_NVAR(_1);
+		ZVAL_LONG(&_1, 0);
+		ZEPHIR_SINIT_NVAR(_3);
+		ZVAL_LONG(&_3, maxIndex);
+		ZEPHIR_CALL_FUNCTION(&_4, "mt_rand", &_5, &_1, &_3);
 		zephir_check_call_status();
-		ZEPHIR_SINIT_NVAR(_0);
-		ZVAL_LONG(&_0, 1);
-		ZEPHIR_SINIT_NVAR(_2);
-		ZVAL_STRING(&_2, "utf-8", 0);
-		ZEPHIR_CALL_FUNCTION(&_5, "mb_substr", &_6, charList, _3, &_0, &_2);
+		ZEPHIR_SINIT_NVAR(_1);
+		ZVAL_LONG(&_1, 1);
+		ZEPHIR_SINIT_NVAR(_3);
+		ZVAL_STRING(&_3, "utf-8", 0);
+		ZEPHIR_CALL_FUNCTION(&_6, "mb_substr", &_7, charList, _4, &_1, &_3);
 		zephir_check_call_status();
-		zephir_concat_self(&result, _5 TSRMLS_CC);
+		zephir_concat_self(&result, _6 TSRMLS_CC);
 	}
 	RETURN_CTOR(result);
 

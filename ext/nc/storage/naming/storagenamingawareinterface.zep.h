@@ -1,0 +1,14 @@
+
+extern zend_class_entry *nc_storage_naming_storagenamingawareinterface_ce;
+
+ZEPHIR_INIT_CLASS(Nc_Storage_Naming_StorageNamingAwareInterface);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_storage_naming_storagenamingawareinterface_setstoragenaming, 0, 0, 1)
+	ZEND_ARG_OBJ_INFO(0, storageNaming, Nc\\Storage\\Naming\\StorageNamingInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(nc_storage_naming_storagenamingawareinterface_method_entry) {
+	PHP_ABSTRACT_ME(Nc_Storage_Naming_StorageNamingAwareInterface, setStorageNaming, arginfo_nc_storage_naming_storagenamingawareinterface_setstoragenaming)
+	PHP_ABSTRACT_ME(Nc_Storage_Naming_StorageNamingAwareInterface, getStorageNaming, NULL)
+  PHP_FE_END
+};

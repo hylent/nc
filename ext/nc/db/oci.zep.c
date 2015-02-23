@@ -25,7 +25,7 @@
 
 ZEPHIR_INIT_CLASS(Nc_Db_Oci) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Nc\\Db, Oci, nc, db_oci, nc_db_dbadapter_ce, nc_db_oci_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Nc\\Db, Oci, nc, db_oci, nc_db_dbabstract_ce, nc_db_oci_method_entry, 0);
 
 	zend_declare_property_null(nc_db_oci_ce, SL("oci"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
@@ -37,7 +37,7 @@ PHP_METHOD(Nc_Db_Oci, __construct) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_nts_static zephir_fcall_cache_entry *_2 = NULL;
-	zval *dsn_param = NULL, *user_param = NULL, *passwd_param = NULL, *oci = NULL, _0, *_1 = NULL, *_3 = NULL, *_5;
+	zval *dsn_param = NULL, *user_param = NULL, *passwd_param = NULL, *oci = NULL, _0 = zval_used_for_init, *_1 = NULL, *_3, *_5;
 	zval *dsn = NULL, *user = NULL, *passwd = NULL, *_4;
 
 	ZEPHIR_MM_GROW();
@@ -56,13 +56,12 @@ PHP_METHOD(Nc_Db_Oci, __construct) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_exception_ce, "Missing extension: oci8", "nc/db/oci.zep", 12);
 		return;
 	}
-	ZEPHIR_INIT_VAR(_3);
-	ZVAL_STRING(_3, "utf8", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_FUNCTION(&oci, "oci_connect", NULL, user, passwd, dsn, _3);
-	zephir_check_temp_parameter(_3);
+	ZEPHIR_SINIT_NVAR(_0);
+	ZVAL_STRING(&_0, "utf8", 0);
+	ZEPHIR_CALL_FUNCTION(&oci, "oci_connect", NULL, user, passwd, dsn, &_0);
 	zephir_check_call_status();
 	if (unlikely(!zephir_is_true(oci))) {
-		ZEPHIR_INIT_NVAR(_3);
+		ZEPHIR_INIT_VAR(_3);
 		object_init_ex(_3, nc_db_exception_ce);
 		ZEPHIR_INIT_VAR(_4);
 		ZEPHIR_CONCAT_SV(_4, "Cannot connect: ", dsn);
@@ -77,57 +76,6 @@ PHP_METHOD(Nc_Db_Oci, __construct) {
 	ZVAL_STRING(_5, "Nc\\Db\\Query\\Oracle", 1);
 	zephir_update_property_this(this_ptr, SL("queryClass"), _5 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
-
-}
-
-PHP_METHOD(Nc_Db_Oci, begin) {
-
-	zval *_0;
-
-
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("inTransaction"), PH_NOISY_CC);
-	if (unlikely(!(!zephir_is_true(_0)))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(nc_db_exception_ce, "Already in transaction", "nc/db/oci.zep", 27);
-		return;
-	}
-	zephir_update_property_this(this_ptr, SL("inTransaction"), (1) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
-	RETURN_BOOL(1);
-
-}
-
-PHP_METHOD(Nc_Db_Oci, commit) {
-
-	int ZEPHIR_LAST_CALL_STATUS;
-	zval *_0, *_1 = NULL;
-
-	ZEPHIR_MM_GROW();
-
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("oci"), PH_NOISY_CC);
-	ZEPHIR_CALL_FUNCTION(&_1, "oci_commit", NULL, _0);
-	zephir_check_call_status();
-	if (zephir_is_true(_1)) {
-		zephir_update_property_this(this_ptr, SL("inTransaction"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
-		RETURN_MM_BOOL(1);
-	}
-	RETURN_MM_BOOL(0);
-
-}
-
-PHP_METHOD(Nc_Db_Oci, rollback) {
-
-	int ZEPHIR_LAST_CALL_STATUS;
-	zval *_0, *_1 = NULL;
-
-	ZEPHIR_MM_GROW();
-
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("oci"), PH_NOISY_CC);
-	ZEPHIR_CALL_FUNCTION(&_1, "oci_rollback", NULL, _0);
-	zephir_check_call_status();
-	if (zephir_is_true(_1)) {
-		zephir_update_property_this(this_ptr, SL("inTransaction"), (0) ? ZEPHIR_GLOBAL(global_true) : ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
-		RETURN_MM_BOOL(1);
-	}
-	RETURN_MM_BOOL(0);
 
 }
 
@@ -155,14 +103,15 @@ PHP_METHOD(Nc_Db_Oci, quote) {
 
 PHP_METHOD(Nc_Db_Oci, query) {
 
-	zephir_nts_static zephir_fcall_cache_entry *_11 = NULL;
-	zend_bool _7, _12, _13;
+	zephir_nts_static zephir_fcall_cache_entry *_12 = NULL;
+	zend_bool _8, _15, _16;
+	zephir_fcall_cache_entry *_6 = NULL, *_10 = NULL;
 	HashTable *_3;
 	HashPosition _2;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *params = NULL;
 	zval *sql = NULL;
-	zval *flag_param = NULL, *sql_param = NULL, *params_param = NULL, *stmt = NULL, *k = NULL, *v = NULL, *success = NULL, *err = NULL, *errMsg = NULL, *mode, *data = NULL, *row = NULL, *item = NULL, *flagVar = NULL, *_0, *_1, **_4, *_5 = NULL, *_6, *_8 = NULL, *_9 = NULL, *_10 = NULL;
+	zval *flag_param = NULL, *sql_param = NULL, *params_param = NULL, *stmt = NULL, *k = NULL, *v = NULL, *success = NULL, *err = NULL, *errMsg = NULL, *mode, *data = NULL, *row = NULL, *item = NULL, *flagVar = NULL, *_0, *_1, **_4, *_5 = NULL, *_7, *_9 = NULL, *_11 = NULL, _13 = zval_used_for_init, *_14 = NULL;
 	long flag;
 
 	ZEPHIR_MM_GROW();
@@ -181,15 +130,15 @@ PHP_METHOD(Nc_Db_Oci, query) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("inTransaction"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(flagVar);
 	if (zephir_is_true(_0)) {
-		ZEPHIR_GET_CONSTANT(flagVar, "OCI_NO_AUTO_COMMIT");
+		ZVAL_LONG(flagVar, 0);
 	} else {
-		ZEPHIR_GET_CONSTANT(flagVar, "OCI_COMMIT_ON_SUCCESS");
+		ZVAL_LONG(flagVar, 32);
 	}
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("oci"), PH_NOISY_CC);
 	ZEPHIR_CALL_FUNCTION(&stmt, "oci_parse", NULL, _1, sql);
 	zephir_check_call_status();
 	if (zephir_fast_count_int(params TSRMLS_CC) > 0) {
-		zephir_is_iterable(params, &_3, &_2, 0, 0, "nc/db/oci.zep", 75);
+		zephir_is_iterable(params, &_3, &_2, 0, 0, "nc/db/oci.zep", 45);
 		for (
 		  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_3, &_2)
@@ -198,122 +147,116 @@ PHP_METHOD(Nc_Db_Oci, query) {
 			ZEPHIR_GET_HVALUE(v, _4);
 			ZEPHIR_INIT_LNVAR(_5);
 			ZEPHIR_CONCAT_SV(_5, ":", k);
-			ZEPHIR_CALL_FUNCTION(NULL, "oci_bind_by_name", NULL, stmt, _5, v);
+			Z_SET_ISREF_P(v);
+			ZEPHIR_CALL_FUNCTION(NULL, "oci_bind_by_name", &_6, stmt, _5, v);
+			Z_UNSET_ISREF_P(v);
 			zephir_check_call_status();
 		}
 	}
 	ZEPHIR_CALL_FUNCTION(&success, "oci_execute", NULL, stmt, flagVar);
 	zephir_check_call_status();
 	if (unlikely(!zephir_is_true(success))) {
-		_6 = zephir_fetch_nproperty_this(this_ptr, SL("oci"), PH_NOISY_CC);
-		ZEPHIR_CALL_FUNCTION(&err, "oci_error", NULL, _6);
+		_7 = zephir_fetch_nproperty_this(this_ptr, SL("oci"), PH_NOISY_CC);
+		ZEPHIR_CALL_FUNCTION(&err, "oci_error", NULL, _7);
 		zephir_check_call_status();
-		_7 = Z_TYPE_P(err) != IS_ARRAY;
-		if (!(_7)) {
+		_8 = Z_TYPE_P(err) != IS_ARRAY;
+		if (!(_8)) {
 			ZEPHIR_OBS_VAR(errMsg);
-			_7 = !(zephir_array_isset_string_fetch(&errMsg, err, SS("message"), 0 TSRMLS_CC));
+			_8 = !(zephir_array_isset_string_fetch(&errMsg, err, SS("message"), 0 TSRMLS_CC));
 		}
-		if (_7) {
+		if (_8) {
 			ZEPHIR_INIT_NVAR(errMsg);
 			ZVAL_STRING(errMsg, "", 1);
 		}
-		ZEPHIR_INIT_VAR(_8);
-		object_init_ex(_8, nc_db_queryexception_ce);
+		ZEPHIR_INIT_VAR(_9);
+		object_init_ex(_9, nc_db_queryexception_ce);
 		ZEPHIR_INIT_LNVAR(_5);
 		ZEPHIR_CONCAT_VSV(_5, errMsg, "[SQL:] ", sql);
-		ZEPHIR_CALL_METHOD(NULL, _8, "__construct", NULL, _5);
+		ZEPHIR_CALL_METHOD(NULL, _9, "__construct", NULL, _5);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_8, "nc/db/oci.zep", 84 TSRMLS_CC);
+		zephir_throw_exception_debug(_9, "nc/db/oci.zep", 54 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	ZEPHIR_INIT_NVAR(flagVar);
 	ZVAL_LONG(flagVar, (flag & 0xf0));
 	if (zephir_is_true(flagVar)) {
-		ZEPHIR_INIT_NVAR(_8);
-		ZEPHIR_GET_CONSTANT(_8, "OCI_RETURN_NULLS");
-		ZEPHIR_INIT_VAR(_9);
-		ZEPHIR_GET_CONSTANT(_9, "OCI_RETURN_LOBS");
 		ZEPHIR_INIT_VAR(mode);
-		zephir_add_function_ex(mode, _8, _9 TSRMLS_CC);
+		ZVAL_LONG(mode, (4 + 8));
 		do {
 			if (ZEPHIR_IS_LONG(flagVar, 0x10)) {
-				ZEPHIR_INIT_NVAR(_8);
-				ZEPHIR_GET_CONSTANT(_8, "OCI_ASSOC");
-				ZEPHIR_ADD_ASSIGN(mode, _8);
+				ZEPHIR_INIT_NVAR(_9);
+				ZVAL_LONG(_9, 1);
+				ZEPHIR_ADD_ASSIGN(mode, _9);
 				ZEPHIR_INIT_VAR(data);
 				array_init(data);
 				while (1) {
-					ZEPHIR_CALL_FUNCTION(&row, "oci_fetch_array", NULL, stmt, mode);
+					ZEPHIR_CALL_FUNCTION(&row, "oci_fetch_array", &_10, stmt, mode);
 					zephir_check_call_status();
 					if (!(zephir_is_true(row))) {
 						break;
 					}
-					ZEPHIR_CALL_FUNCTION(&_10, "array_change_key_case", &_11, row);
+					ZEPHIR_CALL_FUNCTION(&_11, "array_change_key_case", &_12, row);
 					zephir_check_call_status();
-					zephir_array_append(&data, _10, PH_SEPARATE, "nc/db/oci.zep", 101);
+					zephir_array_append(&data, _11, PH_SEPARATE, "nc/db/oci.zep", 71);
 				}
 				RETURN_CCTOR(data);
 			}
 			if (ZEPHIR_IS_LONG(flagVar, 0x20)) {
-				ZEPHIR_INIT_NVAR(_9);
-				ZEPHIR_GET_CONSTANT(_9, "OCI_ASSOC");
-				ZEPHIR_INIT_LNVAR(_5);
-				zephir_add_function_ex(_5, mode, _9 TSRMLS_CC);
-				ZEPHIR_CALL_FUNCTION(&row, "oci_fetch_array", NULL, stmt, _5);
+				ZEPHIR_SINIT_VAR(_13);
+				ZVAL_LONG(&_13, (zephir_get_numberval(mode) + 1));
+				ZEPHIR_CALL_FUNCTION(&row, "oci_fetch_array", &_10, stmt, &_13);
 				zephir_check_call_status();
-				ZEPHIR_INIT_NVAR(_9);
+				ZEPHIR_INIT_VAR(_14);
 				if (zephir_is_true(row)) {
-					ZEPHIR_CALL_FUNCTION(&_9, "array_change_key_case", &_11, row);
+					ZEPHIR_CALL_FUNCTION(&_14, "array_change_key_case", &_12, row);
 					zephir_check_call_status();
 				} else {
-					ZVAL_NULL(_9);
+					ZVAL_NULL(_14);
 				}
-				RETURN_CCTOR(_9);
+				RETURN_CCTOR(_14);
 			}
 			if (ZEPHIR_IS_LONG(flagVar, 0x30)) {
-				ZEPHIR_INIT_NVAR(_9);
-				ZEPHIR_GET_CONSTANT(_9, "OCI_NUM");
-				ZEPHIR_INIT_LNVAR(_5);
-				zephir_add_function_ex(_5, mode, _9 TSRMLS_CC);
-				ZEPHIR_CALL_FUNCTION(&row, "oci_fetch_array", NULL, stmt, _5);
+				ZEPHIR_SINIT_NVAR(_13);
+				ZVAL_LONG(&_13, (zephir_get_numberval(mode) + 2));
+				ZEPHIR_CALL_FUNCTION(&row, "oci_fetch_array", &_10, stmt, &_13);
 				zephir_check_call_status();
-				_7 = zephir_is_true(row);
-				if (_7) {
-					_7 = Z_TYPE_P(row) == IS_ARRAY;
+				_8 = zephir_is_true(row);
+				if (_8) {
+					_8 = Z_TYPE_P(row) == IS_ARRAY;
 				}
-				_12 = _7;
-				if (_12) {
+				_15 = _8;
+				if (_15) {
 					ZEPHIR_OBS_VAR(item);
-					_12 = zephir_array_isset_long_fetch(&item, row, 0, 0 TSRMLS_CC);
+					_15 = zephir_array_isset_long_fetch(&item, row, 0, 0 TSRMLS_CC);
 				}
-				if (_12) {
+				if (_15) {
 					RETURN_CCTOR(item);
 				}
 				RETURN_MM_STRING("", 1);
 			}
 			if (ZEPHIR_IS_LONG(flagVar, 0x40)) {
-				ZEPHIR_INIT_NVAR(_9);
-				ZEPHIR_GET_CONSTANT(_9, "OCI_NUM");
-				ZEPHIR_ADD_ASSIGN(mode, _9);
+				ZEPHIR_INIT_NVAR(_14);
+				ZVAL_LONG(_14, 2);
+				ZEPHIR_ADD_ASSIGN(mode, _14);
 				ZEPHIR_INIT_NVAR(data);
 				array_init(data);
 				while (1) {
-					ZEPHIR_CALL_FUNCTION(&row, "oci_fetch_array", NULL, stmt, mode);
+					ZEPHIR_CALL_FUNCTION(&row, "oci_fetch_array", &_10, stmt, mode);
 					zephir_check_call_status();
-					_12 = !zephir_is_true(row);
-					if (!(_12)) {
-						_12 = Z_TYPE_P(row) != IS_ARRAY;
+					_15 = !zephir_is_true(row);
+					if (!(_15)) {
+						_15 = Z_TYPE_P(row) != IS_ARRAY;
 					}
-					_13 = _12;
-					if (!(_13)) {
+					_16 = _15;
+					if (!(_16)) {
 						ZEPHIR_OBS_NVAR(item);
-						_13 = !(zephir_array_isset_long_fetch(&item, row, 0, 0 TSRMLS_CC));
+						_16 = !(zephir_array_isset_long_fetch(&item, row, 0, 0 TSRMLS_CC));
 					}
-					if (_13) {
+					if (_16) {
 						break;
 					}
-					zephir_array_append(&data, item, PH_SEPARATE, "nc/db/oci.zep", 124);
+					zephir_array_append(&data, item, PH_SEPARATE, "nc/db/oci.zep", 94);
 				}
 				RETURN_CCTOR(data);
 			}
@@ -321,6 +264,41 @@ PHP_METHOD(Nc_Db_Oci, query) {
 
 	}
 	RETURN_MM_BOOL(1);
+
+}
+
+PHP_METHOD(Nc_Db_Oci, tryToBegin) {
+
+
+	RETURN_BOOL(1);
+
+}
+
+PHP_METHOD(Nc_Db_Oci, tryToCommit) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *_0;
+
+	ZEPHIR_MM_GROW();
+
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("oci"), PH_NOISY_CC);
+	ZEPHIR_RETURN_CALL_FUNCTION("oci_commit", NULL, _0);
+	zephir_check_call_status();
+	RETURN_MM();
+
+}
+
+PHP_METHOD(Nc_Db_Oci, tryToRollback) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *_0;
+
+	ZEPHIR_MM_GROW();
+
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("oci"), PH_NOISY_CC);
+	ZEPHIR_RETURN_CALL_FUNCTION("oci_rollback", NULL, _0);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 
