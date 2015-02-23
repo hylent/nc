@@ -221,9 +221,10 @@ PHP_METHOD(Nc_Db_Query_Oracle, replace) {
 
 PHP_METHOD(Nc_Db_Query_Oracle, getSelectAsString) {
 
+	zephir_nts_static zephir_fcall_cache_entry *_10 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *_0 = NULL, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_4 = NULL, *_5 = NULL, *_6, *_7, *_8, *_9;
-	zval *s = NULL;
+	zval *_0 = NULL, *_1 = NULL, *_2 = NULL, *_3 = NULL, *_4 = NULL, *_5 = NULL, *_6, *_7, *_8, _9;
+	zval *s;
 
 	ZEPHIR_MM_GROW();
 	ZEPHIR_INIT_VAR(s);
@@ -249,14 +250,16 @@ PHP_METHOD(Nc_Db_Query_Oracle, getSelectAsString) {
 	zephir_check_call_status();
 	zephir_concat_self(&s, _5 TSRMLS_CC);
 	_6 = zephir_fetch_nproperty_this(this_ptr, SL("pageSize"), PH_NOISY_CC);
-	if (ZEPHIR_GT_LONG(_6, 0)) {
-		_7 = zephir_fetch_nproperty_this(this_ptr, SL("pageSize"), PH_NOISY_CC);
-		_8 = zephir_fetch_nproperty_this(this_ptr, SL("rowOffset"), PH_NOISY_CC);
-		ZEPHIR_INIT_VAR(_9);
-		ZEPHIR_CONCAT_SVSVSV(_9, "select * from (select a.*, rownum r from (", s, ") a where rownum <= ", _7, ") b where r > ", _8);
-		zephir_get_strval(s, _9);
+	if (ZEPHIR_LT_LONG(_6, 1)) {
+		RETURN_CTOR(s);
 	}
-	RETURN_CTOR(s);
+	_7 = zephir_fetch_nproperty_this(this_ptr, SL("pageSize"), PH_NOISY_CC);
+	_8 = zephir_fetch_nproperty_this(this_ptr, SL("rowOffset"), PH_NOISY_CC);
+	ZEPHIR_SINIT_VAR(_9);
+	ZVAL_STRING(&_9, "select * from (select a.*, rownum r from (%s) a where rownum <= %d) b where r > %d", 0);
+	ZEPHIR_RETURN_CALL_FUNCTION("sprintf", &_10, &_9, s, _7, _8);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 

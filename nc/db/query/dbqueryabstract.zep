@@ -194,6 +194,10 @@ abstract class DbQueryAbstract
             let pks = [primaryKey];
         }
 
+        if unlikely ! pks {
+            throw new Exception("Cannot replace when primary key is empty");
+        }
+
         let q = this->duplicate();
 
         for k in pks {
@@ -479,7 +483,7 @@ abstract class DbQueryAbstract
         return this->inSelect(field, select, true);
     }
 
-    public function like(string field, string value, boolean half = false, boolean notLike = true)
+    public function like(string field, string value, boolean half = false, boolean notLike = false)
     {
         if half {
             let value = value . "%";

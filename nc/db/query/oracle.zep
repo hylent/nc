@@ -82,12 +82,16 @@ class Oracle extends DbQueryAbstract
         let s .= this->buildHaving();
         let s .= this->buildOrderBy();
 
-        if this->pageSize > 0 {
-            let s = "select * from (select a.*, rownum r from (" . s
-                . ") a where rownum <= " . this->pageSize . ") b where r > " . this->rowOffset;
+        if this->pageSize < 1 {
+            return s;
         }
 
-        return s;
+        return sprintf(
+            "select * from (select a.*, rownum r from (%s) a where rownum <= %d) b where r > %d",
+            s,
+            this->pageSize,
+            this->rowOffset
+        );
     }
 
     public function selectAndCount() -> array

@@ -41,6 +41,6 @@
     "name": "nc",
     "description": "A PHP framework for web development",
     "author": "Hylent",
-    "version": "0.1.0",
+    "version": "0.9.3",
     "verbose": false
 }

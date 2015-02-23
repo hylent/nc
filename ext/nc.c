@@ -279,12 +279,18 @@ static PHP_GSHUTDOWN_FUNCTION(nc)
 
 }
 
+
+zend_function_entry php_nc_functions[] = {
+ZEND_FE_END
+
+};
+
 zend_module_entry nc_module_entry = {
 	STANDARD_MODULE_HEADER_EX,
 	NULL,
 	NULL,
 	PHP_NC_EXTNAME,
-	NULL,
+	php_nc_functions,
 	PHP_MINIT(nc),
 #ifndef ZEPHIR_RELEASE
 	PHP_MSHUTDOWN(nc),
