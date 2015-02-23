@@ -41,7 +41,7 @@ class Std
             return "";
         }
 
-        if ! charList {
+        if charList->length() < 1 {
             let charList = self::CHAR_LIST;
         }
 
