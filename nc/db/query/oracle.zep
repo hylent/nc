@@ -2,7 +2,7 @@ namespace Nc\Db\Query;
 
 use Nc\Db\DbInterface;
 
-class Oracle extends DbQueryAdapter
+class Oracle extends DbQueryAbstract
 {
     public function insert(array data, string returningId = "")
     {
@@ -24,7 +24,7 @@ class Oracle extends DbQueryAdapter
         return this->db->query(DbInterface::WRITE, sql, data);
     }
 
-    public function replace(array data, var primaryKey = "id")
+    public function replace(array data, var primaryKey = "id") -> boolean
     {
         var pks, k, a = [], b = [], ks = [], vs = [], kvs = [];
         string sql = "";

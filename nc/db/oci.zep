@@ -1,6 +1,6 @@
 namespace Nc\Db;
 
-class Oci extends DbAdapter
+class Oci extends DbAbstract
 {
     protected oci;
 
@@ -19,36 +19,6 @@ class Oci extends DbAdapter
 
         let this->oci = oci;
         let this->queryClass = "Nc\\Db\\Query\\Oracle";
-    }
-
-    public function begin() -> boolean
-    {
-        if unlikely !! this->inTransaction {
-            throw new Exception("Already in transaction");
-        }
-
-        let this->inTransaction = true;
-        return true;
-    }
-
-    public function commit() -> boolean
-    {
-        if oci_commit(this->oci) {
-            let this->inTransaction = false;
-            return true;
-        }
-
-        return false;
-    }
-
-    public function rollback() -> boolean
-    {
-        if oci_rollback(this->oci) {
-            let this->inTransaction = false;
-            return true;
-        }
-
-        return false;
     }
 
     public function quote(string value) -> string
@@ -128,5 +98,20 @@ class Oci extends DbAdapter
         }
 
         return true;
+    }
+
+    protected function tryToBegin() -> boolean
+    {
+        return true;
+    }
+
+    protected function tryToCommit() -> boolean
+    {
+        return oci_commit(this->oci);
+    }
+
+    protected function tryToRollback() -> boolean
+    {
+        return oci_rollback(this->oci);
     }
 }

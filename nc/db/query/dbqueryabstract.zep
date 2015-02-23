@@ -3,7 +3,7 @@ namespace Nc\Db\Query;
 use Nc\Std;
 use Nc\Db\DbInterface;
 
-abstract class DbQueryAdapter
+abstract class DbQueryAbstract
 {
     protected db;
     protected table;
@@ -56,10 +56,10 @@ abstract class DbQueryAdapter
 
     public function duplicate()
     {
-        string qClass;
+        string queryClass;
 
-        let qClass = get_class(this);
-        return new {qClass}(this->db, this->table, this->tableAlias);
+        let queryClass = get_class(this);
+        return new {queryClass}(this->db, this->table, this->tableAlias);
     }
 
     public function clear()
@@ -184,7 +184,7 @@ abstract class DbQueryAdapter
         return this->db->query(DbInterface::WRITE, sql, params);
     }
 
-    public function replace(array data, var primaryKey = "id")
+    public function replace(array data, var primaryKey = "id") -> boolean
     {
         var k, v, pks = [], q, c;
 
@@ -246,15 +246,17 @@ abstract class DbQueryAdapter
 
     public function groupAggregate(string aggregateFunction, string groupField, string aggregateField) -> array
     {
+        string gaf;
         var a;
 
+        let gaf = "nc_gaf_" . aggregateFunction;
         let a = this->duplicate()
-            ->field(groupField . ", " . aggregateFunction . "(" . aggregateField . ") as nc_group_aggregate")
+            ->field(groupField . ", " . aggregateFunction . "(" . aggregateField . ") as " . gaf)
             ->groupBy(groupField)
             ->where(this->getWhere())
             ->select();
 
-        return Std::indexedValues(a, groupField, "nc_group_aggregate");
+        return Std::indexedValues(a, groupField, gaf);
     }
 
     public function groupCount(string groupField, string aggregateField = "*") -> array
@@ -327,9 +329,9 @@ abstract class DbQueryAdapter
         return this;
     }
 
-    public function field(string field, boolean append = false)
+    public function field(string field, boolean overwrite = false)
     {
-        if append && this->field {
+        if ! overwrite && this->field {
             let this->field .= ", " . field;
         } else {
             let this->field = field;
@@ -553,9 +555,9 @@ abstract class DbQueryAdapter
         return "";
     }
 
-    public function groupBy(string field, boolean append = false)
+    public function groupBy(string field, boolean overwrite = false)
     {
-        if append && this->groupBy {
+        if ! overwrite && this->groupBy {
             let this->groupBy .= ", " . field;
         } else {
             let this->groupBy = field;

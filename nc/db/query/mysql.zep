@@ -2,7 +2,7 @@ namespace Nc\Db\Query;
 
 use Nc\Db\DbInterface;
 
-class Mysql extends DbQueryAdapter
+class Mysql extends DbQueryAbstract
 {
     public function insert(array data, string returningId = "")
     {
@@ -43,7 +43,7 @@ class Mysql extends DbQueryAdapter
         return this;
     }
 
-    public function replace(array data, var primaryKey = "id")
+    public function replace(array data, var primaryKey = "id") -> boolean
     {
         var k, ks = [], vs = [];
         string sql;

@@ -1,6 +1,6 @@
 namespace Nc\Db;
 
-class Pdo extends DbAdapter
+class Pdo extends DbAbstract
 {
     protected pdo;
 
@@ -16,40 +16,6 @@ class Pdo extends DbAdapter
 
         let this->pdo = pdo;
         let this->queryClass = "Nc\\Db\\Query\\" . ucfirst(pdo->getAttribute(\Pdo::ATTR_DRIVER_NAME));
-    }
-
-    public function begin() -> boolean
-    {
-        if unlikely !! this->inTransaction {
-            throw new Exception("Already in transaction");
-        }
-
-        if this->pdo->beginTransaction() {
-            let this->inTransaction = true;
-            return true;
-        }
-
-        return false;
-    }
-
-    public function commit() -> boolean
-    {
-        if this->pdo->commit() {
-            let this->inTransaction = false;
-            return true;
-        }
-
-        return false;
-    }
-
-    public function rollback() -> boolean
-    {
-        if this->pdo->rollback() {
-            let this->inTransaction = false;
-            return true;
-        }
-
-        return false;
     }
 
     public function quote(string value) -> string
@@ -105,5 +71,20 @@ class Pdo extends DbAdapter
         }
 
         return true;
+    }
+
+    protected function tryToBegin() -> boolean
+    {
+        return this->pdo->beginTransaction();
+    }
+
+    protected function tryToCommit() -> boolean
+    {
+        return this->pdo->commit();
+    }
+
+    protected function tryToRollback() -> boolean
+    {
+        return this->pdo->rollback();
     }
 }

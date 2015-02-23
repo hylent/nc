@@ -2,7 +2,7 @@ namespace Nc\Db\Query;
 
 use Nc\Db\DbInterface;
 
-class Pgsql extends DbQueryAdapter
+class Pgsql extends DbQueryAbstract
 {
     public function insert(array data, string returningId = "")
     {
