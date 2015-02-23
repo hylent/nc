@@ -1,6 +1,6 @@
 namespace Nc\Loader;
 
-class ClassPath extends LoaderAdapter
+class ClassPath extends LoaderAbstract
 {
     protected classPaths;
 
@@ -18,7 +18,7 @@ class ClassPath extends LoaderAdapter
         }
 
         if unlikely typeof path != "string" {
-            throw new Exception("Invalid class path option");
+            throw new Exception("Invalid class path option: " . className);
         }
 
         if ! file_exists(path) {
@@ -28,7 +28,7 @@ class ClassPath extends LoaderAdapter
         require path;
 
         if unlikely ! class_exists(className, false) {
-            throw new Exception("Cannot find class `" . className . "` in path `" . path . "`");
+            throw new Exception("Cannot find class: " . className . ", in path: " . path);
         }
 
         return true;

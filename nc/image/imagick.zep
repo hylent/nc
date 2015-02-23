@@ -1,10 +1,6 @@
-namespace Nc\Image\Backend;
+namespace Nc\Image;
 
-use Nc\Image\Item;
-use Nc\Image\Text;
-use Nc\Image\Image;
-
-class Imagick extends ImageBackendAdapter
+class Imagick extends ImageAbstract
 {
     public function __construct(array defaults = null) -> void
     {
@@ -17,7 +13,7 @@ class Imagick extends ImageBackendAdapter
         }
     }
 
-    public function text(string text, array options = []) -> <Text>
+    public function text(string text, array options = []) -> <Item\Text>
     {
         var imProperties, imagick, imgickDraw, m;
         long padding2;
@@ -36,10 +32,10 @@ class Imagick extends ImageBackendAdapter
         let imProperties["width"] = m["textWidth"] + padding2;
         let imProperties["height"] = m["textHeight"] + padding2;
 
-        return new Text(this, imProperties);
+        return new Item\Text(this, imProperties);
     }
 
-    public function captcha(string code, long width, long height, array options = []) -> <Image>
+    public function captcha(string code, long width, long height, array options = []) -> <Item\Image>
     {
         var validOptions, im, imagick, imagickDraw, shadow;
         double rPadding, rOverlap;
@@ -138,7 +134,7 @@ class Imagick extends ImageBackendAdapter
         return im;
     }
 
-    public function fromImage(<Image> im) -> <Image>
+    public function fromImage(<Item\Image> im) -> <Item\Image>
     {
         var imProperties = [], imagick;
 
@@ -150,10 +146,10 @@ class Imagick extends ImageBackendAdapter
         let imProperties["height"] = im->{"height"};
         let imProperties["imagick"] = imagick;
 
-        return new Image(this, imProperties);
+        return new Item\Image(this, imProperties);
     }
 
-    public function fromSize(long width, long height = 0, string extension = "") -> <Image>
+    public function fromSize(long width, long height = 0, string extension = "") -> <Item\Image>
     {
         var imProperties = [], imagick;
         string ext;
@@ -180,10 +176,10 @@ class Imagick extends ImageBackendAdapter
         let imProperties["height"] = height;
         let imProperties["imagick"] = imagick;
 
-        return new Image(this, imProperties);
+        return new Item\Image(this, imProperties);
     }
 
-    public function fromPath(string path, string extension = "") -> <Image>
+    public function fromPath(string path, string extension = "") -> <Item\Image>
     {
         var imProperties = [], imagick;
         string ext;
@@ -202,10 +198,10 @@ class Imagick extends ImageBackendAdapter
         let imProperties["height"] = imagick->getImageHeight();
         let imProperties["imagick"] = imagick;
 
-        return new Image(this, imProperties);
+        return new Item\Image(this, imProperties);
     }
 
-    public function fromString(string data, string extension = "") -> <Image>
+    public function fromString(string data, string extension = "") -> <Item\Image>
     {
         var imProperties = [], imagick;
         string ext;
@@ -224,10 +220,10 @@ class Imagick extends ImageBackendAdapter
         let imProperties["height"] = imagick->getImageHeight();
         let imProperties["imagick"] = imagick;
 
-        return new Image(this, imProperties);
+        return new Item\Image(this, imProperties);
     }
 
-    public function resize(<Image> im, long width, long height) -> <Image>
+    public function resize(<Item\Image> im, long width, long height) -> <Item\Image>
     {
         var destIm, imagick;
 
@@ -250,7 +246,7 @@ class Imagick extends ImageBackendAdapter
         return destIm;
     }
 
-    public function crop(<Image> im, long x, long y, long w, long h) -> <Image>
+    public function crop(<Item\Image> im, long x, long y, long w, long h) -> <Item\Image>
     {
         var destIm;
 
@@ -279,7 +275,7 @@ class Imagick extends ImageBackendAdapter
         return destIm;
     }
 
-    public function thumbnail(<Image> im, long width, long height, boolean cropped) -> <Image>
+    public function thumbnail(<Item\Image> im, long width, long height, boolean cropped) -> <Item\Image>
     {
         var destIm;
 
@@ -305,18 +301,18 @@ class Imagick extends ImageBackendAdapter
         return destIm;
     }
 
-    public function draw(<Image> destIm, <Item> srcIm, long x, long y) -> <Image>
+    public function draw(<Item\Image> destIm, <Item\ImageItemAbstract> srcIm, long x, long y) -> <Item\Image>
     {
         var resultIm, imagickDraw;
 
         let resultIm = this->fromImage(destIm);
 
-        if srcIm instanceof Image {
+        if srcIm instanceof Item\Image {
             resultIm->{"imagick"}->compositeImage(srcIm->{"imagick"}, \Imagick::COMPOSITE_OVER, x, y);
             return resultIm;
         }
 
-        if srcIm instanceof Text {
+        if srcIm instanceof Item\Text {
             let imagickDraw = new \ImagickDraw();
             imagickDraw->setFont(srcIm->{"font"});
             imagickDraw->setFontSize(srcIm->{"fontSize"});
@@ -331,7 +327,7 @@ class Imagick extends ImageBackendAdapter
         throw new Exception("Invalid item type: " . get_class(srcIm));
     }
 
-    public function save(<Image> im, var destPath) -> void
+    public function save(<Item\Image> im, var destPath) -> void
     {
         if destPath === null {
             echo im->{"imagick"}->getImageBlob();
@@ -341,9 +337,9 @@ class Imagick extends ImageBackendAdapter
         im->{"imagick"}->writeImage(destPath);
     }
 
-    public function destroy(<Item> im) -> void
+    public function destroy(<Item\ImageItemAbstract> im) -> void
     {
-        if im instanceof Image {
+        if im instanceof Item\Image {
             im->{"imagick"}->clear();
         }
     }

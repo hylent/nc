@@ -1,8 +1,8 @@
-namespace Nc\Storage\Backend;
+namespace Nc\Storage;
 
 use Nc\Std;
 
-class Ftp extends StorageBackendAdapter
+class Ftp extends StorageAbstract
 {
     protected ftp;
     protected baseDirectory;
@@ -38,7 +38,7 @@ class Ftp extends StorageBackendAdapter
         let this->baseDirectory = baseDirectory;
     }
 
-    public function store(string source, string group = "", string extension = "", boolean mv = false) -> string
+    public function store(string source, string group = "", string extension = "", boolean rm = false) -> string
     {
         string destUri, destPath;
 
@@ -48,7 +48,7 @@ class Ftp extends StorageBackendAdapter
         this->mkDirIfNotExists(dirname(destPath));
 
         if ftp_put(this->ftp, destPath, source, FTP_BINARY) {
-            if mv {
+            if rm {
                 unlink(source);
             }
 

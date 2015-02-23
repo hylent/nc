@@ -3,7 +3,7 @@ namespace Nc\Cache;
 use Nc\Serializer\SerializerInterface;
 use Nc\Serializer\SerializerAwareInterface;
 
-abstract class CacheAdapter implements CacheInterface, SerializerAwareInterface
+abstract class CacheAbstract implements CacheInterface, SerializerAwareInterface
 {
     protected serializer;
 

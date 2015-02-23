@@ -1,6 +1,6 @@
 namespace Nc\Cache;
 
-class File extends CacheAdapter
+class File extends CacheAbstract
 {
     protected directory;
 

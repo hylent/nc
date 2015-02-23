@@ -1,6 +1,6 @@
-namespace Nc\Image\Backend;
+namespace Nc\Image;
 
-abstract class ImageBackendAdapter implements ImageBackendInterface
+abstract class ImageAbstract implements ImageInterface
 {
     protected defaults;
 
@@ -31,14 +31,14 @@ abstract class ImageBackendAdapter implements ImageBackendInterface
             let merged = options;
         }
 
-        let valid["font"] = ImageBackendInterface::DEFAULT_FONT;
-        let valid["fontSize"] = ImageBackendInterface::DEFAULT_FONT_SIZE;
-        let valid["color"] = ImageBackendInterface::DEFAULT_COLOR;
-        let valid["red"] = ImageBackendInterface::DEFAULT_RED;
-        let valid["green"] = ImageBackendInterface::DEFAULT_GREEN;
-        let valid["blue"] = ImageBackendInterface::DEFAULT_BLUE;
-        let valid["opacity"] = ImageBackendInterface::DEFAULT_OPACITY;
-        let valid["padding"] = ImageBackendInterface::DEFAULT_PADDING;
+        let valid["font"] = ImageInterface::DEFAULT_FONT;
+        let valid["fontSize"] = ImageInterface::DEFAULT_FONT_SIZE;
+        let valid["color"] = ImageInterface::DEFAULT_COLOR;
+        let valid["red"] = ImageInterface::DEFAULT_RED;
+        let valid["green"] = ImageInterface::DEFAULT_GREEN;
+        let valid["blue"] = ImageInterface::DEFAULT_BLUE;
+        let valid["opacity"] = ImageInterface::DEFAULT_OPACITY;
+        let valid["padding"] = ImageInterface::DEFAULT_PADDING;
 
         if fetch v, merged["font"] {
             let s = (string) v;
@@ -89,9 +89,9 @@ abstract class ImageBackendAdapter implements ImageBackendInterface
             let merged = options;
         }
 
-        let valid["font"] = ImageBackendInterface::DEFAULT_FONT;
-        let valid["rPadding"] = ImageBackendInterface::DEFAULT_R_PADDING;
-        let valid["rOverlap"] = ImageBackendInterface::DEFAULT_R_OVERLAP;
+        let valid["font"] = ImageInterface::DEFAULT_FONT;
+        let valid["rPadding"] = ImageInterface::DEFAULT_R_PADDING;
+        let valid["rOverlap"] = ImageInterface::DEFAULT_R_OVERLAP;
 
         if fetch v, merged["font"] {
             let s = (string) v;

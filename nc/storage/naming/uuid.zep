@@ -1,8 +1,8 @@
-namespace Nc\Storage\NamePolicy;
+namespace Nc\Storage\Naming;
 
 use Nc\Std;
 
-class Uuid implements StorageNamePolicyInterface
+class Uuid implements StorageNamingInterface
 {
     public function generateName() -> string
     {

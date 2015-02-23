@@ -1,6 +1,6 @@
 namespace Nc\Loader;
 
-abstract class LoaderAdapter implements LoaderInterface
+abstract class LoaderAbstract implements LoaderInterface
 {
     public function register() -> boolean
     {

@@ -2,7 +2,7 @@ namespace Nc\Cache;
 
 use Nc\Serializer\SerializerInterface;
 
-class Apc extends CacheAdapter
+class Apc extends CacheAbstract
 {
     public function __construct() -> void
     {

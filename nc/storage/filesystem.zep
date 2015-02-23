@@ -1,6 +1,6 @@
-namespace Nc\Storage\Backend;
+namespace Nc\Storage;
 
-class FileSystem extends StorageBackendAdapter
+class FileSystem extends StorageAbstract
 {
     protected baseDirectory;
 
@@ -9,7 +9,7 @@ class FileSystem extends StorageBackendAdapter
         let this->baseDirectory = baseDirectory;
     }
 
-    public function store(string source, string group = "", string extension = "", boolean mv = false) -> string
+    public function store(string source, string group = "", string extension = "", boolean rm = false) -> string
     {
         var temp, success;
         string destUri, destPath;
@@ -22,7 +22,7 @@ class FileSystem extends StorageBackendAdapter
             throw new Exception("Cannot mkdir: " . temp);
         }
 
-        if mv {
+        if rm {
             let success = rename(source, destPath);
         } else {
             let success = copy(source, destPath);

@@ -1,13 +1,13 @@
-namespace Nc\Image;
+namespace Nc\Image\Item;
 
-use Nc\Image\Backend\ImageBackendInterface;
+use Nc\Image\ImageInterface;
 
-abstract class Item
+abstract class ImageItemAbstract
 {
     protected backend;
     protected properties;
 
-    public function __construct(<ImageBackendInterface> backend, array properties = null) -> void
+    public function __construct(<ImageInterface> backend, array properties = null) -> void
     {
         let this->backend = backend;
         let this->properties = properties;

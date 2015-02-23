@@ -1,8 +1,8 @@
-namespace Nc\Image;
+namespace Nc\Image\Item;
 
-use Nc\Image\Backend\ImageBackendInterface;
+use Nc\Image\ImageInterface;
 
-class Image extends Item
+class Image extends ImageItemAbstract
 {
     public function resize(long width, long height = 0) -> <Image>
     {
@@ -34,39 +34,39 @@ class Image extends Item
         let srcH = (long) srcItem->{"height"};
 
         switch position {
-            case ImageBackendInterface::LEFT_BOTTOM:
+            case ImageInterface::LEFT_BOTTOM:
                 let x = 0;
                 let y = h - srcH;
                 break;
-            case ImageBackendInterface::BOTTOM:
+            case ImageInterface::BOTTOM:
                 let x = (w - srcW) / 2;
                 let y = h - srcH;
                 break;
-            case ImageBackendInterface::RIGHT_BOTTOM:
+            case ImageInterface::RIGHT_BOTTOM:
                 let x = w - srcW;
                 let y = h - srcH;
                 break;
-            case ImageBackendInterface::LEFT:
+            case ImageInterface::LEFT:
                 let x = 0;
                 let y = (h - srcH) / 2;
                 break;
-            case ImageBackendInterface::CENTER:
+            case ImageInterface::CENTER:
                 let x = (w - srcW) / 2;
                 let y = (h - srcH) / 2;
                 break;
-            case ImageBackendInterface::RIGHT:
+            case ImageInterface::RIGHT:
                 let x = w - srcW;
                 let y = (h - srcH) / 2;
                 break;
-            case ImageBackendInterface::LEFT_TOP:
+            case ImageInterface::LEFT_TOP:
                 let x = 0;
                 let y = 0;
                 break;
-            case ImageBackendInterface::TOP:
+            case ImageInterface::TOP:
                 let x = (w - srcW) / 2;
                 let y = 0;
                 break;
-            case ImageBackendInterface::RIGHT_TOP:
+            case ImageInterface::RIGHT_TOP:
                 let x = w - srcW;
                 let y = 0;
                 break;

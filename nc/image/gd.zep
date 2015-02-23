@@ -1,10 +1,6 @@
-namespace Nc\Image\Backend;
+namespace Nc\Image;
 
-use Nc\Image\Item;
-use Nc\Image\Text;
-use Nc\Image\Image;
-
-class Gd extends ImageBackendAdapter
+class Gd extends ImageAbstract
 {
     public function __construct(array defaults = null) -> void
     {
@@ -17,7 +13,7 @@ class Gd extends ImageBackendAdapter
         }
     }
 
-    public function text(string text, array options = []) -> <Text>
+    public function text(string text, array options = []) -> <Item\Text>
     {
         var imProperties, box;
         long padding2;
@@ -35,10 +31,10 @@ class Gd extends ImageBackendAdapter
         let imProperties["width"] = box[2] - box[6] + padding2;
         let imProperties["height"] = box[3] - box[7] + padding2;
 
-        return new Text(this, imProperties);
+        return new Item\Text(this, imProperties);
     }
 
-    public function captcha(string code, long width, long height, array options = []) -> <Image>
+    public function captcha(string code, long width, long height, array options = []) -> <Item\Image>
     {
         var validOptions, im, handler, color, shadow;
         double rPadding, rOverlap;
@@ -119,7 +115,7 @@ class Gd extends ImageBackendAdapter
         return im;
     }
 
-    public function fromImage(<Image> im) -> <Image>
+    public function fromImage(<Item\Image> im) -> <Item\Image>
     {
         var copyIm;
 
@@ -129,7 +125,7 @@ class Gd extends ImageBackendAdapter
         return copyIm;
     }
 
-    public function fromSize(long width, long height = 0, string extension = "") -> <Image>
+    public function fromSize(long width, long height = 0, string extension = "") -> <Item\Image>
     {
         var imProperties = [], handler, background;
 
@@ -158,10 +154,10 @@ class Gd extends ImageBackendAdapter
         let imProperties["height"] = height;
         let imProperties["handler"] = handler;
 
-        return new Image(this, imProperties);
+        return new Item\Image(this, imProperties);
     }
 
-    public function fromPath(string path, string extension = "") -> <Image>
+    public function fromPath(string path, string extension = "") -> <Item\Image>
     {
         var imProperties = [], handler;
         string ext;
@@ -199,10 +195,10 @@ class Gd extends ImageBackendAdapter
         let imProperties["height"] = imagesy(handler);
         let imProperties["handler"] = handler;
 
-        return new Image(this, imProperties);
+        return new Item\Image(this, imProperties);
     }
 
-    public function fromString(string data, string extension = "") -> <Image>
+    public function fromString(string data, string extension = "") -> <Item\Image>
     {
         var imProperties = [], handler;
         string ext;
@@ -226,10 +222,10 @@ class Gd extends ImageBackendAdapter
         let imProperties["height"] = imagesy(handler);
         let imProperties["handler"] = handler;
 
-        return new Image(this, imProperties);
+        return new Item\Image(this, imProperties);
     }
 
-    public function resize(<Image> im, long width, long height) -> <Image>
+    public function resize(<Item\Image> im, long width, long height) -> <Item\Image>
     {
         var destIm;
         long srcW, srcH, w, h;
@@ -262,7 +258,7 @@ class Gd extends ImageBackendAdapter
         return destIm;
     }
 
-    public function crop(<Image> im, long x, long y, long w, long h) -> <Image>
+    public function crop(<Item\Image> im, long x, long y, long w, long h) -> <Item\Image>
     {
         var destIm;
 
@@ -288,7 +284,7 @@ class Gd extends ImageBackendAdapter
         return destIm;
     }
 
-    public function thumbnail(<Image> im, long width, long height, boolean cropped) -> <Image>
+    public function thumbnail(<Item\Image> im, long width, long height, boolean cropped) -> <Item\Image>
     {
         var destIm;
         long srcW, srcH, w, h, x, y;
@@ -333,19 +329,19 @@ class Gd extends ImageBackendAdapter
         return destIm;
     }
 
-    public function draw(<Image> destIm, <Item> srcIm, long x, long y) -> <Image>
+    public function draw(<Item\Image> destIm, <Item\ImageItemAbstract> srcIm, long x, long y) -> <Item\Image>
     {
         var resultIm;
 
         let resultIm = this->fromImage(destIm);
 
         do {
-            if srcIm instanceof Image {
+            if srcIm instanceof Item\Image {
                 this->copy(resultIm, srcIm, x, y);
                 break;
             }
 
-            if srcIm instanceof Text {
+            if srcIm instanceof Item\Text {
                 this->drawText(resultIm, srcIm, x, y);
                 break;
             }
@@ -356,7 +352,7 @@ class Gd extends ImageBackendAdapter
         return resultIm;
     }
 
-    public function save(<Image> im, var destPath) -> void
+    public function save(<Item\Image> im, var destPath) -> void
     {
         switch im->{"extension"} {
             case "png":
@@ -385,14 +381,14 @@ class Gd extends ImageBackendAdapter
         throw new Exception("Cannot save image");
     }
 
-    public function destroy(<Item> im) -> void
+    public function destroy(<Item\ImageItemAbstract> im) -> void
     {
-        if im instanceof Image {
+        if im instanceof Item\Image {
             imagedestroy(im->{"handler"});
         }
     }
 
-    protected function drawText(<Image> dest, <Text> src, long x, long y) -> void
+    protected function drawText(<Item\Image> dest, <Item\Text> src, long x, long y) -> void
     {
         var handler, color;
         long alpha;
@@ -410,14 +406,14 @@ class Gd extends ImageBackendAdapter
         }
     }
 
-    protected function copy(<Image> dest, <Image> src, long x = 0, long y = 0) -> void
+    protected function copy(<Item\Image> dest, <Item\Image> src, long x = 0, long y = 0) -> void
     {
         if unlikely ! imagecopy(dest->{"handler"}, src->{"handler"}, x, y, 0, 0, src->{"width"}, src->{"height"}) {
             throw new Exception("imagecopy");
         }
     }
 
-    protected function copyResampled(<Image> dest, <Image> src,
+    protected function copyResampled(<Item\Image> dest, <Item\Image> src,
         long x, long y, long w, long h,
         long srcX, long srcY, long srcW, long srcH) -> void
     {

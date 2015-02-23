@@ -1,6 +1,6 @@
 namespace Nc\Loader;
 
-class NamespaceDirectory extends LoaderAdapter
+class NamespaceDirectory extends LoaderAbstract
 {
     protected namespaceDirectories;
 
@@ -41,7 +41,7 @@ class NamespaceDirectory extends LoaderAdapter
         }
 
         if unlikely typeof arr != "array" || count(arr) != 2 {
-            throw new Exception("Invalid namespace directory options");
+            throw new Exception("Invalid namespace directory options: " . match);
         }
 
         let path = (string) substr(className, pos + 1);
@@ -57,7 +57,7 @@ class NamespaceDirectory extends LoaderAdapter
         require path;
 
         if unlikely ! class_exists(className, false) {
-            throw new Exception("Cannot find class `" . className . "` in path `" . path . "`");
+            throw new Exception("Cannot find class: " . className . ", in path: " . path);
         }
 
         return true;

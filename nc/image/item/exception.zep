@@ -1,4 +1,4 @@
-namespace Nc\Image\Backend;
+namespace Nc\Image\Item;
 
 use Nc\Image\Exception as Ex;
 

@@ -2,7 +2,7 @@ namespace Nc\Cache;
 
 use Nc\Serializer\SerializerInterface;
 
-class Memcache extends CacheAdapter
+class Memcache extends CacheAbstract
 {
     const INCREMENT_MAX = 1000000000;
 

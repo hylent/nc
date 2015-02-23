@@ -2,7 +2,7 @@ namespace Nc\Cache;
 
 use Nc\Serializer\SerializerInterface;
 
-class Redis extends CacheAdapter
+class Redis extends CacheAbstract
 {
     protected redis;
 
