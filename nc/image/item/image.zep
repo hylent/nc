@@ -19,12 +19,12 @@ class Image extends ImageItemAbstract
         return this->backend->thumbnail(this, width, height, cropped);
     }
 
-    public function draw(<Item> srcItem, long x = 0, long y = 0) -> <Image>
+    public function draw(<ImageItemAbstract> srcItem, long x = 0, long y = 0) -> <Image>
     {
         return this->backend->draw(this, srcItem, x, y);
     }
 
-    public function drawTo(<Item> srcItem, long position) -> <Image>
+    public function drawTo(<ImageItemAbstract> srcItem, long position) -> <Image>
     {
         long x, y, w, h, srcW, srcH;
 
