@@ -3,17 +3,8 @@ namespace Nc\Log;
 use Nc\Log\Backend\LogBackendInterface;
 use Nc\Log\Backend\LogBackendAwareInterface;
 
-class Logger implements LogBackendAwareInterface
+class Logger implements LogInterface, LogBackendAwareInterface
 {
-    const EMERGENCY = "emergency";
-    const ALERT     = "alert";
-    const CRITICAL  = "critical";
-    const ERROR     = "error";
-    const WARNING   = "warning";
-    const NOTICE    = "notice";
-    const INFO      = "info";
-    const DEBUG     = "debug";
-
     protected logBackend;
     protected logs;
 
@@ -25,6 +16,51 @@ class Logger implements LogBackendAwareInterface
     public function getLogBackend() -> <LogBackendInterface>
     {
         return this->logBackend;
+    }
+
+    public function emergency(string message, array context = null) -> void
+    {
+        this->log(LogInterface::EMERGENCY, message, context);
+    }
+
+    public function alert(string message, array context = null) -> void
+    {
+        this->log(LogInterface::ALERT, message, context);
+    }
+
+    public function critical(string message, array context = null) -> void
+    {
+        this->log(LogInterface::CRITICAL, message, context);
+    }
+
+    public function error(string message, array context = null) -> void
+    {
+        this->log(LogInterface::ERROR, message, context);
+    }
+
+    public function warning(string message, array context = null) -> void
+    {
+        this->log(LogInterface::WARNING, message, context);
+    }
+
+    public function notice(string message, array context = null) -> void
+    {
+        this->log(LogInterface::NOTICE, message, context);
+    }
+
+    public function info(string message, array context = null) -> void
+    {
+        this->log(LogInterface::INFO, message, context);
+    }
+
+    public function debug(string message, array context = null) -> void
+    {
+        this->log(LogInterface::DEBUG, message, context);
+    }
+
+    public function log(string level, string message, array context = null) -> void
+    {
+        let this->logs[level][] = ["message": message, "context": context];
     }
 
     public function flush() -> void
@@ -44,63 +80,5 @@ class Logger implements LogBackendAwareInterface
         }
 
         return;
-    }
-
-    public function emergency(string message, array context = null) -> void
-    {
-        this->log(self::EMERGENCY, message, context);
-    }
-
-    public function alert(string message, array context = null) -> void
-    {
-        this->log(self::ALERT, message, context);
-    }
-
-    public function critical(string message, array context = null) -> void
-    {
-        this->log(self::CRITICAL, message, context);
-    }
-
-    public function error(string message, array context = null) -> void
-    {
-        this->log(self::ERROR, message, context);
-    }
-
-    public function warning(string message, array context = null) -> void
-    {
-        this->log(self::WARNING, message, context);
-    }
-
-    public function notice(string message, array context = null) -> void
-    {
-        this->log(self::NOTICE, message, context);
-    }
-
-    public function info(string message, array context = null) -> void
-    {
-        this->log(self::INFO, message, context);
-    }
-
-    public function debug(string message, array context = null) -> void
-    {
-        this->log(self::DEBUG, message, context);
-    }
-
-    public function log(string level, string message, array context = null) -> void
-    {
-        let this->logs[level][] = ["message": message, "context": context];
-    }
-
-    public function __call(string level, array args) -> void
-    {
-        var message, context;
-
-        if fetch message, args[0] && typeof message == "string" {
-            if ! fetch context, args[1] || typeof context != "array" {
-                let context = null;
-            }
-
-            this->log(level, message, context);
-        }
     }
 }
