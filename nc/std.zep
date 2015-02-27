@@ -27,6 +27,11 @@ class Std
         return floatval(size);
     }
 
+    public static function ulongToDouble(var l) -> double
+    {
+        return (double) sprintf("%u", l);
+    }
+
     public static function uuid(string salt = "") -> string
     {
         return md5(uniqid(mt_rand(), true) . salt);
