@@ -1,6 +1,6 @@
-namespace Nc\Message\Sender;
+namespace Nc\Messager;
 
-class Smtp implements MessageSenderInterface
+class Smtp implements MessagerInterface
 {
     const EOL = "\r\n";
 

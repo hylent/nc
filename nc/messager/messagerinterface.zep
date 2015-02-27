@@ -1,6 +1,6 @@
-namespace Nc\Message\Sender;
+namespace Nc\Messager;
 
-interface MessageSenderInterface
+interface MessagerInterface
 {
     public function send(string to, string subject, string message) -> void;
 }

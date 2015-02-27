@@ -1,4 +1,4 @@
-namespace Nc\Message;
+namespace Nc\Messager;
 
 use Nc\Exception as Ex;
 
