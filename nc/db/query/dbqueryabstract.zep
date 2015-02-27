@@ -312,7 +312,7 @@ abstract class DbQueryAbstract
         var a;
 
         let a = this->parseTableAlias(table);
-        let this->join .= " " . type . " join " . a[0] . " " . a[1] . " on " . on;
+        let this->join = (string) this->join . " " . type . " join " . a[0] . " " . a[1] . " on " . on;
 
         return this;
     }
@@ -335,8 +335,12 @@ abstract class DbQueryAbstract
 
     public function field(string field, boolean overwrite = false)
     {
-        if ! overwrite && this->field {
-            let this->field .= ", " . field;
+        string s;
+
+        let s = (string) this->field;
+
+        if ! overwrite && s->length() > 0 {
+            let this->field = s . ", " . field;
         } else {
             let this->field = field;
         }
@@ -483,13 +487,8 @@ abstract class DbQueryAbstract
         return this->inSelect(field, select, true);
     }
 
-    public function like(string field, string value, boolean half = false, boolean notLike = false)
+    public function like(string field, string value, boolean notLike = false)
     {
-        if half {
-            let value = value . "%";
-        } else {
-            let value = "%" . value . "%";
-        }
         if notLike {
             let this->where[] = field . " not like " . this->db->quote(value);
         } else {
@@ -499,9 +498,9 @@ abstract class DbQueryAbstract
         return this;
     }
 
-    public function notLike(string field, string value, boolean half = false)
+    public function notLike(string field, string value)
     {
-        return this->like(field, value, half, true);
+        return this->like(field, value, true);
     }
 
     public function isNull(string field, boolean isNotNull = false)
@@ -561,8 +560,12 @@ abstract class DbQueryAbstract
 
     public function groupBy(string field, boolean overwrite = false)
     {
-        if ! overwrite && this->groupBy {
-            let this->groupBy .= ", " . field;
+        string s;
+
+        let s = (string) this->groupBy;
+
+        if ! overwrite && s->length() > 0 {
+            let this->groupBy = s . ", " . field;
         } else {
             let this->groupBy = field;
         }
@@ -602,7 +605,7 @@ abstract class DbQueryAbstract
             if prepend {
                 let this->orderBy = field . sort . ", " . this->orderBy;
             } else {
-                let this->orderBy .= ", " . field . sort;
+                let this->orderBy = (string) this->orderBy . ", " . field . sort;
             }
         } else {
             let this->orderBy = field . sort;
