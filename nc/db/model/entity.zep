@@ -22,6 +22,47 @@ class Entity implements \Countable, \Iterator
 
     public function __invoke(string relationName, var delegation = null)
     {
+        var relation;
+
+        let relation = this->model->getRelation(relationName);
+
+        relation->setEntity(this);
+
+        if delegation {
+            call_user_func(delegation, relation);
+        }
+
+        return relation->__invoke();
+    }
+
+    public function __get(string name)
+    {
+        var v;
+
+        if unlikely ! this->valid() {
+            throw new Exception("Cannot find record on index: " . this->internalIndex);
+        }
+
+        if fetch v, this->data[this->internalIndex][name] {
+            return v;
+        }
+
+        if this->model->hasRelation(name) {
+            let v = this->__invoke(name);
+            let this->data[this->internalIndex][name] = v;
+            return v;
+        }
+
+        let this->data[this->internalIndex][name] = null;
+    }
+
+    public function __set(string name, var value) -> void
+    {
+        if unlikely ! this->valid() {
+            throw new Exception("Cannot find record on index: " . this->internalIndex);
+        }
+
+        let this->data[this->internalIndex][name] = value;
     }
 
     public function save() -> void

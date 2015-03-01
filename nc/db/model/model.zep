@@ -45,6 +45,11 @@ class Model
         return this->modelFactory->getDb()->__invoke(this->table, this->name);
     }
 
+    public function hasRelation(string relationName) -> boolean
+    {
+        return isset this->relations[relationName];
+    }
+
     public function setRelation(string relationName, <DbModelRelationInterface> relation) -> void
     {
         let this->relations[relationName] = relation;
