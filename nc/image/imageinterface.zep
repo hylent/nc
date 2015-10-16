@@ -2,7 +2,7 @@ namespace Nc\Image;
 
 interface ImageInterface
 {
-    const DEFAULT_FONT = "nc.ttf";
+    const DEFAULT_FONT = "";
     const DEFAULT_FONT_SIZE = 24;
     const DEFAULT_COLOR = "#000000";
     const DEFAULT_RED = 0;

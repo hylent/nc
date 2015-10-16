@@ -60,9 +60,9 @@ class Gd extends ImageAbstract
         let handler = im->{"handler"};
 
         // background
-        let r = (long) mt_rand(200, 255);
-        let g = (long) mt_rand(200, 255);
-        let b = (long) mt_rand(200, 255);
+        let r = mt_rand(200, 255);
+        let g = mt_rand(200, 255);
+        let b = mt_rand(200, 255);
         let dr = (r - mt_rand(100, 150)) / width;
         let dg = (g - mt_rand(100, 150)) / width;
         let db = (b - mt_rand(100, 150)) / width;
@@ -83,10 +83,10 @@ class Gd extends ImageAbstract
         while i < codeLen {
             let x2 = width - padding * 2 - ((1.0 - rOverlap) * (codeLen - i) + rOverlap) * fontSize;
             if x2 > x {
-                let x = (long) mt_rand(x, x2);
+                let x = mt_rand(x, x2);
             }
-            let y = (long) mt_rand(fontSize, height);
-            let angle = (long) mt_rand(-15, 15);
+            let y = mt_rand(fontSize, height);
+            let angle = mt_rand(-15, 15);
             let ch = (string) mb_substr(code, i, 1, "utf-8");
             let color = imagecolorallocate(handler, mt_rand(0, 255), mt_rand(0, 255), mt_rand(0, 255));
             imagettftext(handler, fontSize, angle, x + 1, y + 1, shadow, font, ch);
@@ -99,10 +99,10 @@ class Gd extends ImageAbstract
         let i = 0;
         while i < codeLen {
             let color = imagecolorallocate(handler, mt_rand(0, 255), mt_rand(0, 255), mt_rand(0, 255));
-            let x = (long) mt_rand(0, width);
-            let y = (long) mt_rand(0, height);
-            let x2 = (long) mt_rand(0, width);
-            let y2 = (long) mt_rand(0, height);
+            let x = mt_rand(0, width);
+            let y = mt_rand(0, height);
+            let x2 = mt_rand(0, width);
+            let y2 = mt_rand(0, height);
             let j = 0;
             while j <= padding {
                 imageline(handler, x + j, y, x2 + j, y2, color);

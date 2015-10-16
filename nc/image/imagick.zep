@@ -62,9 +62,9 @@ class Imagick extends ImageAbstract
         let imagickDraw = new \ImagickDraw();
 
         // background
-        let r = (long) mt_rand(200, 255);
-        let g = (long) mt_rand(200, 255);
-        let b = (long) mt_rand(200, 255);
+        let r = mt_rand(200, 255);
+        let g = mt_rand(200, 255);
+        let b = mt_rand(200, 255);
         let dr = (r - mt_rand(100, 150)) / width;
         let dg = (g - mt_rand(100, 150)) / width;
         let db = (b - mt_rand(100, 150)) / width;
@@ -91,14 +91,14 @@ class Imagick extends ImageAbstract
         while i < codeLen {
             let x2 = width - padding * 2 - ((1.0 - rOverlap) * (codeLen - i) + rOverlap) * fontSize;
             if x2 > x {
-                let x = (long) mt_rand(x, x2);
+                let x = mt_rand(x, x2);
             }
-            let y = (long) mt_rand(fontSize, height);
-            let angle = (long) mt_rand(-15, 15);
+            let y = mt_rand(fontSize, height);
+            let angle = mt_rand(-15, 15);
             let ch = (string) mb_substr(code, i, 1, "utf-8");
-            let r = (long) mt_rand(0, 255);
-            let g = (long) mt_rand(0, 255);
-            let b = (long) mt_rand(0, 255);
+            let r = mt_rand(0, 255);
+            let g = mt_rand(0, 255);
+            let b = mt_rand(0, 255);
             imagickDraw->setFillColor(shadow);
             imagick->annotateImage(imagickDraw, x + 1, y + 1, angle, ch);
             imagickDraw->setFillColor(new \ImagickPixel("rgb(".r.",".g.",".b.")"));
@@ -111,14 +111,14 @@ class Imagick extends ImageAbstract
         // adulterate
         let i = 0;
         while i < codeLen {
-            let r = (long) mt_rand(0, 255);
-            let g = (long) mt_rand(0, 255);
-            let b = (long) mt_rand(0, 255);
+            let r = mt_rand(0, 255);
+            let g = mt_rand(0, 255);
+            let b = mt_rand(0, 255);
             imagickDraw->setFillColor(new \ImagickPixel("rgb(".r.",".g.",".b.")"));
-            let x = (long) mt_rand(0, width);
-            let y = (long) mt_rand(0, height);
-            let x2 = (long) mt_rand(0, width);
-            let y2 = (long) mt_rand(0, height);
+            let x = mt_rand(0, width);
+            let y = mt_rand(0, height);
+            let x2 = mt_rand(0, width);
+            let y2 = mt_rand(0, height);
             let j = 0;
             while j <= padding {
                 imagickDraw->line(x + j, y, x2 + j, y2);
