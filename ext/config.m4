@@ -10,81 +10,67 @@ if test "$PHP_NC" = "yes"; then
 
 	AC_DEFINE(HAVE_NC, 1, [Whether you have Nc])
 	nc_sources="nc.c kernel/main.c kernel/memory.c kernel/exception.c kernel/hash.c kernel/debug.c kernel/backtrace.c kernel/object.c kernel/array.c kernel/extended/array.c kernel/string.c kernel/fcall.c kernel/extended/fcall.c kernel/require.c kernel/file.c kernel/operators.c kernel/math.c kernel/concat.c kernel/variables.c kernel/filter.c kernel/iterator.c kernel/time.c kernel/exit.c nc/exception.zep.c
-	nc/cache/cacheinterface.zep.c
-	nc/serializer/serializerawareinterface.zep.c
-	nc/cache/cacheabstract.zep.c
-	nc/db/exception.zep.c
-	nc/db/dbinterface.zep.c
-	nc/db/query/dbqueryabstract.zep.c
-	nc/image/imageinterface.zep.c
-	nc/loader/loaderinterface.zep.c
-	nc/router/routerinterface.zep.c
-	nc/serializer/serializerinterface.zep.c
-	nc/storage/naming/storagenamingawareinterface.zep.c
-	nc/storage/storageinterface.zep.c
+	nc/view/viewinterface.zep.c
 	nc/db/dbabstract.zep.c
+	nc/factory/factoryinterface.zep.c
+	nc/logger/loggerbackendinterface.zep.c
+	nc/upload/urigeneratorinterface.zep.c
 	nc/image/imageabstract.zep.c
-	nc/image/item/imageitemabstract.zep.c
+	nc/logger/loggerabstract.zep.c
+	nc/upload/storageabstract.zep.c
+	nc/db/exception.zep.c
+	nc/db/pdoabstract.zep.c
+	nc/image/imagebackendabstract.zep.c
 	nc/loader/loaderabstract.zep.c
-	nc/log/backend/logbackendinterface.zep.c
-	nc/router/routerabstract.zep.c
-	nc/storage/naming/storagenaminginterface.zep.c
-	nc/storage/storageabstract.zep.c
-	nc/image/exception.zep.c
-	nc/log/backend/logbackendawareinterface.zep.c
-	nc/log/exception.zep.c
-	nc/log/loginterface.zep.c
-	nc/messager/messagerinterface.zep.c
-	nc/router/uri.zep.c
-	nc/storage/storageawareinterface.zep.c
-	nc/cache/apc.zep.c
-	nc/cache/cacheawareinterface.zep.c
-	nc/cache/exception.zep.c
-	nc/cache/file.zep.c
-	nc/cache/memcache.zep.c
-	nc/cache/redis.zep.c
-	nc/db/dbawareinterface.zep.c
-	nc/db/oci.zep.c
-	nc/db/pdo.zep.c
-	nc/db/query/exception.zep.c
-	nc/db/query/mysql.zep.c
-	nc/db/query/oracle.zep.c
-	nc/db/query/pgsql.zep.c
+	nc/task/taskmanagerabstract.zep.c
+	nc/di.zep.c
+	nc/factory/classnameabstract.zep.c
+	nc/image/image.zep.c
+	nc/application.zep.c
+	nc/db/collection.zep.c
+	nc/db/entity.zep.c
+	nc/db/model.zep.c
+	nc/db/oci8.zep.c
+	nc/db/pdomysql.zep.c
+	nc/db/pdopgsql.zep.c
 	nc/db/queryexception.zep.c
-	nc/db/savepointexception.zep.c
 	nc/db/transactionexception.zep.c
-	nc/filter/exception.zep.c
-	nc/filter/ipregion.zep.c
-	nc/filter/uploader.zep.c
+	nc/factory/exception.zep.c
+	nc/factory/factories.zep.c
+	nc/factory/namespaced.zep.c
+	nc/factory/shared.zep.c
+	nc/image/captcha.zep.c
+	nc/image/exception.zep.c
 	nc/image/gd.zep.c
 	nc/image/imagick.zep.c
-	nc/image/item/exception.zep.c
-	nc/image/item/image.zep.c
-	nc/image/item/text.zep.c
-	nc/loader/classpath.zep.c
+	nc/image/text.zep.c
 	nc/loader/exception.zep.c
+	nc/loader/namepath.zep.c
 	nc/loader/namespacedirectory.zep.c
-	nc/log/backend/exception.zep.c
-	nc/log/backend/file.zep.c
-	nc/log/backend/nil.zep.c
-	nc/log/logawareinterface.zep.c
-	nc/log/logger.zep.c
-	nc/messager/exception.zep.c
-	nc/messager/messagerawareinterface.zep.c
-	nc/messager/smtp.zep.c
-	nc/router/exception.zep.c
-	nc/router/routerawareinterface.zep.c
-	nc/router/urienhanced.zep.c
-	nc/serializer/exception.zep.c
-	nc/serializer/igbinary.zep.c
-	nc/serializer/json.zep.c
-	nc/serializer/php.zep.c
+	nc/logger/backends.zep.c
+	nc/logger/exception.zep.c
+	nc/logger/file.zep.c
+	nc/logger/nil.zep.c
 	nc/std.zep.c
-	nc/storage/exception.zep.c
-	nc/storage/filesystem.zep.c
-	nc/storage/ftp.zep.c
-	nc/storage/naming/date.zep.c
-	nc/storage/naming/uuid.zep.c "
+	nc/task/exception.zep.c
+	nc/task/queueredis.zep.c
+	nc/task/rundirectly.zep.c
+	nc/task/taskexecutorinterface.zep.c
+	nc/upload/exception.zep.c
+	nc/upload/fastdfs.zep.c
+	nc/upload/filesystem.zep.c
+	nc/upload/ftp.zep.c
+	nc/upload/uploadedfile.zep.c
+	nc/upload/uploader.zep.c
+	nc/view/content.zep.c
+	nc/view/exception.zep.c
+	nc/view/facade.zep.c
+	nc/view/httpresponse.zep.c
+	nc/view/json.zep.c
+	nc/view/nil.zep.c
+	nc/view/readfile.zep.c
+	nc/view/redirect.zep.c
+	nc/view/tpl.zep.c "
 	PHP_NEW_EXTENSION(nc, $nc_sources, $ext_shared,, )
 	PHP_SUBST(NC_SHARED_LIBADD)
 

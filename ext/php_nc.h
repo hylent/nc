@@ -10,8 +10,8 @@
 
 #include "kernel/globals.h"
 
-#define PHP_NC_NAME        "nc"
-#define PHP_NC_VERSION     "0.9.3"
+#define PHP_NC_NAME        "Nc Framework"
+#define PHP_NC_VERSION     "1.0.151212"
 #define PHP_NC_EXTNAME     "nc"
 #define PHP_NC_AUTHOR      "Hylent"
 #define PHP_NC_ZEPVERSION  "0.9.1a-dev"

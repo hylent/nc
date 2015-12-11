@@ -2,24 +2,27 @@ namespace Nc;
 
 class Std
 {
-    const CHAR_LIST = "0123456789abcdefghijklmnopqrstuvwxyz";
+    const CHARSET       = "UTF-8";
+    const CHAR_LIST     = "0123456789abcdefghijklmnopqrstuvwxyz";
 
-    const IGNORE_ERROR = "Nc\\Std::ignoreError";
-    const THROW_ERROR = "Nc\\Std::throwError";
+    const IGNORE_ERROR  = "Nc\\Std::ignoreError";
+    const THROW_ERROR   = "Nc\\Std::throwError";
 
-    public static function sizeToByte(string size) -> double
+    public static function sizeToBytes(string size) -> double
     {
         var match = null;
+        string unit;
 
         if preg_match("/^([\\d\\.]+)([KMGT])B?$/", size->upper(), match) {
-            switch match[2] {
-                case "T":
+            let unit = (string) match[2];
+            switch unit[0] {
+                case 'T':
                     return 1099511627776.0 * (double) match[1];
-                case "G":
+                case 'G':
                     return 1073741824.0 * (double) match[1];
-                case "M":
+                case 'M':
                     return 1048576.0 * (double) match[1];
-                case "K":
+                case 'K':
                     return 1024.0 * (double) match[1];
             }
         }
@@ -27,14 +30,144 @@ class Std
         return floatval(size);
     }
 
-    public static function ulongToDouble(var l) -> double
+    public static function bytesToSize(double bytes, long decimal = 3) -> string
     {
-        return (double) sprintf("%u", l);
+        string size = "0";
+
+        if decimal < 0 || decimal > 6 {
+            let decimal = 3;
+        }
+
+        if bytes > 1099511627776.0 {
+            return sprintf(sprintf("%%0.%dfT", decimal), bytes / 1099511627776.0);
+        }
+        if bytes > 1073741824.0 {
+            return sprintf(sprintf("%%0.%dfG", decimal), bytes / 1073741824.0);
+        }
+        if bytes > 1048576.0 {
+            return sprintf(sprintf("%%0.%dfM", decimal), bytes / 1048576.0);
+        }
+        if bytes > 1024.0 {
+            return sprintf(sprintf("%%0.%dfK", decimal), bytes / 1024.0);
+        }
+        if bytes > 1.0 {
+            return sprintf(sprintf("%%0.%dfB", decimal), bytes);
+        }
+
+        return size;
+    }
+
+    public static function pascalCase(string from) -> string
+    {
+        string to = "";
+        char c;
+        bool found = false;
+        bool upper = true;
+
+        for c in from {
+            if c >= '0' && c <= '9' {
+                if found {
+                    let to .= c;
+                }
+                continue;
+            }
+            if c >= 'a' && c <= 'z' {
+                if upper {
+                    let upper = false;
+                    let c -= 32;
+                }
+                let to .= c;
+                let found = true;
+                continue;
+            }
+            if c >= 'A' && c <= 'Z' {
+                if upper {
+                    let upper = false;
+                } else {
+                    let c += 32;
+                }
+                let to .= c;
+                let found = true;
+                continue;
+            }
+            if found {
+                let upper = true;
+            }
+        }
+
+        return to;
+    }
+
+    public static function camelCase(string from) -> string
+    {
+        string to = "";
+        char c;
+        bool found = false;
+        bool upper = false;
+
+        for c in from {
+            if c >= '0' && c <= '9' {
+                if found {
+                    let to .= c;
+                }
+                continue;
+            }
+            if c >= 'a' && c <= 'z' {
+                if upper {
+                    let upper = false;
+                    let c -= 32;
+                }
+                let to .= c;
+                let found = true;
+                continue;
+            }
+            if c >= 'A' && c <= 'Z' {
+                if upper {
+                    let upper = false;
+                } else {
+                    let c += 32;
+                }
+                let to .= c;
+                let found = true;
+                continue;
+            }
+            if found {
+                let upper = true;
+            }
+        }
+
+        return to;
+    }
+
+    public static function normalCase(string from, string sep = "-") -> string
+    {
+        string to = "";
+        char c;
+        bool found = false;
+
+        for c in from {
+            if (c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') {
+                let to .= c;
+                let found = true;
+                continue;
+            }
+            if c >= 'A' && c <= 'Z' {
+                if found {
+                    let to .= sep;
+                }
+                let c += 32;
+                let to .= c;
+                let found = true;
+                continue;
+            }
+        }
+
+        return to;
     }
 
     public static function uuid(string salt = "") -> string
     {
-        return md5(uniqid(mt_rand(), true) . salt);
+        return sha1(uniqid(mt_rand(), true) . salt) . sprintf("%04x", (long) time() & 0xffff);
     }
 
     public static function randString(long len, string charList = "") -> string
@@ -50,59 +183,57 @@ class Std
             let charList = self::CHAR_LIST;
         }
 
-        let maxIndex = (long) mb_strlen(charList, "utf-8") - 1;
+        let maxIndex = (long) mb_strlen(charList, self::CHARSET) - 1;
 
         while len {
             let len--;
-            let result .= mb_substr(charList, mt_rand(0, maxIndex), 1, "utf-8");
+            let result .= mb_substr(charList, mt_rand(0, maxIndex), 1, self::CHARSET);
         }
 
         return result;
     }
 
-    public static function camelCase(string from, boolean upper = false) -> string
+    public static function tr(string message, array context = []) -> string
     {
-        string to = "";
-        var c;
+        var k, v, r = [];
 
-        for c in str_split(from) {
-            if c == " " || c == "_" || c == "-" {
-                let upper = true;
-                continue;
-            }
-
-            if upper {
-                let to .= strtoupper(c);
-                let upper = false;
-                continue;
-            }
-
-            let to .= strtolower(c);
+        for k, v in context {
+            let r["{" . k . "}"] = (string) v;
         }
 
-        return to;
+        return strtr(message, r);
     }
 
-    public static function uncamelCase(string from, string sep = "-") -> string
+    public static function valueAt(array arr, string key, var defaultValue = null, bool noException = false)
     {
-        return strtolower(preg_replace("/([A-Z])/", sep . "$1", lcfirst(from)));
+        var value;
+
+        if fetch value, arr[key] {
+            return value;
+        }
+
+        if unlikely defaultValue === null && ! noException {
+            throw new Exception("Missing value at: " . key);
+        }
+
+        return defaultValue;
     }
 
-    public static function valueOfArray(array data, string key, var defaultValue = null)
+    public static function valueOf(array arr, string key, var defaultValue = null)
     {
-        var parts, part, value, tmpValue;
+        var parts, part, returnValue, tmpValue;
 
         let parts = explode(".", key);
-        let value = data;
+        let returnValue = arr;
 
         for part in parts {
-            if typeof value != "array" || ! fetch tmpValue, value[part] {
+            if typeof returnValue != "array" || ! fetch tmpValue, returnValue[part] {
                 return defaultValue;
             }
-            let value = tmpValue;
+            let returnValue = tmpValue;
         }
 
-        return value;
+        return returnValue;
     }
 
     public static function indexedData(array data, string indexKey) -> array
@@ -283,7 +414,7 @@ class Std
 
     public static function throwError(long n, string s, string f, string l, array context = null) -> void
     {
-        throw new \ErrorException(s . " (" . f . ":" . l . ")", n);
+        throw new \ErrorException(sprintf("%s (%s:%d)", s, f, l), n);
     }
 
     public static function outputScript(string path, array data) -> void
@@ -313,4 +444,5 @@ class Std
 
         return "";
     }
+
 }

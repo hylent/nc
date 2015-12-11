@@ -8,17 +8,17 @@ PHP_METHOD(Nc_Loader_NamespaceDirectory, __invoke);
 PHP_METHOD(Nc_Loader_NamespaceDirectory, set);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_loader_namespacedirectory___construct, 0, 0, 0)
+	ZEND_ARG_INFO(0, registerSelf)
 	ZEND_ARG_ARRAY_INFO(0, namespaceDirectories, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_loader_namespacedirectory___invoke, 0, 0, 1)
-	ZEND_ARG_INFO(0, className)
+	ZEND_ARG_INFO(0, name)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_loader_namespacedirectory_set, 0, 0, 2)
 	ZEND_ARG_INFO(0, ns)
 	ZEND_ARG_INFO(0, dir)
-	ZEND_ARG_INFO(0, lcase)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(nc_loader_namespacedirectory_method_entry) {

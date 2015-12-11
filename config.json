@@ -3,9 +3,23 @@
         "path": "ide\/%version%\/%namespace%\/",
         "stubs-run-after-generate": false
     },
+    "api": {
+        "path": "doc\/%version%",
+        "theme": {
+            "name": "zephir",
+            "options": {
+                "github": null,
+                "analytics": null,
+                "main_color": "#3E6496",
+                "link_color": "#3E6496",
+                "link_hover_color": "#5F9AE7"
+            }
+        }
+    },
     "warnings": {
         "unused-variable": true,
         "unused-variable-external": false,
+        "possible-wrong-parameter": true,
         "possible-wrong-parameter-undefined": false,
         "nonexistent-function": true,
         "nonexistent-class": true,
@@ -16,7 +30,7 @@
         "invalid-array-index": true,
         "non-array-append": true,
         "invalid-return-type": true,
-        "unreachable-code": true,
+        "unreachable-code": false,
         "nonexistent-constant": true,
         "not-supported-magic-constant": true,
         "non-valid-decrement": true,
@@ -35,12 +49,16 @@
         "constant-folding": true,
         "static-constant-class-folding": true,
         "call-gatherer-pass": true,
-        "check-invalid-reads": false
+        "check-invalid-reads": false,
+        "internal-call-transformation": false
     },
     "namespace": "nc",
-    "name": "nc",
+    "name": "Nc Framework",
     "description": "A PHP framework for web development",
     "author": "Hylent",
-    "version": "0.9.3",
-    "verbose": false
+    "version": "1.0.151212",
+    "verbose": false,
+    "requires": {
+        "extensions": []
+    }
 }

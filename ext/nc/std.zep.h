@@ -3,13 +3,16 @@ extern zend_class_entry *nc_std_ce;
 
 ZEPHIR_INIT_CLASS(Nc_Std);
 
-PHP_METHOD(Nc_Std, sizeToByte);
-PHP_METHOD(Nc_Std, ulongToDouble);
+PHP_METHOD(Nc_Std, sizeToBytes);
+PHP_METHOD(Nc_Std, bytesToSize);
+PHP_METHOD(Nc_Std, pascalCase);
+PHP_METHOD(Nc_Std, camelCase);
+PHP_METHOD(Nc_Std, normalCase);
 PHP_METHOD(Nc_Std, uuid);
 PHP_METHOD(Nc_Std, randString);
-PHP_METHOD(Nc_Std, camelCase);
-PHP_METHOD(Nc_Std, uncamelCase);
-PHP_METHOD(Nc_Std, valueOfArray);
+PHP_METHOD(Nc_Std, tr);
+PHP_METHOD(Nc_Std, valueAt);
+PHP_METHOD(Nc_Std, valueOf);
 PHP_METHOD(Nc_Std, indexedData);
 PHP_METHOD(Nc_Std, indexedValues);
 PHP_METHOD(Nc_Std, groupedData);
@@ -23,12 +26,26 @@ PHP_METHOD(Nc_Std, throwError);
 PHP_METHOD(Nc_Std, outputScript);
 PHP_METHOD(Nc_Std, renderScript);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_std_sizetobyte, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_std_sizetobytes, 0, 0, 1)
 	ZEND_ARG_INFO(0, size)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_std_ulongtodouble, 0, 0, 1)
-	ZEND_ARG_INFO(0, l)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_std_bytestosize, 0, 0, 1)
+	ZEND_ARG_INFO(0, bytes)
+	ZEND_ARG_INFO(0, decimal)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_std_pascalcase, 0, 0, 1)
+	ZEND_ARG_INFO(0, from)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_std_camelcase, 0, 0, 1)
+	ZEND_ARG_INFO(0, from)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_std_normalcase, 0, 0, 1)
+	ZEND_ARG_INFO(0, from)
+	ZEND_ARG_INFO(0, sep)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_std_uuid, 0, 0, 0)
@@ -40,18 +57,20 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_std_randstring, 0, 0, 1)
 	ZEND_ARG_INFO(0, charList)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_std_camelcase, 0, 0, 1)
-	ZEND_ARG_INFO(0, from)
-	ZEND_ARG_INFO(0, upper)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_std_tr, 0, 0, 1)
+	ZEND_ARG_INFO(0, message)
+	ZEND_ARG_ARRAY_INFO(0, context, 1)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_std_uncamelcase, 0, 0, 1)
-	ZEND_ARG_INFO(0, from)
-	ZEND_ARG_INFO(0, sep)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_std_valueat, 0, 0, 2)
+	ZEND_ARG_ARRAY_INFO(0, arr, 0)
+	ZEND_ARG_INFO(0, key)
+	ZEND_ARG_INFO(0, defaultValue)
+	ZEND_ARG_INFO(0, noException)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_std_valueofarray, 0, 0, 2)
-	ZEND_ARG_ARRAY_INFO(0, data, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_std_valueof, 0, 0, 2)
+	ZEND_ARG_ARRAY_INFO(0, arr, 0)
 	ZEND_ARG_INFO(0, key)
 	ZEND_ARG_INFO(0, defaultValue)
 ZEND_END_ARG_INFO()
@@ -128,13 +147,16 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_std_renderscript, 0, 0, 2)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(nc_std_method_entry) {
-	PHP_ME(Nc_Std, sizeToByte, arginfo_nc_std_sizetobyte, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
-	PHP_ME(Nc_Std, ulongToDouble, arginfo_nc_std_ulongtodouble, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Nc_Std, sizeToBytes, arginfo_nc_std_sizetobytes, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Nc_Std, bytesToSize, arginfo_nc_std_bytestosize, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Nc_Std, pascalCase, arginfo_nc_std_pascalcase, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Nc_Std, camelCase, arginfo_nc_std_camelcase, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Nc_Std, normalCase, arginfo_nc_std_normalcase, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Nc_Std, uuid, arginfo_nc_std_uuid, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Nc_Std, randString, arginfo_nc_std_randstring, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
-	PHP_ME(Nc_Std, camelCase, arginfo_nc_std_camelcase, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
-	PHP_ME(Nc_Std, uncamelCase, arginfo_nc_std_uncamelcase, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
-	PHP_ME(Nc_Std, valueOfArray, arginfo_nc_std_valueofarray, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Nc_Std, tr, arginfo_nc_std_tr, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Nc_Std, valueAt, arginfo_nc_std_valueat, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Nc_Std, valueOf, arginfo_nc_std_valueof, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Nc_Std, indexedData, arginfo_nc_std_indexeddata, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Nc_Std, indexedValues, arginfo_nc_std_indexedvalues, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Nc_Std, groupedData, arginfo_nc_std_groupeddata, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)

@@ -4,33 +4,31 @@ class NamespaceDirectory extends LoaderAbstract
 {
     protected namespaceDirectories;
 
-    public function __construct(array namespaceDirectories = []) -> void
+    public function __construct(bool registerSelf = false, array namespaceDirectories = []) -> void
     {
-        var n, a;
+        var n, d;
 
-        for n, a in namespaceDirectories {
-            if typeof a == "array" {
-                let this->namespaceDirectories[strtolower(n)] = a;
-            } else {
-                let this->namespaceDirectories[strtolower(n)] = [a, true];
-            }
+        parent::__construct(registerSelf);
+
+        for n, d in namespaceDirectories {
+            let this->namespaceDirectories[strtolower(n)] = d;
         }
     }
 
-    public function __invoke(string className) -> boolean
+    public function __invoke(string name) -> bool
     {
-        var match, pos, arr;
-        boolean found = false;
+        var match, pos, dir;
+        bool found = false;
         string path;
 
-        let match = className->lower();
+        let match = name->lower();
         loop {
             let pos = strrpos(match, "\\");
             if pos === false || pos < 1 {
                 break;
             }
             let match = substr(match, 0, pos);
-            if fetch arr, this->namespaceDirectories[match] {
+            if fetch dir, this->namespaceDirectories[match] {
                 let found = true;
                 break;
             }
@@ -40,15 +38,8 @@ class NamespaceDirectory extends LoaderAbstract
             return false;
         }
 
-        if unlikely typeof arr != "array" || count(arr) != 2 {
-            throw new Exception("Invalid namespace directory options: " . match);
-        }
-
-        let path = (string) substr(className, pos + 1);
-        if arr[1] {
-            let path = path->lower();
-        }
-        let path = arr[0] . "/" . str_replace("\\", "/", path) . ".php";
+        let path = (string) substr(name, pos + 1);
+        let path = dir . "/" . str_replace("\\", "/", path) . ".php";
 
         if ! file_exists(path) {
             return false;
@@ -56,15 +47,16 @@ class NamespaceDirectory extends LoaderAbstract
 
         require path;
 
-        if unlikely ! class_exists(className, false) {
-            throw new Exception("Cannot find class: " . className . ", in path: " . path);
+        if unlikely ! LoaderAbstract::isLoaded(name) {
+            throw new Exception("Cannot load: " . name . ", in path: " . path);
         }
 
         return true;
     }
 
-    public function set(string ns, string dir, boolean lcase = true) -> void
+    public function set(string ns, string dir) -> void
     {
-        let this->namespaceDirectories[ns->lower()] = [dir, lcase];
+        let this->namespaceDirectories[ns->lower()] = dir;
     }
+
 }
