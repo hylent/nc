@@ -344,10 +344,12 @@ PHP_METHOD(Nc_Db_DbAbstract, rollbackToSavepoint) {
 	}
 	while (1) {
 		_9$$6 = zephir_fetch_nproperty_this(this_ptr, SL("savepoints"), PH_NOISY_CC);
+		ZEPHIR_MAKE_REF(_9$$6);
 		ZEPHIR_CALL_FUNCTION(&_10$$6, "array_pop", &_11, 7, _9$$6);
+		ZEPHIR_UNREF(_9$$6);
 		zephir_check_call_status();
 		zephir_get_strval(_12$$6, _10$$6);
-		if (ZEPHIR_IS_EQUAL(_12$$6, savepoint)) {
+		if (ZEPHIR_IS_IDENTICAL(_12$$6, savepoint)) {
 			zephir_update_property_array(this_ptr, SL("savepoints"), savepoint, savepoint TSRMLS_CC);
 			break;
 		}
