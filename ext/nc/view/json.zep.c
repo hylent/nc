@@ -79,13 +79,13 @@ PHP_METHOD(Nc_View_Json, run) {
 	if (jsonCors) {
 		ZEPHIR_SINIT_VAR(_6$$3);
 		ZVAL_STRING(&_6$$3, "Access-Control-Allow-Origin: *", 0);
-		ZEPHIR_CALL_FUNCTION(NULL, "header", &_7, 113, &_6$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "header", &_7, 131, &_6$$3);
 		zephir_check_call_status();
 	}
 	if (jsonHeaderPlain) {
 		ZEPHIR_SINIT_VAR(_8$$4);
 		ZVAL_STRING(&_8$$4, "Content-type: text/plain; charset=UTF-8", 0);
-		ZEPHIR_CALL_FUNCTION(NULL, "header", &_7, 113, &_8$$4);
+		ZEPHIR_CALL_FUNCTION(NULL, "header", &_7, 131, &_8$$4);
 		zephir_check_call_status();
 	}
 	if (zephir_fast_strlen_ev(jsonCallback) > 0) {

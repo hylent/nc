@@ -114,7 +114,7 @@ PHP_METHOD(Nc_Upload_Fastdfs, store) {
 	}
 	do {
 		if (flag == 2 || flag == 1) {
-			ZEPHIR_CALL_FUNCTION(NULL, "unlink", NULL, 91, source);
+			ZEPHIR_CALL_FUNCTION(NULL, "unlink", NULL, 109, source);
 			zephir_check_call_status();
 			break;
 		}

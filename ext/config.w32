@@ -20,5 +20,6 @@ if (PHP_NC != "no") {
 	ADD_SOURCES(configure_module_dirname + "/nc/image", "imageabstract.zep.c imagebackendabstract.zep.c image.zep.c captcha.zep.c exception.zep.c gd.zep.c imagick.zep.c text.zep.c", "nc");
 	ADD_SOURCES(configure_module_dirname + "/nc/loader", "loaderabstract.zep.c exception.zep.c namepath.zep.c namespacedirectory.zep.c", "nc");
 	ADD_SOURCES(configure_module_dirname + "/nc/task", "taskmanagerabstract.zep.c exception.zep.c queueredis.zep.c rundirectly.zep.c taskexecutorinterface.zep.c", "nc");
+	ADD_SOURCES(configure_module_dirname + "/nc/netutils", "exception.zep.c smtpmailer.zep.c socketclient.zep.c", "nc");
   ADD_FLAG("CFLAGS_NC", "/D ZEPHIR_RELEASE");
 }

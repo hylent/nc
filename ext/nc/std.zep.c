@@ -94,7 +94,7 @@ PHP_METHOD(Nc_Std, sizeToBytes) {
 		} while(0);
 
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("floatval", NULL, 84, size);
+	ZEPHIR_RETURN_CALL_FUNCTION("floatval", NULL, 102, size);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -406,13 +406,13 @@ PHP_METHOD(Nc_Std, uuid) {
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "mt_rand", NULL, 85);
+	ZEPHIR_CALL_FUNCTION(&_0, "mt_rand", NULL, 103);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_1, "uniqid", NULL, 86, _0, ZEPHIR_GLOBAL(global_true));
+	ZEPHIR_CALL_FUNCTION(&_1, "uniqid", NULL, 104, _0, ZEPHIR_GLOBAL(global_true));
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_2);
 	ZEPHIR_CONCAT_VV(_2, _1, salt);
-	ZEPHIR_CALL_FUNCTION(&_3, "sha1", NULL, 87, _2);
+	ZEPHIR_CALL_FUNCTION(&_3, "sha1", NULL, 105, _2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_4);
 	zephir_time(_4);
@@ -519,7 +519,7 @@ PHP_METHOD(Nc_Std, tr) {
 		ZEPHIR_CONCAT_SVS(_4$$3, "{", k, "}");
 		zephir_array_update_zval(&r, _4$$3, &_3$$3, PH_COPY | PH_SEPARATE);
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("strtr", NULL, 88, message, r);
+	ZEPHIR_RETURN_CALL_FUNCTION("strtr", NULL, 106, message, r);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -1245,7 +1245,7 @@ PHP_METHOD(Nc_Std, throwError) {
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_3);
 	ZVAL_LONG(_3, n);
-	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 89, _2, _3);
+	ZEPHIR_CALL_METHOD(NULL, _0, "__construct", NULL, 107, _2, _3);
 	zephir_check_call_status();
 	zephir_throw_exception_debug(_0, "nc/std.zep", 417 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
@@ -1283,7 +1283,7 @@ PHP_METHOD(Nc_Std, outputScript) {
 	ZEPHIR_INIT_VAR(_3);
 	ZVAL_STRING(_3, "", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_MAKE_REF(data);
-	ZEPHIR_CALL_FUNCTION(NULL, "extract", NULL, 90, data, _2, _3);
+	ZEPHIR_CALL_FUNCTION(NULL, "extract", NULL, 108, data, _2, _3);
 	zephir_check_temp_parameter(_3);
 	ZEPHIR_UNREF(data);
 	zephir_check_call_status();

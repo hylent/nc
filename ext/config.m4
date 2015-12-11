@@ -51,6 +51,9 @@ if test "$PHP_NC" = "yes"; then
 	nc/logger/exception.zep.c
 	nc/logger/file.zep.c
 	nc/logger/nil.zep.c
+	nc/netutils/exception.zep.c
+	nc/netutils/smtpmailer.zep.c
+	nc/netutils/socketclient.zep.c
 	nc/std.zep.c
 	nc/task/exception.zep.c
 	nc/task/queueredis.zep.c
