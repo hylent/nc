@@ -1,6 +1,8 @@
 namespace Nc\Logger;
 
-abstract class LoggerAbstract implements LoggerBackendInterface
+use Nc\Std;
+
+abstract class LoggerAbstract implements LoggerInterface
 {
     const EMERGENCY = "emergency";
     const ALERT     = "alert";
@@ -10,6 +12,16 @@ abstract class LoggerAbstract implements LoggerBackendInterface
     const NOTICE    = "notice";
     const INFO      = "info";
     const DEBUG     = "debug";
+
+    public static function stringifyLog(string level, string message, array context = []) -> string
+    {
+        return sprintf(
+            "[%s] [%s] %s",
+            date("c"),
+            level,
+            Std::tr(message, context)
+        );
+    }
 
     public function emergency(string message, array context = []) -> void
     {

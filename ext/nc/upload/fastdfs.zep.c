@@ -51,7 +51,7 @@ PHP_METHOD(Nc_Upload_Fastdfs, __construct) {
 
 	ZEPHIR_SINIT_VAR(_0);
 	ZVAL_STRING(&_0, "fastdfs_client", 0);
-	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 12, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 19, &_0);
 	zephir_check_call_status();
 	if (unlikely(!zephir_is_true(_1))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_upload_exception_ce, "Missing extension: fastdfs_client", "nc/upload/fastdfs.zep", 10);
@@ -114,7 +114,7 @@ PHP_METHOD(Nc_Upload_Fastdfs, store) {
 	}
 	do {
 		if (flag == 2 || flag == 1) {
-			ZEPHIR_CALL_FUNCTION(NULL, "unlink", NULL, 109, source);
+			ZEPHIR_CALL_FUNCTION(NULL, "unlink", NULL, 119, source);
 			zephir_check_call_status();
 			break;
 		}

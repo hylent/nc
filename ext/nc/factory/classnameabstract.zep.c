@@ -22,19 +22,20 @@
 
 ZEPHIR_INIT_CLASS(Nc_Factory_ClassNameAbstract) {
 
-	ZEPHIR_REGISTER_CLASS(Nc\\Factory, ClassNameAbstract, nc, factory_classnameabstract, nc_factory_classnameabstract_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+	ZEPHIR_REGISTER_CLASS_EX(Nc\\Factory, ClassNameAbstract, nc, factory_classnameabstract, nc_factory_factoryabstract_ce, nc_factory_classnameabstract_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	zend_declare_property_null(nc_factory_classnameabstract_ce, SL("args"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_class_implements(nc_factory_classnameabstract_ce TSRMLS_CC, 1, nc_factory_factoryinterface_ce);
 	return SUCCESS;
 
 }
 
 PHP_METHOD(Nc_Factory_ClassNameAbstract, __isset) {
 
+	zend_bool _2;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *name_param = NULL, *_0 = NULL;
+	zephir_fcall_cache_entry *_1 = NULL;
+	zval *name_param = NULL, *_0 = NULL, *_3 = NULL;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -43,13 +44,19 @@ PHP_METHOD(Nc_Factory_ClassNameAbstract, __isset) {
 	zephir_get_strval(name, name_param);
 
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getclassname", NULL, 0, name);
+	ZEPHIR_CALL_PARENT(&_0, nc_factory_classnameabstract_ce, this_ptr, "__isset", &_1, 13, name);
 	zephir_check_call_status();
-	RETURN_MM_BOOL(zephir_class_exists(_0, 1 TSRMLS_CC));
+	_2 = zephir_is_true(_0);
+	if (!(_2)) {
+		ZEPHIR_CALL_METHOD(&_3, this_ptr, "getclassname", NULL, 0, name);
+		zephir_check_call_status();
+		_2 = zephir_class_exists(_3, 1 TSRMLS_CC);
+	}
+	RETURN_MM_BOOL(_2);
 
 }
 
-PHP_METHOD(Nc_Factory_ClassNameAbstract, __get) {
+PHP_METHOD(Nc_Factory_ClassNameAbstract, newProduction) {
 
 	zephir_fcall_cache_entry *_4 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
@@ -70,7 +77,7 @@ PHP_METHOD(Nc_Factory_ClassNameAbstract, __get) {
 		ZEPHIR_INIT_VAR(_2$$3);
 		object_init_ex(_2$$3, nc_factory_exception_ce);
 		ZEPHIR_INIT_VAR(_3$$3);
-		ZEPHIR_CONCAT_SV(_3$$3, "Invalid product: ", name);
+		ZEPHIR_CONCAT_SV(_3$$3, "Invalid production: ", name);
 		ZEPHIR_CALL_METHOD(NULL, _2$$3, "__construct", NULL, 2, _3$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(_2$$3, "nc/factory/classnameabstract.zep", 20 TSRMLS_CC);
@@ -78,7 +85,7 @@ PHP_METHOD(Nc_Factory_ClassNameAbstract, __get) {
 		return;
 	}
 	_5 = zephir_fetch_nproperty_this(this_ptr, SL("args"), PH_NOISY_CC);
-	ZEPHIR_RETURN_CALL_CE_STATIC(nc_std_ce, "newinstanceof", &_4, 23, className, _5);
+	ZEPHIR_RETURN_CALL_CE_STATIC(nc_std_ce, "newinstanceof", &_4, 14, className, _5);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -91,7 +98,7 @@ PHP_METHOD(Nc_Factory_ClassNameAbstract, setArgs) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_FUNCTION(&_0, "func_get_args", NULL, 14);
+	ZEPHIR_CALL_FUNCTION(&_0, "func_get_args", NULL, 15);
 	zephir_check_call_status();
 	zephir_update_property_this(this_ptr, SL("args"), _0 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
@@ -110,7 +117,7 @@ PHP_METHOD(Nc_Factory_ClassNameAbstract, setArgArray) {
 	zephir_get_arrval(args, args_param);
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "array_values", NULL, 24, args);
+	ZEPHIR_CALL_FUNCTION(&_0, "array_values", NULL, 16, args);
 	zephir_check_call_status();
 	zephir_update_property_this(this_ptr, SL("args"), _0 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();

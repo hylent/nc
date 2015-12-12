@@ -64,7 +64,7 @@ PHP_METHOD(Nc_Factory_Factories, set) {
 	ZEPHIR_INIT_VAR(_2);
 	ZVAL_LONG(_2, 1);
 	ZEPHIR_MAKE_REF(_1);
-	ZEPHIR_CALL_FUNCTION(NULL, "asort", NULL, 47, _1, _2);
+	ZEPHIR_CALL_FUNCTION(NULL, "asort", NULL, 51, _1, _2);
 	ZEPHIR_UNREF(_1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
@@ -232,10 +232,59 @@ PHP_METHOD(Nc_Factory_Factories, __get) {
 	ZEPHIR_INIT_VAR(_9);
 	object_init_ex(_9, nc_factory_exception_ce);
 	ZEPHIR_INIT_VAR(_10);
-	ZEPHIR_CONCAT_SV(_10, "Invalid product: ", name);
+	ZEPHIR_CONCAT_SV(_10, "Invalid production: ", name);
 	ZEPHIR_CALL_METHOD(NULL, _9, "__construct", NULL, 2, _10);
 	zephir_check_call_status();
 	zephir_throw_exception_debug(_9, "nc/factory/factories.zep", 74 TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
+	return;
+
+}
+
+PHP_METHOD(Nc_Factory_Factories, newProduction) {
+
+	HashTable *_4$$3;
+	HashPosition _3$$3;
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *name_param = NULL, *index = NULL, *factory = NULL, *_0, *_9, *_1$$3, *_2$$3 = NULL, **_5$$3, *_6$$4, *_7$$4, *_8$$4 = NULL;
+	zval *name = NULL, *_10;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &name_param);
+
+	zephir_get_strval(name, name_param);
+
+
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("priorities"), PH_NOISY_CC);
+	if (zephir_fast_count_int(_0 TSRMLS_CC) > 0) {
+		_1$$3 = zephir_fetch_nproperty_this(this_ptr, SL("priorities"), PH_NOISY_CC);
+		ZEPHIR_INIT_VAR(_2$$3);
+		zephir_is_iterable(_1$$3, &_4$$3, &_3$$3, 0, 0, "nc/factory/factories.zep", 88);
+		for (
+		  ; zephir_hash_get_current_data_ex(_4$$3, (void**) &_5$$3, &_3$$3) == SUCCESS
+		  ; zephir_hash_move_forward_ex(_4$$3, &_3$$3)
+		) {
+			ZEPHIR_GET_HMKEY(index, _4$$3, _3$$3);
+			ZEPHIR_GET_HVALUE(_2$$3, _5$$3);
+			_6$$4 = zephir_fetch_nproperty_this(this_ptr, SL("factories"), PH_NOISY_CC);
+			zephir_array_fetch(&_7$$4, _6$$4, index, PH_NOISY | PH_READONLY, "nc/factory/factories.zep", 83 TSRMLS_CC);
+			ZEPHIR_CPY_WRT(factory, _7$$4);
+			ZEPHIR_CALL_METHOD(&_8$$4, factory, "__isset", NULL, 0, name);
+			zephir_check_call_status();
+			if (zephir_is_true(_8$$4)) {
+				ZEPHIR_RETURN_CALL_METHOD(factory, "newproduction", NULL, 0, name);
+				zephir_check_call_status();
+				RETURN_MM();
+			}
+		}
+	}
+	ZEPHIR_INIT_VAR(_9);
+	object_init_ex(_9, nc_factory_exception_ce);
+	ZEPHIR_INIT_VAR(_10);
+	ZEPHIR_CONCAT_SV(_10, "Invalid production: ", name);
+	ZEPHIR_CALL_METHOD(NULL, _9, "__construct", NULL, 2, _10);
+	zephir_check_call_status();
+	zephir_throw_exception_debug(_9, "nc/factory/factories.zep", 90 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 

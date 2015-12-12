@@ -2,22 +2,22 @@ namespace Nc\Factory;
 
 use Nc\Std;
 
-abstract class ClassNameAbstract implements FactoryInterface
+abstract class ClassNameAbstract extends FactoryAbstract
 {
     protected args;
 
     public function __isset(string name) -> bool
     {
-        return class_exists(this->getClassName(name));
+        return parent::__isset(name) || class_exists(this->getClassName(name));
     }
 
-    public function __get(string name)
+    public function newProduction(string name)
     {
         string className;
 
         let className = (string) this->getClassName(name);
         if unlikely ! class_exists(className) {
-            throw new Exception("Invalid product: " . name);
+            throw new Exception("Invalid production: " . name);
         }
 
         return Std::newInstanceOf(className, this->args);
@@ -42,6 +42,6 @@ abstract class ClassNameAbstract implements FactoryInterface
         return [];
     }
 
-    abstract protected function getClassName(string name) -> string;
+    abstract public function getClassName(string name) -> string;
 
 }

@@ -143,7 +143,7 @@ PHP_METHOD(Nc_Task_TaskManagerAbstract, run) {
 			continue;
 		}
 		_5$$3 = zephir_fetch_nproperty_this(this_ptr, SL("sleep"), PH_NOISY_CC);
-		ZEPHIR_CALL_FUNCTION(NULL, "sleep", &_6, 22, _5$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "sleep", &_6, 29, _5$$3);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();

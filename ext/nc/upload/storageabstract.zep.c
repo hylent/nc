@@ -33,7 +33,6 @@ ZEPHIR_INIT_CLASS(Nc_Upload_StorageAbstract) {
 
 	zend_declare_class_constant_long(nc_upload_storageabstract_ce, SL("MOVE_UPLOADED_FILE"), 2 TSRMLS_CC);
 
-	zend_class_implements(nc_upload_storageabstract_ce TSRMLS_CC, 1, nc_upload_urigeneratorinterface_ce);
 	return SUCCESS;
 
 }
@@ -91,7 +90,7 @@ PHP_METHOD(Nc_Upload_StorageAbstract, generateUri) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("uriGenerator"), PH_NOISY_CC);
 	if (zephir_is_true(_0)) {
 		_1$$3 = zephir_fetch_nproperty_this(this_ptr, SL("uriGenerator"), PH_NOISY_CC);
-		ZEPHIR_RETURN_CALL_METHOD(_1$$3, "generateuri", NULL, 0, source, prefix, extension);
+		ZEPHIR_RETURN_CALL_FUNCTION("call_user_func", NULL, 17, _1$$3, source, prefix, extension);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -116,7 +115,7 @@ PHP_METHOD(Nc_Upload_StorageAbstract, generateUri) {
 	}
 	ZEPHIR_INIT_VAR(_10);
 	ZEPHIR_CONCAT_VV(_10, source, extension);
-	ZEPHIR_CALL_CE_STATIC(&_8, nc_std_ce, "uuid", &_9, 11, _10);
+	ZEPHIR_CALL_CE_STATIC(&_8, nc_std_ce, "uuid", &_9, 18, _10);
 	zephir_check_call_status();
 	zephir_get_strval(_11, _8);
 	ZEPHIR_CPY_WRT(uuid, _11);

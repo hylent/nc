@@ -1,6 +1,6 @@
 namespace Nc\Logger;
 
-interface LoggerBackendInterface
+interface LoggerInterface
 {
     public function log(string level, string message, array context = []) -> void;
 

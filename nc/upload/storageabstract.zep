@@ -2,7 +2,7 @@ namespace Nc\Upload;
 
 use Nc\Std;
 
-abstract class StorageAbstract implements UriGeneratorInterface
+abstract class StorageAbstract
 {
     const COPY                  = 0;
     const MOVE                  = 1;
@@ -10,12 +10,12 @@ abstract class StorageAbstract implements UriGeneratorInterface
 
     protected uriGenerator;
 
-    public function setUriGenerator(<UriGeneratorInterface> uriGenerator) -> void
+    public function setUriGenerator(<\Closure> uriGenerator) -> void
     {
         let this->uriGenerator = uriGenerator;
     }
 
-    public function getUriGenerator() -> <UriGeneratorInterface>
+    public function getUriGenerator() -> <\Closure>
     {
         return this->uriGenerator;
     }
@@ -29,7 +29,7 @@ abstract class StorageAbstract implements UriGeneratorInterface
         string uri = "/", uuid;
 
         if this->uriGenerator {
-            return this->uriGenerator->generateUri(source, prefix, extension);
+            return call_user_func(this->uriGenerator, source, prefix, extension);
         }
 
         if prefix->length() > 0 {

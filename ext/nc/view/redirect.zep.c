@@ -81,13 +81,13 @@ PHP_METHOD(Nc_View_Redirect, run) {
 		} else {
 			zephir_concat_self_str(&redirectUrl, "&", sizeof("&")-1 TSRMLS_CC);
 		}
-		ZEPHIR_CALL_FUNCTION(&_10$$4, "http_build_query", NULL, 136, data);
+		ZEPHIR_CALL_FUNCTION(&_10$$4, "http_build_query", NULL, 146, data);
 		zephir_check_call_status();
 		zephir_concat_self(&redirectUrl, _10$$4 TSRMLS_CC);
 	}
 	ZEPHIR_INIT_VAR(_11);
 	ZEPHIR_CONCAT_SV(_11, "Location: ", redirectUrl);
-	ZEPHIR_CALL_FUNCTION(NULL, "header", NULL, 131, _11);
+	ZEPHIR_CALL_FUNCTION(NULL, "header", NULL, 141, _11);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

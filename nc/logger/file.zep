@@ -1,12 +1,12 @@
 namespace Nc\Logger;
 
-use Nc\Std;
-
 class File extends LoggerAbstract
 {
+    const EOL = "\n";
+
     protected logs;
     protected path;
-    protected chunkSize = -1;
+    protected chunkSize = 0;
 
     public function __construct(string path) -> void
     {
@@ -25,14 +25,9 @@ class File extends LoggerAbstract
 
     public function log(string level, string message, array context = []) -> void
     {
-        let this->logs[] = sprintf(
-            "[%s] [%s] %s\n",
-            date("c"),
-            level,
-            Std::tr(message, context)
-        );
+        let this->logs[] = LoggerAbstract::stringifyLog(level, message, context) . self::EOL;
 
-        if this->chunkSize > -1 && count(this->logs) > this->chunkSize {
+        if this->chunkSize > 0 && count(this->logs) >= this->chunkSize {
             this->flush();
         }
     }
@@ -52,6 +47,10 @@ class File extends LoggerAbstract
 
     public function __destruct() -> void
     {
+        if this->chunkSize < 0 {
+            return;
+        }
+
         try {
             this->flush();
         }

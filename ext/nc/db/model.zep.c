@@ -212,10 +212,10 @@ PHP_METHOD(Nc_Db_Model, newEntity) {
 	} else {
 		ZVAL_BOOL(_0, 0);
 	}
-	ZEPHIR_CALL_METHOD(NULL, entity, "__construct", NULL, 32, this_ptr, row, _0);
+	ZEPHIR_CALL_METHOD(NULL, entity, "__construct", NULL, 37, this_ptr, row, _0);
 	zephir_check_call_status();
 	if (zephir_is_true(collection)) {
-		ZEPHIR_CALL_METHOD(NULL, entity, "setcollection", NULL, 33, collection);
+		ZEPHIR_CALL_METHOD(NULL, entity, "setcollection", NULL, 38, collection);
 		zephir_check_call_status();
 	}
 	RETURN_CCTOR(entity);
@@ -319,7 +319,7 @@ PHP_METHOD(Nc_Db_Model, newCollection) {
 
 
 	object_init_ex(return_value, nc_db_collection_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 34, this_ptr, data);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 39, this_ptr, data);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -467,7 +467,7 @@ PHP_METHOD(Nc_Db_Model, chunkByDynamicWhere) {
 			break;
 		}
 		sum += c;
-		ZEPHIR_CALL_FUNCTION(&_4$$4, "call_user_func", &_5, 35, delegate, collection, w);
+		ZEPHIR_CALL_FUNCTION(&_4$$4, "call_user_func", &_5, 17, delegate, collection, w);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(w, _4$$4);
 		_6$$4 = Z_TYPE_P(w) != IS_ARRAY;
@@ -534,7 +534,7 @@ PHP_METHOD(Nc_Db_Model, chunkByFixedWhere) {
 			break;
 		}
 		sum += c;
-		ZEPHIR_CALL_FUNCTION(&_5$$4, "call_user_func", &_6, 35, delegate, collection);
+		ZEPHIR_CALL_FUNCTION(&_5$$4, "call_user_func", &_6, 17, delegate, collection);
 		zephir_check_call_status();
 		_7$$4 = ZEPHIR_IS_FALSE_IDENTICAL(_5$$4);
 		if (!(_7$$4)) {
@@ -549,7 +549,7 @@ PHP_METHOD(Nc_Db_Model, chunkByFixedWhere) {
 
 }
 
-PHP_METHOD(Nc_Db_Model, aggregation) {
+PHP_METHOD(Nc_Db_Model, aggregations) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *aggregations_param = NULL, *where_param = NULL, *_0, *_1;
@@ -569,7 +569,7 @@ PHP_METHOD(Nc_Db_Model, aggregation) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("db"), PH_NOISY_CC);
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("table"), PH_NOISY_CC);
-	ZEPHIR_RETURN_CALL_METHOD(_0, "queryaggregation", NULL, 0, _1, aggregations, where);
+	ZEPHIR_RETURN_CALL_METHOD(_0, "aggregations", NULL, 0, _1, aggregations, where);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -714,6 +714,33 @@ PHP_METHOD(Nc_Db_Model, sum) {
 
 }
 
+PHP_METHOD(Nc_Db_Model, avg) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *where = NULL;
+	zval *column_param = NULL, *where_param = NULL, *_0, *_1;
+	zval *column = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &column_param, &where_param);
+
+	zephir_get_strval(column, column_param);
+	if (!where_param) {
+		ZEPHIR_INIT_VAR(where);
+		array_init(where);
+	} else {
+		zephir_get_arrval(where, where_param);
+	}
+
+
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("db"), PH_NOISY_CC);
+	_1 = zephir_fetch_nproperty_this(this_ptr, SL("table"), PH_NOISY_CC);
+	ZEPHIR_RETURN_CALL_METHOD(_0, "avg", NULL, 0, _1, column, where);
+	zephir_check_call_status();
+	RETURN_MM();
+
+}
+
 PHP_METHOD(Nc_Db_Model, onStore) {
 
 	zend_bool isUpdate;
@@ -777,11 +804,11 @@ PHP_METHOD(Nc_Db_Model, pickPrimaryKeyValue) {
 	ZEPHIR_OBS_VAR(pk);
 	zephir_read_property_this(&pk, this_ptr, SL("primaryKey"), PH_NOISY_CC);
 	if (unlikely(!zephir_is_true(pk))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_exception_ce, "Empty primary key", "nc/db/model.zep", 240);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_exception_ce, "Empty primary key", "nc/db/model.zep", 245);
 		return;
 	}
 	if (Z_TYPE_P(pk) == IS_ARRAY) {
-		zephir_is_iterable(pk, &_1$$4, &_0$$4, 0, 0, "nc/db/model.zep", 250);
+		zephir_is_iterable(pk, &_1$$4, &_0$$4, 0, 0, "nc/db/model.zep", 255);
 		for (
 		  ; zephir_hash_get_current_data_ex(_1$$4, (void**) &_2$$4, &_0$$4) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1$$4, &_0$$4)
@@ -795,7 +822,7 @@ PHP_METHOD(Nc_Db_Model, pickPrimaryKeyValue) {
 				ZEPHIR_CONCAT_SV(_4$$6, "Cannot pick primary key values: ", k);
 				ZEPHIR_CALL_METHOD(NULL, _3$$6, "__construct", &_5, 2, _4$$6);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(_3$$6, "nc/db/model.zep", 246 TSRMLS_CC);
+				zephir_throw_exception_debug(_3$$6, "nc/db/model.zep", 251 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -812,7 +839,7 @@ PHP_METHOD(Nc_Db_Model, pickPrimaryKeyValue) {
 			ZEPHIR_CONCAT_SV(_8$$8, "Cannot pick primary key value: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _7$$8, "__construct", &_5, 2, _8$$8);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_7$$8, "nc/db/model.zep", 253 TSRMLS_CC);
+			zephir_throw_exception_debug(_7$$8, "nc/db/model.zep", 258 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -837,7 +864,7 @@ PHP_METHOD(Nc_Db_Model, packPrimaryKeyValue) {
 	ZEPHIR_OBS_VAR(pk);
 	zephir_read_property_this(&pk, this_ptr, SL("primaryKey"), PH_NOISY_CC);
 	if (unlikely(!zephir_is_true(pk))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_exception_ce, "Empty primary key", "nc/db/model.zep", 268);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_exception_ce, "Empty primary key", "nc/db/model.zep", 273);
 		return;
 	}
 	if (Z_TYPE_P(pk) == IS_ARRAY) {
@@ -846,10 +873,10 @@ PHP_METHOD(Nc_Db_Model, packPrimaryKeyValue) {
 			_0$$4 = zephir_fast_count_int(id TSRMLS_CC) != zephir_fast_count_int(pk TSRMLS_CC);
 		}
 		if (unlikely(_0$$4)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_exception_ce, "Invalid id to pack", "nc/db/model.zep", 273);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_exception_ce, "Invalid id to pack", "nc/db/model.zep", 278);
 			return;
 		}
-		ZEPHIR_RETURN_CALL_FUNCTION("array_combine", NULL, 36, pk, id);
+		ZEPHIR_RETURN_CALL_FUNCTION("array_combine", NULL, 40, pk, id);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

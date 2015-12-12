@@ -512,7 +512,7 @@ PHP_METHOD(Nc_Db_Collection, uniqueValues) {
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "values", NULL, 0, valueKey);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("array_unique", NULL, 31, _0);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_unique", NULL, 36, _0);
 	zephir_check_call_status();
 	RETURN_MM();
 

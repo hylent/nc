@@ -24,3 +24,5 @@ ZEPHIR_DOC_METHOD(Nc_Factory_FactoryInterface, __isset);
 
 ZEPHIR_DOC_METHOD(Nc_Factory_FactoryInterface, __get);
 
+ZEPHIR_DOC_METHOD(Nc_Factory_FactoryInterface, newProduction);
+

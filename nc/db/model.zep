@@ -190,9 +190,9 @@ class Model
         return sum;
     }
 
-    public function aggregation(array aggregations, array where = []) -> array
+    public function aggregations(array aggregations, array where = []) -> array
     {
-        return this->db->queryAggregation(this->table, aggregations, where);
+        return this->db->aggregations(this->table, aggregations, where);
     }
 
     public function countAll(array where = []) -> long
@@ -218,6 +218,11 @@ class Model
     public function sum(string column, array where = [])
     {
         return this->db->sum(this->table, column, where);
+    }
+
+    public function avg(string column, array where = [])
+    {
+        return this->db->avg(this->table, column, where);
     }
 
     public function onStore(array row, bool isUpdate = false, array where = []) -> array

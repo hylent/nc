@@ -77,7 +77,7 @@ PHP_METHOD(Nc_NetUtils_SocketClient, __construct) {
 	ZEPHIR_INIT_VAR(_5);
 	ZVAL_LONG(_5, flags);
 	ZEPHIR_MAKE_REF(errNo);
-	ZEPHIR_CALL_FUNCTION(&handler, "stream_socket_client", NULL, 93, address, errNo, errStr, _4, _5);
+	ZEPHIR_CALL_FUNCTION(&handler, "stream_socket_client", NULL, 96, address, errNo, errStr, _4, _5);
 	ZEPHIR_UNREF(errNo);
 	zephir_check_call_status();
 	if (unlikely(!zephir_is_true(handler))) {
@@ -130,7 +130,7 @@ PHP_METHOD(Nc_NetUtils_SocketClient, setTcpNodelay) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("handler"), PH_NOISY_CC);
-	ZEPHIR_CALL_FUNCTION(&socket, "socket_import_stream", NULL, 94, _0);
+	ZEPHIR_CALL_FUNCTION(&socket, "socket_import_stream", NULL, 97, _0);
 	zephir_check_call_status();
 	if (unlikely(!zephir_is_true(socket))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_netutils_exception_ce, "Failed: socket_import_stream", "nc/netutils/socketclient.zep", 45);
@@ -148,7 +148,7 @@ PHP_METHOD(Nc_NetUtils_SocketClient, setTcpNodelay) {
 	ZVAL_LONG(&_2, 6);
 	ZEPHIR_SINIT_VAR(_3);
 	ZVAL_LONG(&_3, 1);
-	ZEPHIR_CALL_FUNCTION(&_4, "socket_set_option", NULL, 95, socket, &_2, &_3, _1);
+	ZEPHIR_CALL_FUNCTION(&_4, "socket_set_option", NULL, 98, socket, &_2, &_3, _1);
 	zephir_check_call_status();
 	if (unlikely(!zephir_is_true(_4))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_netutils_exception_ce, "Cannot set SOL_TCP TCP_NODELAY", "nc/netutils/socketclient.zep", 49);
@@ -179,7 +179,7 @@ PHP_METHOD(Nc_NetUtils_SocketClient, setBlocking) {
 		ZEPHIR_INIT_NVAR(_1);
 		ZVAL_LONG(_1, 0);
 	}
-	ZEPHIR_CALL_FUNCTION(&_2, "stream_set_blocking", NULL, 96, _0, _1);
+	ZEPHIR_CALL_FUNCTION(&_2, "stream_set_blocking", NULL, 99, _0, _1);
 	zephir_check_call_status();
 	if (unlikely(!zephir_is_true(_2))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_netutils_exception_ce, "Cannot set blocking", "nc/netutils/socketclient.zep", 56);
@@ -213,7 +213,7 @@ PHP_METHOD(Nc_NetUtils_SocketClient, setTimeout) {
 	ZVAL_LONG(&_1, seconds);
 	ZEPHIR_SINIT_VAR(_2);
 	ZVAL_LONG(&_2, microSeconds);
-	ZEPHIR_CALL_FUNCTION(&_3, "stream_set_timeout", NULL, 97, _0, &_1, &_2);
+	ZEPHIR_CALL_FUNCTION(&_3, "stream_set_timeout", NULL, 100, _0, &_1, &_2);
 	zephir_check_call_status();
 	if (unlikely(!zephir_is_true(_3))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_netutils_exception_ce, "Failed: stream_set_timeout", "nc/netutils/socketclient.zep", 72);
@@ -234,7 +234,7 @@ PHP_METHOD(Nc_NetUtils_SocketClient, enableCrypto) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("handler"), PH_NOISY_CC);
-	ZEPHIR_CALL_FUNCTION(&_1, "stream_socket_enable_crypto", NULL, 98, _0, ZEPHIR_GLOBAL(global_true), cryptoType);
+	ZEPHIR_CALL_FUNCTION(&_1, "stream_socket_enable_crypto", NULL, 101, _0, ZEPHIR_GLOBAL(global_true), cryptoType);
 	zephir_check_call_status();
 	if (unlikely(!zephir_is_true(_1))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_netutils_exception_ce, "Failed: stream_socket_enable_crypto", "nc/netutils/socketclient.zep", 79);
@@ -274,7 +274,7 @@ PHP_METHOD(Nc_NetUtils_SocketClient, readLine) {
 	ZEPHIR_MM_GROW();
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("handler"), PH_NOISY_CC);
-	ZEPHIR_CALL_FUNCTION(&line, "fgets", NULL, 99, _0);
+	ZEPHIR_CALL_FUNCTION(&line, "fgets", NULL, 102, _0);
 	zephir_check_call_status();
 	if (unlikely(ZEPHIR_IS_FALSE_IDENTICAL(line))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_netutils_exception_ce, "Cannot read line", "nc/netutils/socketclient.zep", 96);
@@ -292,7 +292,7 @@ PHP_METHOD(Nc_NetUtils_SocketClient, readAll) {
 	ZEPHIR_MM_GROW();
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("handler"), PH_NOISY_CC);
-	ZEPHIR_CALL_FUNCTION(&line, "stream_get_contents", NULL, 100, _0);
+	ZEPHIR_CALL_FUNCTION(&line, "stream_get_contents", NULL, 103, _0);
 	zephir_check_call_status();
 	if (unlikely(ZEPHIR_IS_FALSE_IDENTICAL(line))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_netutils_exception_ce, "Cannot read all", "nc/netutils/socketclient.zep", 108);
@@ -319,7 +319,7 @@ PHP_METHOD(Nc_NetUtils_SocketClient, readLength) {
 		object_init_ex(_0$$3, nc_netutils_exception_ce);
 		ZEPHIR_SINIT_VAR(_1$$3);
 		ZVAL_LONG(&_1$$3, len);
-		ZEPHIR_CALL_FUNCTION(&_2$$3, "strval", NULL, 17, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(&_2$$3, "strval", NULL, 23, &_1$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_3$$3);
 		ZEPHIR_CONCAT_SV(_3$$3, "Invalid read length: ", _2$$3);
@@ -332,7 +332,7 @@ PHP_METHOD(Nc_NetUtils_SocketClient, readLength) {
 	_4 = zephir_fetch_nproperty_this(this_ptr, SL("handler"), PH_NOISY_CC);
 	ZEPHIR_SINIT_VAR(_5);
 	ZVAL_LONG(&_5, len);
-	ZEPHIR_CALL_FUNCTION(&line, "stream_get_contents", NULL, 100, _4, &_5);
+	ZEPHIR_CALL_FUNCTION(&line, "stream_get_contents", NULL, 103, _4, &_5);
 	zephir_check_call_status();
 	if (unlikely(ZEPHIR_IS_FALSE_IDENTICAL(line))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_netutils_exception_ce, "Cannot read length", "nc/netutils/socketclient.zep", 124);
@@ -359,7 +359,7 @@ PHP_METHOD(Nc_NetUtils_SocketClient, readMaxLength) {
 		object_init_ex(_0$$3, nc_netutils_exception_ce);
 		ZEPHIR_SINIT_VAR(_1$$3);
 		ZVAL_LONG(&_1$$3, len);
-		ZEPHIR_CALL_FUNCTION(&_2$$3, "strval", NULL, 17, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(&_2$$3, "strval", NULL, 23, &_1$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_3$$3);
 		ZEPHIR_CONCAT_SV(_3$$3, "Invalid read max length: ", _2$$3);
@@ -372,7 +372,7 @@ PHP_METHOD(Nc_NetUtils_SocketClient, readMaxLength) {
 	_4 = zephir_fetch_nproperty_this(this_ptr, SL("handler"), PH_NOISY_CC);
 	ZEPHIR_SINIT_VAR(_5);
 	ZVAL_LONG(&_5, len);
-	ZEPHIR_CALL_FUNCTION(&line, "fread", NULL, 101, _4, &_5);
+	ZEPHIR_CALL_FUNCTION(&line, "fread", NULL, 104, _4, &_5);
 	zephir_check_call_status();
 	if (unlikely(ZEPHIR_IS_FALSE_IDENTICAL(line))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_netutils_exception_ce, "Cannot read max length", "nc/netutils/socketclient.zep", 140);

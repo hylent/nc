@@ -15,10 +15,10 @@
 #include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/concat.h"
 #include "kernel/fcall.h"
 #include "kernel/string.h"
 #include "kernel/exception.h"
-#include "kernel/concat.h"
 
 
 ZEPHIR_INIT_CLASS(Nc_Logger_File) {
@@ -29,7 +29,9 @@ ZEPHIR_INIT_CLASS(Nc_Logger_File) {
 
 	zend_declare_property_null(nc_logger_file_ce, SL("path"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_declare_property_long(nc_logger_file_ce, SL("chunkSize"), -1, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(nc_logger_file_ce, SL("chunkSize"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_declare_class_constant_string(nc_logger_file_ce, SL("EOL"), "\n" TSRMLS_CC);
 
 	return SUCCESS;
 
@@ -77,11 +79,11 @@ PHP_METHOD(Nc_Logger_File, getChunkSize) {
 
 PHP_METHOD(Nc_Logger_File, log) {
 
-	zend_bool _6;
-	zephir_fcall_cache_entry *_3 = NULL;
+	zend_bool _4;
 	int ZEPHIR_LAST_CALL_STATUS;
+	zephir_fcall_cache_entry *_1 = NULL;
 	zval *context = NULL;
-	zval *level_param = NULL, *message_param = NULL, *context_param = NULL, _0 = zval_used_for_init, *_1 = NULL, *_2 = NULL, *_4 = NULL, *_5, *_7, *_8;
+	zval *level_param = NULL, *message_param = NULL, *context_param = NULL, *_0 = NULL, *_2, *_3, *_5, *_6;
 	zval *level = NULL, *message = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -97,25 +99,19 @@ PHP_METHOD(Nc_Logger_File, log) {
 	}
 
 
-	ZEPHIR_SINIT_VAR(_0);
-	ZVAL_STRING(&_0, "c", 0);
-	ZEPHIR_CALL_FUNCTION(&_1, "date", NULL, 81, &_0);
+	ZEPHIR_CALL_CE_STATIC(&_0, nc_logger_loggerabstract_ce, "stringifylog", &_1, 84, level, message, context);
 	zephir_check_call_status();
-	ZEPHIR_CALL_CE_STATIC(&_2, nc_std_ce, "tr", &_3, 82, message, context);
-	zephir_check_call_status();
-	ZEPHIR_SINIT_NVAR(_0);
-	ZVAL_STRING(&_0, "[%s] [%s] %s\n", 0);
-	ZEPHIR_CALL_FUNCTION(&_4, "sprintf", NULL, 1, &_0, _1, level, _2);
-	zephir_check_call_status();
-	zephir_update_property_array_append(this_ptr, SL("logs"), _4 TSRMLS_CC);
-	_5 = zephir_fetch_nproperty_this(this_ptr, SL("chunkSize"), PH_NOISY_CC);
-	_6 = ZEPHIR_GT_LONG(_5, -1);
-	if (_6) {
-		_7 = zephir_fetch_nproperty_this(this_ptr, SL("logs"), PH_NOISY_CC);
-		_8 = zephir_fetch_nproperty_this(this_ptr, SL("chunkSize"), PH_NOISY_CC);
-		_6 = ZEPHIR_LT_LONG(_8, zephir_fast_count_int(_7 TSRMLS_CC));
+	ZEPHIR_INIT_VAR(_2);
+	ZEPHIR_CONCAT_VS(_2, _0, "\n");
+	zephir_update_property_array_append(this_ptr, SL("logs"), _2 TSRMLS_CC);
+	_3 = zephir_fetch_nproperty_this(this_ptr, SL("chunkSize"), PH_NOISY_CC);
+	_4 = ZEPHIR_GT_LONG(_3, 0);
+	if (_4) {
+		_5 = zephir_fetch_nproperty_this(this_ptr, SL("logs"), PH_NOISY_CC);
+		_6 = zephir_fetch_nproperty_this(this_ptr, SL("chunkSize"), PH_NOISY_CC);
+		_4 = ZEPHIR_LE_LONG(_6, zephir_fast_count_int(_5 TSRMLS_CC));
 	}
-	if (_6) {
+	if (_4) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "flush", NULL, 0);
 		zephir_check_call_status();
 	}
@@ -140,7 +136,7 @@ PHP_METHOD(Nc_Logger_File, flush) {
 	zephir_fast_join_str(_2, SL(""), _3 TSRMLS_CC);
 	ZEPHIR_SINIT_VAR(_4);
 	ZVAL_LONG(&_4, (2 | 8));
-	ZEPHIR_CALL_FUNCTION(&_5, "file_put_contents", NULL, 83, _1, _2, &_4);
+	ZEPHIR_CALL_FUNCTION(&_5, "file_put_contents", NULL, 85, _1, _2, &_4);
 	zephir_check_call_status();
 	if (unlikely(!zephir_is_true(_5))) {
 		ZEPHIR_INIT_VAR(_6$$4);
@@ -150,7 +146,7 @@ PHP_METHOD(Nc_Logger_File, flush) {
 		ZEPHIR_CONCAT_SV(_8$$4, "Cannot append logs to file: ", _7$$4);
 		ZEPHIR_CALL_METHOD(NULL, _6$$4, "__construct", NULL, 2, _8$$4);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_6$$4, "nc/logger/file.zep", 47 TSRMLS_CC);
+		zephir_throw_exception_debug(_6$$4, "nc/logger/file.zep", 42 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -161,10 +157,15 @@ PHP_METHOD(Nc_Logger_File, flush) {
 
 PHP_METHOD(Nc_Logger_File, __destruct) {
 
+	zval *_0;
 	int ZEPHIR_LAST_CALL_STATUS;
 
 	ZEPHIR_MM_GROW();
 
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("chunkSize"), PH_NOISY_CC);
+	if (ZEPHIR_LT_LONG(_0, 0)) {
+		RETURN_MM_NULL();
+	}
 
 	/* try_start_1: */
 

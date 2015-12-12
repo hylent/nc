@@ -11,7 +11,7 @@ PHP_METHOD(Nc_Upload_StorageAbstract, exists);
 PHP_METHOD(Nc_Upload_StorageAbstract, generateUri);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_upload_storageabstract_seturigenerator, 0, 0, 1)
-	ZEND_ARG_OBJ_INFO(0, uriGenerator, Nc\\Upload\\UriGeneratorInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, uriGenerator, Closure, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_upload_storageabstract_store, 0, 0, 1)

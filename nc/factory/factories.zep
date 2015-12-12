@@ -71,7 +71,23 @@ class Factories implements FactoryInterface, \ArrayAccess
             }
         }
 
-        throw new Exception("Invalid product: " . name);
+        throw new Exception("Invalid production: " . name);
+    }
+
+    public function newProduction(string name)
+    {
+        var index, factory;
+
+        if count(this->priorities) > 0 {
+            for index, _ in this->priorities {
+                let factory = <FactoryInterface> this->factories[index];
+                if factory->__isset(name) {
+                    return factory->newProduction(name);
+                }
+            }
+        }
+
+        throw new Exception("Invalid production: " . name);
     }
 
 }
