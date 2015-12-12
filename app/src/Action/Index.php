@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Action;
+namespace NcApp\Action;
 
-class Index
+use NcApp\ActionBase;
+
+class Index extends ActionBase
 {
     public function __invoke()
     {
