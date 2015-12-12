@@ -13,6 +13,7 @@ if test "$PHP_NC" = "yes"; then
 	nc/router/sourceinterface.zep.c
 	nc/view/viewinterface.zep.c
 	nc/factory/factoryinterface.zep.c
+	nc/data/dataabstract.zep.c
 	nc/logger/loggerinterface.zep.c
 	nc/db/dbabstract.zep.c
 	nc/factory/factoryabstract.zep.c
@@ -32,6 +33,17 @@ if test "$PHP_NC" = "yes"; then
 	nc/image/image.zep.c
 	nc/router/exception.zep.c
 	nc/application.zep.c
+	nc/data/exception.zep.c
+	nc/data/grouped.zep.c
+	nc/data/groupedbackendinterface.zep.c
+	nc/data/pivot.zep.c
+	nc/data/pivotbackendinterface.zep.c
+	nc/data/ratelimiter.zep.c
+	nc/data/ratelimiterbackendinterface.zep.c
+	nc/data/sequence.zep.c
+	nc/data/sequencebackendinterface.zep.c
+	nc/data/singlevalue.zep.c
+	nc/data/singlevaluebackendinterface.zep.c
 	nc/db/collection.zep.c
 	nc/db/entity.zep.c
 	nc/db/model.zep.c
