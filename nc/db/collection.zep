@@ -31,7 +31,7 @@ class Collection implements \Countable, \Iterator
             if fetch row, this->data[index] {
                 return this->model->newEntity(row, false, this);
             }
-            throw new Exception("Cannot find entity at: " . index);
+            throw new ModelException("Cannot find entity at: " . index);
         }
     }
 
@@ -96,10 +96,10 @@ class Collection implements \Countable, \Iterator
 
         for k, v in this->data {
             if unlikely typeof v != "array" {
-                throw new Exception("Invalid item type, array required: " . k);
+                throw new ModelException("Invalid item type, array required: " . k);
             }
             if unlikely ! fetch indexValue, v[indexKey] {
-                throw new Exception("Cannot find value of index at: " . k);
+                throw new ModelException("Cannot find value of index at: " . k);
             }
 
             let arr[indexValue] = v;
@@ -114,10 +114,10 @@ class Collection implements \Countable, \Iterator
 
         for k, v in this->data {
             if unlikely typeof v != "array" {
-                throw new Exception("Invalid item type, array required at: " . k);
+                throw new ModelException("Invalid item type, array required at: " . k);
             }
             if unlikely ! fetch groupValue, v[groupKey] {
-                throw new Exception("Cannot find value of group at: " . k);
+                throw new ModelException("Cannot find value of group at: " . k);
             }
 
             let arr[groupValue][] = v;
@@ -132,13 +132,13 @@ class Collection implements \Countable, \Iterator
 
         for k, v in this->data {
             if unlikely typeof v != "array" {
-                throw new Exception("Invalid item type, array required at: " . k);
+                throw new ModelException("Invalid item type, array required at: " . k);
             }
             if unlikely ! fetch groupValue, v[groupKey] {
-                throw new Exception("Cannot find value of group at: " . k);
+                throw new ModelException("Cannot find value of group at: " . k);
             }
             if unlikely ! fetch indexValue, v[indexKey] {
-                throw new Exception("Cannot find value of index at: " . k);
+                throw new ModelException("Cannot find value of index at: " . k);
             }
 
             let arr[groupValue][indexValue] = v;
@@ -153,10 +153,10 @@ class Collection implements \Countable, \Iterator
 
         for k, v in this->data {
             if unlikely typeof v != "array" {
-                throw new Exception("Invalid item type, array required at: " . k);
+                throw new ModelException("Invalid item type, array required at: " . k);
             }
             if unlikely ! fetch valueValue, v[valueKey] {
-                throw new Exception("Cannot find value of value at: " . k);
+                throw new ModelException("Cannot find value of value at: " . k);
             }
 
             let arr[] = valueValue;
@@ -176,13 +176,13 @@ class Collection implements \Countable, \Iterator
 
         for k, v in this->data {
             if unlikely typeof v != "array" {
-                throw new Exception("Invalid item type, array required at: " . k);
+                throw new ModelException("Invalid item type, array required at: " . k);
             }
             if unlikely ! fetch indexValue, v[indexKey] {
-                throw new Exception("Cannot find value of index at: " . k);
+                throw new ModelException("Cannot find value of index at: " . k);
             }
             if unlikely ! fetch valueValue, v[valueKey] {
-                throw new Exception("Cannot find value of value at: " . k);
+                throw new ModelException("Cannot find value of value at: " . k);
             }
 
             let arr[indexValue] = valueValue;
@@ -197,13 +197,13 @@ class Collection implements \Countable, \Iterator
 
         for k, v in this->data {
             if unlikely typeof v != "array" {
-                throw new Exception("Invalid item type, array required at: " . k);
+                throw new ModelException("Invalid item type, array required at: " . k);
             }
             if unlikely ! fetch groupValue, v[groupKey] {
-                throw new Exception("Cannot find value of group at: " . k);
+                throw new ModelException("Cannot find value of group at: " . k);
             }
             if unlikely ! fetch valueValue, v[valueKey] {
-                throw new Exception("Cannot find value of value at: " . k);
+                throw new ModelException("Cannot find value of value at: " . k);
             }
 
             let arr[groupValue][] = valueValue;
@@ -218,16 +218,16 @@ class Collection implements \Countable, \Iterator
 
         for k, v in this->data {
             if unlikely typeof v != "array" {
-                throw new Exception("Invalid item type, array required at: " . k);
+                throw new ModelException("Invalid item type, array required at: " . k);
             }
             if unlikely ! fetch groupValue, v[groupKey] {
-                throw new Exception("Cannot find value of group at: " . k);
+                throw new ModelException("Cannot find value of group at: " . k);
             }
             if unlikely ! fetch indexValue, v[indexKey] {
-                throw new Exception("Cannot find value of index at: " . k);
+                throw new ModelException("Cannot find value of index at: " . k);
             }
             if unlikely ! fetch valueValue, v[valueKey] {
-                throw new Exception("Cannot find value of value at: " . k);
+                throw new ModelException("Cannot find value of value at: " . k);
             }
 
             let arr[groupValue][indexValue] = valueValue;

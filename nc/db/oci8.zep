@@ -30,7 +30,7 @@ class Oci8 extends DbAbstract
         return "'" . str_replace("'", "''", value) . "'";
     }
 
-    public function query(string sql, array params = [], long mode = DbAbstract::NONE)
+    public function query(long mode, string sql, array params = [])
     {
         var statement, k, v, err, errMessage, queryMode;
         double startMt;
@@ -67,10 +67,10 @@ class Oci8 extends DbAbstract
         }
 
         switch mode {
-            case DbAbstract::NONE:
+            case DbInterface::NONE:
                 return;
 
-            case DbAbstract::ALL:
+            case DbInterface::ALL:
                 let result = [];
                 let queryMode = OCI_RETURN_NULLS + OCI_RETURN_LOBS + OCI_ASSOC;
                 loop {
@@ -82,21 +82,21 @@ class Oci8 extends DbAbstract
                 }
                 return result;
 
-            case DbAbstract::ROW:
+            case DbInterface::ROW:
                 let resultRow = oci_fetch_array(statement, OCI_RETURN_NULLS + OCI_RETURN_LOBS + OCI_ASSOC);
                 if resultRow {
                     return array_change_key_case(resultRow);
                 }
                 return null;
 
-            case DbAbstract::CELL:
+            case DbInterface::CELL:
                 let resultRow = oci_fetch_array(statement, OCI_RETURN_NULLS + OCI_RETURN_LOBS + OCI_NUM);
                 if resultRow && typeof resultRow == "array" && fetch resultCell, resultRow[0] {
                     return resultCell;
                 }
                 return "";
 
-            case DbAbstract::COLUMNS:
+            case DbInterface::COLUMNS:
                 let result = [];
                 let queryMode = OCI_RETURN_NULLS + OCI_RETURN_LOBS + OCI_NUM;
                 loop {
@@ -112,7 +112,7 @@ class Oci8 extends DbAbstract
         throw new Exception("Invalid fetch mode: " . strval(mode));
     }
 
-    public function paginationSql(string query, long limit, long skip) -> string
+    public function parsePagination(string query, long limit, long skip) -> string
     {
         string s, t1, t2, r3;
 
@@ -139,7 +139,7 @@ class Oci8 extends DbAbstract
         );
     }
 
-    public function randomOrderSql() -> string
+    public function parseRandomOrder() -> string
     {
         return "dbms_random.value()";
     }

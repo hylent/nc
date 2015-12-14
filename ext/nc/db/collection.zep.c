@@ -107,7 +107,7 @@ PHP_METHOD(Nc_Db_Collection, at) {
 			RETURN_MM();
 		}
 		ZEPHIR_INIT_VAR(_4$$5);
-		object_init_ex(_4$$5, nc_db_exception_ce);
+		object_init_ex(_4$$5, nc_db_modelexception_ce);
 		ZEPHIR_SINIT_VAR(_5$$5);
 		ZVAL_LONG(&_5$$5, index);
 		ZEPHIR_INIT_VAR(_6$$5);
@@ -296,7 +296,7 @@ PHP_METHOD(Nc_Db_Collection, indexedData) {
 		ZEPHIR_GET_HVALUE(v, _3);
 		if (unlikely(Z_TYPE_P(v) != IS_ARRAY)) {
 			ZEPHIR_INIT_NVAR(_4$$4);
-			object_init_ex(_4$$4, nc_db_exception_ce);
+			object_init_ex(_4$$4, nc_db_modelexception_ce);
 			ZEPHIR_INIT_LNVAR(_5$$4);
 			ZEPHIR_CONCAT_SV(_5$$4, "Invalid item type, array required: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _4$$4, "__construct", &_6, 2, _5$$4);
@@ -308,7 +308,7 @@ PHP_METHOD(Nc_Db_Collection, indexedData) {
 		ZEPHIR_OBS_NVAR(indexValue);
 		if (unlikely(!(zephir_array_isset_fetch(&indexValue, v, indexKey, 0 TSRMLS_CC)))) {
 			ZEPHIR_INIT_NVAR(_7$$5);
-			object_init_ex(_7$$5, nc_db_exception_ce);
+			object_init_ex(_7$$5, nc_db_modelexception_ce);
 			ZEPHIR_INIT_LNVAR(_8$$5);
 			ZEPHIR_CONCAT_SV(_8$$5, "Cannot find value of index at: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _7$$5, "__construct", &_6, 2, _8$$5);
@@ -350,7 +350,7 @@ PHP_METHOD(Nc_Db_Collection, groupedData) {
 		ZEPHIR_GET_HVALUE(v, _3);
 		if (unlikely(Z_TYPE_P(v) != IS_ARRAY)) {
 			ZEPHIR_INIT_NVAR(_4$$4);
-			object_init_ex(_4$$4, nc_db_exception_ce);
+			object_init_ex(_4$$4, nc_db_modelexception_ce);
 			ZEPHIR_INIT_LNVAR(_5$$4);
 			ZEPHIR_CONCAT_SV(_5$$4, "Invalid item type, array required at: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _4$$4, "__construct", &_6, 2, _5$$4);
@@ -362,7 +362,7 @@ PHP_METHOD(Nc_Db_Collection, groupedData) {
 		ZEPHIR_OBS_NVAR(groupValue);
 		if (unlikely(!(zephir_array_isset_fetch(&groupValue, v, groupKey, 0 TSRMLS_CC)))) {
 			ZEPHIR_INIT_NVAR(_7$$5);
-			object_init_ex(_7$$5, nc_db_exception_ce);
+			object_init_ex(_7$$5, nc_db_modelexception_ce);
 			ZEPHIR_INIT_LNVAR(_8$$5);
 			ZEPHIR_CONCAT_SV(_8$$5, "Cannot find value of group at: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _7$$5, "__construct", &_6, 2, _8$$5);
@@ -405,7 +405,7 @@ PHP_METHOD(Nc_Db_Collection, groupIndexedData) {
 		ZEPHIR_GET_HVALUE(v, _3);
 		if (unlikely(Z_TYPE_P(v) != IS_ARRAY)) {
 			ZEPHIR_INIT_NVAR(_4$$4);
-			object_init_ex(_4$$4, nc_db_exception_ce);
+			object_init_ex(_4$$4, nc_db_modelexception_ce);
 			ZEPHIR_INIT_LNVAR(_5$$4);
 			ZEPHIR_CONCAT_SV(_5$$4, "Invalid item type, array required at: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _4$$4, "__construct", &_6, 2, _5$$4);
@@ -417,7 +417,7 @@ PHP_METHOD(Nc_Db_Collection, groupIndexedData) {
 		ZEPHIR_OBS_NVAR(groupValue);
 		if (unlikely(!(zephir_array_isset_fetch(&groupValue, v, groupKey, 0 TSRMLS_CC)))) {
 			ZEPHIR_INIT_NVAR(_7$$5);
-			object_init_ex(_7$$5, nc_db_exception_ce);
+			object_init_ex(_7$$5, nc_db_modelexception_ce);
 			ZEPHIR_INIT_LNVAR(_8$$5);
 			ZEPHIR_CONCAT_SV(_8$$5, "Cannot find value of group at: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _7$$5, "__construct", &_6, 2, _8$$5);
@@ -429,7 +429,7 @@ PHP_METHOD(Nc_Db_Collection, groupIndexedData) {
 		ZEPHIR_OBS_NVAR(indexValue);
 		if (unlikely(!(zephir_array_isset_fetch(&indexValue, v, indexKey, 0 TSRMLS_CC)))) {
 			ZEPHIR_INIT_NVAR(_9$$6);
-			object_init_ex(_9$$6, nc_db_exception_ce);
+			object_init_ex(_9$$6, nc_db_modelexception_ce);
 			ZEPHIR_INIT_LNVAR(_10$$6);
 			ZEPHIR_CONCAT_SV(_10$$6, "Cannot find value of index at: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _9$$6, "__construct", &_6, 2, _10$$6);
@@ -471,7 +471,7 @@ PHP_METHOD(Nc_Db_Collection, values) {
 		ZEPHIR_GET_HVALUE(v, _3);
 		if (unlikely(Z_TYPE_P(v) != IS_ARRAY)) {
 			ZEPHIR_INIT_NVAR(_4$$4);
-			object_init_ex(_4$$4, nc_db_exception_ce);
+			object_init_ex(_4$$4, nc_db_modelexception_ce);
 			ZEPHIR_INIT_LNVAR(_5$$4);
 			ZEPHIR_CONCAT_SV(_5$$4, "Invalid item type, array required at: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _4$$4, "__construct", &_6, 2, _5$$4);
@@ -483,7 +483,7 @@ PHP_METHOD(Nc_Db_Collection, values) {
 		ZEPHIR_OBS_NVAR(valueValue);
 		if (unlikely(!(zephir_array_isset_fetch(&valueValue, v, valueKey, 0 TSRMLS_CC)))) {
 			ZEPHIR_INIT_NVAR(_7$$5);
-			object_init_ex(_7$$5, nc_db_exception_ce);
+			object_init_ex(_7$$5, nc_db_modelexception_ce);
 			ZEPHIR_INIT_LNVAR(_8$$5);
 			ZEPHIR_CONCAT_SV(_8$$5, "Cannot find value of value at: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _7$$5, "__construct", &_6, 2, _8$$5);
@@ -546,7 +546,7 @@ PHP_METHOD(Nc_Db_Collection, indexedValues) {
 		ZEPHIR_GET_HVALUE(v, _3);
 		if (unlikely(Z_TYPE_P(v) != IS_ARRAY)) {
 			ZEPHIR_INIT_NVAR(_4$$4);
-			object_init_ex(_4$$4, nc_db_exception_ce);
+			object_init_ex(_4$$4, nc_db_modelexception_ce);
 			ZEPHIR_INIT_LNVAR(_5$$4);
 			ZEPHIR_CONCAT_SV(_5$$4, "Invalid item type, array required at: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _4$$4, "__construct", &_6, 2, _5$$4);
@@ -558,7 +558,7 @@ PHP_METHOD(Nc_Db_Collection, indexedValues) {
 		ZEPHIR_OBS_NVAR(indexValue);
 		if (unlikely(!(zephir_array_isset_fetch(&indexValue, v, indexKey, 0 TSRMLS_CC)))) {
 			ZEPHIR_INIT_NVAR(_7$$5);
-			object_init_ex(_7$$5, nc_db_exception_ce);
+			object_init_ex(_7$$5, nc_db_modelexception_ce);
 			ZEPHIR_INIT_LNVAR(_8$$5);
 			ZEPHIR_CONCAT_SV(_8$$5, "Cannot find value of index at: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _7$$5, "__construct", &_6, 2, _8$$5);
@@ -570,7 +570,7 @@ PHP_METHOD(Nc_Db_Collection, indexedValues) {
 		ZEPHIR_OBS_NVAR(valueValue);
 		if (unlikely(!(zephir_array_isset_fetch(&valueValue, v, valueKey, 0 TSRMLS_CC)))) {
 			ZEPHIR_INIT_NVAR(_9$$6);
-			object_init_ex(_9$$6, nc_db_exception_ce);
+			object_init_ex(_9$$6, nc_db_modelexception_ce);
 			ZEPHIR_INIT_LNVAR(_10$$6);
 			ZEPHIR_CONCAT_SV(_10$$6, "Cannot find value of value at: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _9$$6, "__construct", &_6, 2, _10$$6);
@@ -613,7 +613,7 @@ PHP_METHOD(Nc_Db_Collection, groupedValues) {
 		ZEPHIR_GET_HVALUE(v, _3);
 		if (unlikely(Z_TYPE_P(v) != IS_ARRAY)) {
 			ZEPHIR_INIT_NVAR(_4$$4);
-			object_init_ex(_4$$4, nc_db_exception_ce);
+			object_init_ex(_4$$4, nc_db_modelexception_ce);
 			ZEPHIR_INIT_LNVAR(_5$$4);
 			ZEPHIR_CONCAT_SV(_5$$4, "Invalid item type, array required at: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _4$$4, "__construct", &_6, 2, _5$$4);
@@ -625,7 +625,7 @@ PHP_METHOD(Nc_Db_Collection, groupedValues) {
 		ZEPHIR_OBS_NVAR(groupValue);
 		if (unlikely(!(zephir_array_isset_fetch(&groupValue, v, groupKey, 0 TSRMLS_CC)))) {
 			ZEPHIR_INIT_NVAR(_7$$5);
-			object_init_ex(_7$$5, nc_db_exception_ce);
+			object_init_ex(_7$$5, nc_db_modelexception_ce);
 			ZEPHIR_INIT_LNVAR(_8$$5);
 			ZEPHIR_CONCAT_SV(_8$$5, "Cannot find value of group at: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _7$$5, "__construct", &_6, 2, _8$$5);
@@ -637,7 +637,7 @@ PHP_METHOD(Nc_Db_Collection, groupedValues) {
 		ZEPHIR_OBS_NVAR(valueValue);
 		if (unlikely(!(zephir_array_isset_fetch(&valueValue, v, valueKey, 0 TSRMLS_CC)))) {
 			ZEPHIR_INIT_NVAR(_9$$6);
-			object_init_ex(_9$$6, nc_db_exception_ce);
+			object_init_ex(_9$$6, nc_db_modelexception_ce);
 			ZEPHIR_INIT_LNVAR(_10$$6);
 			ZEPHIR_CONCAT_SV(_10$$6, "Cannot find value of value at: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _9$$6, "__construct", &_6, 2, _10$$6);
@@ -681,7 +681,7 @@ PHP_METHOD(Nc_Db_Collection, groupIndexedValues) {
 		ZEPHIR_GET_HVALUE(v, _3);
 		if (unlikely(Z_TYPE_P(v) != IS_ARRAY)) {
 			ZEPHIR_INIT_NVAR(_4$$4);
-			object_init_ex(_4$$4, nc_db_exception_ce);
+			object_init_ex(_4$$4, nc_db_modelexception_ce);
 			ZEPHIR_INIT_LNVAR(_5$$4);
 			ZEPHIR_CONCAT_SV(_5$$4, "Invalid item type, array required at: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _4$$4, "__construct", &_6, 2, _5$$4);
@@ -693,7 +693,7 @@ PHP_METHOD(Nc_Db_Collection, groupIndexedValues) {
 		ZEPHIR_OBS_NVAR(groupValue);
 		if (unlikely(!(zephir_array_isset_fetch(&groupValue, v, groupKey, 0 TSRMLS_CC)))) {
 			ZEPHIR_INIT_NVAR(_7$$5);
-			object_init_ex(_7$$5, nc_db_exception_ce);
+			object_init_ex(_7$$5, nc_db_modelexception_ce);
 			ZEPHIR_INIT_LNVAR(_8$$5);
 			ZEPHIR_CONCAT_SV(_8$$5, "Cannot find value of group at: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _7$$5, "__construct", &_6, 2, _8$$5);
@@ -705,7 +705,7 @@ PHP_METHOD(Nc_Db_Collection, groupIndexedValues) {
 		ZEPHIR_OBS_NVAR(indexValue);
 		if (unlikely(!(zephir_array_isset_fetch(&indexValue, v, indexKey, 0 TSRMLS_CC)))) {
 			ZEPHIR_INIT_NVAR(_9$$6);
-			object_init_ex(_9$$6, nc_db_exception_ce);
+			object_init_ex(_9$$6, nc_db_modelexception_ce);
 			ZEPHIR_INIT_LNVAR(_10$$6);
 			ZEPHIR_CONCAT_SV(_10$$6, "Cannot find value of index at: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _9$$6, "__construct", &_6, 2, _10$$6);
@@ -717,7 +717,7 @@ PHP_METHOD(Nc_Db_Collection, groupIndexedValues) {
 		ZEPHIR_OBS_NVAR(valueValue);
 		if (unlikely(!(zephir_array_isset_fetch(&valueValue, v, valueKey, 0 TSRMLS_CC)))) {
 			ZEPHIR_INIT_NVAR(_11$$7);
-			object_init_ex(_11$$7, nc_db_exception_ce);
+			object_init_ex(_11$$7, nc_db_modelexception_ce);
 			ZEPHIR_INIT_LNVAR(_12$$7);
 			ZEPHIR_CONCAT_SV(_12$$7, "Cannot find value of value at: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _11$$7, "__construct", &_6, 2, _12$$7);

@@ -19,8 +19,8 @@
 #include "kernel/string.h"
 #include "kernel/array.h"
 #include "kernel/exception.h"
-#include "kernel/hash.h"
 #include "kernel/concat.h"
+#include "kernel/hash.h"
 
 
 ZEPHIR_INIT_CLASS(Nc_Db_Model) {
@@ -423,12 +423,12 @@ PHP_METHOD(Nc_Db_Model, ids) {
 
 PHP_METHOD(Nc_Db_Model, chunkByDynamicWhere) {
 
-	zend_bool _6$$4, _7$$4;
-	zephir_fcall_cache_entry *_1 = NULL, *_3 = NULL, *_5 = NULL;
+	zend_bool _10$$4, _11$$4;
+	zephir_fcall_cache_entry *_5 = NULL, *_7 = NULL, *_9 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	long limit, sum, c = 0;
 	zval *where = NULL;
-	zval *delegate, *where_param = NULL, *orderBy = NULL, *limit_param = NULL, *collection = NULL, *w = NULL, *_0$$4 = NULL, *_2$$4 = NULL, *_4$$4 = NULL;
+	zval *delegate, *where_param = NULL, *orderBy = NULL, *limit_param = NULL, *collection = NULL, *w = NULL, *_0$$3, _1$$3, *_2$$3 = NULL, *_3$$3, *_4$$4 = NULL, *_6$$4 = NULL, *_8$$4 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 3, &delegate, &where_param, &orderBy, &limit_param);
@@ -451,34 +451,45 @@ PHP_METHOD(Nc_Db_Model, chunkByDynamicWhere) {
 
 	sum = 0;
 	if (unlikely(limit < 1)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_exception_ce, "Invalid limit", "nc/db/model.zep", 143);
+		ZEPHIR_INIT_VAR(_0$$3);
+		object_init_ex(_0$$3, nc_db_modelexception_ce);
+		ZEPHIR_SINIT_VAR(_1$$3);
+		ZVAL_LONG(&_1$$3, limit);
+		ZEPHIR_CALL_FUNCTION(&_2$$3, "strval", NULL, 23, &_1$$3);
+		zephir_check_call_status();
+		ZEPHIR_INIT_VAR(_3$$3);
+		ZEPHIR_CONCAT_SV(_3$$3, "Invalid limit: ", _2$$3);
+		ZEPHIR_CALL_METHOD(NULL, _0$$3, "__construct", NULL, 2, _3$$3);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(_0$$3, "nc/db/model.zep", 143 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	ZEPHIR_CPY_WRT(w, where);
 	while (1) {
-		ZEPHIR_INIT_NVAR(_0$$4);
-		ZVAL_LONG(_0$$4, limit);
-		ZEPHIR_CALL_METHOD(&collection, this_ptr, "all", &_1, 0, w, orderBy, _0$$4);
+		ZEPHIR_INIT_NVAR(_4$$4);
+		ZVAL_LONG(_4$$4, limit);
+		ZEPHIR_CALL_METHOD(&collection, this_ptr, "all", &_5, 0, w, orderBy, _4$$4);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&_2$$4, collection, "count", &_3, 0);
+		ZEPHIR_CALL_METHOD(&_6$$4, collection, "count", &_7, 0);
 		zephir_check_call_status();
-		c = zephir_get_intval(_2$$4);
+		c = zephir_get_intval(_6$$4);
 		if (c < 1) {
 			break;
 		}
 		sum += c;
-		ZEPHIR_CALL_FUNCTION(&_4$$4, "call_user_func", &_5, 17, delegate, collection, w);
+		ZEPHIR_CALL_FUNCTION(&_8$$4, "call_user_func", &_9, 17, delegate, collection, w);
 		zephir_check_call_status();
-		ZEPHIR_CPY_WRT(w, _4$$4);
-		_6$$4 = Z_TYPE_P(w) != IS_ARRAY;
-		if (!(_6$$4)) {
-			_6$$4 = zephir_fast_count_int(w TSRMLS_CC) < 1;
+		ZEPHIR_CPY_WRT(w, _8$$4);
+		_10$$4 = Z_TYPE_P(w) != IS_ARRAY;
+		if (!(_10$$4)) {
+			_10$$4 = zephir_fast_count_int(w TSRMLS_CC) < 1;
 		}
-		_7$$4 = _6$$4;
-		if (!(_7$$4)) {
-			_7$$4 = c < limit;
+		_11$$4 = _10$$4;
+		if (!(_11$$4)) {
+			_11$$4 = c < limit;
 		}
-		if (_7$$4) {
+		if (_11$$4) {
 			break;
 		}
 	}
@@ -488,12 +499,12 @@ PHP_METHOD(Nc_Db_Model, chunkByDynamicWhere) {
 
 PHP_METHOD(Nc_Db_Model, chunkByFixedWhere) {
 
-	zend_bool _7$$4;
-	zephir_fcall_cache_entry *_2 = NULL, *_4 = NULL, *_6 = NULL;
+	zend_bool _11$$4;
+	zephir_fcall_cache_entry *_6 = NULL, *_8 = NULL, *_10 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
 	long limit, sum, c = 0, offset;
 	zval *where = NULL;
-	zval *delegate, *where_param = NULL, *orderBy = NULL, *limit_param = NULL, *collection = NULL, *_0$$4 = NULL, *_1$$4 = NULL, *_3$$4 = NULL, *_5$$4 = NULL;
+	zval *delegate, *where_param = NULL, *orderBy = NULL, *limit_param = NULL, *collection = NULL, *_0$$3, _1$$3, *_2$$3 = NULL, *_3$$3, *_4$$4 = NULL, *_5$$4 = NULL, *_7$$4 = NULL, *_9$$4 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 3, &delegate, &where_param, &orderBy, &limit_param);
@@ -517,30 +528,41 @@ PHP_METHOD(Nc_Db_Model, chunkByFixedWhere) {
 	sum = 0;
 	offset = 0;
 	if (unlikely(limit < 1)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_exception_ce, "Invalid limit", "nc/db/model.zep", 172);
+		ZEPHIR_INIT_VAR(_0$$3);
+		object_init_ex(_0$$3, nc_db_modelexception_ce);
+		ZEPHIR_SINIT_VAR(_1$$3);
+		ZVAL_LONG(&_1$$3, limit);
+		ZEPHIR_CALL_FUNCTION(&_2$$3, "strval", NULL, 23, &_1$$3);
+		zephir_check_call_status();
+		ZEPHIR_INIT_VAR(_3$$3);
+		ZEPHIR_CONCAT_SV(_3$$3, "Invalid limit: ", _2$$3);
+		ZEPHIR_CALL_METHOD(NULL, _0$$3, "__construct", NULL, 2, _3$$3);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(_0$$3, "nc/db/model.zep", 172 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	while (1) {
-		ZEPHIR_INIT_NVAR(_0$$4);
-		ZVAL_LONG(_0$$4, limit);
-		ZEPHIR_INIT_NVAR(_1$$4);
-		ZVAL_LONG(_1$$4, offset);
-		ZEPHIR_CALL_METHOD(&collection, this_ptr, "all", &_2, 0, where, orderBy, _0$$4, _1$$4);
+		ZEPHIR_INIT_NVAR(_4$$4);
+		ZVAL_LONG(_4$$4, limit);
+		ZEPHIR_INIT_NVAR(_5$$4);
+		ZVAL_LONG(_5$$4, offset);
+		ZEPHIR_CALL_METHOD(&collection, this_ptr, "all", &_6, 0, where, orderBy, _4$$4, _5$$4);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&_3$$4, collection, "count", &_4, 0);
+		ZEPHIR_CALL_METHOD(&_7$$4, collection, "count", &_8, 0);
 		zephir_check_call_status();
-		c = zephir_get_intval(_3$$4);
+		c = zephir_get_intval(_7$$4);
 		if (c < 1) {
 			break;
 		}
 		sum += c;
-		ZEPHIR_CALL_FUNCTION(&_5$$4, "call_user_func", &_6, 17, delegate, collection);
+		ZEPHIR_CALL_FUNCTION(&_9$$4, "call_user_func", &_10, 17, delegate, collection);
 		zephir_check_call_status();
-		_7$$4 = ZEPHIR_IS_FALSE_IDENTICAL(_5$$4);
-		if (!(_7$$4)) {
-			_7$$4 = c < limit;
+		_11$$4 = ZEPHIR_IS_FALSE_IDENTICAL(_9$$4);
+		if (!(_11$$4)) {
+			_11$$4 = c < limit;
 		}
-		if (_7$$4) {
+		if (_11$$4) {
 			break;
 		}
 		offset += limit;
@@ -804,7 +826,7 @@ PHP_METHOD(Nc_Db_Model, pickPrimaryKeyValue) {
 	ZEPHIR_OBS_VAR(pk);
 	zephir_read_property_this(&pk, this_ptr, SL("primaryKey"), PH_NOISY_CC);
 	if (unlikely(!zephir_is_true(pk))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_exception_ce, "Empty primary key", "nc/db/model.zep", 245);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_modelexception_ce, "Empty primary key", "nc/db/model.zep", 245);
 		return;
 	}
 	if (Z_TYPE_P(pk) == IS_ARRAY) {
@@ -817,7 +839,7 @@ PHP_METHOD(Nc_Db_Model, pickPrimaryKeyValue) {
 			ZEPHIR_OBS_NVAR(v);
 			if (unlikely(!(zephir_array_isset_fetch(&v, row, k, 0 TSRMLS_CC)))) {
 				ZEPHIR_INIT_NVAR(_3$$6);
-				object_init_ex(_3$$6, nc_db_exception_ce);
+				object_init_ex(_3$$6, nc_db_modelexception_ce);
 				ZEPHIR_INIT_LNVAR(_4$$6);
 				ZEPHIR_CONCAT_SV(_4$$6, "Cannot pick primary key values: ", k);
 				ZEPHIR_CALL_METHOD(NULL, _3$$6, "__construct", &_5, 2, _4$$6);
@@ -834,7 +856,7 @@ PHP_METHOD(Nc_Db_Model, pickPrimaryKeyValue) {
 		ZEPHIR_OBS_NVAR(v);
 		if (unlikely(!(zephir_array_isset_fetch(&v, row, k, 0 TSRMLS_CC)))) {
 			ZEPHIR_INIT_VAR(_7$$8);
-			object_init_ex(_7$$8, nc_db_exception_ce);
+			object_init_ex(_7$$8, nc_db_modelexception_ce);
 			ZEPHIR_INIT_VAR(_8$$8);
 			ZEPHIR_CONCAT_SV(_8$$8, "Cannot pick primary key value: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _7$$8, "__construct", &_5, 2, _8$$8);
@@ -864,7 +886,7 @@ PHP_METHOD(Nc_Db_Model, packPrimaryKeyValue) {
 	ZEPHIR_OBS_VAR(pk);
 	zephir_read_property_this(&pk, this_ptr, SL("primaryKey"), PH_NOISY_CC);
 	if (unlikely(!zephir_is_true(pk))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_exception_ce, "Empty primary key", "nc/db/model.zep", 273);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_modelexception_ce, "Empty primary key", "nc/db/model.zep", 273);
 		return;
 	}
 	if (Z_TYPE_P(pk) == IS_ARRAY) {
@@ -873,7 +895,7 @@ PHP_METHOD(Nc_Db_Model, packPrimaryKeyValue) {
 			_0$$4 = zephir_fast_count_int(id TSRMLS_CC) != zephir_fast_count_int(pk TSRMLS_CC);
 		}
 		if (unlikely(_0$$4)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_exception_ce, "Invalid id to pack", "nc/db/model.zep", 278);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_modelexception_ce, "Invalid id to pack", "nc/db/model.zep", 278);
 			return;
 		}
 		ZEPHIR_RETURN_CALL_FUNCTION("array_combine", NULL, 40, pk, id);

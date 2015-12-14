@@ -7,7 +7,7 @@ class Model
     protected primaryKey;
     protected autoIncrement;
 
-    public function __construct(<DbAbstract> db, string table, var primaryKey, string autoIncrement) -> void
+    public function __construct(<DbInterface> db, string table, var primaryKey, string autoIncrement) -> void
     {
         let this->db = db;
         let this->table = table;
@@ -15,12 +15,12 @@ class Model
         let this->autoIncrement = autoIncrement;
     }
 
-    public function setDb(<DbAbstract> db) -> void
+    public function setDb(<DbInterface> db) -> void
     {
         let this->db = db;
     }
 
-    public function getDb() -> <DbAbstract>
+    public function getDb() -> <DbInterface>
     {
         return this->db;
     }
@@ -91,7 +91,7 @@ class Model
             "where": where,
             "orderBy": orderBy,
             "limit": 1
-        ], DbAbstract::ROW);
+        ], DbInterface::ROW);
 
         if ! row {
             return;
@@ -140,7 +140,7 @@ class Model
         long sum = 0, c;
 
         if unlikely limit < 1 {
-            throw new Exception("Invalid limit");
+            throw new ModelException("Invalid limit: " . strval(limit));
         }
 
         let w = where;
@@ -169,7 +169,7 @@ class Model
         long sum = 0, c, offset = 0;
 
         if unlikely limit < 1 {
-            throw new Exception("Invalid limit");
+            throw new ModelException("Invalid limit: " . strval(limit));
         }
 
         loop {
@@ -242,20 +242,20 @@ class Model
         let pk = this->primaryKey;
 
         if unlikely ! pk {
-            throw new Exception("Empty primary key");
+            throw new ModelException("Empty primary key");
         }
 
         if typeof pk == "array" {
             for k in pk {
                 if unlikely ! fetch v, row[k] {
-                    throw new Exception("Cannot pick primary key values: " . k);
+                    throw new ModelException("Cannot pick primary key values: " . k);
                 }
                 let a[k] = v;
             }
         } else {
             let k = (string) pk;
             if unlikely ! fetch v, row[k] {
-                throw new Exception("Cannot pick primary key value: " . k);
+                throw new ModelException("Cannot pick primary key value: " . k);
             }
             let a[k] = v;
         }
@@ -270,12 +270,12 @@ class Model
         let pk = this->primaryKey;
 
         if unlikely ! pk {
-            throw new Exception("Empty primary key");
+            throw new ModelException("Empty primary key");
         }
 
         if typeof pk == "array" {
             if unlikely typeof id != "array" || count(id) != count(pk) {
-                throw new Exception("Invalid id to pack");
+                throw new ModelException("Invalid id to pack");
             }
 
             return array_combine(pk, id);

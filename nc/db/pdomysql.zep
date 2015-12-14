@@ -4,16 +4,24 @@ class PdoMysql extends PdoAbstract
 {
     public function insert(string table, array data, string returningId = "", bool upsert = false)
     {
-        string sql;
+        var k, ks = [], vs = [];
+        string s;
         var returningIdValue;
 
-        let sql = (string) this->insertSql(table, data);
-
-        if upsert {
-            let sql = (string) preg_replace("/^INSERT/i", "REPLACE", sql);
+        for k, _ in data {
+            let ks[] = k;
+            let vs[] = ":" . k;
         }
 
-        this->query(sql, data);
+        if upsert {
+            let s = "REPLACE";
+        } else {
+            let s = "INSERT";
+        }
+
+        let s .= " INTO " . table . " (" . implode(", ", ks) . ") VALUES (" . implode(", ", vs) . ")";
+
+        this->query(DbInterface::NONE, s, data);
 
         if returningId->length() < 1 {
             return;
@@ -23,10 +31,10 @@ class PdoMysql extends PdoAbstract
             return (string) returningIdValue;
         }
 
-        return this->query("SELECT LAST_INSERT_ID()", [], DbAbstract::CELL);
+        return this->query(DbInterface::CELL, "SELECT LAST_INSERT_ID()");
     }
 
-    public function upsert(string table, array data, var primaryKey) -> void
+    public function upsert(string table, array data, var primaryKey = "id") -> void
     {
         var k;
 
@@ -49,23 +57,23 @@ class PdoMysql extends PdoAbstract
         this->insert(table, data, "", true);
     }
 
-    public function countAndSelect(string table, array options = [], long mode = DbAbstract::ALL) -> array
+    public function countAndSelect(string table, array options = [], long mode = DbInterface::ALL) -> array
     {
         string s;
         var d;
 
-        let s = (string) this->selectSql(table, options);
+        let s = (string) this->parseSelect(table, options);
         let s = (string) preg_replace("/^SELECT /i", "SELECT SQL_CALC_FOUND_ROWS ", s);
 
-        let d = this->query(s, [], mode);
+        let d = this->query(mode, s);
 
         return [
-            (long) this->query("SELECT FOUND_ROWS()", [], DbAbstract::CELL),
+            (long) this->query(DbInterface::CELL, "SELECT FOUND_ROWS()"),
             d
         ];
     }
 
-    public function paginationSql(string query, long limit, long skip) -> string
+    public function parsePagination(string query, long limit, long skip) -> string
     {
         if skip == 0 {
             return sprintf("%s LIMIT %d", query, limit);
@@ -74,7 +82,7 @@ class PdoMysql extends PdoAbstract
         return sprintf("%s LIMIT %d, %d", query, skip, limit);
     }
 
-    public function randomOrderSql() -> string
+    public function parseRandomOrder() -> string
     {
         return "RAND()";
     }

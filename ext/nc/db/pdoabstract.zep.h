@@ -15,10 +15,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_pdoabstract_quote, 0, 0, 1)
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_pdoabstract_query, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_pdoabstract_query, 0, 0, 2)
+	ZEND_ARG_INFO(0, mode)
 	ZEND_ARG_INFO(0, sql)
 	ZEND_ARG_ARRAY_INFO(0, params, 1)
-	ZEND_ARG_INFO(0, mode)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(nc_db_pdoabstract_method_entry) {

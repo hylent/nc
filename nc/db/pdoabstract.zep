@@ -23,7 +23,7 @@ abstract class PdoAbstract extends DbAbstract
         return this->pdo->quote(value);
     }
 
-    public function query(string sql, array params = [], long mode = DbAbstract::NONE)
+    public function query(long mode, string sql, array params = [])
     {
         var statement, k, v, err;
         double startMt;
@@ -55,23 +55,23 @@ abstract class PdoAbstract extends DbAbstract
         }
 
         switch mode {
-            case DbAbstract::NONE:
+            case DbInterface::NONE:
                 return;
 
-            case DbAbstract::ALL:
+            case DbInterface::ALL:
                 return statement->fetchAll(\Pdo::FETCH_ASSOC);
 
-            case DbAbstract::ROW:
+            case DbInterface::ROW:
                 let resultItem = statement->$fetch(\Pdo::FETCH_ASSOC);
                 if resultItem {
                     return resultItem;
                 }
                 return null;
 
-            case DbAbstract::CELL:
+            case DbInterface::CELL:
                 return (string) statement->fetchColumn();
 
-            case DbAbstract::COLUMNS:
+            case DbInterface::COLUMNS:
                 let result = [];
                 loop {
                     let resultItem = statement->fetchColumn();

@@ -31,14 +31,14 @@ PHP_METHOD(Nc_Db_Model, pickPrimaryKeyValue);
 PHP_METHOD(Nc_Db_Model, packPrimaryKeyValue);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_model___construct, 0, 0, 4)
-	ZEND_ARG_OBJ_INFO(0, db, Nc\\Db\\DbAbstract, 0)
+	ZEND_ARG_OBJ_INFO(0, db, Nc\\Db\\DbInterface, 0)
 	ZEND_ARG_INFO(0, table)
 	ZEND_ARG_INFO(0, primaryKey)
 	ZEND_ARG_INFO(0, autoIncrement)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_model_setdb, 0, 0, 1)
-	ZEND_ARG_OBJ_INFO(0, db, Nc\\Db\\DbAbstract, 0)
+	ZEND_ARG_OBJ_INFO(0, db, Nc\\Db\\DbInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_model_insert, 0, 0, 1)

@@ -100,25 +100,21 @@ PHP_METHOD(Nc_Db_PdoAbstract, query) {
 	double startMt = 0;
 	zephir_fcall_cache_entry *_9 = NULL, *_11 = NULL, *_13 = NULL, *_23 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	long mode;
 	zval *params = NULL;
-	zval *sql_param = NULL, *params_param = NULL, *mode_param = NULL, *statement = NULL, *k = NULL, *v = NULL, *err = NULL, *resultItem = NULL, *result = NULL, *_0, *_1, *_12 = NULL, *_14 = NULL, _25, *_26 = NULL, *_27, **_4$$3, *_5$$5 = NULL, *_6$$5 = NULL, *_7$$5 = NULL, *_8$$5 = NULL, *_10$$6 = NULL, *_16$$7, *_17$$7, *_18$$7, *_19$$9, *_20$$10, *_21$$12 = NULL;
 	zval *sql = NULL, *profiledQuery = NULL, *_15 = NULL, *_22$$12 = NULL;
+	zval *mode_param = NULL, *sql_param = NULL, *params_param = NULL, *statement = NULL, *k = NULL, *v = NULL, *err = NULL, *resultItem = NULL, *result = NULL, *_0, *_1, *_12 = NULL, *_14 = NULL, _25, *_26 = NULL, *_27, **_4$$3, *_5$$5 = NULL, *_6$$5 = NULL, *_7$$5 = NULL, *_8$$5 = NULL, *_10$$6 = NULL, *_16$$7, *_17$$7, *_18$$7, *_19$$9, *_20$$10, *_21$$12 = NULL;
+	long mode;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 2, &sql_param, &params_param, &mode_param);
+	zephir_fetch_params(1, 2, 1, &mode_param, &sql_param, &params_param);
 
+	mode = zephir_get_intval(mode_param);
 	zephir_get_strval(sql, sql_param);
 	if (!params_param) {
 		ZEPHIR_INIT_VAR(params);
 		array_init(params);
 	} else {
 		zephir_get_arrval(params, params_param);
-	}
-	if (!mode_param) {
-		mode = 0;
-	} else {
-		mode = zephir_get_intval(mode_param);
 	}
 
 

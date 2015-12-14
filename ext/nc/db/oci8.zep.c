@@ -114,25 +114,21 @@ PHP_METHOD(Nc_Db_Oci8, query) {
 	double startMt = 0;
 	zephir_fcall_cache_entry *_6 = NULL, *_9 = NULL, *_16 = NULL, *_18 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	long mode;
 	zval *params = NULL;
-	zval *sql_param = NULL, *params_param = NULL, *mode_param = NULL, *statement = NULL, *k = NULL, *v = NULL, *err = NULL, *errMessage = NULL, *queryMode = NULL, *result = NULL, *resultRow = NULL, *resultCell = NULL, *_0, *_1, *_7, *_8 = NULL, *_10 = NULL, _25, *_26 = NULL, *_27, **_4$$3, *_5$$4 = NULL, *_12$$7, *_14$$7, *_15$$7, *_17$$11 = NULL, _19$$13, _20$$15;
 	zval *sql = NULL, *profiledQuery = NULL, *_11 = NULL;
+	zval *mode_param = NULL, *sql_param = NULL, *params_param = NULL, *statement = NULL, *k = NULL, *v = NULL, *err = NULL, *errMessage = NULL, *queryMode = NULL, *result = NULL, *resultRow = NULL, *resultCell = NULL, *_0, *_1, *_7, *_8 = NULL, *_10 = NULL, _25, *_26 = NULL, *_27, **_4$$3, *_5$$4 = NULL, *_12$$7, *_14$$7, *_15$$7, *_17$$11 = NULL, _19$$13, _20$$15;
+	long mode;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 2, &sql_param, &params_param, &mode_param);
+	zephir_fetch_params(1, 2, 1, &mode_param, &sql_param, &params_param);
 
+	mode = zephir_get_intval(mode_param);
 	zephir_get_strval(sql, sql_param);
 	if (!params_param) {
 		ZEPHIR_INIT_VAR(params);
 		array_init(params);
 	} else {
 		zephir_get_arrval(params, params_param);
-	}
-	if (!mode_param) {
-		mode = 0;
-	} else {
-		mode = zephir_get_intval(mode_param);
 	}
 
 
@@ -292,7 +288,7 @@ PHP_METHOD(Nc_Db_Oci8, query) {
 
 }
 
-PHP_METHOD(Nc_Db_Oci8, paginationSql) {
+PHP_METHOD(Nc_Db_Oci8, parsePagination) {
 
 	zephir_fcall_cache_entry *_6 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
@@ -352,7 +348,7 @@ PHP_METHOD(Nc_Db_Oci8, paginationSql) {
 
 }
 
-PHP_METHOD(Nc_Db_Oci8, randomOrderSql) {
+PHP_METHOD(Nc_Db_Oci8, parseRandomOrder) {
 
 	
 

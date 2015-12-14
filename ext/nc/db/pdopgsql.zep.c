@@ -25,7 +25,7 @@ ZEPHIR_INIT_CLASS(Nc_Db_PdoPgsql) {
 
 }
 
-PHP_METHOD(Nc_Db_PdoPgsql, paginationSql) {
+PHP_METHOD(Nc_Db_PdoPgsql, parsePagination) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_2 = NULL;
@@ -62,7 +62,7 @@ PHP_METHOD(Nc_Db_PdoPgsql, paginationSql) {
 
 }
 
-PHP_METHOD(Nc_Db_PdoPgsql, randomOrderSql) {
+PHP_METHOD(Nc_Db_PdoPgsql, parseRandomOrder) {
 
 	
 

@@ -14,14 +14,15 @@ if test "$PHP_NC" = "yes"; then
 	nc/view/viewinterface.zep.c
 	nc/factory/factoryinterface.zep.c
 	nc/data/dataabstract.zep.c
+	nc/db/dbinterface.zep.c
 	nc/logger/loggerinterface.zep.c
 	nc/db/dbabstract.zep.c
 	nc/factory/factoryabstract.zep.c
 	nc/logger/loggerabstract.zep.c
+	nc/db/exception.zep.c
 	nc/factory/classnameabstract.zep.c
 	nc/image/imageabstract.zep.c
 	nc/upload/storageabstract.zep.c
-	nc/db/exception.zep.c
 	nc/db/pdoabstract.zep.c
 	nc/image/imagebackendabstract.zep.c
 	nc/loader/loaderabstract.zep.c
@@ -47,6 +48,7 @@ if test "$PHP_NC" = "yes"; then
 	nc/db/collection.zep.c
 	nc/db/entity.zep.c
 	nc/db/model.zep.c
+	nc/db/modelexception.zep.c
 	nc/db/oci8.zep.c
 	nc/db/pdomysql.zep.c
 	nc/db/pdopgsql.zep.c
