@@ -20,6 +20,11 @@ class Image extends ImageAbstract
         return "application/octet-stream";
     }
 
+    public function largest(long width, long height) -> <Image>
+    {
+        return this->backend->largest(this, width, height);
+    }
+
     public function resize(long width, long height = 0) -> <Image>
     {
         return this->backend->resize(this, width, height);

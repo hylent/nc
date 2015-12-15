@@ -666,6 +666,49 @@ PHP_METHOD(Nc_Image_Imagick, captcha) {
 
 }
 
+PHP_METHOD(Nc_Image_Imagick, largest) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	long width, height;
+	zval *im, *width_param = NULL, *height_param = NULL, *destIm = NULL, *imagick = NULL, *_2, *_3, *_4 = NULL, *_5 = NULL, *_0$$3, *_1$$4;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 3, 0, &im, &width_param, &height_param);
+
+	width = zephir_get_intval(width_param);
+	height = zephir_get_intval(height_param);
+
+
+	if (width < 1) {
+		ZEPHIR_OBS_VAR(_0$$3);
+		zephir_read_property(&_0$$3, im, SL("width"), PH_NOISY_CC);
+		width = zephir_get_intval(_0$$3);
+	}
+	if (height < 1) {
+		ZEPHIR_OBS_VAR(_1$$4);
+		zephir_read_property(&_1$$4, im, SL("height"), PH_NOISY_CC);
+		height = zephir_get_intval(_1$$4);
+	}
+	ZEPHIR_CALL_METHOD(&destIm, this_ptr, "fromimage", NULL, 0, im);
+	zephir_check_call_status();
+	ZEPHIR_OBS_VAR(imagick);
+	zephir_read_property(&imagick, destIm, SL("handler"), PH_NOISY_CC);
+	ZEPHIR_INIT_VAR(_2);
+	ZVAL_LONG(_2, width);
+	ZEPHIR_INIT_VAR(_3);
+	ZVAL_LONG(_3, height);
+	ZEPHIR_CALL_METHOD(NULL, imagick, "thumbnailimage", NULL, 0, _2, _3);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(&_4, imagick, "getimagewidth", NULL, 0);
+	zephir_check_call_status();
+	zephir_update_property_zval(destIm, SL("width"), _4 TSRMLS_CC);
+	ZEPHIR_CALL_METHOD(&_5, imagick, "getimageheight", NULL, 0);
+	zephir_check_call_status();
+	zephir_update_property_zval(destIm, SL("height"), _5 TSRMLS_CC);
+	RETURN_CCTOR(destIm);
+
+}
+
 PHP_METHOD(Nc_Image_Imagick, resize) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
@@ -680,7 +723,7 @@ PHP_METHOD(Nc_Image_Imagick, resize) {
 
 
 	if (unlikely(width < 1)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_image_exception_ce, "Argument width must be positive", "nc/image/imagick.zep", 233);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_image_exception_ce, "Argument width must be positive", "nc/image/imagick.zep", 256);
 		return;
 	}
 	if (height < 1) {
@@ -729,11 +772,11 @@ PHP_METHOD(Nc_Image_Imagick, crop) {
 		_0 = y < 0;
 	}
 	if (unlikely(_0)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_image_exception_ce, "Arguments x and y must not be negative", "nc/image/imagick.zep", 256);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_image_exception_ce, "Arguments x and y must not be negative", "nc/image/imagick.zep", 279);
 		return;
 	}
 	if (unlikely(w < 1)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_image_exception_ce, "Argument w must be positive", "nc/image/imagick.zep", 260);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_image_exception_ce, "Argument w must be positive", "nc/image/imagick.zep", 283);
 		return;
 	}
 	if (h < 1) {
@@ -748,7 +791,7 @@ PHP_METHOD(Nc_Image_Imagick, crop) {
 		_2 = ZEPHIR_LT_LONG(_3, (y + h));
 	}
 	if (unlikely(_2)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_image_exception_ce, "Cropping out of area", "nc/image/imagick.zep", 268);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_image_exception_ce, "Cropping out of area", "nc/image/imagick.zep", 291);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&destIm, this_ptr, "fromimage", NULL, 0, im);
@@ -791,7 +834,7 @@ PHP_METHOD(Nc_Image_Imagick, thumbnail) {
 
 
 	if (unlikely(width < 1)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_image_exception_ce, "Argument width must be positive", "nc/image/imagick.zep", 285);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_image_exception_ce, "Argument width must be positive", "nc/image/imagick.zep", 308);
 		return;
 	}
 	if (height < 1) {
@@ -915,7 +958,7 @@ PHP_METHOD(Nc_Image_Imagick, draw) {
 	ZEPHIR_CONCAT_SV(_18, "Invalid item type: ", _17);
 	ZEPHIR_CALL_METHOD(NULL, _16, "__construct", NULL, 2, _18);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(_16, "nc/image/imagick.zep", 329 TSRMLS_CC);
+	zephir_throw_exception_debug(_16, "nc/image/imagick.zep", 352 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 

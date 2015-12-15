@@ -54,6 +54,30 @@ PHP_METHOD(Nc_Image_Image, contentType) {
 
 }
 
+PHP_METHOD(Nc_Image_Image, largest) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *width_param = NULL, *height_param = NULL, *_0, *_1, *_2;
+	long width, height;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 2, 0, &width_param, &height_param);
+
+	width = zephir_get_intval(width_param);
+	height = zephir_get_intval(height_param);
+
+
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("backend"), PH_NOISY_CC);
+	ZEPHIR_INIT_VAR(_1);
+	ZVAL_LONG(_1, width);
+	ZEPHIR_INIT_VAR(_2);
+	ZVAL_LONG(_2, height);
+	ZEPHIR_RETURN_CALL_METHOD(_0, "largest", NULL, 0, this_ptr, _1, _2);
+	zephir_check_call_status();
+	RETURN_MM();
+
+}
+
 PHP_METHOD(Nc_Image_Image, resize) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
@@ -267,7 +291,7 @@ PHP_METHOD(Nc_Image_Image, drawTo) {
 		ZEPHIR_CONCAT_SV(_6$$12, "Invalid position: ", &_5$$12);
 		ZEPHIR_CALL_METHOD(NULL, _4$$12, "__construct", NULL, 2, _6$$12);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_4$$12, "nc/image/image.zep", 91 TSRMLS_CC);
+		zephir_throw_exception_debug(_4$$12, "nc/image/image.zep", 96 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	} while(0);

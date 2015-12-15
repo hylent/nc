@@ -10,6 +10,7 @@ PHP_METHOD(Nc_Image_Imagick, fromSize);
 PHP_METHOD(Nc_Image_Imagick, fromPath);
 PHP_METHOD(Nc_Image_Imagick, fromString);
 PHP_METHOD(Nc_Image_Imagick, captcha);
+PHP_METHOD(Nc_Image_Imagick, largest);
 PHP_METHOD(Nc_Image_Imagick, resize);
 PHP_METHOD(Nc_Image_Imagick, crop);
 PHP_METHOD(Nc_Image_Imagick, thumbnail);
@@ -51,6 +52,12 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_image_imagick_captcha, 0, 0, 3)
 	ZEND_ARG_INFO(0, width)
 	ZEND_ARG_INFO(0, height)
 	ZEND_ARG_ARRAY_INFO(0, options, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_image_imagick_largest, 0, 0, 3)
+	ZEND_ARG_OBJ_INFO(0, im, Nc\\Image\\Image, 0)
+	ZEND_ARG_INFO(0, width)
+	ZEND_ARG_INFO(0, height)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_image_imagick_resize, 0, 0, 3)
@@ -98,6 +105,7 @@ ZEPHIR_INIT_FUNCS(nc_image_imagick_method_entry) {
 	PHP_ME(Nc_Image_Imagick, fromPath, arginfo_nc_image_imagick_frompath, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Image_Imagick, fromString, arginfo_nc_image_imagick_fromstring, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Image_Imagick, captcha, arginfo_nc_image_imagick_captcha, ZEND_ACC_PUBLIC)
+	PHP_ME(Nc_Image_Imagick, largest, arginfo_nc_image_imagick_largest, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Image_Imagick, resize, arginfo_nc_image_imagick_resize, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Image_Imagick, crop, arginfo_nc_image_imagick_crop, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Image_Imagick, thumbnail, arginfo_nc_image_imagick_thumbnail, ZEND_ACC_PUBLIC)

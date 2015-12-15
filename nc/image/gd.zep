@@ -214,6 +214,33 @@ class Gd extends ImageBackendAbstract
         return im;
     }
 
+    public function largest(<Image> im, long width, long height) -> <Image>
+    {
+        var destIm;
+        long srcW, srcH, w, h;
+
+        let srcW = (long) im->width;
+        let srcH = (long) im->height;
+
+        let w = srcW;
+        let h = srcH;
+
+        if width > 0 && width < w {
+            let h = (long) (1.0 * h * width / w);
+            let w = width;
+        }
+
+        if height > 0 && height < h {
+            let w = (long) (1.0 * w * height / h);
+            let h = height;
+        }
+
+        let destIm = this->fromSize(w, h, im->extension);
+        this->copyResampled(destIm, im, 0, 0, w, h, 0, 0, srcW, srcH);
+
+        return destIm;
+    }
+
     public function resize(<Image> im, long width, long height) -> <Image>
     {
         var destIm;

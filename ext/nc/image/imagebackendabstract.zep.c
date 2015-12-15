@@ -140,6 +140,10 @@ PHP_METHOD(Nc_Image_ImageBackendAbstract, captcha) {
 
 }
 
+PHP_METHOD(Nc_Image_ImageBackendAbstract, largest) {
+
+}
+
 PHP_METHOD(Nc_Image_ImageBackendAbstract, resize) {
 
 }

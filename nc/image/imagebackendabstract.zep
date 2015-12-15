@@ -48,6 +48,7 @@ abstract class ImageBackendAbstract
     abstract public function fromString(string data, string extension = "") -> <Image>;
     abstract public function captcha(string text, long width, long height, array options = []) -> <Captcha>;
 
+    abstract public function largest(<Image> im, long width, long height) -> <Image>;
     abstract public function resize(<Image> im, long width, long height) -> <Image>;
     abstract public function crop(<Image> im, long x, long y, long w, long h) -> <Image>;
     abstract public function thumbnail(<Image> im, long width, long height, bool cropped) -> <Image>;

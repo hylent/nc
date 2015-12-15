@@ -12,6 +12,7 @@ PHP_METHOD(Nc_Image_ImageBackendAbstract, fromSize);
 PHP_METHOD(Nc_Image_ImageBackendAbstract, fromPath);
 PHP_METHOD(Nc_Image_ImageBackendAbstract, fromString);
 PHP_METHOD(Nc_Image_ImageBackendAbstract, captcha);
+PHP_METHOD(Nc_Image_ImageBackendAbstract, largest);
 PHP_METHOD(Nc_Image_ImageBackendAbstract, resize);
 PHP_METHOD(Nc_Image_ImageBackendAbstract, crop);
 PHP_METHOD(Nc_Image_ImageBackendAbstract, thumbnail);
@@ -62,6 +63,12 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_image_imagebackendabstract_captcha, 0, 0, 3)
 	ZEND_ARG_ARRAY_INFO(0, options, 1)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_image_imagebackendabstract_largest, 0, 0, 3)
+	ZEND_ARG_OBJ_INFO(0, im, Nc\\Image\\Image, 0)
+	ZEND_ARG_INFO(0, width)
+	ZEND_ARG_INFO(0, height)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_image_imagebackendabstract_resize, 0, 0, 3)
 	ZEND_ARG_OBJ_INFO(0, im, Nc\\Image\\Image, 0)
 	ZEND_ARG_INFO(0, width)
@@ -109,6 +116,7 @@ ZEPHIR_INIT_FUNCS(nc_image_imagebackendabstract_method_entry) {
 	PHP_ME(Nc_Image_ImageBackendAbstract, fromPath, arginfo_nc_image_imagebackendabstract_frompath, ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Image_ImageBackendAbstract, fromString, arginfo_nc_image_imagebackendabstract_fromstring, ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Image_ImageBackendAbstract, captcha, arginfo_nc_image_imagebackendabstract_captcha, ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
+	PHP_ME(Nc_Image_ImageBackendAbstract, largest, arginfo_nc_image_imagebackendabstract_largest, ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Image_ImageBackendAbstract, resize, arginfo_nc_image_imagebackendabstract_resize, ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Image_ImageBackendAbstract, crop, arginfo_nc_image_imagebackendabstract_crop, ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Image_ImageBackendAbstract, thumbnail, arginfo_nc_image_imagebackendabstract_thumbnail, ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)

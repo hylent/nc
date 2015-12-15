@@ -225,6 +225,29 @@ class Imagick extends ImageBackendAbstract
         return im;
     }
 
+    public function largest(<Image> im, long width, long height) -> <Image>
+    {
+        var destIm, imagick;
+
+        if width < 1 {
+            let width = (long) im->width;
+        }
+
+        if height < 1 {
+            let height = (long) im->height;
+        }
+
+        let destIm = this->fromImage(im);
+        let imagick = destIm->handler;
+
+        imagick->thumbnailImage(width, height);
+
+        let destIm->width = imagick->getImageWidth();
+        let destIm->height = imagick->getImageHeight();
+
+        return destIm;
+    }
+
     public function resize(<Image> im, long width, long height) -> <Image>
     {
         var destIm, imagick;
