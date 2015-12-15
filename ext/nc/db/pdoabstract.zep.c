@@ -92,7 +92,7 @@ PHP_METHOD(Nc_Db_PdoAbstract, quote) {
 
 }
 
-PHP_METHOD(Nc_Db_PdoAbstract, query) {
+PHP_METHOD(Nc_Db_PdoAbstract, queryAndFetch) {
 
 	HashTable *_3$$3;
 	HashPosition _2$$3;
@@ -102,13 +102,13 @@ PHP_METHOD(Nc_Db_PdoAbstract, query) {
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *params = NULL;
 	zval *sql = NULL, *profiledQuery = NULL, *_15 = NULL, *_22$$12 = NULL;
-	zval *mode_param = NULL, *sql_param = NULL, *params_param = NULL, *statement = NULL, *k = NULL, *v = NULL, *err = NULL, *resultItem = NULL, *result = NULL, *_0, *_1, *_12 = NULL, *_14 = NULL, _25, *_26 = NULL, *_27, **_4$$3, *_5$$5 = NULL, *_6$$5 = NULL, *_7$$5 = NULL, *_8$$5 = NULL, *_10$$6 = NULL, *_16$$7, *_17$$7, *_18$$7, *_19$$9, *_20$$10, *_21$$12 = NULL;
-	long mode;
+	zval *fetch_param = NULL, *sql_param = NULL, *params_param = NULL, *statement = NULL, *k = NULL, *v = NULL, *err = NULL, *resultItem = NULL, *result = NULL, *_0, *_1, *_12 = NULL, *_14 = NULL, _25, *_26 = NULL, *_27, **_4$$3, *_5$$5 = NULL, *_6$$5 = NULL, *_7$$5 = NULL, *_8$$5 = NULL, *_10$$6 = NULL, *_16$$7, *_17$$7, *_18$$7, *_19$$9, *_20$$10, *_21$$12 = NULL;
+	long fetch;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 1, &mode_param, &sql_param, &params_param);
+	zephir_fetch_params(1, 2, 1, &fetch_param, &sql_param, &params_param);
 
-	mode = zephir_get_intval(mode_param);
+	fetch = zephir_get_intval(fetch_param);
 	zephir_get_strval(sql, sql_param);
 	if (!params_param) {
 		ZEPHIR_INIT_VAR(params);
@@ -176,17 +176,17 @@ PHP_METHOD(Nc_Db_PdoAbstract, query) {
 		return;
 	}
 	do {
-		if (mode == 0) {
+		if (fetch == 0) {
 			RETURN_MM_NULL();
 		}
-		if (mode == 1) {
+		if (fetch == 1) {
 			ZEPHIR_INIT_VAR(_19$$9);
 			ZVAL_LONG(_19$$9, 2);
 			ZEPHIR_RETURN_CALL_METHOD(statement, "fetchall", NULL, 0, _19$$9);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
-		if (mode == 2) {
+		if (fetch == 2) {
 			ZEPHIR_INIT_VAR(_20$$10);
 			ZVAL_LONG(_20$$10, 2);
 			ZEPHIR_CALL_METHOD(&resultItem, statement, "fetch", NULL, 0, _20$$10);
@@ -196,13 +196,13 @@ PHP_METHOD(Nc_Db_PdoAbstract, query) {
 			}
 			RETURN_MM_NULL();
 		}
-		if (mode == 3) {
+		if (fetch == 3) {
 			ZEPHIR_CALL_METHOD(&_21$$12, statement, "fetchcolumn", NULL, 0);
 			zephir_check_call_status();
 			zephir_get_strval(_22$$12, _21$$12);
 			RETURN_CTOR(_22$$12);
 		}
-		if (mode == 4) {
+		if (fetch == 4) {
 			ZEPHIR_INIT_VAR(result);
 			array_init(result);
 			while (1) {
@@ -224,7 +224,7 @@ PHP_METHOD(Nc_Db_PdoAbstract, query) {
 	ZEPHIR_INIT_NVAR(_14);
 	object_init_ex(_14, nc_db_exception_ce);
 	ZEPHIR_SINIT_VAR(_25);
-	ZVAL_LONG(&_25, mode);
+	ZVAL_LONG(&_25, fetch);
 	ZEPHIR_CALL_FUNCTION(&_26, "strval", NULL, 23, &_25);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_27);

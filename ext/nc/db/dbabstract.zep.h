@@ -5,6 +5,11 @@ ZEPHIR_INIT_CLASS(Nc_Db_DbAbstract);
 
 PHP_METHOD(Nc_Db_DbAbstract, profiledQuery);
 PHP_METHOD(Nc_Db_DbAbstract, getQueries);
+PHP_METHOD(Nc_Db_DbAbstract, query);
+PHP_METHOD(Nc_Db_DbAbstract, queryAll);
+PHP_METHOD(Nc_Db_DbAbstract, queryRow);
+PHP_METHOD(Nc_Db_DbAbstract, queryCell);
+PHP_METHOD(Nc_Db_DbAbstract, queryColumns);
 PHP_METHOD(Nc_Db_DbAbstract, inTransaction);
 PHP_METHOD(Nc_Db_DbAbstract, begin);
 PHP_METHOD(Nc_Db_DbAbstract, commit);
@@ -44,6 +49,31 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_dbabstract_profiledquery, 0, 0, 3)
 	ZEND_ARG_INFO(0, q)
 	ZEND_ARG_ARRAY_INFO(0, p, 0)
 	ZEND_ARG_INFO(0, t)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_dbabstract_query, 0, 0, 1)
+	ZEND_ARG_INFO(0, sql)
+	ZEND_ARG_ARRAY_INFO(0, params, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_dbabstract_queryall, 0, 0, 1)
+	ZEND_ARG_INFO(0, sql)
+	ZEND_ARG_ARRAY_INFO(0, params, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_dbabstract_queryrow, 0, 0, 1)
+	ZEND_ARG_INFO(0, sql)
+	ZEND_ARG_ARRAY_INFO(0, params, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_dbabstract_querycell, 0, 0, 1)
+	ZEND_ARG_INFO(0, sql)
+	ZEND_ARG_ARRAY_INFO(0, params, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_dbabstract_querycolumns, 0, 0, 1)
+	ZEND_ARG_INFO(0, sql)
+	ZEND_ARG_ARRAY_INFO(0, params, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_dbabstract_savepoint, 0, 0, 1)
@@ -89,25 +119,25 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_dbabstract_select, 0, 0, 1)
 	ZEND_ARG_INFO(0, table)
 	ZEND_ARG_ARRAY_INFO(0, options, 1)
-	ZEND_ARG_INFO(0, mode)
+	ZEND_ARG_INFO(0, fetch)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_dbabstract_countandselect, 0, 0, 1)
 	ZEND_ARG_INFO(0, table)
 	ZEND_ARG_ARRAY_INFO(0, options, 1)
-	ZEND_ARG_INFO(0, mode)
+	ZEND_ARG_INFO(0, fetch)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_dbabstract_selectunionall, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, selects, 0)
 	ZEND_ARG_ARRAY_INFO(0, options, 1)
-	ZEND_ARG_INFO(0, mode)
+	ZEND_ARG_INFO(0, fetch)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_dbabstract_countandselectunionall, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, selects, 0)
 	ZEND_ARG_ARRAY_INFO(0, options, 1)
-	ZEND_ARG_INFO(0, mode)
+	ZEND_ARG_INFO(0, fetch)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_dbabstract_count, 0, 0, 1)
@@ -184,6 +214,11 @@ ZEND_END_ARG_INFO()
 ZEPHIR_INIT_FUNCS(nc_db_dbabstract_method_entry) {
 	PHP_ME(Nc_Db_DbAbstract, profiledQuery, arginfo_nc_db_dbabstract_profiledquery, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Nc_Db_DbAbstract, getQueries, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Nc_Db_DbAbstract, query, arginfo_nc_db_dbabstract_query, ZEND_ACC_PUBLIC)
+	PHP_ME(Nc_Db_DbAbstract, queryAll, arginfo_nc_db_dbabstract_queryall, ZEND_ACC_PUBLIC)
+	PHP_ME(Nc_Db_DbAbstract, queryRow, arginfo_nc_db_dbabstract_queryrow, ZEND_ACC_PUBLIC)
+	PHP_ME(Nc_Db_DbAbstract, queryCell, arginfo_nc_db_dbabstract_querycell, ZEND_ACC_PUBLIC)
+	PHP_ME(Nc_Db_DbAbstract, queryColumns, arginfo_nc_db_dbabstract_querycolumns, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_DbAbstract, inTransaction, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_DbAbstract, begin, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_DbAbstract, commit, NULL, ZEND_ACC_PUBLIC)

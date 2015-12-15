@@ -36,7 +36,17 @@ ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, getQueries);
 
 ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, quote);
 
+ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, queryAndFetch);
+
 ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, query);
+
+ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, queryAll);
+
+ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, queryRow);
+
+ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, queryCell);
+
+ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, queryColumns);
 
 ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, inTransaction);
 

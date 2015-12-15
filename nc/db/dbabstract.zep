@@ -31,6 +31,31 @@ abstract class DbAbstract implements DbInterface
         return [];
     }
 
+    public function query(string sql, array params = [])
+    {
+        return this->queryAndFetch(DbInterface::NONE, sql, params);
+    }
+
+    public function queryAll(string sql, array params = [])
+    {
+        return this->queryAndFetch(DbInterface::ALL, sql, params);
+    }
+
+    public function queryRow(string sql, array params = [])
+    {
+        return this->queryAndFetch(DbInterface::ROW, sql, params);
+    }
+
+    public function queryCell(string sql, array params = [])
+    {
+        return this->queryAndFetch(DbInterface::CELL, sql, params);
+    }
+
+    public function queryColumns(string sql, array params = [])
+    {
+        return this->queryAndFetch(DbInterface::COLUMNS, sql, params);
+    }
+
     public function inTransaction() -> bool
     {
         return this->inTransaction;
@@ -85,7 +110,7 @@ abstract class DbAbstract implements DbInterface
             throw new TransactionException("Duplicate savepoint: " . savepoint);
         }
 
-        this->query(DbInterface::NONE, "SAVEPOINT " . savepoint);
+        this->query("SAVEPOINT " . savepoint);
         let this->savepoints[savepoint] = savepoint;
     }
 
@@ -99,7 +124,7 @@ abstract class DbAbstract implements DbInterface
             throw new TransactionException("Cannot find savepoint: " . savepoint);
         }
 
-        this->query(DbInterface::NONE, "RELEASE SAVEPOINT " . savepoint);
+        this->query("RELEASE SAVEPOINT " . savepoint);
         unset this->savepoints[savepoint];
     }
 
@@ -117,7 +142,7 @@ abstract class DbAbstract implements DbInterface
 
         let savepoint = (string) end(this->savepoints);
 
-        this->query(DbInterface::NONE, "RELEASE SAVEPOINT " . savepoint);
+        this->query("RELEASE SAVEPOINT " . savepoint);
         unset this->savepoints[savepoint];
     }
 
@@ -131,7 +156,7 @@ abstract class DbAbstract implements DbInterface
             throw new TransactionException("Cannot find savepoint: " . savepoint);
         }
 
-        this->query(DbInterface::NONE, "ROLLBACK TO SAVEPOINT " . savepoint);
+        this->query("ROLLBACK TO SAVEPOINT " . savepoint);
 
         loop {
             if (string) array_pop(this->savepoints) === savepoint {
@@ -154,7 +179,7 @@ abstract class DbAbstract implements DbInterface
         }
 
         let savepoint = (string) end(this->savepoints);
-        this->query(DbInterface::NONE, "ROLLBACK TO SAVEPOINT " . savepoint);
+        this->query("ROLLBACK TO SAVEPOINT " . savepoint);
     }
 
     public function insert(string table, array data, string returningId = "")
@@ -171,10 +196,10 @@ abstract class DbAbstract implements DbInterface
 
         if returningId->length() > 0 {
             let s .= " RETURNING " . returningId;
-            return this->query(DbInterface::CELL, s, data);
+            return this->queryCell(s, data);
         }
 
-        this->query(DbInterface::NONE, s, data);
+        this->query(s, data);
     }
 
     public function delete(string table, array where = []) -> void
@@ -189,7 +214,7 @@ abstract class DbAbstract implements DbInterface
             }
         }
 
-        this->query(DbInterface::NONE, s);
+        this->query(s);
     }
 
     public function update(string table, array data, array where = []) -> void
@@ -210,7 +235,7 @@ abstract class DbAbstract implements DbInterface
             }
         }
 
-        this->query(DbInterface::NONE, s, data);
+        this->query(s, data);
     }
 
     public function upsert(string table, array data, var primaryKey = "id") -> void
@@ -287,12 +312,12 @@ abstract class DbAbstract implements DbInterface
         return s;
     }
 
-    public function select(string table, array options = [], long mode = DbInterface::ALL)
+    public function select(string table, array options = [], long $fetch = DbInterface::ALL)
     {
-        return this->query(mode, this->parseSelect(table, options));
+        return this->queryAndFetch($fetch, this->parseSelect(table, options));
     }
 
-    public function countAndSelect(string table, array options = [], long mode = DbInterface::ALL) -> array
+    public function countAndSelect(string table, array options = [], long $fetch = DbInterface::ALL) -> array
     {
         string s, w;
         var where;
@@ -308,18 +333,18 @@ abstract class DbAbstract implements DbInterface
             }
         }
 
-        let c = (long) this->query(DbInterface::CELL, s);
+        let c = (long) this->queryCell(s);
         if c < 1 {
             return [0, []];
         }
 
         return [
             c,
-            this->select(table, options, mode)
+            this->select(table, options, $fetch)
         ];
     }
 
-    public function selectUnionAll(array selects, array options = [], long mode = DbInterface::ALL)
+    public function selectUnionAll(array selects, array options = [], long $fetch = DbInterface::ALL)
     {
         var i, t, a = [];
         string s;
@@ -356,10 +381,10 @@ abstract class DbAbstract implements DbInterface
             let s = (string) this->parsePagination(s, limit, skip);
         }
 
-        return this->query(mode, s);
+        return this->queryAndFetch($fetch, s);
     }
 
-    public function countAndSelectUnionAll(array selects, array options = [], long mode = DbInterface::ALL) -> array
+    public function countAndSelectUnionAll(array selects, array options = [], long $fetch = DbInterface::ALL) -> array
     {
         var i, t, a = [];
         string s;
@@ -378,14 +403,14 @@ abstract class DbAbstract implements DbInterface
 
         let s = "SELECT COUNT(*) FROM (" . (string) implode(" UNION ALL ", a) . ") AS " . (string) this->nextFlag("u");
 
-        let c = (long) this->query(DbInterface::CELL, s);
+        let c = (long) this->queryCell(s);
         if c < 1 {
             return [0, []];
         }
 
         return [
             c,
-            this->selectUnionAll(selects, options, mode)
+            this->selectUnionAll(selects, options, $fetch)
         ];
     }
 
@@ -427,7 +452,7 @@ abstract class DbAbstract implements DbInterface
             }
         }
 
-        return this->query(DbInterface::CELL, s);
+        return this->queryCell(s);
     }
 
     public function aggregations(string table, array aggregations, array where = []) -> array
@@ -448,7 +473,7 @@ abstract class DbAbstract implements DbInterface
             }
         }
 
-        return this->query(DbInterface::ROW, s);
+        return this->queryRow(s);
     }
 
     public function groupAggregations(string table, string groupBy, array aggregations, array options = []) -> array
@@ -494,7 +519,7 @@ abstract class DbAbstract implements DbInterface
             }
         }
 
-        return this->query(DbInterface::ALL, s);
+        return this->queryAll(s);
     }
 
     public function parseWhere(array where, string sep = " AND ") -> string

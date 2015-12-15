@@ -93,6 +93,141 @@ PHP_METHOD(Nc_Db_DbAbstract, getQueries) {
 
 }
 
+PHP_METHOD(Nc_Db_DbAbstract, query) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *params = NULL;
+	zval *sql_param = NULL, *params_param = NULL, *_0;
+	zval *sql = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &sql_param, &params_param);
+
+	zephir_get_strval(sql, sql_param);
+	if (!params_param) {
+		ZEPHIR_INIT_VAR(params);
+		array_init(params);
+	} else {
+		zephir_get_arrval(params, params_param);
+	}
+
+
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_LONG(_0, 0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "queryandfetch", NULL, 0, _0, sql, params);
+	zephir_check_call_status();
+	RETURN_MM();
+
+}
+
+PHP_METHOD(Nc_Db_DbAbstract, queryAll) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *params = NULL;
+	zval *sql_param = NULL, *params_param = NULL, *_0;
+	zval *sql = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &sql_param, &params_param);
+
+	zephir_get_strval(sql, sql_param);
+	if (!params_param) {
+		ZEPHIR_INIT_VAR(params);
+		array_init(params);
+	} else {
+		zephir_get_arrval(params, params_param);
+	}
+
+
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_LONG(_0, 1);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "queryandfetch", NULL, 0, _0, sql, params);
+	zephir_check_call_status();
+	RETURN_MM();
+
+}
+
+PHP_METHOD(Nc_Db_DbAbstract, queryRow) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *params = NULL;
+	zval *sql_param = NULL, *params_param = NULL, *_0;
+	zval *sql = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &sql_param, &params_param);
+
+	zephir_get_strval(sql, sql_param);
+	if (!params_param) {
+		ZEPHIR_INIT_VAR(params);
+		array_init(params);
+	} else {
+		zephir_get_arrval(params, params_param);
+	}
+
+
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_LONG(_0, 2);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "queryandfetch", NULL, 0, _0, sql, params);
+	zephir_check_call_status();
+	RETURN_MM();
+
+}
+
+PHP_METHOD(Nc_Db_DbAbstract, queryCell) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *params = NULL;
+	zval *sql_param = NULL, *params_param = NULL, *_0;
+	zval *sql = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &sql_param, &params_param);
+
+	zephir_get_strval(sql, sql_param);
+	if (!params_param) {
+		ZEPHIR_INIT_VAR(params);
+		array_init(params);
+	} else {
+		zephir_get_arrval(params, params_param);
+	}
+
+
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_LONG(_0, 3);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "queryandfetch", NULL, 0, _0, sql, params);
+	zephir_check_call_status();
+	RETURN_MM();
+
+}
+
+PHP_METHOD(Nc_Db_DbAbstract, queryColumns) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *params = NULL;
+	zval *sql_param = NULL, *params_param = NULL, *_0;
+	zval *sql = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 1, &sql_param, &params_param);
+
+	zephir_get_strval(sql, sql_param);
+	if (!params_param) {
+		ZEPHIR_INIT_VAR(params);
+		array_init(params);
+	} else {
+		zephir_get_arrval(params, params_param);
+	}
+
+
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_LONG(_0, 4);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "queryandfetch", NULL, 0, _0, sql, params);
+	zephir_check_call_status();
+	RETURN_MM();
+
+}
+
 PHP_METHOD(Nc_Db_DbAbstract, inTransaction) {
 
 	
@@ -110,13 +245,13 @@ PHP_METHOD(Nc_Db_DbAbstract, begin) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("inTransaction"), PH_NOISY_CC);
 	if (unlikely(!(!zephir_is_true(_0)))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_transactionexception_ce, "Cannot begin when already in transaction", "nc/db/dbabstract.zep", 42);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_transactionexception_ce, "Cannot begin when already in transaction", "nc/db/dbabstract.zep", 67);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "trytobegin", NULL, 0);
 	zephir_check_call_status();
 	if (unlikely(!zephir_is_true(_1))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_transactionexception_ce, "Cannot begin transaction", "nc/db/dbabstract.zep", 46);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_transactionexception_ce, "Cannot begin transaction", "nc/db/dbabstract.zep", 71);
 		return;
 	}
 	if (1) {
@@ -137,13 +272,13 @@ PHP_METHOD(Nc_Db_DbAbstract, commit) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("inTransaction"), PH_NOISY_CC);
 	if (unlikely(!zephir_is_true(_0))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_transactionexception_ce, "Cannot commit when not in transaction", "nc/db/dbabstract.zep", 55);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_transactionexception_ce, "Cannot commit when not in transaction", "nc/db/dbabstract.zep", 80);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "trytocommit", NULL, 0);
 	zephir_check_call_status();
 	if (unlikely(!zephir_is_true(_1))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_transactionexception_ce, "Cannot commit transaction", "nc/db/dbabstract.zep", 59);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_transactionexception_ce, "Cannot commit transaction", "nc/db/dbabstract.zep", 84);
 		return;
 	}
 	if (0) {
@@ -164,13 +299,13 @@ PHP_METHOD(Nc_Db_DbAbstract, rollback) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("inTransaction"), PH_NOISY_CC);
 	if (unlikely(!zephir_is_true(_0))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_transactionexception_ce, "Cannot rollback when not in transaction", "nc/db/dbabstract.zep", 68);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_transactionexception_ce, "Cannot rollback when not in transaction", "nc/db/dbabstract.zep", 93);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "trytorollback", NULL, 0);
 	zephir_check_call_status();
 	if (unlikely(!zephir_is_true(_1))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_transactionexception_ce, "Cannot rollback transaction", "nc/db/dbabstract.zep", 72);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_transactionexception_ce, "Cannot rollback transaction", "nc/db/dbabstract.zep", 97);
 		return;
 	}
 	if (0) {
@@ -185,6 +320,44 @@ PHP_METHOD(Nc_Db_DbAbstract, rollback) {
 PHP_METHOD(Nc_Db_DbAbstract, savepoint) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
+	zval *savepoint_param = NULL, *_0, *_1, *_2$$4;
+	zval *savepoint = NULL, *_4, *_3$$4;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &savepoint_param);
+
+	zephir_get_strval(savepoint, savepoint_param);
+
+
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("inTransaction"), PH_NOISY_CC);
+	if (unlikely(!zephir_is_true(_0))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_transactionexception_ce, "Cannot acquire a savepoint when not in a transaction", "nc/db/dbabstract.zep", 106);
+		return;
+	}
+	_1 = zephir_fetch_nproperty_this(this_ptr, SL("savepoints"), PH_NOISY_CC);
+	if (unlikely(zephir_array_isset(_1, savepoint))) {
+		ZEPHIR_INIT_VAR(_2$$4);
+		object_init_ex(_2$$4, nc_db_transactionexception_ce);
+		ZEPHIR_INIT_VAR(_3$$4);
+		ZEPHIR_CONCAT_SV(_3$$4, "Duplicate savepoint: ", savepoint);
+		ZEPHIR_CALL_METHOD(NULL, _2$$4, "__construct", NULL, 2, _3$$4);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(_2$$4, "nc/db/dbabstract.zep", 110 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_INIT_VAR(_4);
+	ZEPHIR_CONCAT_SV(_4, "SAVEPOINT ", savepoint);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "query", NULL, 0, _4);
+	zephir_check_call_status();
+	zephir_update_property_array(this_ptr, SL("savepoints"), savepoint, savepoint TSRMLS_CC);
+	ZEPHIR_MM_RESTORE();
+
+}
+
+PHP_METHOD(Nc_Db_DbAbstract, releaseSavepoint) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
 	zval *savepoint_param = NULL, *_0, *_1, *_5, *_2$$4;
 	zval *savepoint = NULL, *_4, *_3$$4;
 
@@ -196,47 +369,7 @@ PHP_METHOD(Nc_Db_DbAbstract, savepoint) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("inTransaction"), PH_NOISY_CC);
 	if (unlikely(!zephir_is_true(_0))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_transactionexception_ce, "Cannot acquire a savepoint when not in a transaction", "nc/db/dbabstract.zep", 81);
-		return;
-	}
-	_1 = zephir_fetch_nproperty_this(this_ptr, SL("savepoints"), PH_NOISY_CC);
-	if (unlikely(zephir_array_isset(_1, savepoint))) {
-		ZEPHIR_INIT_VAR(_2$$4);
-		object_init_ex(_2$$4, nc_db_transactionexception_ce);
-		ZEPHIR_INIT_VAR(_3$$4);
-		ZEPHIR_CONCAT_SV(_3$$4, "Duplicate savepoint: ", savepoint);
-		ZEPHIR_CALL_METHOD(NULL, _2$$4, "__construct", NULL, 2, _3$$4);
-		zephir_check_call_status();
-		zephir_throw_exception_debug(_2$$4, "nc/db/dbabstract.zep", 85 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
-		return;
-	}
-	ZEPHIR_INIT_VAR(_4);
-	ZEPHIR_CONCAT_SV(_4, "SAVEPOINT ", savepoint);
-	ZEPHIR_INIT_VAR(_5);
-	ZVAL_LONG(_5, 0);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "query", NULL, 0, _5, _4);
-	zephir_check_call_status();
-	zephir_update_property_array(this_ptr, SL("savepoints"), savepoint, savepoint TSRMLS_CC);
-	ZEPHIR_MM_RESTORE();
-
-}
-
-PHP_METHOD(Nc_Db_DbAbstract, releaseSavepoint) {
-
-	int ZEPHIR_LAST_CALL_STATUS;
-	zval *savepoint_param = NULL, *_0, *_1, *_5, *_6, *_2$$4;
-	zval *savepoint = NULL, *_4, *_3$$4;
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &savepoint_param);
-
-	zephir_get_strval(savepoint, savepoint_param);
-
-
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("inTransaction"), PH_NOISY_CC);
-	if (unlikely(!zephir_is_true(_0))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_transactionexception_ce, "Cannot release a savepoint when not in a transaction", "nc/db/dbabstract.zep", 95);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_transactionexception_ce, "Cannot release a savepoint when not in a transaction", "nc/db/dbabstract.zep", 120);
 		return;
 	}
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("savepoints"), PH_NOISY_CC);
@@ -247,25 +380,23 @@ PHP_METHOD(Nc_Db_DbAbstract, releaseSavepoint) {
 		ZEPHIR_CONCAT_SV(_3$$4, "Cannot find savepoint: ", savepoint);
 		ZEPHIR_CALL_METHOD(NULL, _2$$4, "__construct", NULL, 2, _3$$4);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_2$$4, "nc/db/dbabstract.zep", 99 TSRMLS_CC);
+		zephir_throw_exception_debug(_2$$4, "nc/db/dbabstract.zep", 124 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	ZEPHIR_INIT_VAR(_4);
 	ZEPHIR_CONCAT_SV(_4, "RELEASE SAVEPOINT ", savepoint);
-	ZEPHIR_INIT_VAR(_5);
-	ZVAL_LONG(_5, 0);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "query", NULL, 0, _5, _4);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "query", NULL, 0, _4);
 	zephir_check_call_status();
-	_6 = zephir_fetch_nproperty_this(this_ptr, SL("savepoints"), PH_NOISY_CC);
-	zephir_array_unset(&_6, savepoint, PH_SEPARATE);
+	_5 = zephir_fetch_nproperty_this(this_ptr, SL("savepoints"), PH_NOISY_CC);
+	zephir_array_unset(&_5, savepoint, PH_SEPARATE);
 	ZEPHIR_MM_RESTORE();
 
 }
 
 PHP_METHOD(Nc_Db_DbAbstract, releaseLastSavepoint) {
 
-	zval *_0, *_1, *_2, *_3 = NULL, *_6, *_7;
+	zval *_0, *_1, *_2, *_3 = NULL, *_6;
 	zval *savepoint = NULL, *_4 = NULL, *_5;
 	int ZEPHIR_LAST_CALL_STATUS;
 
@@ -273,12 +404,12 @@ PHP_METHOD(Nc_Db_DbAbstract, releaseLastSavepoint) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("inTransaction"), PH_NOISY_CC);
 	if (unlikely(!zephir_is_true(_0))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_transactionexception_ce, "Cannot release last savepoint when not in a transaction", "nc/db/dbabstract.zep", 111);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_transactionexception_ce, "Cannot release last savepoint when not in a transaction", "nc/db/dbabstract.zep", 136);
 		return;
 	}
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("savepoints"), PH_NOISY_CC);
 	if (unlikely(!zephir_is_true(_1))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_transactionexception_ce, "Empty savepoint stack", "nc/db/dbabstract.zep", 115);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_transactionexception_ce, "Empty savepoint stack", "nc/db/dbabstract.zep", 140);
 		return;
 	}
 	_2 = zephir_fetch_nproperty_this(this_ptr, SL("savepoints"), PH_NOISY_CC);
@@ -290,22 +421,20 @@ PHP_METHOD(Nc_Db_DbAbstract, releaseLastSavepoint) {
 	ZEPHIR_CPY_WRT(savepoint, _4);
 	ZEPHIR_INIT_VAR(_5);
 	ZEPHIR_CONCAT_SV(_5, "RELEASE SAVEPOINT ", savepoint);
-	ZEPHIR_INIT_VAR(_6);
-	ZVAL_LONG(_6, 0);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "query", NULL, 0, _6, _5);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "query", NULL, 0, _5);
 	zephir_check_call_status();
-	_7 = zephir_fetch_nproperty_this(this_ptr, SL("savepoints"), PH_NOISY_CC);
-	zephir_array_unset(&_7, savepoint, PH_SEPARATE);
+	_6 = zephir_fetch_nproperty_this(this_ptr, SL("savepoints"), PH_NOISY_CC);
+	zephir_array_unset(&_6, savepoint, PH_SEPARATE);
 	ZEPHIR_MM_RESTORE();
 
 }
 
 PHP_METHOD(Nc_Db_DbAbstract, rollbackToSavepoint) {
 
-	zephir_fcall_cache_entry *_8 = NULL;
+	zephir_fcall_cache_entry *_7 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *savepoint_param = NULL, *_0, *_1, *_5, *_2$$4, *_6$$5, *_7$$5 = NULL;
-	zval *savepoint = NULL, *_4, *_3$$4, *_9$$5 = NULL;
+	zval *savepoint_param = NULL, *_0, *_1, *_2$$4, *_5$$5, *_6$$5 = NULL;
+	zval *savepoint = NULL, *_4, *_3$$4, *_8$$5 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &savepoint_param);
@@ -315,7 +444,7 @@ PHP_METHOD(Nc_Db_DbAbstract, rollbackToSavepoint) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("inTransaction"), PH_NOISY_CC);
 	if (unlikely(!zephir_is_true(_0))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_transactionexception_ce, "Cannot rollback to a savepoint when not in a transaction", "nc/db/dbabstract.zep", 127);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_transactionexception_ce, "Cannot rollback to a savepoint when not in a transaction", "nc/db/dbabstract.zep", 152);
 		return;
 	}
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("savepoints"), PH_NOISY_CC);
@@ -326,24 +455,22 @@ PHP_METHOD(Nc_Db_DbAbstract, rollbackToSavepoint) {
 		ZEPHIR_CONCAT_SV(_3$$4, "Cannot find savepoint: ", savepoint);
 		ZEPHIR_CALL_METHOD(NULL, _2$$4, "__construct", NULL, 2, _3$$4);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_2$$4, "nc/db/dbabstract.zep", 131 TSRMLS_CC);
+		zephir_throw_exception_debug(_2$$4, "nc/db/dbabstract.zep", 156 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	ZEPHIR_INIT_VAR(_4);
 	ZEPHIR_CONCAT_SV(_4, "ROLLBACK TO SAVEPOINT ", savepoint);
-	ZEPHIR_INIT_VAR(_5);
-	ZVAL_LONG(_5, 0);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "query", NULL, 0, _5, _4);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "query", NULL, 0, _4);
 	zephir_check_call_status();
 	while (1) {
-		_6$$5 = zephir_fetch_nproperty_this(this_ptr, SL("savepoints"), PH_NOISY_CC);
-		ZEPHIR_MAKE_REF(_6$$5);
-		ZEPHIR_CALL_FUNCTION(&_7$$5, "array_pop", &_8, 4, _6$$5);
-		ZEPHIR_UNREF(_6$$5);
+		_5$$5 = zephir_fetch_nproperty_this(this_ptr, SL("savepoints"), PH_NOISY_CC);
+		ZEPHIR_MAKE_REF(_5$$5);
+		ZEPHIR_CALL_FUNCTION(&_6$$5, "array_pop", &_7, 4, _5$$5);
+		ZEPHIR_UNREF(_5$$5);
 		zephir_check_call_status();
-		zephir_get_strval(_9$$5, _7$$5);
-		if (ZEPHIR_IS_IDENTICAL(_9$$5, savepoint)) {
+		zephir_get_strval(_8$$5, _6$$5);
+		if (ZEPHIR_IS_IDENTICAL(_8$$5, savepoint)) {
 			zephir_update_property_array(this_ptr, SL("savepoints"), savepoint, savepoint TSRMLS_CC);
 			break;
 		}
@@ -354,7 +481,7 @@ PHP_METHOD(Nc_Db_DbAbstract, rollbackToSavepoint) {
 
 PHP_METHOD(Nc_Db_DbAbstract, rollbackToLastSavepoint) {
 
-	zval *_0, *_1, *_2, *_3 = NULL, *_6;
+	zval *_0, *_1, *_2, *_3 = NULL;
 	zval *savepoint = NULL, *_4 = NULL, *_5;
 	int ZEPHIR_LAST_CALL_STATUS;
 
@@ -362,12 +489,12 @@ PHP_METHOD(Nc_Db_DbAbstract, rollbackToLastSavepoint) {
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("inTransaction"), PH_NOISY_CC);
 	if (unlikely(!zephir_is_true(_0))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_transactionexception_ce, "Cannot rollback to last savepoint when not in a transaction", "nc/db/dbabstract.zep", 149);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_transactionexception_ce, "Cannot rollback to last savepoint when not in a transaction", "nc/db/dbabstract.zep", 174);
 		return;
 	}
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("savepoints"), PH_NOISY_CC);
 	if (unlikely(!zephir_is_true(_1))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_transactionexception_ce, "Empty savepoint stack", "nc/db/dbabstract.zep", 153);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_transactionexception_ce, "Empty savepoint stack", "nc/db/dbabstract.zep", 178);
 		return;
 	}
 	_2 = zephir_fetch_nproperty_this(this_ptr, SL("savepoints"), PH_NOISY_CC);
@@ -379,9 +506,7 @@ PHP_METHOD(Nc_Db_DbAbstract, rollbackToLastSavepoint) {
 	ZEPHIR_CPY_WRT(savepoint, _4);
 	ZEPHIR_INIT_VAR(_5);
 	ZEPHIR_CONCAT_SV(_5, "ROLLBACK TO SAVEPOINT ", savepoint);
-	ZEPHIR_INIT_VAR(_6);
-	ZVAL_LONG(_6, 0);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "query", NULL, 0, _6, _5);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "query", NULL, 0, _5);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -393,7 +518,7 @@ PHP_METHOD(Nc_Db_DbAbstract, insert) {
 	HashPosition _1;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *data = NULL;
-	zval *table_param = NULL, *data_param = NULL, *returningId_param = NULL, *k = NULL, *ks = NULL, *vs = NULL, *_0 = NULL, **_3, *_5, *_6, *_7, *_8 = NULL, *_11, *_4$$3 = NULL, *_10$$4;
+	zval *table_param = NULL, *data_param = NULL, *returningId_param = NULL, *k = NULL, *ks = NULL, *vs = NULL, *_0 = NULL, **_3, *_5, *_6, *_7, *_8 = NULL, *_4$$3 = NULL;
 	zval *table = NULL, *returningId = NULL, *s = NULL, *_9$$4;
 
 	ZEPHIR_MM_GROW();
@@ -414,17 +539,17 @@ PHP_METHOD(Nc_Db_DbAbstract, insert) {
 	ZEPHIR_INIT_VAR(vs);
 	array_init(vs);
 	ZEPHIR_INIT_VAR(_0);
-	zephir_is_iterable(data, &_2, &_1, 0, 0, "nc/db/dbabstract.zep", 170);
+	zephir_is_iterable(data, &_2, &_1, 0, 0, "nc/db/dbabstract.zep", 195);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
 	) {
 		ZEPHIR_GET_HMKEY(k, _2, _1);
 		ZEPHIR_GET_HVALUE(_0, _3);
-		zephir_array_append(&ks, k, PH_SEPARATE, "nc/db/dbabstract.zep", 166);
+		zephir_array_append(&ks, k, PH_SEPARATE, "nc/db/dbabstract.zep", 191);
 		ZEPHIR_INIT_LNVAR(_4$$3);
 		ZEPHIR_CONCAT_SV(_4$$3, ":", k);
-		zephir_array_append(&vs, _4$$3, PH_SEPARATE, "nc/db/dbabstract.zep", 167);
+		zephir_array_append(&vs, _4$$3, PH_SEPARATE, "nc/db/dbabstract.zep", 192);
 	}
 	ZEPHIR_INIT_VAR(_5);
 	zephir_fast_join_str(_5, SL(", "), ks TSRMLS_CC);
@@ -437,15 +562,11 @@ PHP_METHOD(Nc_Db_DbAbstract, insert) {
 		ZEPHIR_INIT_VAR(_9$$4);
 		ZEPHIR_CONCAT_SV(_9$$4, " RETURNING ", returningId);
 		zephir_concat_self(&s, _9$$4 TSRMLS_CC);
-		ZEPHIR_INIT_VAR(_10$$4);
-		ZVAL_LONG(_10$$4, 3);
-		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "query", NULL, 0, _10$$4, s, data);
+		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "querycell", NULL, 0, s, data);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_INIT_VAR(_11);
-	ZVAL_LONG(_11, 0);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "query", NULL, 0, _11, s, data);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "query", NULL, 0, s, data);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -455,7 +576,7 @@ PHP_METHOD(Nc_Db_DbAbstract, delete) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *where = NULL;
-	zval *table_param = NULL, *where_param = NULL, *_4, *_0$$3 = NULL, *_2$$3 = NULL;
+	zval *table_param = NULL, *where_param = NULL, *_0$$3 = NULL, *_2$$3 = NULL;
 	zval *table = NULL, *s = NULL, *w = NULL, *_1$$3 = NULL, *_3$$4;
 
 	ZEPHIR_MM_GROW();
@@ -483,9 +604,7 @@ PHP_METHOD(Nc_Db_DbAbstract, delete) {
 			zephir_concat_self(&s, _3$$4 TSRMLS_CC);
 		}
 	}
-	ZEPHIR_INIT_VAR(_4);
-	ZVAL_LONG(_4, 0);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "query", NULL, 0, _4, s);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "query", NULL, 0, s);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -497,7 +616,7 @@ PHP_METHOD(Nc_Db_DbAbstract, update) {
 	HashPosition _1;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *data = NULL, *where = NULL;
-	zval *table_param = NULL, *data_param = NULL, *where_param = NULL, *k = NULL, *kvs = NULL, *_0 = NULL, **_3, *_5, *_6, *_11, *_4$$3 = NULL, *_7$$4 = NULL, *_9$$4 = NULL;
+	zval *table_param = NULL, *data_param = NULL, *where_param = NULL, *k = NULL, *kvs = NULL, *_0 = NULL, **_3, *_5, *_6, *_4$$3 = NULL, *_7$$4 = NULL, *_9$$4 = NULL;
 	zval *table = NULL, *s = NULL, *w = NULL, *_8$$4 = NULL, *_10$$5;
 
 	ZEPHIR_MM_GROW();
@@ -516,7 +635,7 @@ PHP_METHOD(Nc_Db_DbAbstract, update) {
 	ZEPHIR_INIT_VAR(kvs);
 	array_init(kvs);
 	ZEPHIR_INIT_VAR(_0);
-	zephir_is_iterable(data, &_2, &_1, 0, 0, "nc/db/dbabstract.zep", 204);
+	zephir_is_iterable(data, &_2, &_1, 0, 0, "nc/db/dbabstract.zep", 229);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -543,9 +662,7 @@ PHP_METHOD(Nc_Db_DbAbstract, update) {
 			zephir_concat_self(&s, _10$$5 TSRMLS_CC);
 		}
 	}
-	ZEPHIR_INIT_VAR(_11);
-	ZVAL_LONG(_11, 0);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "query", NULL, 0, _11, s, data);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "query", NULL, 0, s, data);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -575,7 +692,7 @@ PHP_METHOD(Nc_Db_DbAbstract, upsert) {
 	ZEPHIR_INIT_VAR(where);
 	array_init(where);
 	if (Z_TYPE_P(primaryKey) == IS_ARRAY) {
-		zephir_is_iterable(primaryKey, &_1$$3, &_0$$3, 0, 0, "nc/db/dbabstract.zep", 227);
+		zephir_is_iterable(primaryKey, &_1$$3, &_0$$3, 0, 0, "nc/db/dbabstract.zep", 252);
 		for (
 		  ; zephir_hash_get_current_data_ex(_1$$3, (void**) &_2$$3, &_0$$3) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_1$$3, &_0$$3)
@@ -589,14 +706,14 @@ PHP_METHOD(Nc_Db_DbAbstract, upsert) {
 				ZEPHIR_CONCAT_SV(_4$$5, "Cannot find primary key value in data: ", k);
 				ZEPHIR_CALL_METHOD(NULL, _3$$5, "__construct", &_5, 2, _4$$5);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(_3$$5, "nc/db/dbabstract.zep", 223 TSRMLS_CC);
+				zephir_throw_exception_debug(_3$$5, "nc/db/dbabstract.zep", 248 TSRMLS_CC);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
 			zephir_array_update_zval(&where, k, &v, PH_COPY | PH_SEPARATE);
 		}
 		if (unlikely(!zephir_is_true(where))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_exception_ce, "Cannot upsert with empty where", "nc/db/dbabstract.zep", 228);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_exception_ce, "Cannot upsert with empty where", "nc/db/dbabstract.zep", 253);
 			return;
 		}
 	} else {
@@ -610,7 +727,7 @@ PHP_METHOD(Nc_Db_DbAbstract, upsert) {
 			ZEPHIR_CONCAT_SV(_8$$8, "Cannot find primary key value in data: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _7$$8, "__construct", &_5, 2, _8$$8);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_7$$8, "nc/db/dbabstract.zep", 233 TSRMLS_CC);
+			zephir_throw_exception_debug(_7$$8, "nc/db/dbabstract.zep", 258 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -748,13 +865,13 @@ PHP_METHOD(Nc_Db_DbAbstract, parseSelect) {
 PHP_METHOD(Nc_Db_DbAbstract, select) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	long mode;
+	long fetch;
 	zval *options = NULL;
-	zval *table_param = NULL, *options_param = NULL, *mode_param = NULL, *_0 = NULL, *_1;
+	zval *table_param = NULL, *options_param = NULL, *fetch_param = NULL, *_0 = NULL, *_1;
 	zval *table = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 2, &table_param, &options_param, &mode_param);
+	zephir_fetch_params(1, 1, 2, &table_param, &options_param, &fetch_param);
 
 	zephir_get_strval(table, table_param);
 	if (!options_param) {
@@ -763,18 +880,18 @@ PHP_METHOD(Nc_Db_DbAbstract, select) {
 	} else {
 		zephir_get_arrval(options, options_param);
 	}
-	if (!mode_param) {
-		mode = 1;
+	if (!fetch_param) {
+		fetch = 1;
 	} else {
-		mode = zephir_get_intval(mode_param);
+		fetch = zephir_get_intval(fetch_param);
 	}
 
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "parseselect", NULL, 0, table, options);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_1);
-	ZVAL_LONG(_1, mode);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "query", NULL, 0, _1, _0);
+	ZVAL_LONG(_1, fetch);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "queryandfetch", NULL, 0, _1, _0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -784,13 +901,13 @@ PHP_METHOD(Nc_Db_DbAbstract, countAndSelect) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_1 = NULL;
-	long mode, c = 0;
+	long fetch, c = 0;
 	zval *options = NULL, *_4 = NULL;
-	zval *table_param = NULL, *options_param = NULL, *mode_param = NULL, *where = NULL, *_0 = NULL, *_2, *_3 = NULL, *_9 = NULL, *_11 = NULL, *_5$$3 = NULL, *_7$$3 = NULL, *_10$$5 = NULL;
+	zval *table_param = NULL, *options_param = NULL, *fetch_param = NULL, *where = NULL, *_0 = NULL, *_2, *_3 = NULL, *_9 = NULL, *_11 = NULL, *_5$$3 = NULL, *_7$$3 = NULL, *_10$$5 = NULL;
 	zval *table = NULL, *s = NULL, *w = NULL, *_6$$3 = NULL, *_8$$4;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 2, &table_param, &options_param, &mode_param);
+	zephir_fetch_params(1, 1, 2, &table_param, &options_param, &fetch_param);
 
 	zephir_get_strval(table, table_param);
 	if (!options_param) {
@@ -799,10 +916,10 @@ PHP_METHOD(Nc_Db_DbAbstract, countAndSelect) {
 	} else {
 		zephir_get_arrval(options, options_param);
 	}
-	if (!mode_param) {
-		mode = 1;
+	if (!fetch_param) {
+		fetch = 1;
 	} else {
-		mode = zephir_get_intval(mode_param);
+		fetch = zephir_get_intval(fetch_param);
 	}
 
 
@@ -828,9 +945,7 @@ PHP_METHOD(Nc_Db_DbAbstract, countAndSelect) {
 			zephir_concat_self(&s, _8$$4 TSRMLS_CC);
 		}
 	}
-	ZEPHIR_INIT_NVAR(_3);
-	ZVAL_LONG(_3, 3);
-	ZEPHIR_CALL_METHOD(&_9, this_ptr, "query", NULL, 0, _3, s);
+	ZEPHIR_CALL_METHOD(&_9, this_ptr, "querycell", NULL, 0, s);
 	zephir_check_call_status();
 	c = zephir_get_intval(_9);
 	if (c < 1) {
@@ -848,7 +963,7 @@ PHP_METHOD(Nc_Db_DbAbstract, countAndSelect) {
 	ZVAL_LONG(_3, c);
 	zephir_array_fast_append(return_value, _3);
 	ZEPHIR_INIT_NVAR(_3);
-	ZVAL_LONG(_3, mode);
+	ZVAL_LONG(_3, fetch);
 	ZEPHIR_CALL_METHOD(&_11, this_ptr, "select", NULL, 0, table, options, _3);
 	zephir_check_call_status();
 	zephir_array_fast_append(return_value, _11);
@@ -864,12 +979,12 @@ PHP_METHOD(Nc_Db_DbAbstract, selectUnionAll) {
 	zval *s = NULL, *_8 = NULL, *_11 = NULL, *_18$$7 = NULL, *_19$$7, *_20$$8 = NULL, *_21$$8, *_25$$9 = NULL;
 	zephir_fcall_cache_entry *_5 = NULL, *_12 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	long mode, limit = 0, skip = 0;
-	zval *selects_param = NULL, *options_param = NULL, *mode_param = NULL, *i = NULL, *t = NULL, *a = NULL, *orderBy = NULL, **_2, *_7, *_9 = NULL, *_10 = NULL, *_13 = NULL, *_14, *_15 = NULL, *_16 = NULL, *_6$$4 = NULL, *_4$$5 = NULL, *_17$$7 = NULL, *_22$$9 = NULL, *_23$$9, *_24$$9;
+	long fetch, limit = 0, skip = 0;
+	zval *selects_param = NULL, *options_param = NULL, *fetch_param = NULL, *i = NULL, *t = NULL, *a = NULL, *orderBy = NULL, **_2, *_7, *_9 = NULL, *_10 = NULL, *_13 = NULL, *_14, *_15 = NULL, *_16 = NULL, *_6$$4 = NULL, *_4$$5 = NULL, *_17$$7 = NULL, *_22$$9 = NULL, *_23$$9, *_24$$9;
 	zval *selects = NULL, *options = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 2, &selects_param, &options_param, &mode_param);
+	zephir_fetch_params(1, 1, 2, &selects_param, &options_param, &fetch_param);
 
 	zephir_get_arrval(selects, selects_param);
 	if (!options_param) {
@@ -878,10 +993,10 @@ PHP_METHOD(Nc_Db_DbAbstract, selectUnionAll) {
 	} else {
 		zephir_get_arrval(options, options_param);
 	}
-	if (!mode_param) {
-		mode = 1;
+	if (!fetch_param) {
+		fetch = 1;
 	} else {
-		mode = zephir_get_intval(mode_param);
+		fetch = zephir_get_intval(fetch_param);
 	}
 
 
@@ -891,7 +1006,7 @@ PHP_METHOD(Nc_Db_DbAbstract, selectUnionAll) {
 		array_init(return_value);
 		RETURN_MM();
 	}
-	zephir_is_iterable(selects, &_1, &_0, 0, 0, "nc/db/dbabstract.zep", 340);
+	zephir_is_iterable(selects, &_1, &_0, 0, 0, "nc/db/dbabstract.zep", 365);
 	for (
 	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_1, &_0)
@@ -909,7 +1024,7 @@ PHP_METHOD(Nc_Db_DbAbstract, selectUnionAll) {
 		}
 		ZEPHIR_INIT_LNVAR(_6$$4);
 		ZEPHIR_CONCAT_SVS(_6$$4, "(", i, ")");
-		zephir_array_append(&a, _6$$4, PH_SEPARATE, "nc/db/dbabstract.zep", 337);
+		zephir_array_append(&a, _6$$4, PH_SEPARATE, "nc/db/dbabstract.zep", 362);
 	}
 	ZEPHIR_INIT_VAR(_7);
 	zephir_fast_join_str(_7, SL(" UNION ALL "), a TSRMLS_CC);
@@ -974,8 +1089,8 @@ PHP_METHOD(Nc_Db_DbAbstract, selectUnionAll) {
 		ZEPHIR_CPY_WRT(s, _25$$9);
 	}
 	ZEPHIR_INIT_NVAR(_10);
-	ZVAL_LONG(_10, mode);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "query", NULL, 0, _10, s);
+	ZVAL_LONG(_10, fetch);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "queryandfetch", NULL, 0, _10, s);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -989,12 +1104,12 @@ PHP_METHOD(Nc_Db_DbAbstract, countAndSelectUnionAll) {
 	zval *s = NULL, *_9 = NULL, *_12 = NULL;
 	zephir_fcall_cache_entry *_6 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	long mode, c = 0;
-	zval *selects_param = NULL, *options_param = NULL, *mode_param = NULL, *i = NULL, *t = NULL, *a = NULL, **_3, *_8, *_10 = NULL, *_11 = NULL, *_13 = NULL, *_15 = NULL, *_0$$3 = NULL, *_7$$4 = NULL, *_5$$5 = NULL, *_14$$6 = NULL;
+	long fetch, c = 0;
+	zval *selects_param = NULL, *options_param = NULL, *fetch_param = NULL, *i = NULL, *t = NULL, *a = NULL, **_3, *_8, *_10 = NULL, *_11 = NULL, *_13 = NULL, *_15 = NULL, *_0$$3 = NULL, *_7$$4 = NULL, *_5$$5 = NULL, *_14$$6 = NULL;
 	zval *selects = NULL, *options = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 2, &selects_param, &options_param, &mode_param);
+	zephir_fetch_params(1, 1, 2, &selects_param, &options_param, &fetch_param);
 
 	zephir_get_arrval(selects, selects_param);
 	if (!options_param) {
@@ -1003,10 +1118,10 @@ PHP_METHOD(Nc_Db_DbAbstract, countAndSelectUnionAll) {
 	} else {
 		zephir_get_arrval(options, options_param);
 	}
-	if (!mode_param) {
-		mode = 1;
+	if (!fetch_param) {
+		fetch = 1;
 	} else {
-		mode = zephir_get_intval(mode_param);
+		fetch = zephir_get_intval(fetch_param);
 	}
 
 
@@ -1022,7 +1137,7 @@ PHP_METHOD(Nc_Db_DbAbstract, countAndSelectUnionAll) {
 		zephir_array_fast_append(return_value, _0$$3);
 		RETURN_MM();
 	}
-	zephir_is_iterable(selects, &_2, &_1, 0, 0, "nc/db/dbabstract.zep", 379);
+	zephir_is_iterable(selects, &_2, &_1, 0, 0, "nc/db/dbabstract.zep", 404);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -1040,7 +1155,7 @@ PHP_METHOD(Nc_Db_DbAbstract, countAndSelectUnionAll) {
 		}
 		ZEPHIR_INIT_LNVAR(_7$$4);
 		ZEPHIR_CONCAT_SVS(_7$$4, "(", i, ")");
-		zephir_array_append(&a, _7$$4, PH_SEPARATE, "nc/db/dbabstract.zep", 376);
+		zephir_array_append(&a, _7$$4, PH_SEPARATE, "nc/db/dbabstract.zep", 401);
 	}
 	ZEPHIR_INIT_VAR(_8);
 	zephir_fast_join_str(_8, SL(" UNION ALL "), a TSRMLS_CC);
@@ -1053,9 +1168,7 @@ PHP_METHOD(Nc_Db_DbAbstract, countAndSelectUnionAll) {
 	zephir_get_strval(_12, _10);
 	ZEPHIR_INIT_VAR(s);
 	ZEPHIR_CONCAT_SVSV(s, "SELECT COUNT(*) FROM (", _9, ") AS ", _12);
-	ZEPHIR_INIT_NVAR(_11);
-	ZVAL_LONG(_11, 3);
-	ZEPHIR_CALL_METHOD(&_13, this_ptr, "query", NULL, 0, _11, s);
+	ZEPHIR_CALL_METHOD(&_13, this_ptr, "querycell", NULL, 0, s);
 	zephir_check_call_status();
 	c = zephir_get_intval(_13);
 	if (c < 1) {
@@ -1073,7 +1186,7 @@ PHP_METHOD(Nc_Db_DbAbstract, countAndSelectUnionAll) {
 	ZVAL_LONG(_11, c);
 	zephir_array_fast_append(return_value, _11);
 	ZEPHIR_INIT_NVAR(_11);
-	ZVAL_LONG(_11, mode);
+	ZVAL_LONG(_11, fetch);
 	ZEPHIR_CALL_METHOD(&_15, this_ptr, "selectunionall", NULL, 0, selects, options, _11);
 	zephir_check_call_status();
 	zephir_array_fast_append(return_value, _15);
@@ -1235,7 +1348,7 @@ PHP_METHOD(Nc_Db_DbAbstract, aggregation) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *where = NULL;
-	zval *table_param = NULL, *aggregationFunction_param = NULL, *column_param = NULL, *where_param = NULL, *_4, *_0$$3 = NULL, *_2$$3 = NULL;
+	zval *table_param = NULL, *aggregationFunction_param = NULL, *column_param = NULL, *where_param = NULL, *_0$$3 = NULL, *_2$$3 = NULL;
 	zval *table = NULL, *aggregationFunction = NULL, *column = NULL, *s = NULL, *w = NULL, *_1$$3 = NULL, *_3$$4;
 
 	ZEPHIR_MM_GROW();
@@ -1265,9 +1378,7 @@ PHP_METHOD(Nc_Db_DbAbstract, aggregation) {
 			zephir_concat_self(&s, _3$$4 TSRMLS_CC);
 		}
 	}
-	ZEPHIR_INIT_VAR(_4);
-	ZVAL_LONG(_4, 3);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "query", NULL, 0, _4, s);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "querycell", NULL, 0, s);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -1279,7 +1390,7 @@ PHP_METHOD(Nc_Db_DbAbstract, aggregations) {
 	HashPosition _0;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *aggregations = NULL, *where = NULL;
-	zval *table_param = NULL, *aggregations_param = NULL, *where_param = NULL, *k = NULL, *v = NULL, *a = NULL, **_2, *_4, *_5, *_10, *_3$$3 = NULL, *_6$$4 = NULL, *_8$$4 = NULL;
+	zval *table_param = NULL, *aggregations_param = NULL, *where_param = NULL, *k = NULL, *v = NULL, *a = NULL, **_2, *_4, *_5, *_3$$3 = NULL, *_6$$4 = NULL, *_8$$4 = NULL;
 	zval *table = NULL, *s = NULL, *w = NULL, *_7$$4 = NULL, *_9$$5;
 
 	ZEPHIR_MM_GROW();
@@ -1297,7 +1408,7 @@ PHP_METHOD(Nc_Db_DbAbstract, aggregations) {
 
 	ZEPHIR_INIT_VAR(a);
 	array_init(a);
-	zephir_is_iterable(aggregations, &_1, &_0, 0, 0, "nc/db/dbabstract.zep", 442);
+	zephir_is_iterable(aggregations, &_1, &_0, 0, 0, "nc/db/dbabstract.zep", 467);
 	for (
 	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_1, &_0)
@@ -1306,7 +1417,7 @@ PHP_METHOD(Nc_Db_DbAbstract, aggregations) {
 		ZEPHIR_GET_HVALUE(v, _2);
 		ZEPHIR_INIT_LNVAR(_3$$3);
 		ZEPHIR_CONCAT_VSV(_3$$3, v, " AS ", k);
-		zephir_array_append(&a, _3$$3, PH_SEPARATE, "nc/db/dbabstract.zep", 439);
+		zephir_array_append(&a, _3$$3, PH_SEPARATE, "nc/db/dbabstract.zep", 464);
 	}
 	ZEPHIR_INIT_VAR(_4);
 	zephir_fast_join_str(_4, SL(", "), a TSRMLS_CC);
@@ -1324,9 +1435,7 @@ PHP_METHOD(Nc_Db_DbAbstract, aggregations) {
 			zephir_concat_self(&s, _9$$5 TSRMLS_CC);
 		}
 	}
-	ZEPHIR_INIT_VAR(_10);
-	ZVAL_LONG(_10, 2);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "query", NULL, 0, _10, s);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "queryrow", NULL, 0, s);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -1339,7 +1448,7 @@ PHP_METHOD(Nc_Db_DbAbstract, groupAggregations) {
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_1 = NULL, *_16 = NULL;
 	zval *aggregations = NULL, *options = NULL, *_4 = NULL, *_7 = NULL;
-	zval *table_param = NULL, *groupBy_param = NULL, *aggregations_param = NULL, *options_param = NULL, *where = NULL, *having = NULL, *orderBy = NULL, *k = NULL, *v = NULL, *a = NULL, *_0 = NULL, *_2, *_3 = NULL, *_5 = NULL, *_6 = NULL, *_8 = NULL, *_9, **_12, *_14, *_13$$3 = NULL, *_15$$4 = NULL, *_18$$4 = NULL, *_21$$6 = NULL, *_23$$6 = NULL, *_25$$9 = NULL;
+	zval *table_param = NULL, *groupBy_param = NULL, *aggregations_param = NULL, *options_param = NULL, *where = NULL, *having = NULL, *orderBy = NULL, *k = NULL, *v = NULL, *a = NULL, *_0 = NULL, *_2, *_3 = NULL, *_5 = NULL, *_6 = NULL, *_8, *_9, **_12, *_14, *_13$$3 = NULL, *_15$$4 = NULL, *_18$$4 = NULL, *_21$$6 = NULL, *_23$$6 = NULL, *_25$$9 = NULL;
 	zval *table = NULL, *groupBy = NULL, *s = NULL, *w = NULL, *_20, *_17$$4 = NULL, *_19$$5, *_22$$6 = NULL, *_24$$7, *_26$$9 = NULL, *_27$$9, *_28$$10 = NULL, *_29$$10;
 
 	ZEPHIR_MM_GROW();
@@ -1385,8 +1494,8 @@ PHP_METHOD(Nc_Db_DbAbstract, groupAggregations) {
 	ZEPHIR_CALL_CE_STATIC(&orderBy, nc_std_ce, "valueat", &_1, 5, options, _6, _8, _9);
 	zephir_check_temp_parameter(_6);
 	zephir_check_call_status();
-	zephir_array_append(&a, groupBy, PH_SEPARATE, "nc/db/dbabstract.zep", 465);
-	zephir_is_iterable(aggregations, &_11, &_10, 0, 0, "nc/db/dbabstract.zep", 471);
+	zephir_array_append(&a, groupBy, PH_SEPARATE, "nc/db/dbabstract.zep", 490);
+	zephir_is_iterable(aggregations, &_11, &_10, 0, 0, "nc/db/dbabstract.zep", 496);
 	for (
 	  ; zephir_hash_get_current_data_ex(_11, (void**) &_12, &_10) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_11, &_10)
@@ -1395,7 +1504,7 @@ PHP_METHOD(Nc_Db_DbAbstract, groupAggregations) {
 		ZEPHIR_GET_HVALUE(v, _12);
 		ZEPHIR_INIT_LNVAR(_13$$3);
 		ZEPHIR_CONCAT_VSVSV(_13$$3, v, "(", groupBy, ") AS ", k);
-		zephir_array_append(&a, _13$$3, PH_SEPARATE, "nc/db/dbabstract.zep", 468);
+		zephir_array_append(&a, _13$$3, PH_SEPARATE, "nc/db/dbabstract.zep", 493);
 	}
 	ZEPHIR_INIT_NVAR(_6);
 	zephir_fast_join_str(_6, SL(", "), a TSRMLS_CC);
@@ -1442,9 +1551,7 @@ PHP_METHOD(Nc_Db_DbAbstract, groupAggregations) {
 			zephir_concat_self(&s, _29$$10 TSRMLS_CC);
 		}
 	}
-	ZEPHIR_INIT_NVAR(_8);
-	ZVAL_LONG(_8, 1);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "query", NULL, 0, _8, s);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "queryall", NULL, 0, s);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -1475,7 +1582,7 @@ PHP_METHOD(Nc_Db_DbAbstract, parseWhere) {
 
 	ZEPHIR_INIT_VAR(ws);
 	array_init(ws);
-	zephir_is_iterable(where, &_1, &_0, 0, 0, "nc/db/dbabstract.zep", 610);
+	zephir_is_iterable(where, &_1, &_0, 0, 0, "nc/db/dbabstract.zep", 635);
 	for (
 	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_1, &_0)
@@ -1503,13 +1610,13 @@ PHP_METHOD(Nc_Db_DbAbstract, parseWhere) {
 				if (Z_TYPE_P(v) == IS_NULL) {
 					ZEPHIR_INIT_LNVAR(_8$$5);
 					ZEPHIR_CONCAT_VS(_8$$5, k1, " IS NULL");
-					zephir_array_append(&ws, _8$$5, PH_SEPARATE, "nc/db/dbabstract.zep", 514);
+					zephir_array_append(&ws, _8$$5, PH_SEPARATE, "nc/db/dbabstract.zep", 539);
 				} else {
 					ZEPHIR_CALL_METHOD(&_9$$6, this_ptr, "quote", &_10, 0, v);
 					zephir_check_call_status();
 					ZEPHIR_INIT_LNVAR(_11$$6);
 					ZEPHIR_CONCAT_VSV(_11$$6, k1, " = ", _9$$6);
-					zephir_array_append(&ws, _11$$6, PH_SEPARATE, "nc/db/dbabstract.zep", 516);
+					zephir_array_append(&ws, _11$$6, PH_SEPARATE, "nc/db/dbabstract.zep", 541);
 				}
 				break;
 			}
@@ -1517,13 +1624,13 @@ PHP_METHOD(Nc_Db_DbAbstract, parseWhere) {
 				if (Z_TYPE_P(v) == IS_NULL) {
 					ZEPHIR_INIT_LNVAR(_12$$8);
 					ZEPHIR_CONCAT_VS(_12$$8, k1, "IS NOT NULL");
-					zephir_array_append(&ws, _12$$8, PH_SEPARATE, "nc/db/dbabstract.zep", 521);
+					zephir_array_append(&ws, _12$$8, PH_SEPARATE, "nc/db/dbabstract.zep", 546);
 				} else {
 					ZEPHIR_CALL_METHOD(&_13$$9, this_ptr, "quote", &_14, 0, v);
 					zephir_check_call_status();
 					ZEPHIR_INIT_LNVAR(_15$$9);
 					ZEPHIR_CONCAT_VSV(_15$$9, k1, " <> ", _13$$9);
-					zephir_array_append(&ws, _15$$9, PH_SEPARATE, "nc/db/dbabstract.zep", 523);
+					zephir_array_append(&ws, _15$$9, PH_SEPARATE, "nc/db/dbabstract.zep", 548);
 				}
 				break;
 			}
@@ -1532,7 +1639,7 @@ PHP_METHOD(Nc_Db_DbAbstract, parseWhere) {
 				zephir_check_call_status();
 				ZEPHIR_INIT_LNVAR(_18$$10);
 				ZEPHIR_CONCAT_VSV(_18$$10, k1, " < ", _16$$10);
-				zephir_array_append(&ws, _18$$10, PH_SEPARATE, "nc/db/dbabstract.zep", 527);
+				zephir_array_append(&ws, _18$$10, PH_SEPARATE, "nc/db/dbabstract.zep", 552);
 				break;
 			}
 			if (ZEPHIR_IS_STRING(k2, "lte")) {
@@ -1540,7 +1647,7 @@ PHP_METHOD(Nc_Db_DbAbstract, parseWhere) {
 				zephir_check_call_status();
 				ZEPHIR_INIT_LNVAR(_21$$11);
 				ZEPHIR_CONCAT_VSV(_21$$11, k1, " <= ", _19$$11);
-				zephir_array_append(&ws, _21$$11, PH_SEPARATE, "nc/db/dbabstract.zep", 530);
+				zephir_array_append(&ws, _21$$11, PH_SEPARATE, "nc/db/dbabstract.zep", 555);
 				break;
 			}
 			if (ZEPHIR_IS_STRING(k2, "gt")) {
@@ -1548,7 +1655,7 @@ PHP_METHOD(Nc_Db_DbAbstract, parseWhere) {
 				zephir_check_call_status();
 				ZEPHIR_INIT_LNVAR(_24$$12);
 				ZEPHIR_CONCAT_VSV(_24$$12, k1, " > ", _22$$12);
-				zephir_array_append(&ws, _24$$12, PH_SEPARATE, "nc/db/dbabstract.zep", 533);
+				zephir_array_append(&ws, _24$$12, PH_SEPARATE, "nc/db/dbabstract.zep", 558);
 				break;
 			}
 			if (ZEPHIR_IS_STRING(k2, "gte")) {
@@ -1556,7 +1663,7 @@ PHP_METHOD(Nc_Db_DbAbstract, parseWhere) {
 				zephir_check_call_status();
 				ZEPHIR_INIT_LNVAR(_27$$13);
 				ZEPHIR_CONCAT_VSV(_27$$13, k1, " >= ", _25$$13);
-				zephir_array_append(&ws, _27$$13, PH_SEPARATE, "nc/db/dbabstract.zep", 536);
+				zephir_array_append(&ws, _27$$13, PH_SEPARATE, "nc/db/dbabstract.zep", 561);
 				break;
 			}
 			if (ZEPHIR_IS_STRING(k2, "notBetween")) {
@@ -1573,18 +1680,18 @@ PHP_METHOD(Nc_Db_DbAbstract, parseWhere) {
 					_29$$15 = !(zephir_array_isset_long(v, 1));
 				}
 				if (unlikely(_29$$15)) {
-					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_exception_ce, "Invalid between", "nc/db/dbabstract.zep", 542);
+					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_exception_ce, "Invalid between", "nc/db/dbabstract.zep", 567);
 					return;
 				}
-				zephir_array_fetch_long(&_31$$15, v, 0, PH_NOISY | PH_READONLY, "nc/db/dbabstract.zep", 544 TSRMLS_CC);
+				zephir_array_fetch_long(&_31$$15, v, 0, PH_NOISY | PH_READONLY, "nc/db/dbabstract.zep", 569 TSRMLS_CC);
 				ZEPHIR_CALL_METHOD(&_30$$15, this_ptr, "quote", &_32, 0, _31$$15);
 				zephir_check_call_status();
-				zephir_array_fetch_long(&_34$$15, v, 1, PH_NOISY | PH_READONLY, "nc/db/dbabstract.zep", 544 TSRMLS_CC);
+				zephir_array_fetch_long(&_34$$15, v, 1, PH_NOISY | PH_READONLY, "nc/db/dbabstract.zep", 569 TSRMLS_CC);
 				ZEPHIR_CALL_METHOD(&_33$$15, this_ptr, "quote", &_35, 0, _34$$15);
 				zephir_check_call_status();
 				ZEPHIR_INIT_LNVAR(_36$$15);
 				ZEPHIR_CONCAT_VVSVSV(_36$$15, k1, tmp, " BETWEEN ", _30$$15, " AND ", _33$$15);
-				zephir_array_append(&ws, _36$$15, PH_SEPARATE, "nc/db/dbabstract.zep", 544);
+				zephir_array_append(&ws, _36$$15, PH_SEPARATE, "nc/db/dbabstract.zep", 569);
 				break;
 			}
 			if (ZEPHIR_IS_STRING(k2, "notLike")) {
@@ -1596,7 +1703,7 @@ PHP_METHOD(Nc_Db_DbAbstract, parseWhere) {
 				zephir_check_call_status();
 				ZEPHIR_INIT_LNVAR(_39$$18);
 				ZEPHIR_CONCAT_VVSV(_39$$18, k1, tmp, " LIKE ", _37$$18);
-				zephir_array_append(&ws, _39$$18, PH_SEPARATE, "nc/db/dbabstract.zep", 549);
+				zephir_array_append(&ws, _39$$18, PH_SEPARATE, "nc/db/dbabstract.zep", 574);
 				break;
 			}
 			if (ZEPHIR_IS_STRING(k2, "notIn")) {
@@ -1609,7 +1716,7 @@ PHP_METHOD(Nc_Db_DbAbstract, parseWhere) {
 					_40$$20 = zephir_fast_count_int(v TSRMLS_CC) < 1;
 				}
 				if (unlikely(_40$$20)) {
-					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_exception_ce, "Invalid in", "nc/db/dbabstract.zep", 555);
+					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_exception_ce, "Invalid in", "nc/db/dbabstract.zep", 580);
 					return;
 				}
 				ZEPHIR_SINIT_NVAR(_41$$20);
@@ -1629,11 +1736,11 @@ PHP_METHOD(Nc_Db_DbAbstract, parseWhere) {
 					zephir_fast_join_str(_43$$22, SL(", "), _46$$22 TSRMLS_CC);
 					ZEPHIR_INIT_LNVAR(_48$$22);
 					ZEPHIR_CONCAT_VVSVS(_48$$22, k1, tmp, " IN (", _43$$22, ")");
-					zephir_array_append(&ws, _48$$22, PH_SEPARATE, "nc/db/dbabstract.zep", 558);
+					zephir_array_append(&ws, _48$$22, PH_SEPARATE, "nc/db/dbabstract.zep", 583);
 				} else {
 					ZEPHIR_CALL_METHOD(&_49$$23, this_ptr, "parsewheremultiplein", &_50, 0, k1, v, tmp);
 					zephir_check_call_status();
-					zephir_array_append(&ws, _49$$23, PH_SEPARATE, "nc/db/dbabstract.zep", 560);
+					zephir_array_append(&ws, _49$$23, PH_SEPARATE, "nc/db/dbabstract.zep", 585);
 				}
 				break;
 			}
@@ -1653,13 +1760,13 @@ PHP_METHOD(Nc_Db_DbAbstract, parseWhere) {
 				}
 				ZEPHIR_INIT_LNVAR(_54$$25);
 				ZEPHIR_CONCAT_VVSVS(_54$$25, k1, tmp, " IN (", v, ")");
-				zephir_array_append(&ws, _54$$25, PH_SEPARATE, "nc/db/dbabstract.zep", 569);
+				zephir_array_append(&ws, _54$$25, PH_SEPARATE, "nc/db/dbabstract.zep", 594);
 				break;
 			}
 			if (ZEPHIR_IS_STRING(k2, "raw")) {
 				ZEPHIR_INIT_LNVAR(_55$$27);
 				ZEPHIR_CONCAT_SVS(_55$$27, "(", v, ")");
-				zephir_array_append(&ws, _55$$27, PH_SEPARATE, "nc/db/dbabstract.zep", 573);
+				zephir_array_append(&ws, _55$$27, PH_SEPARATE, "nc/db/dbabstract.zep", 598);
 				break;
 			}
 			if (ZEPHIR_IS_STRING(k2, "expression")) {
@@ -1668,7 +1775,7 @@ PHP_METHOD(Nc_Db_DbAbstract, parseWhere) {
 					_56$$28 = zephir_fast_count_int(v TSRMLS_CC) < 1;
 				}
 				if (unlikely(_56$$28)) {
-					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_exception_ce, "Invalid expression", "nc/db/dbabstract.zep", 577);
+					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_exception_ce, "Invalid expression", "nc/db/dbabstract.zep", 602);
 					return;
 				}
 				ZEPHIR_INIT_NVAR(_57$$28);
@@ -1709,7 +1816,7 @@ PHP_METHOD(Nc_Db_DbAbstract, parseWhere) {
 					zephir_check_call_status();
 					ZEPHIR_INIT_LNVAR(_70$$30);
 					ZEPHIR_CONCAT_SVS(_70$$30, "(", _68$$30, ")");
-					zephir_array_append(&ws, _70$$30, PH_SEPARATE, "nc/db/dbabstract.zep", 582);
+					zephir_array_append(&ws, _70$$30, PH_SEPARATE, "nc/db/dbabstract.zep", 607);
 				}
 				break;
 			}
@@ -1719,7 +1826,7 @@ PHP_METHOD(Nc_Db_DbAbstract, parseWhere) {
 					_71$$31 = zephir_fast_count_int(v TSRMLS_CC) < 1;
 				}
 				if (unlikely(_71$$31)) {
-					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_exception_ce, "Invalid and", "nc/db/dbabstract.zep", 588);
+					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_exception_ce, "Invalid and", "nc/db/dbabstract.zep", 613);
 					return;
 				}
 				ZEPHIR_INIT_NVAR(_73$$31);
@@ -1729,7 +1836,7 @@ PHP_METHOD(Nc_Db_DbAbstract, parseWhere) {
 				zephir_check_call_status();
 				ZEPHIR_INIT_LNVAR(_75$$31);
 				ZEPHIR_CONCAT_SVS(_75$$31, "(", _72$$31, ")");
-				zephir_array_append(&ws, _75$$31, PH_SEPARATE, "nc/db/dbabstract.zep", 590);
+				zephir_array_append(&ws, _75$$31, PH_SEPARATE, "nc/db/dbabstract.zep", 615);
 				break;
 			}
 			if (ZEPHIR_IS_STRING(k2, "or")) {
@@ -1738,7 +1845,7 @@ PHP_METHOD(Nc_Db_DbAbstract, parseWhere) {
 					_76$$33 = zephir_fast_count_int(v TSRMLS_CC) < 1;
 				}
 				if (unlikely(_76$$33)) {
-					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_exception_ce, "Invalid or", "nc/db/dbabstract.zep", 594);
+					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_exception_ce, "Invalid or", "nc/db/dbabstract.zep", 619);
 					return;
 				}
 				ZEPHIR_INIT_NVAR(_78$$33);
@@ -1748,7 +1855,7 @@ PHP_METHOD(Nc_Db_DbAbstract, parseWhere) {
 				zephir_check_call_status();
 				ZEPHIR_INIT_LNVAR(_79$$33);
 				ZEPHIR_CONCAT_SVS(_79$$33, "(", _77$$33, ")");
-				zephir_array_append(&ws, _79$$33, PH_SEPARATE, "nc/db/dbabstract.zep", 596);
+				zephir_array_append(&ws, _79$$33, PH_SEPARATE, "nc/db/dbabstract.zep", 621);
 				break;
 			}
 			if (ZEPHIR_IS_STRING(k2, "xor")) {
@@ -1757,7 +1864,7 @@ PHP_METHOD(Nc_Db_DbAbstract, parseWhere) {
 					_80$$35 = zephir_fast_count_int(v TSRMLS_CC) < 1;
 				}
 				if (unlikely(_80$$35)) {
-					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_exception_ce, "Invalid xor", "nc/db/dbabstract.zep", 600);
+					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_exception_ce, "Invalid xor", "nc/db/dbabstract.zep", 625);
 					return;
 				}
 				ZEPHIR_INIT_NVAR(_82$$35);
@@ -1767,7 +1874,7 @@ PHP_METHOD(Nc_Db_DbAbstract, parseWhere) {
 				zephir_check_call_status();
 				ZEPHIR_INIT_LNVAR(_83$$35);
 				ZEPHIR_CONCAT_SVS(_83$$35, "(", _81$$35, ")");
-				zephir_array_append(&ws, _83$$35, PH_SEPARATE, "nc/db/dbabstract.zep", 602);
+				zephir_array_append(&ws, _83$$35, PH_SEPARATE, "nc/db/dbabstract.zep", 627);
 				break;
 			}
 			ZEPHIR_INIT_NVAR(_84$$37);
@@ -1776,7 +1883,7 @@ PHP_METHOD(Nc_Db_DbAbstract, parseWhere) {
 			ZEPHIR_CONCAT_SV(_85$$37, "Invalid k2: ", k2);
 			ZEPHIR_CALL_METHOD(NULL, _84$$37, "__construct", &_86, 2, _85$$37);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_84$$37, "nc/db/dbabstract.zep", 606 TSRMLS_CC);
+			zephir_throw_exception_debug(_84$$37, "nc/db/dbabstract.zep", 631 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		} while(0);
@@ -1826,7 +1933,7 @@ PHP_METHOD(Nc_Db_DbAbstract, parseWhereMultipleIn) {
 		ZEPHIR_CONCAT_SV(_3$$3, "Invalid multiple in columns: ", columns);
 		ZEPHIR_CALL_METHOD(NULL, _2$$3, "__construct", NULL, 2, _3$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_2$$3, "nc/db/dbabstract.zep", 620 TSRMLS_CC);
+		zephir_throw_exception_debug(_2$$3, "nc/db/dbabstract.zep", 645 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -1836,7 +1943,7 @@ PHP_METHOD(Nc_Db_DbAbstract, parseWhereMultipleIn) {
 	ZEPHIR_INIT_VAR(_4);
 	ZVAL_STRING(_4, "quote", 1);
 	zephir_array_fast_append(quoter, _4);
-	zephir_is_iterable(values, &_6, &_5, 0, 0, "nc/db/dbabstract.zep", 632);
+	zephir_is_iterable(values, &_6, &_5, 0, 0, "nc/db/dbabstract.zep", 657);
 	for (
 	  ; zephir_hash_get_current_data_ex(_6, (void**) &_7, &_5) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_6, &_5)
@@ -1854,7 +1961,7 @@ PHP_METHOD(Nc_Db_DbAbstract, parseWhereMultipleIn) {
 			ZEPHIR_CONCAT_SV(_10$$5, "Invalid multiple in value at: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _9$$5, "__construct", NULL, 2, _10$$5);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_9$$5, "nc/db/dbabstract.zep", 627 TSRMLS_CC);
+			zephir_throw_exception_debug(_9$$5, "nc/db/dbabstract.zep", 652 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -1864,7 +1971,7 @@ PHP_METHOD(Nc_Db_DbAbstract, parseWhereMultipleIn) {
 		zephir_fast_join_str(_11$$4, SL(", "), _12$$4 TSRMLS_CC);
 		ZEPHIR_INIT_LNVAR(_14$$4);
 		ZEPHIR_CONCAT_SVS(_14$$4, "(", _11$$4, ")");
-		zephir_array_append(&vs, _14$$4, PH_SEPARATE, "nc/db/dbabstract.zep", 629);
+		zephir_array_append(&vs, _14$$4, PH_SEPARATE, "nc/db/dbabstract.zep", 654);
 	}
 	ZEPHIR_INIT_NVAR(_4);
 	zephir_fast_join_str(_4, SL(", "), vs TSRMLS_CC);

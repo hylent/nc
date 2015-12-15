@@ -37,8 +37,8 @@ PHP_METHOD(Nc_Db_PdoMysql, insert) {
 	int ZEPHIR_LAST_CALL_STATUS;
 	zend_bool upsert;
 	zval *data = NULL;
-	zval *table_param = NULL, *data_param = NULL, *returningId_param = NULL, *upsert_param = NULL, *k = NULL, *ks = NULL, *vs = NULL, *returningIdValue = NULL, *_0 = NULL, **_3, *_5, *_6, *_7, *_8 = NULL, *_9 = NULL, *_11, *_4$$3 = NULL;
-	zval *table = NULL, *returningId = NULL, *s = NULL, *_10$$7 = NULL;
+	zval *table_param = NULL, *data_param = NULL, *returningId_param = NULL, *upsert_param = NULL, *k = NULL, *ks = NULL, *vs = NULL, *returningIdValue = NULL, *_0 = NULL, **_3, *_5, *_6, *_7, *_8 = NULL, *_10, *_4$$3 = NULL;
+	zval *table = NULL, *returningId = NULL, *s = NULL, *_9$$7 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 2, &table_param, &data_param, &returningId_param, &upsert_param);
@@ -89,24 +89,20 @@ PHP_METHOD(Nc_Db_PdoMysql, insert) {
 	ZEPHIR_INIT_VAR(_7);
 	ZEPHIR_CONCAT_SVSVSVS(_7, " INTO ", table, " (", _5, ") VALUES (", _6, ")");
 	zephir_concat_self(&s, _7 TSRMLS_CC);
-	ZEPHIR_INIT_VAR(_8);
-	ZVAL_LONG(_8, 0);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "query", NULL, 0, _8, s, data);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "query", NULL, 0, s, data);
 	zephir_check_call_status();
 	if (zephir_fast_strlen_ev(returningId) < 1) {
 		RETURN_MM_NULL();
 	}
 	ZEPHIR_OBS_VAR(returningIdValue);
 	if (zephir_array_isset_fetch(&returningIdValue, data, returningId, 0 TSRMLS_CC)) {
-		zephir_get_strval(_10$$7, returningIdValue);
-		RETURN_CTOR(_10$$7);
+		zephir_get_strval(_9$$7, returningIdValue);
+		RETURN_CTOR(_9$$7);
 	}
-	ZEPHIR_INIT_NVAR(_8);
-	ZVAL_LONG(_8, 3);
-	ZEPHIR_INIT_VAR(_11);
-	ZVAL_STRING(_11, "SELECT LAST_INSERT_ID()", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "query", NULL, 0, _8, _11);
-	zephir_check_temp_parameter(_11);
+	ZEPHIR_INIT_VAR(_10);
+	ZVAL_STRING(_10, "SELECT LAST_INSERT_ID()", ZEPHIR_TEMP_PARAM_COPY);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "querycell", NULL, 0, _10);
+	zephir_check_temp_parameter(_10);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -185,13 +181,13 @@ PHP_METHOD(Nc_Db_PdoMysql, upsert) {
 PHP_METHOD(Nc_Db_PdoMysql, countAndSelect) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	long mode;
+	long fetch;
 	zval *options = NULL;
-	zval *table_param = NULL, *options_param = NULL, *mode_param = NULL, *d = NULL, *_0 = NULL, *_2 = NULL, *_3 = NULL, *_4 = NULL, *_6 = NULL;
+	zval *table_param = NULL, *options_param = NULL, *fetch_param = NULL, *d = NULL, *_0 = NULL, *_2 = NULL, *_3, *_4 = NULL, *_6 = NULL;
 	zval *table = NULL, *s = NULL, *_1 = NULL, *_5 = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 2, &table_param, &options_param, &mode_param);
+	zephir_fetch_params(1, 1, 2, &table_param, &options_param, &fetch_param);
 
 	zephir_get_strval(table, table_param);
 	if (!options_param) {
@@ -200,10 +196,10 @@ PHP_METHOD(Nc_Db_PdoMysql, countAndSelect) {
 	} else {
 		zephir_get_arrval(options, options_param);
 	}
-	if (!mode_param) {
-		mode = 1;
+	if (!fetch_param) {
+		fetch = 1;
 	} else {
-		mode = zephir_get_intval(mode_param);
+		fetch = zephir_get_intval(fetch_param);
 	}
 
 
@@ -222,16 +218,14 @@ PHP_METHOD(Nc_Db_PdoMysql, countAndSelect) {
 	zephir_get_strval(_5, _4);
 	ZEPHIR_CPY_WRT(s, _5);
 	ZEPHIR_INIT_NVAR(_2);
-	ZVAL_LONG(_2, mode);
-	ZEPHIR_CALL_METHOD(&d, this_ptr, "query", NULL, 0, _2, s);
+	ZVAL_LONG(_2, fetch);
+	ZEPHIR_CALL_METHOD(&d, this_ptr, "queryandfetch", NULL, 0, _2, s);
 	zephir_check_call_status();
 	zephir_create_array(return_value, 2, 0 TSRMLS_CC);
 	ZEPHIR_INIT_NVAR(_2);
-	ZVAL_LONG(_2, 3);
-	ZEPHIR_INIT_NVAR(_3);
-	ZVAL_STRING(_3, "SELECT FOUND_ROWS()", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_METHOD(&_6, this_ptr, "query", NULL, 0, _2, _3);
-	zephir_check_temp_parameter(_3);
+	ZVAL_STRING(_2, "SELECT FOUND_ROWS()", ZEPHIR_TEMP_PARAM_COPY);
+	ZEPHIR_CALL_METHOD(&_6, this_ptr, "querycell", NULL, 0, _2);
+	zephir_check_temp_parameter(_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(_2);
 	ZVAL_LONG(_2, zephir_get_intval(_6));

@@ -23,7 +23,7 @@ abstract class PdoAbstract extends DbAbstract
         return this->pdo->quote(value);
     }
 
-    public function query(long mode, string sql, array params = [])
+    public function queryAndFetch(long $fetch, string sql, array params = [])
     {
         var statement, k, v, err;
         double startMt;
@@ -54,7 +54,7 @@ abstract class PdoAbstract extends DbAbstract
             throw new QueryException(err[2] . " [SQL] " . profiledQuery);
         }
 
-        switch mode {
+        switch $fetch {
             case DbInterface::NONE:
                 return;
 
@@ -83,7 +83,7 @@ abstract class PdoAbstract extends DbAbstract
                 return result;
         }
 
-        throw new Exception("Invalid fetch mode: " . strval(mode));
+        throw new Exception("Invalid fetch mode: " . strval($fetch));
     }
 
     protected function tryToBegin() -> bool

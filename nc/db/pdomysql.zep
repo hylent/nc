@@ -21,7 +21,7 @@ class PdoMysql extends PdoAbstract
 
         let s .= " INTO " . table . " (" . implode(", ", ks) . ") VALUES (" . implode(", ", vs) . ")";
 
-        this->query(DbInterface::NONE, s, data);
+        this->query(s, data);
 
         if returningId->length() < 1 {
             return;
@@ -31,7 +31,7 @@ class PdoMysql extends PdoAbstract
             return (string) returningIdValue;
         }
 
-        return this->query(DbInterface::CELL, "SELECT LAST_INSERT_ID()");
+        return this->queryCell("SELECT LAST_INSERT_ID()");
     }
 
     public function upsert(string table, array data, var primaryKey = "id") -> void
@@ -57,7 +57,7 @@ class PdoMysql extends PdoAbstract
         this->insert(table, data, "", true);
     }
 
-    public function countAndSelect(string table, array options = [], long mode = DbInterface::ALL) -> array
+    public function countAndSelect(string table, array options = [], long $fetch = DbInterface::ALL) -> array
     {
         string s;
         var d;
@@ -65,10 +65,10 @@ class PdoMysql extends PdoAbstract
         let s = (string) this->parseSelect(table, options);
         let s = (string) preg_replace("/^SELECT /i", "SELECT SQL_CALC_FOUND_ROWS ", s);
 
-        let d = this->query(mode, s);
+        let d = this->queryAndFetch($fetch, s);
 
         return [
-            (long) this->query(DbInterface::CELL, "SELECT FOUND_ROWS()"),
+            (long) this->queryCell("SELECT FOUND_ROWS()"),
             d
         ];
     }

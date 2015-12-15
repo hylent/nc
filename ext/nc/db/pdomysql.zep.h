@@ -25,7 +25,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_pdomysql_countandselect, 0, 0, 1)
 	ZEND_ARG_INFO(0, table)
 	ZEND_ARG_ARRAY_INFO(0, options, 1)
-	ZEND_ARG_INFO(0, mode)
+	ZEND_ARG_INFO(0, fetch)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_pdomysql_parsepagination, 0, 0, 3)

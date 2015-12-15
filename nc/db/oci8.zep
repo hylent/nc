@@ -30,7 +30,7 @@ class Oci8 extends DbAbstract
         return "'" . str_replace("'", "''", value) . "'";
     }
 
-    public function query(long mode, string sql, array params = [])
+    public function queryAndFetch(long $fetch, string sql, array params = [])
     {
         var statement, k, v, err, errMessage, queryMode;
         double startMt;
@@ -66,7 +66,7 @@ class Oci8 extends DbAbstract
             throw new QueryException(errMessage . " [SQL] " . profiledQuery);
         }
 
-        switch mode {
+        switch $fetch {
             case DbInterface::NONE:
                 return;
 
@@ -109,7 +109,7 @@ class Oci8 extends DbAbstract
                 return result;
         }
 
-        throw new Exception("Invalid fetch mode: " . strval(mode));
+        throw new Exception("Invalid fetch mode: " . strval($fetch));
     }
 
     public function parsePagination(string query, long limit, long skip) -> string
