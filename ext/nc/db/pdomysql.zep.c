@@ -211,7 +211,7 @@ PHP_METHOD(Nc_Db_PdoMysql, countAndSelect) {
 	ZVAL_STRING(_2, "/^SELECT /i", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_INIT_VAR(_3);
 	ZVAL_STRING(_3, "SELECT SQL_CALC_FOUND_ROWS ", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_FUNCTION(&_4, "preg_replace", NULL, 50, _2, _3, s);
+	ZEPHIR_CALL_FUNCTION(&_4, "preg_replace", NULL, 49, _2, _3, s);
 	zephir_check_temp_parameter(_2);
 	zephir_check_temp_parameter(_3);
 	zephir_check_call_status();

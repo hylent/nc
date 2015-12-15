@@ -64,7 +64,7 @@ PHP_METHOD(Nc_Factory_Factories, set) {
 	ZEPHIR_INIT_VAR(_2);
 	ZVAL_LONG(_2, 1);
 	ZEPHIR_MAKE_REF(_1);
-	ZEPHIR_CALL_FUNCTION(NULL, "asort", NULL, 51, _1, _2);
+	ZEPHIR_CALL_FUNCTION(NULL, "asort", NULL, 50, _1, _2);
 	ZEPHIR_UNREF(_1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

@@ -3,16 +3,17 @@ namespace Nc\Db;
 class Entity
 {
     protected model;
-    protected row;
     protected isNew;
-    protected updates;
+    protected row;
     protected collection;
+    protected updates;
 
-    public function __construct(<Model> model, array row, bool isNew) -> void
+    public function __construct(<Model> model, bool isNew, array row, <Collection> collection = null) -> void
     {
         let this->model = model;
-        let this->row = row;
         let this->isNew = isNew;
+        let this->row = row;
+        let this->collection = collection;
     }
 
     public function getModel() -> <Model>
@@ -20,24 +21,19 @@ class Entity
         return this->model;
     }
 
-    public function asArray() -> array
-    {
-        return this->row;
-    }
-
     public function isNew() -> bool
     {
         return this->isNew;
     }
 
-    public function isDirty() -> bool
+    public function asArray() -> array
     {
-        return count(this->updates) > 0;
+        return this->row;
     }
 
-    public function setCollection(<Collection> collection = null) -> void
+    public function primaryKeyValue() -> array
     {
-        let this->collection = collection;
+        return this->model->pickPrimaryKeyValue(this->row);
     }
 
     public function hasCollection() -> bool
@@ -50,9 +46,9 @@ class Entity
         return this->collection;
     }
 
-    public function primaryKeyValue() -> array
+    public function isDirty() -> bool
     {
-        return this->model->pickPrimaryKeyValue(this->row);
+        return count(this->updates) > 0;
     }
 
     public function set(array updates) -> <Entity>

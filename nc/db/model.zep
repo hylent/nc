@@ -66,38 +66,36 @@ class Model
         this->db->delete(this->table, where);
     }
 
-    public function newEntity(array row = [], bool isNew = true, <Collection> collection = null) -> <Entity>
+    public function newEntity(bool isNew, array row = [], <Collection> collection = null) -> <Entity>
     {
-        var entity;
+        return new Entity(this, isNew, row, collection);
+    }
 
-        let entity = new Entity(this, row, isNew);
-        if collection {
-            entity->setCollection(collection);
-        }
-
-        return entity;
+    public function entity(array newRow = []) -> <Entity>
+    {
+        return this->newEntity(true, newRow);
     }
 
     public function create(array row) -> <Entity>
     {
-        return this->newEntity(this->insert(row), false);
+        return this->newEntity(false, this->insert(row));
     }
 
     public function first(array where = [], var orderBy = null) -> <Entity>
     {
         var row;
 
-        let row = this->db->select(this->table, [
+        let row = this->db->selectRow(this->table, [
             "where": where,
             "orderBy": orderBy,
             "limit": 1
-        ], DbInterface::ROW);
+        ]);
 
         if ! row {
             return;
         }
 
-        return this->newEntity(this->onFetch(row), false);
+        return this->newEntity(false, this->onFetch(row));
     }
 
     public function id(var id) -> <Entity>
@@ -105,18 +103,61 @@ class Model
         return this->first(this->packPrimaryKeyValue(id));
     }
 
-    public function newCollection(array data) -> <Collection>
+    public function newCollection(array data, array properties = []) -> <Collection>
     {
-        return new Collection(this, data);
+        return new Collection(this, data, properties);
     }
 
-    public function all(array where = [], var orderBy = null, long limit = 0, long offset = 0) -> <Collection>
+    public function paged(array where = [], string orderBy = "", long limit = 10, long page = 1) -> <Collection>
+    {
+        long skip, numRows, numPages;
+        var nd, data;
+
+        if limit < 1 {
+            let limit = 1;
+        }
+        if page < 1 {
+            let page = 1;
+        }
+
+        let skip = limit * (page - 1);
+
+        let nd = this->db->select(this->table, [
+            "where": where,
+            "orderBy": orderBy,
+            "limit": limit,
+            "skip": skip
+        ]);
+
+        let numRows = (long) array_shift(nd);
+        let data = (array) array_shift(nd);
+
+        if numRows < 1 || count(data) < 1 {
+            let numRows = 0;
+            let numPages = 0;
+            let data = [];
+        } else {
+            let numPages = 1 + (long) ((numRows - 1) / limit);
+            let data = array_map([this, "onFetch"], data);
+        }
+
+        return this->newCollection(data, [
+            "paged": true,
+            "limit": limit,
+            "page": page,
+            "skip": skip,
+            "numRows": numRows,
+            "numPages": numPages
+        ]);
+    }
+
+    public function all(array where = [], var orderBy = null, long limit = 0, long skip = 0) -> <Collection>
     {
         return this->newCollection(array_map([this, "onFetch"], this->db->select(this->table, [
             "where": where,
             "orderBy": orderBy,
             "limit": limit,
-            "offset": offset
+            "skip": skip
         ])));
     }
 
@@ -166,14 +207,14 @@ class Model
     public function chunkByFixedWhere(var delegate, array where = [], var orderBy = null, long limit = 5000) -> long
     {
         var collection;
-        long sum = 0, c, offset = 0;
+        long sum = 0, c, skip = 0;
 
         if unlikely limit < 1 {
             throw new ModelException("Invalid limit: " . strval(limit));
         }
 
         loop {
-            let collection = this->all(where, orderBy, limit, offset);
+            let collection = this->all(where, orderBy, limit, skip);
             let c = (long) collection->count();
             if c < 1 {
                 break;
@@ -184,15 +225,10 @@ class Model
                 break;
             }
 
-            let offset += limit;
+            let skip += limit;
         }
 
         return sum;
-    }
-
-    public function aggregations(array aggregations, array where = []) -> array
-    {
-        return this->db->aggregations(this->table, aggregations, where);
     }
 
     public function countAll(array where = []) -> long
@@ -223,6 +259,21 @@ class Model
     public function avg(string column, array where = [])
     {
         return this->db->avg(this->table, column, where);
+    }
+
+    public function aggregation(string aggregationFunction, string column, array where = [])
+    {
+        return this->db->aggregation(this->table, aggregationFunction, column, where);
+    }
+
+    public function aggregations(array aggregations, array where = []) -> array
+    {
+        return this->db->aggregations(this->table, aggregations, where);
+    }
+
+    public function groupAggregations(string groupBy, array aggregations, array options = []) -> array
+    {
+        return this->db->groupAggregations(this->table, groupBy, aggregations, options);
     }
 
     public function onStore(array row, bool isUpdate = false, array where = []) -> array

@@ -317,6 +317,21 @@ abstract class DbAbstract implements DbInterface
         return this->queryAndFetch($fetch, this->parseSelect(table, options));
     }
 
+    public function selectRow(string table, array options = [])
+    {
+        return this->select(table, options, DbInterface::ROW);
+    }
+
+    public function selectCell(string table, array options = [])
+    {
+        return this->select(table, options, DbInterface::CELL);
+    }
+
+    public function selectColumns(string table, array options = [])
+    {
+        return this->select(table, options, DbInterface::COLUMNS);
+    }
+
     public function countAndSelect(string table, array options = [], long $fetch = DbInterface::ALL) -> array
     {
         string s, w;
@@ -664,14 +679,14 @@ abstract class DbAbstract implements DbInterface
     abstract protected function tryToCommit() -> bool;
     abstract protected function tryToRollback() -> bool;
 
-    protected function nextFlag(string pre = "") -> string
+    protected function nextFlag(string prefix = "") -> string
     {
         long flag;
 
         let flag = (long) this->nextFlag;
         let this->nextFlag = flag + 1;
 
-        return sprintf("%s%d", pre, flag);
+        return sprintf("%s%d", prefix, flag);
     }
 
 }

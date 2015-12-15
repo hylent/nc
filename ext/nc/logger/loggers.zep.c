@@ -52,7 +52,7 @@ PHP_METHOD(Nc_Logger_Loggers, addLogger) {
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "spl_object_hash", NULL, 86, logger);
+	ZEPHIR_CALL_FUNCTION(&_0, "spl_object_hash", NULL, 85, logger);
 	zephir_check_call_status();
 	zephir_get_strval(_1, _0);
 	ZEPHIR_CPY_WRT(h, _1);

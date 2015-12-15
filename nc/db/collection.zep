@@ -4,19 +4,30 @@ class Collection implements \Countable, \Iterator
 {
     protected model;
     protected data;
+    protected properties;
     protected internalIndex = -1;
     protected indexes;
 
-    public function __construct(<Model> model, array data) -> void
+    public function __construct(<Model> model, array data, array properties = []) -> void
     {
         let this->model = model;
         let this->data = data;
+        let this->properties = properties;
         let this->internalIndex = count(data) - 1;
     }
 
     public function getModel() -> <Model>
     {
         return this->model;
+    }
+
+    public function __get(string name)
+    {
+        var prop;
+
+        if fetch prop, this->properties[name] {
+            return prop;
+        }
     }
 
     public function at(long index, bool asArray = false)
@@ -29,7 +40,7 @@ class Collection implements \Countable, \Iterator
             }
         } else {
             if fetch row, this->data[index] {
-                return this->model->newEntity(row, false, this);
+                return this->model->newEntity(false, row, this);
             }
             throw new ModelException("Cannot find entity at: " . index);
         }

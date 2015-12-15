@@ -14,9 +14,9 @@
 #include "kernel/main.h"
 
 
-ZEPHIR_INIT_CLASS(Nc_Data_Exception) {
+ZEPHIR_INIT_CLASS(Nc_Std_Exception) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Nc\\Data, Exception, nc, data_exception, nc_exception_ce, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Nc\\Std, Exception, nc, std_exception, nc_exception_ce, NULL, 0);
 
 	return SUCCESS;
 

@@ -233,7 +233,7 @@ PHP_METHOD(Nc_Upload_Uploader, pick) {
 		ZEPHIR_INIT_NVAR(_13$$3);
 		ZEPHIR_SINIT_NVAR(_14$$3);
 		ZVAL_LONG(&_14$$3, 4);
-		ZEPHIR_CALL_FUNCTION(&_15$$3, "pathinfo", &_16, 55, name, &_14$$3);
+		ZEPHIR_CALL_FUNCTION(&_15$$3, "pathinfo", &_16, 54, name, &_14$$3);
 		zephir_check_call_status();
 		zephir_fast_strtolower(_13$$3, _15$$3);
 		zephir_get_strval(_17$$3, _13$$3);
@@ -358,7 +358,7 @@ PHP_METHOD(Nc_Upload_Uploader, pickArray) {
 			ZEPHIR_INIT_NVAR(_17$$6);
 			ZEPHIR_SINIT_NVAR(_18$$6);
 			ZVAL_LONG(&_18$$6, 4);
-			ZEPHIR_CALL_FUNCTION(&_19$$6, "pathinfo", &_20, 55, name, &_18$$6);
+			ZEPHIR_CALL_FUNCTION(&_19$$6, "pathinfo", &_20, 54, name, &_18$$6);
 			zephir_check_call_status();
 			zephir_fast_strtolower(_17$$6, _19$$6);
 			zephir_get_strval(_21$$6, _17$$6);

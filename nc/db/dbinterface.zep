@@ -36,6 +36,9 @@ interface DbInterface
     public function update(string table, array data, array where = []) -> void;
     public function upsert(string table, array data, var primaryKey = "id") -> void;
     public function select(string table, array options = [], long $fetch = self::ALL);
+    public function selectRow(string table, array options = []);
+    public function selectCell(string table, array options = []);
+    public function selectColumns(string table, array options = []);
     public function countAndSelect(string table, array options = [], long $fetch = self::ALL) -> array;
     public function selectUnionAll(array selects, array options = [], long $fetch = self::ALL);
     public function countAndSelectUnionAll(array selects, array options = [], long $fetch = self::ALL) -> array;

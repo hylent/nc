@@ -1,4 +1,4 @@
-namespace Nc\Data;
+namespace Nc\Std;
 
 use Nc\Exception as Ex;
 

@@ -76,6 +76,12 @@ ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, upsert);
 
 ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, select);
 
+ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, selectRow);
+
+ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, selectCell);
+
+ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, selectColumns);
+
 ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, countAndSelect);
 
 ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, selectUnionAll);

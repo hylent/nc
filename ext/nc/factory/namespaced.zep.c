@@ -41,7 +41,7 @@ PHP_METHOD(Nc_Factory_Namespaced, __construct) {
 
 	ZEPHIR_INIT_VAR(_1);
 	ZEPHIR_CONCAT_VS(_1, ns, "\\");
-	ZEPHIR_CALL_PARENT(NULL, nc_factory_namespaced_ce, this_ptr, "__construct", &_0, 52, _1);
+	ZEPHIR_CALL_PARENT(NULL, nc_factory_namespaced_ce, this_ptr, "__construct", &_0, 51, _1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

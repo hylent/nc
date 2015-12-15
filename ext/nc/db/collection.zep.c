@@ -32,6 +32,8 @@ ZEPHIR_INIT_CLASS(Nc_Db_Collection) {
 
 	zend_declare_property_null(nc_db_collection_ce, SL("data"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_declare_property_null(nc_db_collection_ce, SL("properties"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	zend_declare_property_long(nc_db_collection_ce, SL("internalIndex"), -1, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_declare_property_null(nc_db_collection_ce, SL("indexes"), ZEND_ACC_PROTECTED TSRMLS_CC);
@@ -44,17 +46,24 @@ ZEPHIR_INIT_CLASS(Nc_Db_Collection) {
 
 PHP_METHOD(Nc_Db_Collection, __construct) {
 
-	zval *data = NULL;
-	zval *model, *data_param = NULL, *_0;
+	zval *data = NULL, *properties = NULL;
+	zval *model, *data_param = NULL, *properties_param = NULL, *_0;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &model, &data_param);
+	zephir_fetch_params(1, 2, 1, &model, &data_param, &properties_param);
 
 	zephir_get_arrval(data, data_param);
+	if (!properties_param) {
+		ZEPHIR_INIT_VAR(properties);
+		array_init(properties);
+	} else {
+		zephir_get_arrval(properties, properties_param);
+	}
 
 
 	zephir_update_property_this(this_ptr, SL("model"), model TSRMLS_CC);
 	zephir_update_property_this(this_ptr, SL("data"), data TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("properties"), properties TSRMLS_CC);
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(_0, (zephir_fast_count_int(data TSRMLS_CC) - 1));
 	zephir_update_property_this(this_ptr, SL("internalIndex"), _0 TSRMLS_CC);
@@ -67,6 +76,25 @@ PHP_METHOD(Nc_Db_Collection, getModel) {
 	
 
 	RETURN_MEMBER(this_ptr, "model");
+
+}
+
+PHP_METHOD(Nc_Db_Collection, __get) {
+
+	zval *name_param = NULL, *prop = NULL, *_0;
+	zval *name = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &name_param);
+
+	zephir_get_strval(name, name_param);
+
+
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("properties"), PH_NOISY_CC);
+	if (zephir_array_isset_fetch(&prop, _0, name, 1 TSRMLS_CC)) {
+		RETURN_CTOR(prop);
+	}
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -102,7 +130,7 @@ PHP_METHOD(Nc_Db_Collection, at) {
 			_2$$6 = zephir_fetch_nproperty_this(this_ptr, SL("model"), PH_NOISY_CC);
 			ZEPHIR_INIT_VAR(_3$$6);
 			ZVAL_BOOL(_3$$6, 0);
-			ZEPHIR_RETURN_CALL_METHOD(_2$$6, "newentity", NULL, 0, row, _3$$6, this_ptr);
+			ZEPHIR_RETURN_CALL_METHOD(_2$$6, "newentity", NULL, 0, _3$$6, row, this_ptr);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
@@ -114,7 +142,7 @@ PHP_METHOD(Nc_Db_Collection, at) {
 		ZEPHIR_CONCAT_SV(_6$$5, "Cannot find entity at: ", &_5$$5);
 		ZEPHIR_CALL_METHOD(NULL, _4$$5, "__construct", NULL, 2, _6$$5);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_4$$5, "nc/db/collection.zep", 34 TSRMLS_CC);
+		zephir_throw_exception_debug(_4$$5, "nc/db/collection.zep", 45 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -145,7 +173,7 @@ PHP_METHOD(Nc_Db_Collection, id) {
 		ZEPHIR_INIT_VAR(indexes);
 		array_init(indexes);
 		_1$$3 = zephir_fetch_nproperty_this(this_ptr, SL("data"), PH_NOISY_CC);
-		zephir_is_iterable(_1$$3, &_3$$3, &_2$$3, 0, 0, "nc/db/collection.zep", 47);
+		zephir_is_iterable(_1$$3, &_3$$3, &_2$$3, 0, 0, "nc/db/collection.zep", 58);
 		for (
 		  ; zephir_hash_get_current_data_ex(_3$$3, (void**) &_4$$3, &_2$$3) == SUCCESS
 		  ; zephir_hash_move_forward_ex(_3$$3, &_2$$3)
@@ -287,7 +315,7 @@ PHP_METHOD(Nc_Db_Collection, indexedData) {
 	ZEPHIR_INIT_VAR(arr);
 	array_init(arr);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("data"), PH_NOISY_CC);
-	zephir_is_iterable(_0, &_2, &_1, 0, 0, "nc/db/collection.zep", 108);
+	zephir_is_iterable(_0, &_2, &_1, 0, 0, "nc/db/collection.zep", 119);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -301,7 +329,7 @@ PHP_METHOD(Nc_Db_Collection, indexedData) {
 			ZEPHIR_CONCAT_SV(_5$$4, "Invalid item type, array required: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _4$$4, "__construct", &_6, 2, _5$$4);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_4$$4, "nc/db/collection.zep", 99 TSRMLS_CC);
+			zephir_throw_exception_debug(_4$$4, "nc/db/collection.zep", 110 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -313,7 +341,7 @@ PHP_METHOD(Nc_Db_Collection, indexedData) {
 			ZEPHIR_CONCAT_SV(_8$$5, "Cannot find value of index at: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _7$$5, "__construct", &_6, 2, _8$$5);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_7$$5, "nc/db/collection.zep", 102 TSRMLS_CC);
+			zephir_throw_exception_debug(_7$$5, "nc/db/collection.zep", 113 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -341,7 +369,7 @@ PHP_METHOD(Nc_Db_Collection, groupedData) {
 	ZEPHIR_INIT_VAR(arr);
 	array_init(arr);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("data"), PH_NOISY_CC);
-	zephir_is_iterable(_0, &_2, &_1, 0, 0, "nc/db/collection.zep", 126);
+	zephir_is_iterable(_0, &_2, &_1, 0, 0, "nc/db/collection.zep", 137);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -355,7 +383,7 @@ PHP_METHOD(Nc_Db_Collection, groupedData) {
 			ZEPHIR_CONCAT_SV(_5$$4, "Invalid item type, array required at: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _4$$4, "__construct", &_6, 2, _5$$4);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_4$$4, "nc/db/collection.zep", 117 TSRMLS_CC);
+			zephir_throw_exception_debug(_4$$4, "nc/db/collection.zep", 128 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -367,7 +395,7 @@ PHP_METHOD(Nc_Db_Collection, groupedData) {
 			ZEPHIR_CONCAT_SV(_8$$5, "Cannot find value of group at: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _7$$5, "__construct", &_6, 2, _8$$5);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_7$$5, "nc/db/collection.zep", 120 TSRMLS_CC);
+			zephir_throw_exception_debug(_7$$5, "nc/db/collection.zep", 131 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -396,7 +424,7 @@ PHP_METHOD(Nc_Db_Collection, groupIndexedData) {
 	ZEPHIR_INIT_VAR(arr);
 	array_init(arr);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("data"), PH_NOISY_CC);
-	zephir_is_iterable(_0, &_2, &_1, 0, 0, "nc/db/collection.zep", 147);
+	zephir_is_iterable(_0, &_2, &_1, 0, 0, "nc/db/collection.zep", 158);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -410,7 +438,7 @@ PHP_METHOD(Nc_Db_Collection, groupIndexedData) {
 			ZEPHIR_CONCAT_SV(_5$$4, "Invalid item type, array required at: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _4$$4, "__construct", &_6, 2, _5$$4);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_4$$4, "nc/db/collection.zep", 135 TSRMLS_CC);
+			zephir_throw_exception_debug(_4$$4, "nc/db/collection.zep", 146 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -422,7 +450,7 @@ PHP_METHOD(Nc_Db_Collection, groupIndexedData) {
 			ZEPHIR_CONCAT_SV(_8$$5, "Cannot find value of group at: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _7$$5, "__construct", &_6, 2, _8$$5);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_7$$5, "nc/db/collection.zep", 138 TSRMLS_CC);
+			zephir_throw_exception_debug(_7$$5, "nc/db/collection.zep", 149 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -434,7 +462,7 @@ PHP_METHOD(Nc_Db_Collection, groupIndexedData) {
 			ZEPHIR_CONCAT_SV(_10$$6, "Cannot find value of index at: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _9$$6, "__construct", &_6, 2, _10$$6);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_9$$6, "nc/db/collection.zep", 141 TSRMLS_CC);
+			zephir_throw_exception_debug(_9$$6, "nc/db/collection.zep", 152 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -462,7 +490,7 @@ PHP_METHOD(Nc_Db_Collection, values) {
 	ZEPHIR_INIT_VAR(arr);
 	array_init(arr);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("data"), PH_NOISY_CC);
-	zephir_is_iterable(_0, &_2, &_1, 0, 0, "nc/db/collection.zep", 165);
+	zephir_is_iterable(_0, &_2, &_1, 0, 0, "nc/db/collection.zep", 176);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -476,7 +504,7 @@ PHP_METHOD(Nc_Db_Collection, values) {
 			ZEPHIR_CONCAT_SV(_5$$4, "Invalid item type, array required at: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _4$$4, "__construct", &_6, 2, _5$$4);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_4$$4, "nc/db/collection.zep", 156 TSRMLS_CC);
+			zephir_throw_exception_debug(_4$$4, "nc/db/collection.zep", 167 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -488,11 +516,11 @@ PHP_METHOD(Nc_Db_Collection, values) {
 			ZEPHIR_CONCAT_SV(_8$$5, "Cannot find value of value at: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _7$$5, "__construct", &_6, 2, _8$$5);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_7$$5, "nc/db/collection.zep", 159 TSRMLS_CC);
+			zephir_throw_exception_debug(_7$$5, "nc/db/collection.zep", 170 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		zephir_array_append(&arr, valueValue, PH_SEPARATE, "nc/db/collection.zep", 162);
+		zephir_array_append(&arr, valueValue, PH_SEPARATE, "nc/db/collection.zep", 173);
 	}
 	RETURN_CCTOR(arr);
 
@@ -537,7 +565,7 @@ PHP_METHOD(Nc_Db_Collection, indexedValues) {
 	ZEPHIR_INIT_VAR(arr);
 	array_init(arr);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("data"), PH_NOISY_CC);
-	zephir_is_iterable(_0, &_2, &_1, 0, 0, "nc/db/collection.zep", 191);
+	zephir_is_iterable(_0, &_2, &_1, 0, 0, "nc/db/collection.zep", 202);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -551,7 +579,7 @@ PHP_METHOD(Nc_Db_Collection, indexedValues) {
 			ZEPHIR_CONCAT_SV(_5$$4, "Invalid item type, array required at: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _4$$4, "__construct", &_6, 2, _5$$4);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_4$$4, "nc/db/collection.zep", 179 TSRMLS_CC);
+			zephir_throw_exception_debug(_4$$4, "nc/db/collection.zep", 190 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -563,7 +591,7 @@ PHP_METHOD(Nc_Db_Collection, indexedValues) {
 			ZEPHIR_CONCAT_SV(_8$$5, "Cannot find value of index at: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _7$$5, "__construct", &_6, 2, _8$$5);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_7$$5, "nc/db/collection.zep", 182 TSRMLS_CC);
+			zephir_throw_exception_debug(_7$$5, "nc/db/collection.zep", 193 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -575,7 +603,7 @@ PHP_METHOD(Nc_Db_Collection, indexedValues) {
 			ZEPHIR_CONCAT_SV(_10$$6, "Cannot find value of value at: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _9$$6, "__construct", &_6, 2, _10$$6);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_9$$6, "nc/db/collection.zep", 185 TSRMLS_CC);
+			zephir_throw_exception_debug(_9$$6, "nc/db/collection.zep", 196 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -604,7 +632,7 @@ PHP_METHOD(Nc_Db_Collection, groupedValues) {
 	ZEPHIR_INIT_VAR(arr);
 	array_init(arr);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("data"), PH_NOISY_CC);
-	zephir_is_iterable(_0, &_2, &_1, 0, 0, "nc/db/collection.zep", 212);
+	zephir_is_iterable(_0, &_2, &_1, 0, 0, "nc/db/collection.zep", 223);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -618,7 +646,7 @@ PHP_METHOD(Nc_Db_Collection, groupedValues) {
 			ZEPHIR_CONCAT_SV(_5$$4, "Invalid item type, array required at: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _4$$4, "__construct", &_6, 2, _5$$4);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_4$$4, "nc/db/collection.zep", 200 TSRMLS_CC);
+			zephir_throw_exception_debug(_4$$4, "nc/db/collection.zep", 211 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -630,7 +658,7 @@ PHP_METHOD(Nc_Db_Collection, groupedValues) {
 			ZEPHIR_CONCAT_SV(_8$$5, "Cannot find value of group at: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _7$$5, "__construct", &_6, 2, _8$$5);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_7$$5, "nc/db/collection.zep", 203 TSRMLS_CC);
+			zephir_throw_exception_debug(_7$$5, "nc/db/collection.zep", 214 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -642,7 +670,7 @@ PHP_METHOD(Nc_Db_Collection, groupedValues) {
 			ZEPHIR_CONCAT_SV(_10$$6, "Cannot find value of value at: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _9$$6, "__construct", &_6, 2, _10$$6);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_9$$6, "nc/db/collection.zep", 206 TSRMLS_CC);
+			zephir_throw_exception_debug(_9$$6, "nc/db/collection.zep", 217 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -672,7 +700,7 @@ PHP_METHOD(Nc_Db_Collection, groupIndexedValues) {
 	ZEPHIR_INIT_VAR(arr);
 	array_init(arr);
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("data"), PH_NOISY_CC);
-	zephir_is_iterable(_0, &_2, &_1, 0, 0, "nc/db/collection.zep", 236);
+	zephir_is_iterable(_0, &_2, &_1, 0, 0, "nc/db/collection.zep", 247);
 	for (
 	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_2, &_1)
@@ -686,7 +714,7 @@ PHP_METHOD(Nc_Db_Collection, groupIndexedValues) {
 			ZEPHIR_CONCAT_SV(_5$$4, "Invalid item type, array required at: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _4$$4, "__construct", &_6, 2, _5$$4);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_4$$4, "nc/db/collection.zep", 221 TSRMLS_CC);
+			zephir_throw_exception_debug(_4$$4, "nc/db/collection.zep", 232 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -698,7 +726,7 @@ PHP_METHOD(Nc_Db_Collection, groupIndexedValues) {
 			ZEPHIR_CONCAT_SV(_8$$5, "Cannot find value of group at: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _7$$5, "__construct", &_6, 2, _8$$5);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_7$$5, "nc/db/collection.zep", 224 TSRMLS_CC);
+			zephir_throw_exception_debug(_7$$5, "nc/db/collection.zep", 235 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -710,7 +738,7 @@ PHP_METHOD(Nc_Db_Collection, groupIndexedValues) {
 			ZEPHIR_CONCAT_SV(_10$$6, "Cannot find value of index at: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _9$$6, "__construct", &_6, 2, _10$$6);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_9$$6, "nc/db/collection.zep", 227 TSRMLS_CC);
+			zephir_throw_exception_debug(_9$$6, "nc/db/collection.zep", 238 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -722,7 +750,7 @@ PHP_METHOD(Nc_Db_Collection, groupIndexedValues) {
 			ZEPHIR_CONCAT_SV(_12$$7, "Cannot find value of value at: ", k);
 			ZEPHIR_CALL_METHOD(NULL, _11$$7, "__construct", &_6, 2, _12$$7);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_11$$7, "nc/db/collection.zep", 230 TSRMLS_CC);
+			zephir_throw_exception_debug(_11$$7, "nc/db/collection.zep", 241 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}

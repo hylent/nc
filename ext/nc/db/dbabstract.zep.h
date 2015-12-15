@@ -25,6 +25,9 @@ PHP_METHOD(Nc_Db_DbAbstract, update);
 PHP_METHOD(Nc_Db_DbAbstract, upsert);
 PHP_METHOD(Nc_Db_DbAbstract, parseSelect);
 PHP_METHOD(Nc_Db_DbAbstract, select);
+PHP_METHOD(Nc_Db_DbAbstract, selectRow);
+PHP_METHOD(Nc_Db_DbAbstract, selectCell);
+PHP_METHOD(Nc_Db_DbAbstract, selectColumns);
 PHP_METHOD(Nc_Db_DbAbstract, countAndSelect);
 PHP_METHOD(Nc_Db_DbAbstract, selectUnionAll);
 PHP_METHOD(Nc_Db_DbAbstract, countAndSelectUnionAll);
@@ -122,6 +125,21 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_dbabstract_select, 0, 0, 1)
 	ZEND_ARG_INFO(0, fetch)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_dbabstract_selectrow, 0, 0, 1)
+	ZEND_ARG_INFO(0, table)
+	ZEND_ARG_ARRAY_INFO(0, options, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_dbabstract_selectcell, 0, 0, 1)
+	ZEND_ARG_INFO(0, table)
+	ZEND_ARG_ARRAY_INFO(0, options, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_dbabstract_selectcolumns, 0, 0, 1)
+	ZEND_ARG_INFO(0, table)
+	ZEND_ARG_ARRAY_INFO(0, options, 1)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_dbabstract_countandselect, 0, 0, 1)
 	ZEND_ARG_INFO(0, table)
 	ZEND_ARG_ARRAY_INFO(0, options, 1)
@@ -208,7 +226,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_dbabstract_parsepagination, 0, 0, 3)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_dbabstract_nextflag, 0, 0, 0)
-	ZEND_ARG_INFO(0, pre)
+	ZEND_ARG_INFO(0, prefix)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(nc_db_dbabstract_method_entry) {
@@ -234,6 +252,9 @@ ZEPHIR_INIT_FUNCS(nc_db_dbabstract_method_entry) {
 	PHP_ME(Nc_Db_DbAbstract, upsert, arginfo_nc_db_dbabstract_upsert, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_DbAbstract, parseSelect, arginfo_nc_db_dbabstract_parseselect, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_DbAbstract, select, arginfo_nc_db_dbabstract_select, ZEND_ACC_PUBLIC)
+	PHP_ME(Nc_Db_DbAbstract, selectRow, arginfo_nc_db_dbabstract_selectrow, ZEND_ACC_PUBLIC)
+	PHP_ME(Nc_Db_DbAbstract, selectCell, arginfo_nc_db_dbabstract_selectcell, ZEND_ACC_PUBLIC)
+	PHP_ME(Nc_Db_DbAbstract, selectColumns, arginfo_nc_db_dbabstract_selectcolumns, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_DbAbstract, countAndSelect, arginfo_nc_db_dbabstract_countandselect, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_DbAbstract, selectUnionAll, arginfo_nc_db_dbabstract_selectunionall, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_DbAbstract, countAndSelectUnionAll, arginfo_nc_db_dbabstract_countandselectunionall, ZEND_ACC_PUBLIC)

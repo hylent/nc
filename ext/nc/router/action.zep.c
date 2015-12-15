@@ -106,7 +106,7 @@ PHP_METHOD(Nc_Router_Action, route) {
 		ZEPHIR_CPY_WRT(action, _5$$4);
 	}
 	zephir_update_property_this(this_ptr, SL("id"), action TSRMLS_CC);
-	ZEPHIR_CALL_CE_STATIC(&_6, nc_std_ce, "camelcase", &_7, 105, action);
+	ZEPHIR_CALL_CE_STATIC(&_6, nc_std_ce, "camelcase", &_7, 104, action);
 	zephir_check_call_status();
 	zephir_get_strval(_8, _6);
 	ZEPHIR_CPY_WRT(actionName, _8);

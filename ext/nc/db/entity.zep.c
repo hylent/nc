@@ -26,13 +26,13 @@ ZEPHIR_INIT_CLASS(Nc_Db_Entity) {
 
 	zend_declare_property_null(nc_db_entity_ce, SL("model"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_declare_property_null(nc_db_entity_ce, SL("row"), ZEND_ACC_PROTECTED TSRMLS_CC);
-
 	zend_declare_property_null(nc_db_entity_ce, SL("isNew"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_declare_property_null(nc_db_entity_ce, SL("updates"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(nc_db_entity_ce, SL("row"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_declare_property_null(nc_db_entity_ce, SL("collection"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	zend_declare_property_null(nc_db_entity_ce, SL("updates"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 
@@ -40,24 +40,28 @@ ZEPHIR_INIT_CLASS(Nc_Db_Entity) {
 
 PHP_METHOD(Nc_Db_Entity, __construct) {
 
-	zend_bool isNew;
 	zval *row = NULL;
-	zval *model, *row_param = NULL, *isNew_param = NULL;
+	zend_bool isNew;
+	zval *model, *isNew_param = NULL, *row_param = NULL, *collection = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 3, 0, &model, &row_param, &isNew_param);
+	zephir_fetch_params(1, 3, 1, &model, &isNew_param, &row_param, &collection);
 
-	zephir_get_arrval(row, row_param);
 	isNew = zephir_get_boolval(isNew_param);
+	zephir_get_arrval(row, row_param);
+	if (!collection) {
+		collection = ZEPHIR_GLOBAL(global_null);
+	}
 
 
 	zephir_update_property_this(this_ptr, SL("model"), model TSRMLS_CC);
-	zephir_update_property_this(this_ptr, SL("row"), row TSRMLS_CC);
 	if (isNew) {
 		zephir_update_property_this(this_ptr, SL("isNew"), ZEPHIR_GLOBAL(global_true) TSRMLS_CC);
 	} else {
 		zephir_update_property_this(this_ptr, SL("isNew"), ZEPHIR_GLOBAL(global_false) TSRMLS_CC);
 	}
+	zephir_update_property_this(this_ptr, SL("row"), row TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("collection"), collection TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -70,14 +74,6 @@ PHP_METHOD(Nc_Db_Entity, getModel) {
 
 }
 
-PHP_METHOD(Nc_Db_Entity, asArray) {
-
-	
-
-	RETURN_MEMBER(this_ptr, "row");
-
-}
-
 PHP_METHOD(Nc_Db_Entity, isNew) {
 
 	
@@ -86,28 +82,26 @@ PHP_METHOD(Nc_Db_Entity, isNew) {
 
 }
 
-PHP_METHOD(Nc_Db_Entity, isDirty) {
+PHP_METHOD(Nc_Db_Entity, asArray) {
 
-	zval *_0;
+	
 
-
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("updates"), PH_NOISY_CC);
-	RETURN_BOOL(zephir_fast_count_int(_0 TSRMLS_CC) > 0);
+	RETURN_MEMBER(this_ptr, "row");
 
 }
 
-PHP_METHOD(Nc_Db_Entity, setCollection) {
+PHP_METHOD(Nc_Db_Entity, primaryKeyValue) {
 
-	zval *collection = NULL;
+	zval *_0, *_1;
+	int ZEPHIR_LAST_CALL_STATUS;
 
-	zephir_fetch_params(0, 0, 1, &collection);
+	ZEPHIR_MM_GROW();
 
-	if (!collection) {
-		collection = ZEPHIR_GLOBAL(global_null);
-	}
-
-
-	zephir_update_property_this(this_ptr, SL("collection"), collection TSRMLS_CC);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("model"), PH_NOISY_CC);
+	_1 = zephir_fetch_nproperty_this(this_ptr, SL("row"), PH_NOISY_CC);
+	ZEPHIR_RETURN_CALL_METHOD(_0, "pickprimarykeyvalue", NULL, 0, _1);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 
@@ -129,18 +123,13 @@ PHP_METHOD(Nc_Db_Entity, getCollection) {
 
 }
 
-PHP_METHOD(Nc_Db_Entity, primaryKeyValue) {
+PHP_METHOD(Nc_Db_Entity, isDirty) {
 
-	zval *_0, *_1;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zval *_0;
 
-	ZEPHIR_MM_GROW();
 
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("model"), PH_NOISY_CC);
-	_1 = zephir_fetch_nproperty_this(this_ptr, SL("row"), PH_NOISY_CC);
-	ZEPHIR_RETURN_CALL_METHOD(_0, "pickprimarykeyvalue", NULL, 0, _1);
-	zephir_check_call_status();
-	RETURN_MM();
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("updates"), PH_NOISY_CC);
+	RETURN_BOOL(zephir_fast_count_int(_0 TSRMLS_CC) > 0);
 
 }
 
@@ -157,7 +146,7 @@ PHP_METHOD(Nc_Db_Entity, set) {
 	zephir_get_arrval(updates, updates_param);
 
 
-	zephir_is_iterable(updates, &_1, &_0, 0, 0, "nc/db/entity.zep", 70);
+	zephir_is_iterable(updates, &_1, &_0, 0, 0, "nc/db/entity.zep", 66);
 	for (
 	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_1, &_0)
@@ -250,7 +239,7 @@ PHP_METHOD(Nc_Db_Entity, save) {
 		array_init(_8$$4);
 		zephir_update_property_this(this_ptr, SL("updates"), _8$$4 TSRMLS_CC);
 	}
-	zephir_is_iterable(row, &_10, &_9, 0, 0, "nc/db/entity.zep", 114);
+	zephir_is_iterable(row, &_10, &_9, 0, 0, "nc/db/entity.zep", 110);
 	for (
 	  ; zephir_hash_get_current_data_ex(_10, (void**) &_11, &_9) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_10, &_9)

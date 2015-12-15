@@ -193,11 +193,11 @@ PHP_METHOD(Nc_Router_ControllerAction, route) {
 	ZEPHIR_INIT_VAR(_16);
 	ZEPHIR_CONCAT_VSV(_16, controller, "/", action);
 	zephir_update_property_this(this_ptr, SL("id"), _16 TSRMLS_CC);
-	ZEPHIR_CALL_CE_STATIC(&_17, nc_std_ce, "camelcase", &_18, 105, controller);
+	ZEPHIR_CALL_CE_STATIC(&_17, nc_std_ce, "camelcase", &_18, 104, controller);
 	zephir_check_call_status();
 	zephir_get_strval(_19, _17);
 	ZEPHIR_CPY_WRT(controllerName, _19);
-	ZEPHIR_CALL_CE_STATIC(&_20, nc_std_ce, "camelcase", &_18, 105, action);
+	ZEPHIR_CALL_CE_STATIC(&_20, nc_std_ce, "camelcase", &_18, 104, action);
 	zephir_check_call_status();
 	zephir_get_strval(_21, _20);
 	ZEPHIR_CPY_WRT(actionName, _21);
