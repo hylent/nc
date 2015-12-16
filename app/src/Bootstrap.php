@@ -26,10 +26,6 @@ class Bootstrap
             ), $app->config('db.user'), $app->config('db.passwd'));
         });
 
-        $app('stdRedis', function($app) {
-            return new \Nc\Std\BackendRedis($app->redis);
-        });
-
         $app('', function($app) {
         });
 
