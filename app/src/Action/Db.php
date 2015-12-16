@@ -10,6 +10,8 @@ class Db extends ActionBase
     {
         $m = new \Nc\Db\Model($this->app->db, 'file', 'uri', '');
 
+        print_R($m->getDb()->queryColumns('show tables'));
+
         if (0) {
             $c = $m->paged([], 'created_ts desc', 10, 1);
             print_R($c);

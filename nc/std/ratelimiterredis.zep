@@ -1,17 +1,16 @@
 namespace Nc\Std;
 
-class BackendRedis implements RateLimiterBackendInterface
+class RateLimiterRedis implements RateLimiterInterface
 {
-    protected redis;
+    const DEFAULT_PREFIX = "ratelimiter:";
 
-    public function __construct(var redis) -> void
+    protected redis;
+    protected prefix;
+
+    public function __construct(var redis, string prefix = self::DEFAULT_PREFIX) -> void
     {
         let this->redis = redis;
-    }
-
-    public function rateLimiter(string identifier) -> <RateLimiter>
-    {
-        return new RateLimiter(this, identifier);
+        let this->prefix = prefix;
     }
 
     public function passRateLimiter(string identifier, long seconds, long times) -> bool
@@ -26,7 +25,7 @@ class BackendRedis implements RateLimiterBackendInterface
             let times = 1;
         }
 
-        let key = (string) sprintf("%s:%d:%d", identifier, seconds, time() / seconds);
+        let key = (string) sprintf("%s%s:%d:%d", this->prefix, identifier, seconds, time() / seconds);
         let value = this->redis->get(key);
 
         if value !== false {

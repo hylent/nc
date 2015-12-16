@@ -316,10 +316,10 @@ PHP_METHOD(Nc_View_Facade, __invoke) {
 			object_init_ex(_4$$6, nc_factory_namespaced_ce);
 			ZEPHIR_INIT_NVAR(_5$$6);
 			ZVAL_STRING(_5$$6, "Nc\\View", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(NULL, _4$$6, "__construct", &_6, 142, _5$$6);
+			ZEPHIR_CALL_METHOD(NULL, _4$$6, "__construct", &_6, 153, _5$$6);
 			zephir_check_temp_parameter(_5$$6);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_7$$6, _4$$6, "__get", &_8, 143, view);
+			ZEPHIR_CALL_METHOD(&_7$$6, _4$$6, "__get", &_8, 154, view);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(view, _7$$6);
 			break;
@@ -328,10 +328,10 @@ PHP_METHOD(Nc_View_Facade, __invoke) {
 		object_init_ex(_9$$3, nc_factory_namespaced_ce);
 		ZEPHIR_INIT_NVAR(_10$$3);
 		ZVAL_STRING(_10$$3, "", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _9$$3, "__construct", &_6, 142, _10$$3);
+		ZEPHIR_CALL_METHOD(NULL, _9$$3, "__construct", &_6, 153, _10$$3);
 		zephir_check_temp_parameter(_10$$3);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&_11$$3, _9$$3, "__get", &_8, 143, view);
+		ZEPHIR_CALL_METHOD(&_11$$3, _9$$3, "__get", &_8, 154, view);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(view, _11$$3);
 		break;

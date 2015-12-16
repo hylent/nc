@@ -18,6 +18,8 @@ if test "$PHP_NC" = "yes"; then
 	nc/db/dbabstract.zep.c
 	nc/factory/factoryabstract.zep.c
 	nc/logger/loggerabstract.zep.c
+	nc/std/groupedinterface.zep.c
+	nc/std/sequenceinterface.zep.c
 	nc/db/exception.zep.c
 	nc/factory/classnameabstract.zep.c
 	nc/image/imageabstract.zep.c
@@ -27,13 +29,15 @@ if test "$PHP_NC" = "yes"; then
 	nc/loader/loaderabstract.zep.c
 	nc/router/routerabstract.zep.c
 	nc/router/sourceuri.zep.c
+	nc/std/cacheinterface.zep.c
 	nc/task/taskmanagerabstract.zep.c
 	nc/di.zep.c
 	nc/factory/prefixed.zep.c
 	nc/image/image.zep.c
 	nc/router/exception.zep.c
-	nc/std/ratelimiterbackendinterface.zep.c
-	nc/std/stdabstract.zep.c
+	nc/std/groupedredishash.zep.c
+	nc/std/queueinterface.zep.c
+	nc/std/ratelimiterinterface.zep.c
 	nc/application.zep.c
 	nc/db/collection.zep.c
 	nc/db/entity.zep.c
@@ -72,9 +76,18 @@ if test "$PHP_NC" = "yes"; then
 	nc/router/sourcesapistrategy.zep.c
 	nc/router/sourceuripatterns.zep.c
 	nc/std.zep.c
-	nc/std/backendredis.zep.c
+	nc/std/cacheapc.zep.c
+	nc/std/cachefilesystem.zep.c
 	nc/std/exception.zep.c
-	nc/std/ratelimiter.zep.c
+	nc/std/groupedmongocollections.zep.c
+	nc/std/groupedproxy.zep.c
+	nc/std/groupedredishashserialized.zep.c
+	nc/std/queueredis.zep.c
+	nc/std/ratelimiterredis.zep.c
+	nc/std/sequencemongocollection.zep.c
+	nc/std/sequencemysql.zep.c
+	nc/std/sequenceredis.zep.c
+	nc/std/sequenceredishash.zep.c
 	nc/task/exception.zep.c
 	nc/task/queueredis.zep.c
 	nc/task/rundirectly.zep.c

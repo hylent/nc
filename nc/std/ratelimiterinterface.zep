@@ -1,6 +1,6 @@
 namespace Nc\Std;
 
-interface RateLimiterBackendInterface
+interface RateLimiterInterface
 {
     public function passRateLimiter(string identifier, long seconds, long times) -> bool;
 
