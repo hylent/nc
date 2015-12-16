@@ -6,10 +6,14 @@ class Bootstrap
 {
     public function __construct(\Nc\Application $app)
     {
+        // configs
+        $app->mergeConfigsInPathIfValid(__DIR__.'/../config.php');
+        $app->mergeConfigsInPathIfValid(__DIR__.'/../config.local.php');
+
         // di services
         $app('redis', function($app) {
             $redis = new \Redis();
-            $redis->connect('192.168.255.11', 6379);
+            $redis->connect($app->config('redis.host'), $app->config('redis.port'));
             return $redis;
         });
 
