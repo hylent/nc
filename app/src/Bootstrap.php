@@ -17,6 +17,15 @@ class Bootstrap
             return $redis;
         });
 
+        $app('db', function($app) {
+            return new \Nc\Db\PdoMysql(sprintf(
+                'mysql:host=%s;port=%d;dbname=%s;charset=utf8',
+                $app->config('db.host'),
+                $app->config('db.port'),
+                $app->config('db.dbname')
+            ), $app->config('db.user'), $app->config('db.passwd'));
+        });
+
         $app('stdRedis', function($app) {
             return new \Nc\Std\BackendRedis($app->redis);
         });

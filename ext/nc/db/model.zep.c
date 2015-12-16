@@ -401,7 +401,7 @@ PHP_METHOD(Nc_Db_Model, paged) {
 	ZEPHIR_INIT_NVAR(_3);
 	ZVAL_LONG(_3, skip);
 	zephir_array_update_string(&_2, SL("skip"), &_3, PH_COPY | PH_SEPARATE);
-	ZEPHIR_CALL_METHOD(&nd, _0, "select", NULL, 0, _1, _2);
+	ZEPHIR_CALL_METHOD(&nd, _0, "countandselect", NULL, 0, _1, _2);
 	zephir_check_call_status();
 	ZEPHIR_MAKE_REF(nd);
 	ZEPHIR_CALL_FUNCTION(&_4, "array_shift", &_5, 6, nd);

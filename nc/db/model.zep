@@ -122,7 +122,7 @@ class Model
 
         let skip = limit * (page - 1);
 
-        let nd = this->db->select(this->table, [
+        let nd = this->db->countAndSelect(this->table, [
             "where": where,
             "orderBy": orderBy,
             "limit": limit,
