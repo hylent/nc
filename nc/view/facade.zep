@@ -56,12 +56,15 @@ class Facade implements \ArrayAccess
         let this->view = __FUNCTION__;
     }
 
-    public function readFile(var readFile = null) -> void
+    public function readFile(var readFile = null, var readFileContentType = null) -> void
     {
         let this->view = __FUNCTION__;
 
         if readFile !== null {
             let this->options["readFile"] = readFile;
+        }
+        if readFileContentType !== null {
+            let this->options["readFileContentType"] = readFileContentType;
         }
     }
 

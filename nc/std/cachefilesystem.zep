@@ -11,18 +11,11 @@ class CacheFileSystem implements CacheInterface
 
     public function setCache(string identifier, var data, long lifetime = 0) -> void
     {
-        string path, d;
+        string path;
 
         let path = (string) this->path(identifier, true);
 
-        if lifetime > 0 {
-            let lifetime += (long) time();
-            let d = (string) sprintf("<?php return time() > %d ? null : %s;\n", lifetime, var_export(data, true));
-        } else {
-            let d = (string) sprintf("<?php return %s;\n", var_export(data, true));
-        }
-
-        if unlikely ! file_put_contents(path, d, LOCK_EX) {
+        if unlikely ! file_put_contents(path, this->packData(data, lifetime), LOCK_EX) {
             throw new Exception("Cannot write data to path: " . path);
         }
     }
@@ -45,6 +38,16 @@ class CacheFileSystem implements CacheInterface
         if unlikely file_exists(path) && ! unlink(path) {
             throw new Exception("Cannot forget data in path: " . path);
         }
+    }
+
+    protected function packData(var data, long lifetime) -> string
+    {
+        if lifetime < 1 {
+            return sprintf("<?php return %s;\n", var_export(data, true));
+        }
+
+        let lifetime += (long) time();
+        return sprintf("<?php return time() > %d ? null : %s;\n", lifetime, var_export(data, true));
     }
 
     protected function path(string identifier, bool mkdirIfNeeded = false) -> string

@@ -6,7 +6,7 @@ class ReadFile implements ViewInterface
 {
     public function run(array data, array options) -> void
     {
-        string readFile;
+        string readFile, readFileContentType;
 
         let readFile = (string) Std::valueAt(options, "readFile", "");
         if unlikely readFile->length() < 1 {
@@ -17,9 +17,15 @@ class ReadFile implements ViewInterface
             throw new Exception("Cannot find file in path: " . readFile);
         }
 
-        header("Content-Description: File Transfer");
-        header("Content-Type: application/octet-stream");
-        header("Content-Transfer-Encoding: binary");
+        let readFileContentType = (string) Std::valueAt(options, "readFileContentType", "");
+        if readFileContentType->length() > 0 {
+            header("Content-Type: " . readFileContentType);
+        } else {
+            header("Content-Description: File Transfer");
+            header("Content-Type: application/octet-stream");
+            header("Content-Transfer-Encoding: binary");
+        }
+
         header("Expires: 0");
         header("Cache-Control: must-revalidate");
         header("Pragma: public");

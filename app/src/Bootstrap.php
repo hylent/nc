@@ -26,6 +26,14 @@ class Bootstrap
             ), $app->config('db.user'), $app->config('db.passwd'));
         });
 
+        $app('mongo', function($app) {
+            return (new \MongoClient(sprintf(
+                'mongodb://%s:%d',
+                $app->config('mongo.host'),
+                $app->config('mongo.port')
+            )))->selectDb($app->config('mongo.dbname'));
+        });
+
         $app('', function($app) {
         });
 

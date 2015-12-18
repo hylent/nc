@@ -67,8 +67,8 @@ PHP_METHOD(Nc_Std_CacheApc, setCache) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	long lifetime;
-	zval *identifier_param = NULL, *data, *lifetime_param = NULL, *_0, *_1, _2, *_3 = NULL;
-	zval *identifier = NULL;
+	zval *identifier_param = NULL, *data, *lifetime_param = NULL, *_0, *_1, _2, *_3 = NULL, *_4$$3;
+	zval *identifier = NULL, *_5$$3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &identifier_param, &data, &lifetime_param);
@@ -89,7 +89,14 @@ PHP_METHOD(Nc_Std_CacheApc, setCache) {
 	ZEPHIR_CALL_FUNCTION(&_3, "apc_store", NULL, 118, _1, data, &_2);
 	zephir_check_call_status();
 	if (unlikely(!zephir_is_true(_3))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_std_exception_ce, "Cannot store data: apc_store", "nc/std/cacheapc.zep", 21);
+		ZEPHIR_INIT_VAR(_4$$3);
+		object_init_ex(_4$$3, nc_std_exception_ce);
+		ZEPHIR_INIT_VAR(_5$$3);
+		ZEPHIR_CONCAT_SV(_5$$3, "Cannot apc_store cache data: ", identifier);
+		ZEPHIR_CALL_METHOD(NULL, _4$$3, "__construct", NULL, 2, _5$$3);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(_4$$3, "nc/std/cacheapc.zep", 21 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	ZEPHIR_MM_RESTORE();
@@ -127,7 +134,7 @@ PHP_METHOD(Nc_Std_CacheApc, getCache) {
 PHP_METHOD(Nc_Std_CacheApc, deleteCache) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *identifier_param = NULL, *_0, *_1, *_2 = NULL;
+	zval *identifier_param = NULL, *_0, *_1;
 	zval *identifier = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -139,12 +146,8 @@ PHP_METHOD(Nc_Std_CacheApc, deleteCache) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("prefix"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
 	ZEPHIR_CONCAT_VV(_1, _0, identifier);
-	ZEPHIR_CALL_FUNCTION(&_2, "apc_delete", NULL, 120, _1);
+	ZEPHIR_CALL_FUNCTION(NULL, "apc_delete", NULL, 120, _1);
 	zephir_check_call_status();
-	if (unlikely(!zephir_is_true(_2))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_std_exception_ce, "Cannot forget data: apc_delete", "nc/std/cacheapc.zep", 38);
-		return;
-	}
 	ZEPHIR_MM_RESTORE();
 
 }

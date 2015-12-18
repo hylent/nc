@@ -12,7 +12,7 @@ class Content implements ViewInterface
         let contentType = (string) Std::valueAt(options, "contentType", "");
 
         if contentType->length() > 0 {
-            header("Content-type: " . contentType);
+            header("Content-Type: " . contentType);
         }
 
         echo content;

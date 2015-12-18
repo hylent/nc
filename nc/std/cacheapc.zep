@@ -18,7 +18,7 @@ class CacheApc implements CacheInterface
     public function setCache(string identifier, var data, long lifetime = 0) -> void
     {
         if unlikely ! apc_store(this->prefix . identifier, data, lifetime) {
-            throw new Exception("Cannot store data: apc_store");
+            throw new Exception("Cannot apc_store cache data: " . identifier);
         }
     }
 
@@ -34,9 +34,7 @@ class CacheApc implements CacheInterface
 
     public function deleteCache(string identifier) -> void
     {
-        if unlikely ! apc_delete(this->prefix . identifier) {
-            throw new Exception("Cannot forget data: apc_delete");
-        }
+        apc_delete(this->prefix . identifier);
     }
 
 }
