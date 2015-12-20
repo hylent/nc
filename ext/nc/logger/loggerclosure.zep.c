@@ -18,29 +18,29 @@
 #include "kernel/operators.h"
 
 
-ZEPHIR_INIT_CLASS(Nc_Logger_LogClosure) {
+ZEPHIR_INIT_CLASS(Nc_Logger_LoggerClosure) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Nc\\Logger, LogClosure, nc, logger_logclosure, nc_logger_loggerabstract_ce, nc_logger_logclosure_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Nc\\Logger, LoggerClosure, nc, logger_loggerclosure, nc_logger_loggerabstract_ce, nc_logger_loggerclosure_method_entry, 0);
 
-	zend_declare_property_null(nc_logger_logclosure_ce, SL("logClosure"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(nc_logger_loggerclosure_ce, SL("loggerClosure"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 
 }
 
-PHP_METHOD(Nc_Logger_LogClosure, __construct) {
+PHP_METHOD(Nc_Logger_LoggerClosure, __construct) {
 
-	zval *logClosure;
+	zval *loggerClosure;
 
-	zephir_fetch_params(0, 1, 0, &logClosure);
+	zephir_fetch_params(0, 1, 0, &loggerClosure);
 
 
 
-	zephir_update_property_this(this_ptr, SL("logClosure"), logClosure TSRMLS_CC);
+	zephir_update_property_this(this_ptr, SL("loggerClosure"), loggerClosure TSRMLS_CC);
 
 }
 
-PHP_METHOD(Nc_Logger_LogClosure, log) {
+PHP_METHOD(Nc_Logger_LoggerClosure, log) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *context = NULL;
@@ -60,8 +60,8 @@ PHP_METHOD(Nc_Logger_LogClosure, log) {
 	}
 
 
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("logClosure"), PH_NOISY_CC);
-	ZEPHIR_CALL_FUNCTION(NULL, "call_user_func", NULL, 17, _0, level, message, context);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("loggerClosure"), PH_NOISY_CC);
+	ZEPHIR_CALL_FUNCTION(NULL, "call_user_func", NULL, 15, _0, level, message, context);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

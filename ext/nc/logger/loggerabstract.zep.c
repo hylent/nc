@@ -65,9 +65,9 @@ PHP_METHOD(Nc_Logger_LoggerAbstract, stringifyLog) {
 
 	ZEPHIR_SINIT_VAR(_0);
 	ZVAL_STRING(&_0, "c", 0);
-	ZEPHIR_CALL_FUNCTION(&_1, "date", NULL, 11, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "date", NULL, 10, &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_CE_STATIC(&_2, nc_std_ce, "tr", &_3, 12, message, context);
+	ZEPHIR_CALL_CE_STATIC(&_2, nc_std_ce, "tr", &_3, 11, message, context);
 	zephir_check_call_status();
 	ZEPHIR_SINIT_NVAR(_0);
 	ZVAL_STRING(&_0, "[%s] [%s] %s", 0);

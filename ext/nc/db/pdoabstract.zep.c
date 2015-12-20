@@ -43,7 +43,7 @@ PHP_METHOD(Nc_Db_PdoAbstract, __construct) {
 
 	ZEPHIR_SINIT_VAR(_0);
 	ZVAL_STRING(&_0, "pdo", 0);
-	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 19, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 17, &_0);
 	zephir_check_call_status();
 	if (unlikely(!zephir_is_true(_1))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_exception_ce, "Missing extension: pdo", "nc/db/pdoabstract.zep", 10);
@@ -53,12 +53,12 @@ PHP_METHOD(Nc_Db_PdoAbstract, __construct) {
 	object_init_ex(_2, zephir_get_internal_ce(SS("reflectionclass") TSRMLS_CC));
 	ZEPHIR_INIT_VAR(_3);
 	ZVAL_STRING(_3, "Pdo", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 20, _3);
+	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 18, _3);
 	zephir_check_temp_parameter(_3);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_5, "func_get_args", NULL, 15);
+	ZEPHIR_CALL_FUNCTION(&_5, "func_get_args", NULL, 13);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_4, _2, "newinstanceargs", NULL, 21, _5);
+	ZEPHIR_CALL_METHOD(&_4, _2, "newinstanceargs", NULL, 19, _5);
 	zephir_check_call_status();
 	zephir_update_property_this(this_ptr, SL("pdo"), _4 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
@@ -156,7 +156,7 @@ PHP_METHOD(Nc_Db_PdoAbstract, queryAndFetch) {
 	success = zephir_get_boolval(_12);
 	ZEPHIR_INIT_VAR(_14);
 	ZVAL_DOUBLE(_14, startMt);
-	ZEPHIR_CALL_CE_STATIC(&_12, nc_db_dbabstract_ce, "profiledquery", &_13, 22, sql, params, _14);
+	ZEPHIR_CALL_CE_STATIC(&_12, nc_db_dbabstract_ce, "profiledquery", &_13, 20, sql, params, _14);
 	zephir_check_call_status();
 	zephir_get_strval(_15, _12);
 	ZEPHIR_CPY_WRT(profiledQuery, _15);
@@ -225,7 +225,7 @@ PHP_METHOD(Nc_Db_PdoAbstract, queryAndFetch) {
 	object_init_ex(_14, nc_db_exception_ce);
 	ZEPHIR_SINIT_VAR(_25);
 	ZVAL_LONG(&_25, fetch);
-	ZEPHIR_CALL_FUNCTION(&_26, "strval", NULL, 23, &_25);
+	ZEPHIR_CALL_FUNCTION(&_26, "strval", NULL, 21, &_25);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_27);
 	ZEPHIR_CONCAT_SV(_27, "Invalid fetch mode: ", _26);

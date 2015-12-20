@@ -84,6 +84,11 @@ class Entity
         }
     }
 
+    public function drop() -> void
+    {
+        this->model->delete(this->primaryKeyValue());
+    }
+
     public function save() -> void
     {
         var k, v, row;
@@ -96,24 +101,13 @@ class Entity
                 let this->updates = [];
             }
 
-            let row = this->model->update(
-                this->updates,
-                this->primaryKeyValue()
-            );
-
+            let row = this->model->update(this->updates, this->primaryKeyValue());
             let this->updates = [];
         }
 
         for k, v in row {
             let this->row[k] = v;
         }
-    }
-
-    public function drop() -> void
-    {
-        this->model->delete(
-            this->primaryKeyValue()
-        );
     }
 
 }

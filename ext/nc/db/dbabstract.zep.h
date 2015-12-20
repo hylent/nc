@@ -16,11 +16,9 @@ PHP_METHOD(Nc_Db_DbAbstract, commit);
 PHP_METHOD(Nc_Db_DbAbstract, rollback);
 PHP_METHOD(Nc_Db_DbAbstract, savepoint);
 PHP_METHOD(Nc_Db_DbAbstract, releaseSavepoint);
-PHP_METHOD(Nc_Db_DbAbstract, releaseLastSavepoint);
 PHP_METHOD(Nc_Db_DbAbstract, rollbackToSavepoint);
-PHP_METHOD(Nc_Db_DbAbstract, rollbackToLastSavepoint);
-PHP_METHOD(Nc_Db_DbAbstract, insert);
 PHP_METHOD(Nc_Db_DbAbstract, delete);
+PHP_METHOD(Nc_Db_DbAbstract, insert);
 PHP_METHOD(Nc_Db_DbAbstract, update);
 PHP_METHOD(Nc_Db_DbAbstract, upsert);
 PHP_METHOD(Nc_Db_DbAbstract, parseSelect);
@@ -91,15 +89,15 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_dbabstract_rollbacktosavepoint, 0, 0, 1)
 	ZEND_ARG_INFO(0, savepoint)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_dbabstract_delete, 0, 0, 1)
+	ZEND_ARG_INFO(0, table)
+	ZEND_ARG_ARRAY_INFO(0, where, 1)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_dbabstract_insert, 0, 0, 2)
 	ZEND_ARG_INFO(0, table)
 	ZEND_ARG_ARRAY_INFO(0, data, 0)
 	ZEND_ARG_INFO(0, returningId)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_dbabstract_delete, 0, 0, 1)
-	ZEND_ARG_INFO(0, table)
-	ZEND_ARG_ARRAY_INFO(0, where, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_dbabstract_update, 0, 0, 2)
@@ -243,11 +241,9 @@ ZEPHIR_INIT_FUNCS(nc_db_dbabstract_method_entry) {
 	PHP_ME(Nc_Db_DbAbstract, rollback, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_DbAbstract, savepoint, arginfo_nc_db_dbabstract_savepoint, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_DbAbstract, releaseSavepoint, arginfo_nc_db_dbabstract_releasesavepoint, ZEND_ACC_PUBLIC)
-	PHP_ME(Nc_Db_DbAbstract, releaseLastSavepoint, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_DbAbstract, rollbackToSavepoint, arginfo_nc_db_dbabstract_rollbacktosavepoint, ZEND_ACC_PUBLIC)
-	PHP_ME(Nc_Db_DbAbstract, rollbackToLastSavepoint, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Nc_Db_DbAbstract, insert, arginfo_nc_db_dbabstract_insert, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_DbAbstract, delete, arginfo_nc_db_dbabstract_delete, ZEND_ACC_PUBLIC)
+	PHP_ME(Nc_Db_DbAbstract, insert, arginfo_nc_db_dbabstract_insert, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_DbAbstract, update, arginfo_nc_db_dbabstract_update, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_DbAbstract, upsert, arginfo_nc_db_dbabstract_upsert, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_DbAbstract, parseSelect, arginfo_nc_db_dbabstract_parseselect, ZEND_ACC_PUBLIC)

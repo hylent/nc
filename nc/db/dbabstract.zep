@@ -85,6 +85,7 @@ abstract class DbAbstract implements DbInterface
         }
 
         let this->inTransaction = false;
+        let this->savepoints = null;
     }
 
     public function rollback() -> void
@@ -98,6 +99,7 @@ abstract class DbAbstract implements DbInterface
         }
 
         let this->inTransaction = false;
+        let this->savepoints = null;
     }
 
     public function savepoint(string savepoint) -> void
@@ -128,24 +130,6 @@ abstract class DbAbstract implements DbInterface
         unset this->savepoints[savepoint];
     }
 
-    public function releaseLastSavepoint() -> void
-    {
-        string savepoint;
-
-        if unlikely ! this->inTransaction {
-            throw new TransactionException("Cannot release last savepoint when not in a transaction");
-        }
-
-        if unlikely ! this->savepoints {
-            throw new TransactionException("Empty savepoint stack");
-        }
-
-        let savepoint = (string) end(this->savepoints);
-
-        this->query("RELEASE SAVEPOINT " . savepoint);
-        unset this->savepoints[savepoint];
-    }
-
     public function rollbackToSavepoint(string savepoint) -> void
     {
         if unlikely ! this->inTransaction {
@@ -166,20 +150,19 @@ abstract class DbAbstract implements DbInterface
         }
     }
 
-    public function rollbackToLastSavepoint() -> void
+    public function delete(string table, array where = []) -> void
     {
-        string savepoint;
+        string s, w;
 
-        if unlikely ! this->inTransaction {
-            throw new TransactionException("Cannot rollback to last savepoint when not in a transaction");
+        let s = "DELETE FROM " . table;
+        if count(where) > 0 {
+            let w = (string) this->parseWhere(where);
+            if w->length() > 0 {
+                let s .= " WHERE " . w;
+            }
         }
 
-        if unlikely ! this->savepoints {
-            throw new TransactionException("Empty savepoint stack");
-        }
-
-        let savepoint = (string) end(this->savepoints);
-        this->query("ROLLBACK TO SAVEPOINT " . savepoint);
+        this->query(s);
     }
 
     public function insert(string table, array data, string returningId = "")
@@ -200,21 +183,6 @@ abstract class DbAbstract implements DbInterface
         }
 
         this->query(s, data);
-    }
-
-    public function delete(string table, array where = []) -> void
-    {
-        string s, w;
-
-        let s = "DELETE FROM " . table;
-        if count(where) > 0 {
-            let w = (string) this->parseWhere(where);
-            if w->length() > 0 {
-                let s .= " WHERE " . w;
-            }
-        }
-
-        this->query(s);
     }
 
     public function update(string table, array data, array where = []) -> void
@@ -241,6 +209,9 @@ abstract class DbAbstract implements DbInterface
     public function upsert(string table, array data, var primaryKey = "id") -> void
     {
         var k, v, where = [];
+        bool inTransaction;
+        string savepoint;
+        var ex;
 
         if typeof primaryKey == "array" {
             for k in primaryKey {
@@ -260,8 +231,31 @@ abstract class DbAbstract implements DbInterface
             let where[k] = v;
         }
 
-        this->delete(table, where);
-        this->insert(table, data);
+        let inTransaction = (bool) this->inTransaction;
+        if inTransaction {
+            let savepoint = (string) this->nextFlag("upsert");
+            this->savepoint(savepoint);
+        } else {
+            this->begin();
+        }
+
+        try {
+            this->delete(table, where);
+            this->insert(table, data);
+        } catch \Exception, ex {
+            if inTransaction {
+                this->rollbackToSavepoint(savepoint);
+            } else {
+                this->rollback();
+            }
+            throw ex;
+        }
+
+        if inTransaction {
+            this->releaseSavepoint(savepoint);
+        } else {
+            this->commit();
+        }
     }
 
     public function parseSelect(string table, array options) -> string
@@ -295,7 +289,6 @@ abstract class DbAbstract implements DbInterface
         if orderBy {
             if orderBy === true {
                 let s .= " ORDER BY " . (string) this->parseRandomOrder();
-                let skip = 0;
             } else {
                 let s .= " ORDER BY " . (string) orderBy;
             }
@@ -386,7 +379,6 @@ abstract class DbAbstract implements DbInterface
         if orderBy {
             if orderBy === true {
                 let s .= " ORDER BY " . (string) this->parseRandomOrder();
-                let skip = 0;
             } else {
                 let s .= " ORDER BY " . (string) orderBy;
             }

@@ -14,8 +14,8 @@ PHP_METHOD(Nc_Db_Entity, isDirty);
 PHP_METHOD(Nc_Db_Entity, set);
 PHP_METHOD(Nc_Db_Entity, __set);
 PHP_METHOD(Nc_Db_Entity, __get);
-PHP_METHOD(Nc_Db_Entity, save);
 PHP_METHOD(Nc_Db_Entity, drop);
+PHP_METHOD(Nc_Db_Entity, save);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_entity___construct, 0, 0, 3)
 	ZEND_ARG_OBJ_INFO(0, model, Nc\\Db\\Model, 0)
@@ -49,7 +49,7 @@ ZEPHIR_INIT_FUNCS(nc_db_entity_method_entry) {
 	PHP_ME(Nc_Db_Entity, set, arginfo_nc_db_entity_set, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_Entity, __set, arginfo_nc_db_entity___set, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_Entity, __get, arginfo_nc_db_entity___get, ZEND_ACC_PUBLIC)
-	PHP_ME(Nc_Db_Entity, save, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_Entity, drop, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Nc_Db_Entity, save, NULL, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };

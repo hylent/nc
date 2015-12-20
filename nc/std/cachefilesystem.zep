@@ -40,16 +40,6 @@ class CacheFileSystem implements CacheInterface
         }
     }
 
-    protected function packData(var data, long lifetime) -> string
-    {
-        if lifetime < 1 {
-            return sprintf("<?php return %s;\n", var_export(data, true));
-        }
-
-        let lifetime += (long) time();
-        return sprintf("<?php return time() > %d ? null : %s;\n", lifetime, var_export(data, true));
-    }
-
     protected function path(string identifier, bool mkdirIfNeeded = false) -> string
     {
         string hash, path, dirname;
@@ -72,6 +62,16 @@ class CacheFileSystem implements CacheInterface
         }
 
         return path;
+    }
+
+    protected function packData(var data, long lifetime) -> string
+    {
+        if lifetime < 1 {
+            return sprintf("<?php return %s;\n", var_export(data, true));
+        }
+
+        let lifetime += (long) time();
+        return sprintf("<?php return time() > %d ? null : %s;\n", lifetime, var_export(data, true));
     }
 
 }

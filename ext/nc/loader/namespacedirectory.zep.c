@@ -67,7 +67,7 @@ PHP_METHOD(Nc_Loader_NamespaceDirectory, __construct) {
 	} else {
 		ZVAL_BOOL(_1, 0);
 	}
-	ZEPHIR_CALL_PARENT(NULL, nc_loader_namespacedirectory_ce, this_ptr, "__construct", &_0, 80, _1);
+	ZEPHIR_CALL_PARENT(NULL, nc_loader_namespacedirectory_ce, this_ptr, "__construct", &_0, 78, _1);
 	zephir_check_call_status();
 	zephir_is_iterable(namespaceDirectories, &_3, &_2, 0, 0, "nc/loader/namespacedirectory.zep", 16);
 	for (
@@ -105,7 +105,7 @@ PHP_METHOD(Nc_Loader_NamespaceDirectory, __invoke) {
 	while (1) {
 		ZEPHIR_SINIT_NVAR(_1$$3);
 		ZVAL_STRING(&_1$$3, "\\", 0);
-		ZEPHIR_CALL_FUNCTION(&pos, "strrpos", &_2, 82, match, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(&pos, "strrpos", &_2, 80, match, &_1$$3);
 		zephir_check_call_status();
 		_3$$3 = ZEPHIR_IS_FALSE_IDENTICAL(pos);
 		if (!(_3$$3)) {
@@ -150,7 +150,7 @@ PHP_METHOD(Nc_Loader_NamespaceDirectory, __invoke) {
 	if (zephir_require_zval(path TSRMLS_CC) == FAILURE) {
 		RETURN_MM_NULL();
 	}
-	ZEPHIR_CALL_CE_STATIC(&_12, nc_loader_loaderabstract_ce, "isloaded", &_13, 81, name);
+	ZEPHIR_CALL_CE_STATIC(&_12, nc_loader_loaderabstract_ce, "isloaded", &_13, 79, name);
 	zephir_check_call_status();
 	if (unlikely(!zephir_is_true(_12))) {
 		ZEPHIR_INIT_VAR(_14$$8);

@@ -25,6 +25,13 @@ class Model
         return this->db;
     }
 
+    public function delete(array where = []) -> void
+    {
+        // cache write
+
+        this->db->delete(this->table, where);
+    }
+
     public function insert(array row) -> array
     {
         var r;
@@ -59,13 +66,6 @@ class Model
         return r;
     }
 
-    public function delete(array where = []) -> void
-    {
-        // cache write
-
-        this->db->delete(this->table, where);
-    }
-
     public function newEntity(bool isNew, array row = [], <Collection> collection = null) -> <Entity>
     {
         return new Entity(this, isNew, row, collection);
@@ -81,14 +81,15 @@ class Model
         return this->newEntity(false, this->insert(row));
     }
 
-    public function first(array where = [], var orderBy = null) -> <Entity>
+    public function first(array where = [], var orderBy = null, bool forUpdate = false) -> <Entity>
     {
         var row;
 
         let row = this->db->selectRow(this->table, [
             "where": where,
             "orderBy": orderBy,
-            "limit": 1
+            "limit": 1,
+            "forUpdate": forUpdate
         ]);
 
         if ! row {
@@ -98,9 +99,9 @@ class Model
         return this->newEntity(false, this->onFetch(row));
     }
 
-    public function id(var id) -> <Entity>
+    public function id(var id, bool forUpdate = false) -> <Entity>
     {
-        return this->first(this->packPrimaryKeyValue(id));
+        return this->first(this->packPrimaryKeyValue(id), null, forUpdate);
     }
 
     public function newCollection(array data, array properties = []) -> <Collection>
@@ -108,7 +109,36 @@ class Model
         return new Collection(this, data, properties);
     }
 
-    public function paged(array where = [], string orderBy = "", long limit = 10, long page = 1) -> <Collection>
+    public function find(array options = []) -> <Collection>
+    {
+        return this->newCollection(array_map([this, "onFetch"], this->db->select(this->table, options)));
+    }
+
+    public function all(array where = [], var orderBy = null, long limit = 0, long skip = 0) -> <Collection>
+    {
+        return this->find([
+            "where": where,
+            "orderBy": orderBy,
+            "limit": limit,
+            "skip": skip
+        ]);
+    }
+
+    public function ids(array ids) -> <Collection>
+    {
+        string k;
+
+        if typeof this->primaryKey == "array" {
+            let k = (string) implode(", ", this->primaryKey);
+        } else {
+            let k = (string) this->primaryKey;
+        }
+        let k .= "$in";
+
+        return this->all([k: ids]);
+    }
+
+    public function paged(array where = [], var orderBy = null, long limit = 10, long page = 1) -> <Collection>
     {
         long skip, numRows, numPages;
         var nd, data;
@@ -149,30 +179,6 @@ class Model
             "numRows": numRows,
             "numPages": numPages
         ]);
-    }
-
-    public function all(array where = [], var orderBy = null, long limit = 0, long skip = 0) -> <Collection>
-    {
-        return this->newCollection(array_map([this, "onFetch"], this->db->select(this->table, [
-            "where": where,
-            "orderBy": orderBy,
-            "limit": limit,
-            "skip": skip
-        ])));
-    }
-
-    public function ids(array ids) -> <Collection>
-    {
-        string k;
-
-        if typeof this->primaryKey == "array" {
-            let k = (string) implode(", ", this->primaryKey);
-        } else {
-            let k = (string) this->primaryKey;
-        }
-        let k .= "$in";
-
-        return this->all([k: ids]);
     }
 
     public function chunkByDynamicWhere(var delegate, array where = [], var orderBy = null, long limit = 5000) -> long

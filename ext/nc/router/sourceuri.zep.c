@@ -75,7 +75,7 @@ PHP_METHOD(Nc_Router_SourceUri, getSource) {
 	ZVAL_STRING(&_6, "#/+#", 0);
 	ZEPHIR_SINIT_VAR(_7);
 	ZVAL_LONG(&_7, 1);
-	ZEPHIR_RETURN_CALL_FUNCTION("preg_split", NULL, 28, &_6, _5, ZEPHIR_GLOBAL(global_null), &_7);
+	ZEPHIR_RETURN_CALL_FUNCTION("preg_split", NULL, 26, &_6, _5, ZEPHIR_GLOBAL(global_null), &_7);
 	zephir_check_call_status();
 	RETURN_MM();
 

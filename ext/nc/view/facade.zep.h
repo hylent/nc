@@ -50,6 +50,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_view_facade_readfile, 0, 0, 0)
 	ZEND_ARG_INFO(0, readFile)
+	ZEND_ARG_INFO(0, readFileContentType)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_view_facade_redirect, 0, 0, 0)

@@ -46,7 +46,7 @@ PHP_METHOD(Nc_Router_SourceArgv, getSource) {
 		return;
 	}
 	ZEPHIR_MAKE_REF(argv);
-	ZEPHIR_CALL_FUNCTION(NULL, "array_shift", NULL, 6, argv);
+	ZEPHIR_CALL_FUNCTION(NULL, "array_shift", NULL, 5, argv);
 	ZEPHIR_UNREF(argv);
 	zephir_check_call_status();
 	RETURN_CCTOR(argv);

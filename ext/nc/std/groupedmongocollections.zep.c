@@ -212,7 +212,7 @@ PHP_METHOD(Nc_Std_GroupedMongoCollections, getManyGrouped) {
 	zephir_array_update_string(&_1, SL("_id"), &_2, PH_COPY | PH_SEPARATE);
 	ZEPHIR_CALL_METHOD(&rows, _0, "find", NULL, 0, _1);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_3, "iterator_to_array", NULL, 124, rows);
+	ZEPHIR_CALL_FUNCTION(&_3, "iterator_to_array", NULL, 122, rows);
 	zephir_check_call_status();
 	zephir_is_iterable(_3, &_5, &_4, 0, 0, "nc/std/groupedmongocollections.zep", 80);
 	for (
@@ -300,7 +300,7 @@ PHP_METHOD(Nc_Std_GroupedMongoCollections, getAllGrouped) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&rows, _0, "find", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_1, "iterator_to_array", NULL, 124, rows);
+	ZEPHIR_CALL_FUNCTION(&_1, "iterator_to_array", NULL, 122, rows);
 	zephir_check_call_status();
 	zephir_is_iterable(_1, &_3, &_2, 0, 0, "nc/std/groupedmongocollections.zep", 112);
 	for (

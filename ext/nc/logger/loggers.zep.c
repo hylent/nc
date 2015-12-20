@@ -52,7 +52,7 @@ PHP_METHOD(Nc_Logger_Loggers, addLogger) {
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "spl_object_hash", NULL, 85, logger);
+	ZEPHIR_CALL_FUNCTION(&_0, "spl_object_hash", NULL, 83, logger);
 	zephir_check_call_status();
 	zephir_get_strval(_1, _0);
 	ZEPHIR_CPY_WRT(h, _1);
@@ -64,7 +64,7 @@ PHP_METHOD(Nc_Logger_Loggers, addLogger) {
 	ZVAL_STRING(&_3, "@[,/\\|]+@", 0);
 	ZEPHIR_SINIT_VAR(_4);
 	ZVAL_LONG(&_4, 1);
-	ZEPHIR_CALL_FUNCTION(&_5, "preg_split", NULL, 28, &_3, level, &_4);
+	ZEPHIR_CALL_FUNCTION(&_5, "preg_split", NULL, 26, &_3, level, &_4);
 	zephir_check_call_status();
 	zephir_is_iterable(_5, &_7, &_6, 0, 0, "nc/logger/loggers.zep", 23);
 	for (

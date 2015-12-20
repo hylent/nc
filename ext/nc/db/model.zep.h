@@ -6,18 +6,19 @@ ZEPHIR_INIT_CLASS(Nc_Db_Model);
 PHP_METHOD(Nc_Db_Model, __construct);
 PHP_METHOD(Nc_Db_Model, setDb);
 PHP_METHOD(Nc_Db_Model, getDb);
+PHP_METHOD(Nc_Db_Model, delete);
 PHP_METHOD(Nc_Db_Model, insert);
 PHP_METHOD(Nc_Db_Model, update);
-PHP_METHOD(Nc_Db_Model, delete);
 PHP_METHOD(Nc_Db_Model, newEntity);
 PHP_METHOD(Nc_Db_Model, entity);
 PHP_METHOD(Nc_Db_Model, create);
 PHP_METHOD(Nc_Db_Model, first);
 PHP_METHOD(Nc_Db_Model, id);
 PHP_METHOD(Nc_Db_Model, newCollection);
-PHP_METHOD(Nc_Db_Model, paged);
+PHP_METHOD(Nc_Db_Model, find);
 PHP_METHOD(Nc_Db_Model, all);
 PHP_METHOD(Nc_Db_Model, ids);
+PHP_METHOD(Nc_Db_Model, paged);
 PHP_METHOD(Nc_Db_Model, chunkByDynamicWhere);
 PHP_METHOD(Nc_Db_Model, chunkByFixedWhere);
 PHP_METHOD(Nc_Db_Model, countAll);
@@ -45,16 +46,16 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_model_setdb, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, db, Nc\\Db\\DbInterface, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_model_delete, 0, 0, 0)
+	ZEND_ARG_ARRAY_INFO(0, where, 1)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_model_insert, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, row, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_model_update, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, updates, 0)
-	ZEND_ARG_ARRAY_INFO(0, where, 1)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_model_delete, 0, 0, 0)
 	ZEND_ARG_ARRAY_INFO(0, where, 1)
 ZEND_END_ARG_INFO()
 
@@ -75,10 +76,12 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_model_first, 0, 0, 0)
 	ZEND_ARG_ARRAY_INFO(0, where, 1)
 	ZEND_ARG_INFO(0, orderBy)
+	ZEND_ARG_INFO(0, forUpdate)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_model_id, 0, 0, 1)
 	ZEND_ARG_INFO(0, id)
+	ZEND_ARG_INFO(0, forUpdate)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_model_newcollection, 0, 0, 1)
@@ -86,11 +89,8 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_model_newcollection, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, properties, 1)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_model_paged, 0, 0, 0)
-	ZEND_ARG_ARRAY_INFO(0, where, 1)
-	ZEND_ARG_INFO(0, orderBy)
-	ZEND_ARG_INFO(0, limit)
-	ZEND_ARG_INFO(0, page)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_model_find, 0, 0, 0)
+	ZEND_ARG_ARRAY_INFO(0, options, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_model_all, 0, 0, 0)
@@ -102,6 +102,13 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_model_ids, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, ids, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_model_paged, 0, 0, 0)
+	ZEND_ARG_ARRAY_INFO(0, where, 1)
+	ZEND_ARG_INFO(0, orderBy)
+	ZEND_ARG_INFO(0, limit)
+	ZEND_ARG_INFO(0, page)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_model_chunkbydynamicwhere, 0, 0, 1)
@@ -186,18 +193,19 @@ ZEPHIR_INIT_FUNCS(nc_db_model_method_entry) {
 	PHP_ME(Nc_Db_Model, __construct, arginfo_nc_db_model___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Nc_Db_Model, setDb, arginfo_nc_db_model_setdb, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_Model, getDb, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Nc_Db_Model, delete, arginfo_nc_db_model_delete, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_Model, insert, arginfo_nc_db_model_insert, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_Model, update, arginfo_nc_db_model_update, ZEND_ACC_PUBLIC)
-	PHP_ME(Nc_Db_Model, delete, arginfo_nc_db_model_delete, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_Model, newEntity, arginfo_nc_db_model_newentity, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_Model, entity, arginfo_nc_db_model_entity, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_Model, create, arginfo_nc_db_model_create, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_Model, first, arginfo_nc_db_model_first, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_Model, id, arginfo_nc_db_model_id, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_Model, newCollection, arginfo_nc_db_model_newcollection, ZEND_ACC_PUBLIC)
-	PHP_ME(Nc_Db_Model, paged, arginfo_nc_db_model_paged, ZEND_ACC_PUBLIC)
+	PHP_ME(Nc_Db_Model, find, arginfo_nc_db_model_find, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_Model, all, arginfo_nc_db_model_all, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_Model, ids, arginfo_nc_db_model_ids, ZEND_ACC_PUBLIC)
+	PHP_ME(Nc_Db_Model, paged, arginfo_nc_db_model_paged, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_Model, chunkByDynamicWhere, arginfo_nc_db_model_chunkbydynamicwhere, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_Model, chunkByFixedWhere, arginfo_nc_db_model_chunkbyfixedwhere, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_Model, countAll, arginfo_nc_db_model_countall, ZEND_ACC_PUBLIC)

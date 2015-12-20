@@ -8,7 +8,7 @@ abstract class ClassNameAbstract extends FactoryAbstract
 
     public function __isset(string name) -> bool
     {
-        return parent::__isset(name) || class_exists(this->getClassName(name));
+        return isset this->productions[name] || class_exists(this->getClassName(name));
     }
 
     public function newProduction(string name)

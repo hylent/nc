@@ -13,10 +13,10 @@
 
 #include "kernel/main.h"
 #include "kernel/array.h"
-#include "kernel/object.h"
-#include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 
 
 ZEPHIR_INIT_CLASS(Nc_Factory_FactoryAbstract) {
@@ -27,22 +27,6 @@ ZEPHIR_INIT_CLASS(Nc_Factory_FactoryAbstract) {
 
 	zend_class_implements(nc_factory_factoryabstract_ce TSRMLS_CC, 1, nc_factory_factoryinterface_ce);
 	return SUCCESS;
-
-}
-
-PHP_METHOD(Nc_Factory_FactoryAbstract, __isset) {
-
-	zval *name_param = NULL, *_0;
-	zval *name = NULL;
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &name_param);
-
-	zephir_get_strval(name, name_param);
-
-
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("productions"), PH_NOISY_CC);
-	RETURN_MM_BOOL(zephir_array_isset(_0, name));
 
 }
 

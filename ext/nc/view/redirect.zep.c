@@ -49,7 +49,7 @@ PHP_METHOD(Nc_View_Redirect, run) {
 	ZVAL_STRING(_2, "redirectUrl", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_INIT_VAR(_3);
 	ZVAL_STRING(_3, "", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_CE_STATIC(&_0, nc_std_ce, "valueat", &_1, 5, options, _2, _3);
+	ZEPHIR_CALL_CE_STATIC(&_0, nc_std_ce, "valueat", &_1, 4, options, _2, _3);
 	zephir_check_temp_parameter(_2);
 	zephir_check_temp_parameter(_3);
 	zephir_check_call_status();
@@ -63,7 +63,7 @@ PHP_METHOD(Nc_View_Redirect, run) {
 	ZVAL_STRING(_2, "redirectDataAsQueries", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_INIT_NVAR(_3);
 	ZVAL_BOOL(_3, 0);
-	ZEPHIR_CALL_CE_STATIC(&_6, nc_std_ce, "valueat", &_1, 5, options, _2, _3);
+	ZEPHIR_CALL_CE_STATIC(&_6, nc_std_ce, "valueat", &_1, 4, options, _2, _3);
 	zephir_check_temp_parameter(_2);
 	zephir_check_call_status();
 	redirectDataAsQueries = zephir_get_boolval(_6);
@@ -81,13 +81,13 @@ PHP_METHOD(Nc_View_Redirect, run) {
 		} else {
 			zephir_concat_self_str(&redirectUrl, "&", sizeof("&")-1 TSRMLS_CC);
 		}
-		ZEPHIR_CALL_FUNCTION(&_10$$4, "http_build_query", NULL, 157, data);
+		ZEPHIR_CALL_FUNCTION(&_10$$4, "http_build_query", NULL, 155, data);
 		zephir_check_call_status();
 		zephir_concat_self(&redirectUrl, _10$$4 TSRMLS_CC);
 	}
 	ZEPHIR_INIT_VAR(_11);
 	ZEPHIR_CONCAT_SV(_11, "Location: ", redirectUrl);
-	ZEPHIR_CALL_FUNCTION(NULL, "header", NULL, 152, _11);
+	ZEPHIR_CALL_FUNCTION(NULL, "header", NULL, 150, _11);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

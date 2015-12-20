@@ -202,6 +202,22 @@ PHP_METHOD(Nc_Db_Entity, __get) {
 
 }
 
+PHP_METHOD(Nc_Db_Entity, drop) {
+
+	zval *_0, *_1 = NULL;
+	int ZEPHIR_LAST_CALL_STATUS;
+
+	ZEPHIR_MM_GROW();
+
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("model"), PH_NOISY_CC);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "primarykeyvalue", NULL, 0);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(NULL, _0, "delete", NULL, 0, _1);
+	zephir_check_call_status();
+	ZEPHIR_MM_RESTORE();
+
+}
+
 PHP_METHOD(Nc_Db_Entity, save) {
 
 	HashTable *_10;
@@ -239,7 +255,7 @@ PHP_METHOD(Nc_Db_Entity, save) {
 		array_init(_8$$4);
 		zephir_update_property_this(this_ptr, SL("updates"), _8$$4 TSRMLS_CC);
 	}
-	zephir_is_iterable(row, &_10, &_9, 0, 0, "nc/db/entity.zep", 110);
+	zephir_is_iterable(row, &_10, &_9, 0, 0, "nc/db/entity.zep", 111);
 	for (
 	  ; zephir_hash_get_current_data_ex(_10, (void**) &_11, &_9) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_10, &_9)
@@ -248,22 +264,6 @@ PHP_METHOD(Nc_Db_Entity, save) {
 		ZEPHIR_GET_HVALUE(v, _11);
 		zephir_update_property_array(this_ptr, SL("row"), k, v TSRMLS_CC);
 	}
-	ZEPHIR_MM_RESTORE();
-
-}
-
-PHP_METHOD(Nc_Db_Entity, drop) {
-
-	zval *_0, *_1 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
-
-	ZEPHIR_MM_GROW();
-
-	_0 = zephir_fetch_nproperty_this(this_ptr, SL("model"), PH_NOISY_CC);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "primarykeyvalue", NULL, 0);
-	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, _0, "delete", NULL, 0, _1);
-	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
 }

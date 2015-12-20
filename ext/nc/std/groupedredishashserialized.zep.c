@@ -37,7 +37,7 @@ PHP_METHOD(Nc_Std_GroupedRedisHashSerialized, serializeValue) {
 
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 125, value);
+	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 123, value);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -55,7 +55,7 @@ PHP_METHOD(Nc_Std_GroupedRedisHashSerialized, unserializeValue) {
 	zephir_get_strval(value, value_param);
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("unserialize", NULL, 126, value);
+	ZEPHIR_RETURN_CALL_FUNCTION("unserialize", NULL, 124, value);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -77,7 +77,7 @@ PHP_METHOD(Nc_Std_GroupedRedisHashSerialized, setGrouped) {
 
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "serializevalue", NULL, 0, value);
 	zephir_check_call_status();
-	ZEPHIR_CALL_PARENT(NULL, nc_std_groupedredishashserialized_ce, this_ptr, "setgrouped", &_0, 127, identifier, key, _1);
+	ZEPHIR_CALL_PARENT(NULL, nc_std_groupedredishashserialized_ce, this_ptr, "setgrouped", &_0, 125, identifier, key, _1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -97,7 +97,7 @@ PHP_METHOD(Nc_Std_GroupedRedisHashSerialized, getGrouped) {
 	zephir_get_strval(key, key_param);
 
 
-	ZEPHIR_CALL_PARENT(&value, nc_std_groupedredishashserialized_ce, this_ptr, "getgrouped", &_0, 128, identifier, key);
+	ZEPHIR_CALL_PARENT(&value, nc_std_groupedredishashserialized_ce, this_ptr, "getgrouped", &_0, 126, identifier, key);
 	zephir_check_call_status();
 	if (Z_TYPE_P(value) == IS_NULL) {
 		RETURN_MM_NULL();
@@ -138,7 +138,7 @@ PHP_METHOD(Nc_Std_GroupedRedisHashSerialized, setManyGrouped) {
 		zephir_check_call_status();
 		zephir_array_update_zval(&data, k, &_3$$3, PH_COPY | PH_SEPARATE);
 	}
-	ZEPHIR_CALL_PARENT(NULL, nc_std_groupedredishashserialized_ce, this_ptr, "setmanygrouped", &_5, 129, identifier, data);
+	ZEPHIR_CALL_PARENT(NULL, nc_std_groupedredishashserialized_ce, this_ptr, "setmanygrouped", &_5, 127, identifier, data);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -163,7 +163,7 @@ PHP_METHOD(Nc_Std_GroupedRedisHashSerialized, getManyGrouped) {
 
 	ZEPHIR_INIT_VAR(data);
 	array_init(data);
-	ZEPHIR_CALL_PARENT(&a, nc_std_groupedredishashserialized_ce, this_ptr, "getmanygrouped", &_0, 130, identifier, keys);
+	ZEPHIR_CALL_PARENT(&a, nc_std_groupedredishashserialized_ce, this_ptr, "getmanygrouped", &_0, 128, identifier, keys);
 	zephir_check_call_status();
 	zephir_is_iterable(a, &_2, &_1, 0, 0, "nc/std/groupedredishashserialized.zep", 52);
 	for (
@@ -210,7 +210,7 @@ PHP_METHOD(Nc_Std_GroupedRedisHashSerialized, setAllGrouped) {
 		zephir_check_call_status();
 		zephir_array_update_zval(&data, k, &_3$$3, PH_COPY | PH_SEPARATE);
 	}
-	ZEPHIR_CALL_PARENT(NULL, nc_std_groupedredishashserialized_ce, this_ptr, "setallgrouped", &_5, 131, identifier, data);
+	ZEPHIR_CALL_PARENT(NULL, nc_std_groupedredishashserialized_ce, this_ptr, "setallgrouped", &_5, 129, identifier, data);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -233,7 +233,7 @@ PHP_METHOD(Nc_Std_GroupedRedisHashSerialized, getAllGrouped) {
 
 	ZEPHIR_INIT_VAR(data);
 	array_init(data);
-	ZEPHIR_CALL_PARENT(&a, nc_std_groupedredishashserialized_ce, this_ptr, "getallgrouped", &_0, 132, identifier);
+	ZEPHIR_CALL_PARENT(&a, nc_std_groupedredishashserialized_ce, this_ptr, "getallgrouped", &_0, 130, identifier);
 	zephir_check_call_status();
 	zephir_is_iterable(a, &_2, &_1, 0, 0, "nc/std/groupedredishashserialized.zep", 75);
 	for (

@@ -86,15 +86,15 @@ PHP_METHOD(Nc_Upload_FileSystem, store) {
 	ZEPHIR_INIT_VAR(_3);
 	ZEPHIR_CONCAT_VV(_3, _2, destUri);
 	zephir_get_strval(destPath, _3);
-	ZEPHIR_CALL_FUNCTION(&temp, "dirname", NULL, 122, destPath);
+	ZEPHIR_CALL_FUNCTION(&temp, "dirname", NULL, 120, destPath);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_4, "is_dir", NULL, 133, temp);
+	ZEPHIR_CALL_FUNCTION(&_4, "is_dir", NULL, 131, temp);
 	zephir_check_call_status();
 	_5 = !zephir_is_true(_4);
 	if (_5) {
 		ZEPHIR_SINIT_VAR(_6);
 		ZVAL_LONG(&_6, 0755);
-		ZEPHIR_CALL_FUNCTION(&_7, "mkdir", NULL, 123, temp, &_6, ZEPHIR_GLOBAL(global_true));
+		ZEPHIR_CALL_FUNCTION(&_7, "mkdir", NULL, 121, temp, &_6, ZEPHIR_GLOBAL(global_true));
 		zephir_check_call_status();
 		_5 = !zephir_is_true(_7);
 	}
@@ -111,16 +111,16 @@ PHP_METHOD(Nc_Upload_FileSystem, store) {
 	}
 	do {
 		if (flag == 2) {
-			ZEPHIR_CALL_FUNCTION(&success, "move_uploaded_file", NULL, 134, source, destPath);
+			ZEPHIR_CALL_FUNCTION(&success, "move_uploaded_file", NULL, 132, source, destPath);
 			zephir_check_call_status();
 			break;
 		}
 		if (flag == 1) {
-			ZEPHIR_CALL_FUNCTION(&success, "rename", NULL, 135, source, destPath);
+			ZEPHIR_CALL_FUNCTION(&success, "rename", NULL, 133, source, destPath);
 			zephir_check_call_status();
 			break;
 		}
-		ZEPHIR_CALL_FUNCTION(&success, "copy", NULL, 136, source, destPath);
+		ZEPHIR_CALL_FUNCTION(&success, "copy", NULL, 134, source, destPath);
 		zephir_check_call_status();
 		break;
 	} while(0);
@@ -148,7 +148,7 @@ PHP_METHOD(Nc_Upload_FileSystem, remove) {
 	ZEPHIR_INIT_VAR(path);
 	ZEPHIR_CONCAT_VV(path, _0, uri);
 	if ((zephir_file_exists(path TSRMLS_CC) == SUCCESS)) {
-		ZEPHIR_RETURN_CALL_FUNCTION("unlink", NULL, 121, path);
+		ZEPHIR_RETURN_CALL_FUNCTION("unlink", NULL, 119, path);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

@@ -164,7 +164,7 @@ PHP_METHOD(Nc_Router_ControllerAction, route) {
 		}
 		if (_2 == 1) {
 			ZEPHIR_MAKE_REF(source);
-			ZEPHIR_CALL_FUNCTION(&_7$$4, "array_shift", &_8, 6, source);
+			ZEPHIR_CALL_FUNCTION(&_7$$4, "array_shift", &_8, 5, source);
 			ZEPHIR_UNREF(source);
 			zephir_check_call_status();
 			zephir_get_strval(_9$$4, _7$$4);
@@ -176,13 +176,13 @@ PHP_METHOD(Nc_Router_ControllerAction, route) {
 			break;
 		}
 		ZEPHIR_MAKE_REF(source);
-		ZEPHIR_CALL_FUNCTION(&_12$$5, "array_shift", &_8, 6, source);
+		ZEPHIR_CALL_FUNCTION(&_12$$5, "array_shift", &_8, 5, source);
 		ZEPHIR_UNREF(source);
 		zephir_check_call_status();
 		zephir_get_strval(_13$$5, _12$$5);
 		ZEPHIR_CPY_WRT(controller, _13$$5);
 		ZEPHIR_MAKE_REF(source);
-		ZEPHIR_CALL_FUNCTION(&_14$$5, "array_shift", &_8, 6, source);
+		ZEPHIR_CALL_FUNCTION(&_14$$5, "array_shift", &_8, 5, source);
 		ZEPHIR_UNREF(source);
 		zephir_check_call_status();
 		zephir_get_strval(_15$$5, _14$$5);
@@ -193,11 +193,11 @@ PHP_METHOD(Nc_Router_ControllerAction, route) {
 	ZEPHIR_INIT_VAR(_16);
 	ZEPHIR_CONCAT_VSV(_16, controller, "/", action);
 	zephir_update_property_this(this_ptr, SL("id"), _16 TSRMLS_CC);
-	ZEPHIR_CALL_CE_STATIC(&_17, nc_std_ce, "camelcase", &_18, 104, controller);
+	ZEPHIR_CALL_CE_STATIC(&_17, nc_std_ce, "camelcase", &_18, 102, controller);
 	zephir_check_call_status();
 	zephir_get_strval(_19, _17);
 	ZEPHIR_CPY_WRT(controllerName, _19);
-	ZEPHIR_CALL_CE_STATIC(&_20, nc_std_ce, "camelcase", &_18, 104, action);
+	ZEPHIR_CALL_CE_STATIC(&_20, nc_std_ce, "camelcase", &_18, 102, action);
 	zephir_check_call_status();
 	zephir_get_strval(_21, _20);
 	ZEPHIR_CPY_WRT(actionName, _21);

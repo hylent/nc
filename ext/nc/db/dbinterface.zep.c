@@ -60,15 +60,11 @@ ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, savepoint);
 
 ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, releaseSavepoint);
 
-ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, releaseLastSavepoint);
-
 ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, rollbackToSavepoint);
 
-ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, rollbackToLastSavepoint);
+ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, delete);
 
 ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, insert);
-
-ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, delete);
 
 ZEPHIR_DOC_METHOD(Nc_Db_DbInterface, update);
 

@@ -72,7 +72,7 @@ PHP_METHOD(Nc_Application, config) {
 
 
 	_1 = zephir_fetch_nproperty_this(this_ptr, SL("configs"), PH_NOISY_CC);
-	ZEPHIR_RETURN_CALL_CE_STATIC(nc_std_ce, "valueof", &_0, 34, _1, name, defaultValue);
+	ZEPHIR_RETURN_CALL_CE_STATIC(nc_std_ce, "valueof", &_0, 32, _1, name, defaultValue);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -91,7 +91,7 @@ PHP_METHOD(Nc_Application, mergeConfigs) {
 
 
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("configs"), PH_NOISY_CC);
-	ZEPHIR_CALL_FUNCTION(&_1, "array_replace_recursive", NULL, 35, _0, configs);
+	ZEPHIR_CALL_FUNCTION(&_1, "array_replace_recursive", NULL, 33, _0, configs);
 	zephir_check_call_status();
 	zephir_update_property_this(this_ptr, SL("configs"), _1 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();

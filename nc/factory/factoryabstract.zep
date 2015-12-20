@@ -4,11 +4,6 @@ abstract class FactoryAbstract implements FactoryInterface
 {
     protected productions;
 
-    public function __isset(string name) -> bool
-    {
-        return isset this->productions[name];
-    }
-
     public function __get(string name)
     {
         var production;

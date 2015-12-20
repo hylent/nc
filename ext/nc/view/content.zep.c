@@ -47,7 +47,7 @@ PHP_METHOD(Nc_View_Content, run) {
 	ZVAL_STRING(_2, "content", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_INIT_VAR(_3);
 	ZVAL_STRING(_3, "", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_CE_STATIC(&_0, nc_std_ce, "valueat", &_1, 5, options, _2, _3);
+	ZEPHIR_CALL_CE_STATIC(&_0, nc_std_ce, "valueat", &_1, 4, options, _2, _3);
 	zephir_check_temp_parameter(_2);
 	zephir_check_temp_parameter(_3);
 	zephir_check_call_status();
@@ -57,7 +57,7 @@ PHP_METHOD(Nc_View_Content, run) {
 	ZVAL_STRING(_2, "contentType", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_INIT_NVAR(_3);
 	ZVAL_STRING(_3, "", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_CE_STATIC(&_5, nc_std_ce, "valueat", &_1, 5, options, _2, _3);
+	ZEPHIR_CALL_CE_STATIC(&_5, nc_std_ce, "valueat", &_1, 4, options, _2, _3);
 	zephir_check_temp_parameter(_2);
 	zephir_check_temp_parameter(_3);
 	zephir_check_call_status();
@@ -65,8 +65,8 @@ PHP_METHOD(Nc_View_Content, run) {
 	ZEPHIR_CPY_WRT(contentType, _6);
 	if (zephir_fast_strlen_ev(contentType) > 0) {
 		ZEPHIR_INIT_VAR(_8$$3);
-		ZEPHIR_CONCAT_SV(_8$$3, "Content-type: ", contentType);
-		ZEPHIR_CALL_FUNCTION(NULL, "header", NULL, 152, _8$$3);
+		ZEPHIR_CONCAT_SV(_8$$3, "Content-Type: ", contentType);
+		ZEPHIR_CALL_FUNCTION(NULL, "header", NULL, 150, _8$$3);
 		zephir_check_call_status();
 	}
 	zend_print_zval(content, 0);

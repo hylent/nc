@@ -12,9 +12,10 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "kernel/array.h"
+#include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
-#include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
 #include "kernel/concat.h"
@@ -32,10 +33,9 @@ ZEPHIR_INIT_CLASS(Nc_Factory_ClassNameAbstract) {
 
 PHP_METHOD(Nc_Factory_ClassNameAbstract, __isset) {
 
-	zend_bool _2;
+	zend_bool _1;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_1 = NULL;
-	zval *name_param = NULL, *_0 = NULL, *_3 = NULL;
+	zval *name_param = NULL, *_0, *_2 = NULL;
 	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -44,15 +44,14 @@ PHP_METHOD(Nc_Factory_ClassNameAbstract, __isset) {
 	zephir_get_strval(name, name_param);
 
 
-	ZEPHIR_CALL_PARENT(&_0, nc_factory_classnameabstract_ce, this_ptr, "__isset", &_1, 13, name);
-	zephir_check_call_status();
-	_2 = zephir_is_true(_0);
-	if (!(_2)) {
-		ZEPHIR_CALL_METHOD(&_3, this_ptr, "getclassname", NULL, 0, name);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("productions"), PH_NOISY_CC);
+	_1 = zephir_array_isset(_0, name);
+	if (!(_1)) {
+		ZEPHIR_CALL_METHOD(&_2, this_ptr, "getclassname", NULL, 0, name);
 		zephir_check_call_status();
-		_2 = zephir_class_exists(_3, 1 TSRMLS_CC);
+		_1 = zephir_class_exists(_2, 1 TSRMLS_CC);
 	}
-	RETURN_MM_BOOL(_2);
+	RETURN_MM_BOOL(_1);
 
 }
 
@@ -85,7 +84,7 @@ PHP_METHOD(Nc_Factory_ClassNameAbstract, newProduction) {
 		return;
 	}
 	_5 = zephir_fetch_nproperty_this(this_ptr, SL("args"), PH_NOISY_CC);
-	ZEPHIR_RETURN_CALL_CE_STATIC(nc_std_ce, "newinstanceof", &_4, 14, className, _5);
+	ZEPHIR_RETURN_CALL_CE_STATIC(nc_std_ce, "newinstanceof", &_4, 12, className, _5);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -98,7 +97,7 @@ PHP_METHOD(Nc_Factory_ClassNameAbstract, setArgs) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_FUNCTION(&_0, "func_get_args", NULL, 15);
+	ZEPHIR_CALL_FUNCTION(&_0, "func_get_args", NULL, 13);
 	zephir_check_call_status();
 	zephir_update_property_this(this_ptr, SL("args"), _0 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
@@ -117,7 +116,7 @@ PHP_METHOD(Nc_Factory_ClassNameAbstract, setArgArray) {
 	zephir_get_arrval(args, args_param);
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "array_values", NULL, 16, args);
+	ZEPHIR_CALL_FUNCTION(&_0, "array_values", NULL, 14, args);
 	zephir_check_call_status();
 	zephir_update_property_this(this_ptr, SL("args"), _0 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();

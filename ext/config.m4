@@ -48,9 +48,9 @@ if test "$PHP_NC" = "yes"; then
 	nc/db/pdopgsql.zep.c
 	nc/db/queryexception.zep.c
 	nc/db/transactionexception.zep.c
+	nc/factory/classnameclosure.zep.c
 	nc/factory/exception.zep.c
 	nc/factory/factories.zep.c
-	nc/factory/generated.zep.c
 	nc/factory/namespaced.zep.c
 	nc/image/captcha.zep.c
 	nc/image/exception.zep.c
@@ -62,7 +62,7 @@ if test "$PHP_NC" = "yes"; then
 	nc/loader/namespacedirectory.zep.c
 	nc/logger/exception.zep.c
 	nc/logger/file.zep.c
-	nc/logger/logclosure.zep.c
+	nc/logger/loggerclosure.zep.c
 	nc/logger/loggers.zep.c
 	nc/logger/nil.zep.c
 	nc/netutils/exception.zep.c

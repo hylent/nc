@@ -1,7 +1,5 @@
 namespace Nc\Db;
 
-use Nc\Std;
-
 interface DbInterface
 {
     const NONE      = 0;
@@ -27,12 +25,10 @@ interface DbInterface
     public function rollback() -> void;
     public function savepoint(string savepoint) -> void;
     public function releaseSavepoint(string savepoint) -> void;
-    public function releaseLastSavepoint() -> void;
     public function rollbackToSavepoint(string savepoint) -> void;
-    public function rollbackToLastSavepoint() -> void;
 
-    public function insert(string table, array data, string returningId = "");
     public function delete(string table, array where = []) -> void;
+    public function insert(string table, array data, string returningId = "");
     public function update(string table, array data, array where = []) -> void;
     public function upsert(string table, array data, var primaryKey = "id") -> void;
     public function select(string table, array options = [], long $fetch = self::ALL);

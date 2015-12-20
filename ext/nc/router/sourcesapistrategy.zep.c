@@ -42,15 +42,15 @@ PHP_METHOD(Nc_Router_SourceSapiStrategy, getSource) {
 			ZEPHIR_CALL_METHOD(NULL, _1$$3, "__construct", NULL, 0);
 			zephir_check_call_status();
 		}
-		ZEPHIR_RETURN_CALL_METHOD(_1$$3, "getsource", NULL, 106);
+		ZEPHIR_RETURN_CALL_METHOD(_1$$3, "getsource", NULL, 104);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
 	ZEPHIR_INIT_VAR(_2);
 	object_init_ex(_2, nc_router_sourcerequesturi_ce);
-	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 107);
+	ZEPHIR_CALL_METHOD(NULL, _2, "__construct", NULL, 105);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(_2, "getsource", NULL, 108);
+	ZEPHIR_RETURN_CALL_METHOD(_2, "getsource", NULL, 106);
 	zephir_check_call_status();
 	RETURN_MM();
 

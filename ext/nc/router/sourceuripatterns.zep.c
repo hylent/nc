@@ -98,7 +98,7 @@ PHP_METHOD(Nc_Router_SourceUriPatterns, __construct) {
 			if (zephir_fast_strlen_ev(prefix) > 0) {
 				ZEPHIR_SINIT_NVAR(_8$$6);
 				ZVAL_STRING(&_8$$6, "#", 0);
-				ZEPHIR_CALL_FUNCTION(&_9$$6, "preg_quote", &_10, 109, prefix, &_8$$6);
+				ZEPHIR_CALL_FUNCTION(&_9$$6, "preg_quote", &_10, 107, prefix, &_8$$6);
 				zephir_check_call_status();
 				ZEPHIR_CPY_WRT(prefix, _9$$6);
 			}
@@ -115,7 +115,7 @@ PHP_METHOD(Nc_Router_SourceUriPatterns, __construct) {
 				zephir_get_strval(_15$$7, from);
 				ZEPHIR_INIT_NVAR(_16$$7);
 				ZVAL_STRING(_16$$7, "#/\\{(\\w+)(\\:\\w+)?\\}#", ZEPHIR_TEMP_PARAM_COPY);
-				ZEPHIR_CALL_FUNCTION(&_17$$7, "preg_replace_callback", &_18, 110, _16$$7, callback, _15$$7);
+				ZEPHIR_CALL_FUNCTION(&_17$$7, "preg_replace_callback", &_18, 108, _16$$7, callback, _15$$7);
 				zephir_check_temp_parameter(_16$$7);
 				zephir_check_call_status();
 				ZEPHIR_SINIT_NVAR(_19$$7);
@@ -124,7 +124,7 @@ PHP_METHOD(Nc_Router_SourceUriPatterns, __construct) {
 				zephir_check_call_status();
 				zephir_get_strval(_21$$7, to);
 				_22$$7 = zephir_fetch_nproperty_this(this_ptr, SL("replacements"), PH_NOISY_CC);
-				ZEPHIR_CALL_FUNCTION(&_23$$7, "strtr", &_24, 111, _21$$7, _22$$7);
+				ZEPHIR_CALL_FUNCTION(&_23$$7, "strtr", &_24, 109, _21$$7, _22$$7);
 				zephir_check_call_status();
 				_25$$7 = zephir_fetch_nproperty_this(this_ptr, SL("replacements"), PH_NOISY_CC);
 				ZEPHIR_SINIT_NVAR(_19$$7);
@@ -139,15 +139,15 @@ PHP_METHOD(Nc_Router_SourceUriPatterns, __construct) {
 		if (zephir_fast_count_int(repls TSRMLS_CC) > 0) {
 			ZEPHIR_INIT_VAR(_27$$8);
 			zephir_array_keys(_27$$8, repls TSRMLS_CC);
-			ZEPHIR_CALL_FUNCTION(&_28$$8, "array_values", NULL, 16, repls);
+			ZEPHIR_CALL_FUNCTION(&_28$$8, "array_values", NULL, 14, repls);
 			zephir_check_call_status();
-			ZEPHIR_CALL_FUNCTION(&_29$$8, "preg_replace", NULL, 49, _27$$8, _28$$8, uri);
+			ZEPHIR_CALL_FUNCTION(&_29$$8, "preg_replace", NULL, 47, _27$$8, _28$$8, uri);
 			zephir_check_call_status();
 			zephir_get_strval(_30$$8, _29$$8);
 			ZEPHIR_CPY_WRT(uri, _30$$8);
 		}
 	}
-	ZEPHIR_CALL_PARENT(NULL, nc_router_sourceuripatterns_ce, this_ptr, "__construct", &_31, 105, uri);
+	ZEPHIR_CALL_PARENT(NULL, nc_router_sourceuripatterns_ce, this_ptr, "__construct", &_31, 103, uri);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

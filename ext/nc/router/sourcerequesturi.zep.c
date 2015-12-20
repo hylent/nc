@@ -43,7 +43,7 @@ PHP_METHOD(Nc_Router_SourceRequestUri, __construct) {
 		return;
 	}
 	zephir_get_strval(_1, uri);
-	ZEPHIR_CALL_PARENT(NULL, nc_router_sourcerequesturi_ce, this_ptr, "__construct", &_0, 105, _1);
+	ZEPHIR_CALL_PARENT(NULL, nc_router_sourcerequesturi_ce, this_ptr, "__construct", &_0, 103, _1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

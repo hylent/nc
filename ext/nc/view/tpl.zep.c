@@ -51,7 +51,7 @@ PHP_METHOD(Nc_View_Tpl, run) {
 	ZVAL_STRING(_2, "tplBaseDirectory", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_INIT_VAR(_3);
 	ZVAL_STRING(_3, "", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_CE_STATIC(&_0, nc_std_ce, "valueat", &_1, 5, options, _2, _3);
+	ZEPHIR_CALL_CE_STATIC(&_0, nc_std_ce, "valueat", &_1, 4, options, _2, _3);
 	zephir_check_temp_parameter(_2);
 	zephir_check_temp_parameter(_3);
 	zephir_check_call_status();
@@ -65,7 +65,7 @@ PHP_METHOD(Nc_View_Tpl, run) {
 	ZEPHIR_CONCAT_VS(_7, tplBaseDirectory, "/layout");
 	ZEPHIR_INIT_NVAR(_2);
 	ZVAL_STRING(_2, "tplLayoutDirectory", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_CE_STATIC(&_6, nc_std_ce, "valueat", &_1, 5, options, _2, _7);
+	ZEPHIR_CALL_CE_STATIC(&_6, nc_std_ce, "valueat", &_1, 4, options, _2, _7);
 	zephir_check_temp_parameter(_2);
 	zephir_check_call_status();
 	zephir_get_strval(_8, _6);
@@ -78,7 +78,7 @@ PHP_METHOD(Nc_View_Tpl, run) {
 	ZVAL_STRING(_2, "tplId", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_INIT_NVAR(_3);
 	ZVAL_STRING(_3, "", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_CE_STATIC(&_10, nc_std_ce, "valueat", &_1, 5, options, _2, _3);
+	ZEPHIR_CALL_CE_STATIC(&_10, nc_std_ce, "valueat", &_1, 4, options, _2, _3);
 	zephir_check_temp_parameter(_2);
 	zephir_check_temp_parameter(_3);
 	zephir_check_call_status();
@@ -100,7 +100,7 @@ PHP_METHOD(Nc_View_Tpl, run) {
 	ZVAL_STRING(_3, "tplExtension", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_INIT_VAR(_16);
 	ZVAL_STRING(_16, "phtml", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_CE_STATIC(&_15, nc_std_ce, "valueat", &_1, 5, options, _3, _16);
+	ZEPHIR_CALL_CE_STATIC(&_15, nc_std_ce, "valueat", &_1, 4, options, _3, _16);
 	zephir_check_temp_parameter(_3);
 	zephir_check_temp_parameter(_16);
 	zephir_check_call_status();
@@ -110,7 +110,7 @@ PHP_METHOD(Nc_View_Tpl, run) {
 	ZVAL_STRING(_3, "tplLayout", ZEPHIR_TEMP_PARAM_COPY);
 	ZEPHIR_INIT_NVAR(_16);
 	ZVAL_STRING(_16, "", ZEPHIR_TEMP_PARAM_COPY);
-	ZEPHIR_CALL_CE_STATIC(&_18, nc_std_ce, "valueat", &_1, 5, options, _3, _16);
+	ZEPHIR_CALL_CE_STATIC(&_18, nc_std_ce, "valueat", &_1, 4, options, _3, _16);
 	zephir_check_temp_parameter(_3);
 	zephir_check_temp_parameter(_16);
 	zephir_check_call_status();
@@ -161,7 +161,7 @@ PHP_METHOD(Nc_View_Tpl, run) {
 			return;
 		}
 	}
-	ZEPHIR_CALL_CE_STATIC(&_34, nc_std_ce, "renderscript", &_35, 158, path, data);
+	ZEPHIR_CALL_CE_STATIC(&_34, nc_std_ce, "renderscript", &_35, 156, path, data);
 	zephir_check_call_status();
 	zend_print_zval(_34, 0);
 	ZEPHIR_MM_RESTORE();

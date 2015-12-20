@@ -99,14 +99,14 @@ PHP_METHOD(Nc_Router_Action, route) {
 		ZEPHIR_CPY_WRT(action, _3$$3);
 	} else {
 		ZEPHIR_MAKE_REF(source);
-		ZEPHIR_CALL_FUNCTION(&_4$$4, "array_shift", NULL, 6, source);
+		ZEPHIR_CALL_FUNCTION(&_4$$4, "array_shift", NULL, 5, source);
 		ZEPHIR_UNREF(source);
 		zephir_check_call_status();
 		zephir_get_strval(_5$$4, _4$$4);
 		ZEPHIR_CPY_WRT(action, _5$$4);
 	}
 	zephir_update_property_this(this_ptr, SL("id"), action TSRMLS_CC);
-	ZEPHIR_CALL_CE_STATIC(&_6, nc_std_ce, "camelcase", &_7, 104, action);
+	ZEPHIR_CALL_CE_STATIC(&_6, nc_std_ce, "camelcase", &_7, 102, action);
 	zephir_check_call_status();
 	zephir_get_strval(_8, _6);
 	ZEPHIR_CPY_WRT(actionName, _8);

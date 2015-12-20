@@ -99,7 +99,7 @@ PHP_METHOD(Nc_Logger_File, log) {
 	}
 
 
-	ZEPHIR_CALL_CE_STATIC(&_0, nc_logger_loggerabstract_ce, "stringifylog", &_1, 83, level, message, context);
+	ZEPHIR_CALL_CE_STATIC(&_0, nc_logger_loggerabstract_ce, "stringifylog", &_1, 81, level, message, context);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_2);
 	ZEPHIR_CONCAT_VS(_2, _0, "\n");
@@ -136,7 +136,7 @@ PHP_METHOD(Nc_Logger_File, flush) {
 	zephir_fast_join_str(_2, SL(""), _3 TSRMLS_CC);
 	ZEPHIR_SINIT_VAR(_4);
 	ZVAL_LONG(&_4, (2 | 8));
-	ZEPHIR_CALL_FUNCTION(&_5, "file_put_contents", NULL, 84, _1, _2, &_4);
+	ZEPHIR_CALL_FUNCTION(&_5, "file_put_contents", NULL, 82, _1, _2, &_4);
 	zephir_check_call_status();
 	if (unlikely(!zephir_is_true(_5))) {
 		ZEPHIR_INIT_VAR(_6$$4);

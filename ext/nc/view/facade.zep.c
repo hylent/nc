@@ -179,13 +179,16 @@ PHP_METHOD(Nc_View_Facade, nil) {
 
 PHP_METHOD(Nc_View_Facade, readFile) {
 
-	zval *readFile = NULL, *_0, *_1$$3;
+	zval *readFile = NULL, *readFileContentType = NULL, *_0, *_1$$3, *_2$$4;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &readFile);
+	zephir_fetch_params(1, 0, 2, &readFile, &readFileContentType);
 
 	if (!readFile) {
 		readFile = ZEPHIR_GLOBAL(global_null);
+	}
+	if (!readFileContentType) {
+		readFileContentType = ZEPHIR_GLOBAL(global_null);
 	}
 
 
@@ -196,6 +199,11 @@ PHP_METHOD(Nc_View_Facade, readFile) {
 		ZEPHIR_INIT_VAR(_1$$3);
 		ZVAL_STRING(_1$$3, "readFile", 1);
 		zephir_update_property_array(this_ptr, SL("options"), _1$$3, readFile TSRMLS_CC);
+	}
+	if (Z_TYPE_P(readFileContentType) != IS_NULL) {
+		ZEPHIR_INIT_VAR(_2$$4);
+		ZVAL_STRING(_2$$4, "readFileContentType", 1);
+		zephir_update_property_array(this_ptr, SL("options"), _2$$4, readFileContentType TSRMLS_CC);
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -316,10 +324,10 @@ PHP_METHOD(Nc_View_Facade, __invoke) {
 			object_init_ex(_4$$6, nc_factory_namespaced_ce);
 			ZEPHIR_INIT_NVAR(_5$$6);
 			ZVAL_STRING(_5$$6, "Nc\\View", ZEPHIR_TEMP_PARAM_COPY);
-			ZEPHIR_CALL_METHOD(NULL, _4$$6, "__construct", &_6, 153, _5$$6);
+			ZEPHIR_CALL_METHOD(NULL, _4$$6, "__construct", &_6, 151, _5$$6);
 			zephir_check_temp_parameter(_5$$6);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_7$$6, _4$$6, "__get", &_8, 154, view);
+			ZEPHIR_CALL_METHOD(&_7$$6, _4$$6, "__get", &_8, 152, view);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(view, _7$$6);
 			break;
@@ -328,10 +336,10 @@ PHP_METHOD(Nc_View_Facade, __invoke) {
 		object_init_ex(_9$$3, nc_factory_namespaced_ce);
 		ZEPHIR_INIT_NVAR(_10$$3);
 		ZVAL_STRING(_10$$3, "", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _9$$3, "__construct", &_6, 153, _10$$3);
+		ZEPHIR_CALL_METHOD(NULL, _9$$3, "__construct", &_6, 151, _10$$3);
 		zephir_check_temp_parameter(_10$$3);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&_11$$3, _9$$3, "__get", &_8, 154, view);
+		ZEPHIR_CALL_METHOD(&_11$$3, _9$$3, "__get", &_8, 152, view);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(view, _11$$3);
 		break;
@@ -341,7 +349,7 @@ PHP_METHOD(Nc_View_Facade, __invoke) {
 		_12 = !((zephir_instance_of_ev(view, nc_view_viewinterface_ce TSRMLS_CC)));
 	}
 	if (unlikely(_12)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_view_exception_ce, "Invalid view", "nc/view/facade.zep", 128);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_view_exception_ce, "Invalid view", "nc/view/facade.zep", 131);
 		return;
 	}
 	_13 = zephir_fetch_nproperty_this(this_ptr, SL("data"), PH_NOISY_CC);
@@ -365,7 +373,7 @@ PHP_METHOD(Nc_View_Facade, setOptions) {
 	zephir_get_arrval(options, options_param);
 
 
-	zephir_is_iterable(options, &_1, &_0, 0, 0, "nc/view/facade.zep", 141);
+	zephir_is_iterable(options, &_1, &_0, 0, 0, "nc/view/facade.zep", 144);
 	for (
 	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_1, &_0)
@@ -467,7 +475,7 @@ PHP_METHOD(Nc_View_Facade, setData) {
 	zephir_get_arrval(data, data_param);
 
 
-	zephir_is_iterable(data, &_1, &_0, 0, 0, "nc/view/facade.zep", 179);
+	zephir_is_iterable(data, &_1, &_0, 0, 0, "nc/view/facade.zep", 182);
 	for (
 	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
 	  ; zephir_hash_move_forward_ex(_1, &_0)
