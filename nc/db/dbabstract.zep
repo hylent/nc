@@ -208,27 +208,14 @@ abstract class DbAbstract implements DbInterface
 
     public function upsert(string table, array data, var primaryKey = "id") -> void
     {
-        var k, v, where = [];
+        var where;
         bool inTransaction;
         string savepoint;
         var ex;
 
-        if typeof primaryKey == "array" {
-            for k in primaryKey {
-                if unlikely ! fetch v, data[k] {
-                    throw new Exception("Cannot find primary key value in data: " . k);
-                }
-                let where[k] = v;
-            }
-            if unlikely ! where {
-                throw new Exception("Cannot upsert with empty where");
-            }
-        } else {
-            let k = (string) primaryKey;
-            if unlikely ! fetch v, data[k] {
-                throw new Exception("Cannot find primary key value in data: " . k);
-            }
-            let where[k] = v;
+        let where = this->pickWhereByKey(data, primaryKey);
+        if unlikely count(where) < 1 {
+            throw new Exception("Cannot upsert with empty where");
         }
 
         let inTransaction = (bool) this->inTransaction;
@@ -662,6 +649,28 @@ abstract class DbAbstract implements DbInterface
         }
 
         return "(" . columns . ")" . isNot . " in (" . implode(", ", vs) . ")";
+    }
+
+    public function pickWhereByKey(array data, var key) -> array
+    {
+        var k, v, where = [];
+
+        if typeof key == "array" {
+            for k in key {
+                if unlikely ! fetch v, data[k] {
+                    throw new Exception("Cannot find value in data: " . k);
+                }
+                let where[k] = v;
+            }
+        } else {
+            let k = (string) key;
+            if unlikely ! fetch v, data[k] {
+                throw new Exception("Cannot find value in data: " . k);
+            }
+            let where[k] = v;
+        }
+
+        return where;
     }
 
     abstract public function parsePagination(string query, long limit, long skip) -> string;

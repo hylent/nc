@@ -11,7 +11,16 @@ class Model
     {
         let this->db = db;
         let this->table = table;
-        let this->primaryKey = primaryKey;
+
+        if unlikely ! primaryKey {
+            throw new Exception("Empty primary key");
+        }
+        if typeof primaryKey == "array" {
+            let this->primaryKey = primaryKey;
+        } else {
+            let this->primaryKey[] = (string) primaryKey;
+        }
+
         let this->autoIncrement = autoIncrement;
     }
 
@@ -56,10 +65,21 @@ class Model
     {
         var r;
 
-        let r = this->onStore(updates, true, where);
+        let r = this->onStore(updates, true);
         if count(r) > 0 {
             this->db->update(this->table, r, where);
         }
+
+        // cache drop
+
+        return r;
+    }
+
+    public function upsert(array row) -> array
+    {
+        var r = this->onStore(row);
+
+        this->db->upsert(this->table, r, this->primaryKey);
 
         // cache drop
 
@@ -128,12 +148,7 @@ class Model
     {
         string k;
 
-        if typeof this->primaryKey == "array" {
-            let k = (string) implode(", ", this->primaryKey);
-        } else {
-            let k = (string) this->primaryKey;
-        }
-        let k .= "$in";
+        let k = implode(", ", this->primaryKey) . "$in";
 
         return this->all([k: ids]);
     }
@@ -282,37 +297,99 @@ class Model
         return this->db->groupAggregations(this->table, groupBy, aggregations, options);
     }
 
-    public function onStore(array row, bool isUpdate = false, array where = []) -> array
+    public function onStore(array row, bool isUpdate = false) -> array
     {
-        return row;
+        var k, v, c, i, r = [];
+
+        if typeof this->columns != "array" {
+            return row;
+        }
+
+        for k, c in this->columns {
+            if typeof c != "array" {
+                let c = null;
+            }
+
+            if ! fetch v, row[k] {
+                if isUpdate {
+                    continue;
+                }
+                if fetch i, c["default"] {
+                    let v = i;
+                } else {
+                    let v = null;
+                }
+            }
+
+            if fetch i, c["setter"] {
+                let v = (string) call_user_func(i, v, this);
+            } else {
+                let v = (string) v;
+            }
+
+            if v === "" {
+                if unlikely ! fetch i, c["nullable"] || ! i {
+                    throw new Exception("Failed when checking nullable on column: " . k);
+                }
+                let r[k] = null;
+                continue;
+            }
+
+            if fetch i, c["minlen"] && strlen(v) < i {
+                throw new Exception("Failed when checking minlen on column: " . k);
+            }
+
+            if fetch i, c["maxlen"] && strlen(v) > i {
+                throw new Exception("Failed when checking maxlen on column: " . k);
+            }
+
+            if fetch i, c["regexp"] && ! preg_match((string) i, v) {
+                throw new Exception("Failed when checking regexp on column: " . k);
+            }
+
+            if fetch i, c["numeric"] && i {
+                if ! fetch i, c["decimals"] || typeof i != "int" || i < 0 {
+                    let i = 0;
+                }
+                let v = number_format((double) v, i, ".", "");
+            }
+
+            if fetch i, c["min"] && v < i {
+                throw new Exception("Failed when checking min on column: " . k);
+            }
+
+            if fetch i, c["max"] && v > i {
+                throw new Exception("Failed when checking max on column: " . k);
+            }
+
+            let r[k] = v;
+        }
+
+        return r;
     }
 
     public function onFetch(array row) -> array
     {
-        return row;
+        var k, v, getter, r = [];
+
+        for k, v in row {
+            if fetch getter, this->columns[k]["getter"] {
+                let r[k] = call_user_func(getter, v, this);
+            } else {
+                let r[k] = v;
+            }
+        }
+
+        return r;
     }
 
     public function pickPrimaryKeyValue(array row) -> array
     {
-        var pk, k, v, a = [];
+        var k, v, a = [];
 
-        let pk = this->primaryKey;
-
-        if unlikely ! pk {
-            throw new ModelException("Empty primary key");
-        }
-
-        if typeof pk == "array" {
-            for k in pk {
-                if unlikely ! fetch v, row[k] {
-                    throw new ModelException("Cannot pick primary key values: " . k);
-                }
-                let a[k] = v;
-            }
-        } else {
-            let k = (string) pk;
+        for k in this->primaryKey {
             if unlikely ! fetch v, row[k] {
-                throw new ModelException("Cannot pick primary key value: " . k);
+                throw new ModelException("Cannot pick primary key values: " . k);
             }
             let a[k] = v;
         }
@@ -322,26 +399,15 @@ class Model
 
     public function packPrimaryKeyValue(var id) -> array
     {
-        var pk, a;
-
-        let pk = this->primaryKey;
-
-        if unlikely ! pk {
-            throw new ModelException("Empty primary key");
+        if typeof id != "array" {
+            let id = [id];
         }
 
-        if typeof pk == "array" {
-            if unlikely typeof id != "array" || count(id) != count(pk) {
-                throw new ModelException("Invalid id to pack");
-            }
-
-            return array_combine(pk, id);
+        if unlikely count(this->primaryKey) != count(id) {
+            throw new ModelException("Invalid id to pack");
         }
 
-        let a = [];
-        let a[(string) pk] = (string) id;
-
-        return a;
+        return array_combine(this->primaryKey, id);
     }
 
 }
