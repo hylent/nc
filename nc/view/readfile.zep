@@ -26,10 +26,6 @@ class ReadFile implements ViewInterface
             header("Content-Transfer-Encoding: binary");
         }
 
-        header("Expires: 0");
-        header("Cache-Control: must-revalidate");
-        header("Pragma: public");
-
         if unlikely readfile(readFile) === false {
             throw new Exception("Cannot read file: " . readFile);
         }
