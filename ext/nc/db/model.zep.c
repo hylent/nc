@@ -18,8 +18,8 @@
 #include "kernel/fcall.h"
 #include "kernel/string.h"
 #include "kernel/array.h"
-#include "kernel/exception.h"
 #include "kernel/concat.h"
+#include "kernel/exception.h"
 #include "kernel/hash.h"
 
 
@@ -35,19 +35,23 @@ ZEPHIR_INIT_CLASS(Nc_Db_Model) {
 
 	zend_declare_property_null(nc_db_model_ce, SL("autoIncrement"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_declare_property_null(nc_db_model_ce, SL("columns"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	return SUCCESS;
 
 }
 
 PHP_METHOD(Nc_Db_Model, __construct) {
 
+	zval *primaryKey = NULL;
 	zval *table = NULL, *autoIncrement = NULL;
-	zval *db, *table_param = NULL, *primaryKey, *autoIncrement_param = NULL;
+	zval *db, *table_param = NULL, *primaryKey_param = NULL, *autoIncrement_param = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 4, 0, &db, &table_param, &primaryKey, &autoIncrement_param);
+	zephir_fetch_params(1, 4, 0, &db, &table_param, &primaryKey_param, &autoIncrement_param);
 
 	zephir_get_strval(table, table_param);
+	zephir_get_arrval(primaryKey, primaryKey_param);
 	zephir_get_strval(autoIncrement, autoIncrement_param);
 
 
@@ -166,7 +170,7 @@ PHP_METHOD(Nc_Db_Model, update) {
 
 	ZEPHIR_INIT_VAR(_0);
 	ZVAL_BOOL(_0, 1);
-	ZEPHIR_CALL_METHOD(&r, this_ptr, "onstore", NULL, 0, updates, _0, where);
+	ZEPHIR_CALL_METHOD(&r, this_ptr, "onstore", NULL, 0, updates, _0);
 	zephir_check_call_status();
 	if (zephir_fast_count_int(r TSRMLS_CC) > 0) {
 		_1$$3 = zephir_fetch_nproperty_this(this_ptr, SL("db"), PH_NOISY_CC);
@@ -174,6 +178,29 @@ PHP_METHOD(Nc_Db_Model, update) {
 		ZEPHIR_CALL_METHOD(NULL, _1$$3, "update", NULL, 0, _2$$3, r, where);
 		zephir_check_call_status();
 	}
+	RETURN_CCTOR(r);
+
+}
+
+PHP_METHOD(Nc_Db_Model, upsert) {
+
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *row_param = NULL, *r = NULL, *_0, *_1, *_2;
+	zval *row = NULL;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &row_param);
+
+	zephir_get_arrval(row, row_param);
+
+
+	ZEPHIR_CALL_METHOD(&r, this_ptr, "onstore", NULL, 0, row);
+	zephir_check_call_status();
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("db"), PH_NOISY_CC);
+	_1 = zephir_fetch_nproperty_this(this_ptr, SL("table"), PH_NOISY_CC);
+	_2 = zephir_fetch_nproperty_this(this_ptr, SL("primaryKey"), PH_NOISY_CC);
+	ZEPHIR_CALL_METHOD(NULL, _0, "upsert", NULL, 0, _1, r, _2);
+	zephir_check_call_status();
 	RETURN_CCTOR(r);
 
 }
@@ -207,7 +234,7 @@ PHP_METHOD(Nc_Db_Model, newEntity) {
 	} else {
 		ZVAL_BOOL(_0, 0);
 	}
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 35, this_ptr, _0, row, collection);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 38, this_ptr, _0, row, collection);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -362,7 +389,7 @@ PHP_METHOD(Nc_Db_Model, newCollection) {
 
 
 	object_init_ex(return_value, nc_db_collection_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 36, this_ptr, data, properties);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 39, this_ptr, data, properties);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -452,10 +479,10 @@ PHP_METHOD(Nc_Db_Model, all) {
 
 PHP_METHOD(Nc_Db_Model, ids) {
 
-	zval *k = NULL, *_3$$3 = NULL, *_5$$4 = NULL;
+	zval *k = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *ids_param = NULL, *_0, *_1$$3, *_2$$3, *_4$$4;
-	zval *ids = NULL, *_6;
+	zval *ids_param = NULL, *_0, *_1, *_2;
+	zval *ids = NULL, *_3;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &ids_param);
@@ -463,25 +490,16 @@ PHP_METHOD(Nc_Db_Model, ids) {
 	zephir_get_arrval(ids, ids_param);
 
 
-	ZEPHIR_OBS_VAR(_0);
-	zephir_read_property_this(&_0, this_ptr, SL("primaryKey"), PH_NOISY_CC);
-	if (Z_TYPE_P(_0) == IS_ARRAY) {
-		ZEPHIR_INIT_VAR(_1$$3);
-		_2$$3 = zephir_fetch_nproperty_this(this_ptr, SL("primaryKey"), PH_NOISY_CC);
-		zephir_fast_join_str(_1$$3, SL(", "), _2$$3 TSRMLS_CC);
-		zephir_get_strval(_3$$3, _1$$3);
-		ZEPHIR_CPY_WRT(k, _3$$3);
-	} else {
-		ZEPHIR_OBS_VAR(_4$$4);
-		zephir_read_property_this(&_4$$4, this_ptr, SL("primaryKey"), PH_NOISY_CC);
-		zephir_get_strval(_5$$4, _4$$4);
-		ZEPHIR_CPY_WRT(k, _5$$4);
-	}
-	zephir_concat_self_str(&k, "$in", sizeof("$in")-1 TSRMLS_CC);
-	ZEPHIR_INIT_VAR(_6);
-	zephir_create_array(_6, 1, 0 TSRMLS_CC);
-	zephir_array_update_string(&_6, Z_STRVAL_P(k), Z_STRLEN_P(k), &ids, PH_COPY);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "all", NULL, 0, _6);
+	ZEPHIR_INIT_VAR(_0);
+	_1 = zephir_fetch_nproperty_this(this_ptr, SL("primaryKey"), PH_NOISY_CC);
+	zephir_fast_join_str(_0, SL(", "), _1 TSRMLS_CC);
+	ZEPHIR_INIT_VAR(_2);
+	ZEPHIR_CONCAT_VS(_2, _0, "$in");
+	zephir_get_strval(k, _2);
+	ZEPHIR_INIT_VAR(_3);
+	zephir_create_array(_3, 1, 0 TSRMLS_CC);
+	zephir_array_update_string(&_3, Z_STRVAL_P(k), Z_STRLEN_P(k), &ids, PH_COPY);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "all", NULL, 0, _3);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -631,13 +649,13 @@ PHP_METHOD(Nc_Db_Model, chunkByDynamicWhere) {
 		object_init_ex(_0$$3, nc_db_modelexception_ce);
 		ZEPHIR_SINIT_VAR(_1$$3);
 		ZVAL_LONG(&_1$$3, limit);
-		ZEPHIR_CALL_FUNCTION(&_2$$3, "strval", NULL, 21, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(&_2$$3, "strval", NULL, 22, &_1$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_3$$3);
 		ZEPHIR_CONCAT_SV(_3$$3, "Invalid limit: ", _2$$3);
 		ZEPHIR_CALL_METHOD(NULL, _0$$3, "__construct", NULL, 2, _3$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_0$$3, "nc/db/model.zep", 190 TSRMLS_CC);
+		zephir_throw_exception_debug(_0$$3, "nc/db/model.zep", 197 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -708,13 +726,13 @@ PHP_METHOD(Nc_Db_Model, chunkByFixedWhere) {
 		object_init_ex(_0$$3, nc_db_modelexception_ce);
 		ZEPHIR_SINIT_VAR(_1$$3);
 		ZVAL_LONG(&_1$$3, limit);
-		ZEPHIR_CALL_FUNCTION(&_2$$3, "strval", NULL, 21, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(&_2$$3, "strval", NULL, 22, &_1$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_3$$3);
 		ZEPHIR_CONCAT_SV(_3$$3, "Invalid limit: ", _2$$3);
 		ZEPHIR_CALL_METHOD(NULL, _0$$3, "__construct", NULL, 2, _3$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_0$$3, "nc/db/model.zep", 219 TSRMLS_CC);
+		zephir_throw_exception_debug(_0$$3, "nc/db/model.zep", 226 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -997,12 +1015,17 @@ PHP_METHOD(Nc_Db_Model, groupAggregations) {
 
 PHP_METHOD(Nc_Db_Model, onStore) {
 
-	zend_bool isUpdate;
-	zval *row_param = NULL, *isUpdate_param = NULL, *where_param = NULL;
-	zval *row = NULL, *where = NULL;
+	zval *_7$$10 = NULL, *_8$$11 = NULL, *_22$$4 = NULL;
+	HashTable *_3;
+	HashPosition _2;
+	int ZEPHIR_LAST_CALL_STATUS;
+	zephir_fcall_cache_entry *_6 = NULL, *_12 = NULL, *_31 = NULL;
+	zend_bool isUpdate, _9$$12, _13$$4, _16$$4, _19$$4, _25$$4, _32$$4, _35$$4, _26$$17, _27$$17;
+	zval *row_param = NULL, *isUpdate_param = NULL, *k = NULL, *v = NULL, *c = NULL, *i = NULL, *r = NULL, *_0, *_1, **_4, *_5$$10 = NULL, *_10$$13 = NULL, *_11$$13 = NULL, *_20$$4 = NULL, *_21$$4 = NULL, *_14$$14 = NULL, *_15$$14 = NULL, *_17$$15 = NULL, *_18$$15 = NULL, *_23$$16 = NULL, *_24$$16 = NULL, _28$$17 = zval_used_for_init, _29$$17 = zval_used_for_init, _30$$17 = zval_used_for_init, *_33$$19 = NULL, *_34$$19 = NULL, *_36$$20 = NULL, *_37$$20 = NULL;
+	zval *row = NULL;
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 2, &row_param, &isUpdate_param, &where_param);
+	zephir_fetch_params(1, 1, 1, &row_param, &isUpdate_param);
 
 	zephir_get_arrval(row, row_param);
 	if (!isUpdate_param) {
@@ -1010,21 +1033,196 @@ PHP_METHOD(Nc_Db_Model, onStore) {
 	} else {
 		isUpdate = zephir_get_boolval(isUpdate_param);
 	}
-	if (!where_param) {
-		ZEPHIR_INIT_VAR(where);
-		array_init(where);
-	} else {
-		zephir_get_arrval(where, where_param);
+
+
+	ZEPHIR_INIT_VAR(r);
+	array_init(r);
+	ZEPHIR_OBS_VAR(_0);
+	zephir_read_property_this(&_0, this_ptr, SL("columns"), PH_NOISY_CC);
+	if (Z_TYPE_P(_0) != IS_ARRAY) {
+		RETURN_CTOR(row);
 	}
-
-
-	RETURN_CTOR(row);
+	_1 = zephir_fetch_nproperty_this(this_ptr, SL("columns"), PH_NOISY_CC);
+	zephir_is_iterable(_1, &_3, &_2, 0, 0, "nc/db/model.zep", 360);
+	for (
+	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_3, &_2)
+	) {
+		ZEPHIR_GET_HMKEY(k, _3, _2);
+		ZEPHIR_GET_HVALUE(c, _4);
+		if (Z_TYPE_P(c) != IS_ARRAY) {
+			ZEPHIR_INIT_NVAR(c);
+			ZVAL_NULL(c);
+		}
+		ZEPHIR_OBS_NVAR(v);
+		if (!(zephir_array_isset_fetch(&v, row, k, 0 TSRMLS_CC))) {
+			if (isUpdate) {
+				continue;
+			}
+			ZEPHIR_OBS_NVAR(i);
+			if (zephir_array_isset_string_fetch(&i, c, SS("default"), 0 TSRMLS_CC)) {
+				ZEPHIR_CPY_WRT(v, i);
+			} else {
+				ZEPHIR_INIT_NVAR(v);
+				ZVAL_NULL(v);
+			}
+		}
+		ZEPHIR_OBS_NVAR(i);
+		ZEPHIR_INIT_NVAR(v);
+		if (zephir_array_isset_string_fetch(&i, c, SS("setter"), 0 TSRMLS_CC)) {
+			ZEPHIR_CALL_FUNCTION(&_5$$10, "call_user_func", &_6, 15, i, v, this_ptr);
+			zephir_check_call_status();
+			zephir_get_strval(_7$$10, _5$$10);
+			ZEPHIR_CPY_WRT(v, _7$$10);
+		} else {
+			zephir_get_strval(_8$$11, v);
+			ZEPHIR_CPY_WRT(v, _8$$11);
+		}
+		if (ZEPHIR_IS_STRING_IDENTICAL(v, "")) {
+			ZEPHIR_OBS_NVAR(i);
+			_9$$12 = !(zephir_array_isset_string_fetch(&i, c, SS("nullable"), 0 TSRMLS_CC));
+			if (!(_9$$12)) {
+				_9$$12 = !zephir_is_true(i);
+			}
+			if (unlikely(_9$$12)) {
+				ZEPHIR_INIT_NVAR(_10$$13);
+				object_init_ex(_10$$13, nc_db_modelexception_ce);
+				ZEPHIR_INIT_LNVAR(_11$$13);
+				ZEPHIR_CONCAT_SV(_11$$13, "Failed when checking nullable on column: ", k);
+				ZEPHIR_CALL_METHOD(NULL, _10$$13, "__construct", &_12, 2, _11$$13);
+				zephir_check_call_status();
+				zephir_throw_exception_debug(_10$$13, "nc/db/model.zep", 324 TSRMLS_CC);
+				ZEPHIR_MM_RESTORE();
+				return;
+			}
+			zephir_array_update_zval(&r, k, &ZEPHIR_GLOBAL(global_null), PH_COPY | PH_SEPARATE);
+			continue;
+		}
+		ZEPHIR_OBS_NVAR(i);
+		_13$$4 = zephir_array_isset_string_fetch(&i, c, SS("minlen"), 0 TSRMLS_CC);
+		if (_13$$4) {
+			_13$$4 = ZEPHIR_GT_LONG(i, zephir_fast_strlen_ev(v));
+		}
+		if (_13$$4) {
+			ZEPHIR_INIT_NVAR(_14$$14);
+			object_init_ex(_14$$14, nc_db_modelexception_ce);
+			ZEPHIR_INIT_LNVAR(_15$$14);
+			ZEPHIR_CONCAT_SV(_15$$14, "Failed when checking minlen on column: ", k);
+			ZEPHIR_CALL_METHOD(NULL, _14$$14, "__construct", &_12, 2, _15$$14);
+			zephir_check_call_status();
+			zephir_throw_exception_debug(_14$$14, "nc/db/model.zep", 331 TSRMLS_CC);
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		ZEPHIR_OBS_NVAR(i);
+		_16$$4 = zephir_array_isset_string_fetch(&i, c, SS("maxlen"), 0 TSRMLS_CC);
+		if (_16$$4) {
+			_16$$4 = ZEPHIR_LT_LONG(i, zephir_fast_strlen_ev(v));
+		}
+		if (_16$$4) {
+			ZEPHIR_INIT_NVAR(_17$$15);
+			object_init_ex(_17$$15, nc_db_modelexception_ce);
+			ZEPHIR_INIT_LNVAR(_18$$15);
+			ZEPHIR_CONCAT_SV(_18$$15, "Failed when checking maxlen on column: ", k);
+			ZEPHIR_CALL_METHOD(NULL, _17$$15, "__construct", &_12, 2, _18$$15);
+			zephir_check_call_status();
+			zephir_throw_exception_debug(_17$$15, "nc/db/model.zep", 335 TSRMLS_CC);
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		ZEPHIR_OBS_NVAR(i);
+		_19$$4 = zephir_array_isset_string_fetch(&i, c, SS("regexp"), 0 TSRMLS_CC);
+		if (_19$$4) {
+			ZEPHIR_INIT_NVAR(_20$$4);
+			ZEPHIR_INIT_NVAR(_21$$4);
+			zephir_get_strval(_22$$4, i);
+			zephir_preg_match(_21$$4, _22$$4, v, _20$$4, 0, 0 , 0  TSRMLS_CC);
+			_19$$4 = !zephir_is_true(_21$$4);
+		}
+		if (_19$$4) {
+			ZEPHIR_INIT_NVAR(_23$$16);
+			object_init_ex(_23$$16, nc_db_modelexception_ce);
+			ZEPHIR_INIT_LNVAR(_24$$16);
+			ZEPHIR_CONCAT_SV(_24$$16, "Failed when checking regexp on column: ", k);
+			ZEPHIR_CALL_METHOD(NULL, _23$$16, "__construct", &_12, 2, _24$$16);
+			zephir_check_call_status();
+			zephir_throw_exception_debug(_23$$16, "nc/db/model.zep", 339 TSRMLS_CC);
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		ZEPHIR_OBS_NVAR(i);
+		_25$$4 = zephir_array_isset_string_fetch(&i, c, SS("numeric"), 0 TSRMLS_CC);
+		if (_25$$4) {
+			_25$$4 = zephir_is_true(i);
+		}
+		if (_25$$4) {
+			ZEPHIR_OBS_NVAR(i);
+			_26$$17 = !(zephir_array_isset_string_fetch(&i, c, SS("decimals"), 0 TSRMLS_CC));
+			if (!(_26$$17)) {
+				_26$$17 = Z_TYPE_P(i) != IS_LONG;
+			}
+			_27$$17 = _26$$17;
+			if (!(_27$$17)) {
+				_27$$17 = ZEPHIR_LT_LONG(i, 0);
+			}
+			if (_27$$17) {
+				ZEPHIR_INIT_NVAR(i);
+				ZVAL_LONG(i, 0);
+			}
+			ZEPHIR_SINIT_NVAR(_28$$17);
+			ZVAL_DOUBLE(&_28$$17, zephir_get_doubleval(v));
+			ZEPHIR_SINIT_NVAR(_29$$17);
+			ZVAL_STRING(&_29$$17, ".", 0);
+			ZEPHIR_SINIT_NVAR(_30$$17);
+			ZVAL_STRING(&_30$$17, "", 0);
+			ZEPHIR_CALL_FUNCTION(&v, "number_format", &_31, 40, &_28$$17, i, &_29$$17, &_30$$17);
+			zephir_check_call_status();
+		}
+		ZEPHIR_OBS_NVAR(i);
+		_32$$4 = zephir_array_isset_string_fetch(&i, c, SS("min"), 0 TSRMLS_CC);
+		if (_32$$4) {
+			_32$$4 = ZEPHIR_LT(v, i);
+		}
+		if (_32$$4) {
+			ZEPHIR_INIT_NVAR(_33$$19);
+			object_init_ex(_33$$19, nc_db_modelexception_ce);
+			ZEPHIR_INIT_LNVAR(_34$$19);
+			ZEPHIR_CONCAT_SV(_34$$19, "Failed when checking min on column: ", k);
+			ZEPHIR_CALL_METHOD(NULL, _33$$19, "__construct", &_12, 2, _34$$19);
+			zephir_check_call_status();
+			zephir_throw_exception_debug(_33$$19, "nc/db/model.zep", 350 TSRMLS_CC);
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		ZEPHIR_OBS_NVAR(i);
+		_35$$4 = zephir_array_isset_string_fetch(&i, c, SS("max"), 0 TSRMLS_CC);
+		if (_35$$4) {
+			_35$$4 = ZEPHIR_GT(v, i);
+		}
+		if (_35$$4) {
+			ZEPHIR_INIT_NVAR(_36$$20);
+			object_init_ex(_36$$20, nc_db_modelexception_ce);
+			ZEPHIR_INIT_LNVAR(_37$$20);
+			ZEPHIR_CONCAT_SV(_37$$20, "Failed when checking max on column: ", k);
+			ZEPHIR_CALL_METHOD(NULL, _36$$20, "__construct", &_12, 2, _37$$20);
+			zephir_check_call_status();
+			zephir_throw_exception_debug(_36$$20, "nc/db/model.zep", 354 TSRMLS_CC);
+			ZEPHIR_MM_RESTORE();
+			return;
+		}
+		zephir_array_update_zval(&r, k, &v, PH_COPY | PH_SEPARATE);
+	}
+	RETURN_CCTOR(r);
 
 }
 
 PHP_METHOD(Nc_Db_Model, onFetch) {
 
-	zval *row_param = NULL;
+	HashTable *_1;
+	HashPosition _0;
+	int ZEPHIR_LAST_CALL_STATUS;
+	zephir_fcall_cache_entry *_6 = NULL;
+	zval *row_param = NULL, *k = NULL, *v = NULL, *getter = NULL, *r = NULL, **_2, *_3$$3, *_4$$3, *_5$$4 = NULL;
 	zval *row = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -1033,18 +1231,37 @@ PHP_METHOD(Nc_Db_Model, onFetch) {
 	zephir_get_arrval(row, row_param);
 
 
-	RETURN_CTOR(row);
+	ZEPHIR_INIT_VAR(r);
+	array_init(r);
+	zephir_is_iterable(row, &_1, &_0, 0, 0, "nc/db/model.zep", 375);
+	for (
+	  ; zephir_hash_get_current_data_ex(_1, (void**) &_2, &_0) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_1, &_0)
+	) {
+		ZEPHIR_GET_HMKEY(k, _1, _0);
+		ZEPHIR_GET_HVALUE(v, _2);
+		ZEPHIR_OBS_NVAR(getter);
+		_3$$3 = zephir_fetch_nproperty_this(this_ptr, SL("columns"), PH_NOISY_CC);
+		zephir_array_fetch(&_4$$3, _3$$3, k, PH_READONLY, "nc/db/model.zep", 368 TSRMLS_CC);
+		if (zephir_array_isset_string_fetch(&getter, _4$$3, SS("getter"), 0 TSRMLS_CC)) {
+			ZEPHIR_CALL_FUNCTION(&_5$$4, "call_user_func", &_6, 15, getter, v, this_ptr);
+			zephir_check_call_status();
+			zephir_array_update_zval(&r, k, &_5$$4, PH_COPY | PH_SEPARATE);
+		} else {
+			zephir_array_update_zval(&r, k, &v, PH_COPY | PH_SEPARATE);
+		}
+	}
+	RETURN_CCTOR(r);
 
 }
 
 PHP_METHOD(Nc_Db_Model, pickPrimaryKeyValue) {
 
-	zval *_6$$7 = NULL;
-	HashTable *_1$$4;
-	HashPosition _0$$4;
-	zephir_fcall_cache_entry *_5 = NULL;
+	HashTable *_2;
+	HashPosition _1;
+	zephir_fcall_cache_entry *_6 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *row_param = NULL, *pk = NULL, *k = NULL, *v = NULL, *a = NULL, **_2$$4, *_3$$6 = NULL, *_4$$6 = NULL, *_7$$8, *_8$$8;
+	zval *row_param = NULL, *k = NULL, *v = NULL, *a = NULL, *_0, **_3, *_4$$4 = NULL, *_5$$4 = NULL;
 	zval *row = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -1055,45 +1272,22 @@ PHP_METHOD(Nc_Db_Model, pickPrimaryKeyValue) {
 
 	ZEPHIR_INIT_VAR(a);
 	array_init(a);
-	ZEPHIR_OBS_VAR(pk);
-	zephir_read_property_this(&pk, this_ptr, SL("primaryKey"), PH_NOISY_CC);
-	if (unlikely(!zephir_is_true(pk))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_modelexception_ce, "Empty primary key", "nc/db/model.zep", 302);
-		return;
-	}
-	if (Z_TYPE_P(pk) == IS_ARRAY) {
-		zephir_is_iterable(pk, &_1$$4, &_0$$4, 0, 0, "nc/db/model.zep", 312);
-		for (
-		  ; zephir_hash_get_current_data_ex(_1$$4, (void**) &_2$$4, &_0$$4) == SUCCESS
-		  ; zephir_hash_move_forward_ex(_1$$4, &_0$$4)
-		) {
-			ZEPHIR_GET_HVALUE(k, _2$$4);
-			ZEPHIR_OBS_NVAR(v);
-			if (unlikely(!(zephir_array_isset_fetch(&v, row, k, 0 TSRMLS_CC)))) {
-				ZEPHIR_INIT_NVAR(_3$$6);
-				object_init_ex(_3$$6, nc_db_modelexception_ce);
-				ZEPHIR_INIT_LNVAR(_4$$6);
-				ZEPHIR_CONCAT_SV(_4$$6, "Cannot pick primary key values: ", k);
-				ZEPHIR_CALL_METHOD(NULL, _3$$6, "__construct", &_5, 2, _4$$6);
-				zephir_check_call_status();
-				zephir_throw_exception_debug(_3$$6, "nc/db/model.zep", 308 TSRMLS_CC);
-				ZEPHIR_MM_RESTORE();
-				return;
-			}
-			zephir_array_update_zval(&a, k, &v, PH_COPY | PH_SEPARATE);
-		}
-	} else {
-		zephir_get_strval(_6$$7, pk);
-		ZEPHIR_CPY_WRT(k, _6$$7);
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("primaryKey"), PH_NOISY_CC);
+	zephir_is_iterable(_0, &_2, &_1, 0, 0, "nc/db/model.zep", 389);
+	for (
+	  ; zephir_hash_get_current_data_ex(_2, (void**) &_3, &_1) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_2, &_1)
+	) {
+		ZEPHIR_GET_HVALUE(k, _3);
 		ZEPHIR_OBS_NVAR(v);
 		if (unlikely(!(zephir_array_isset_fetch(&v, row, k, 0 TSRMLS_CC)))) {
-			ZEPHIR_INIT_VAR(_7$$8);
-			object_init_ex(_7$$8, nc_db_modelexception_ce);
-			ZEPHIR_INIT_VAR(_8$$8);
-			ZEPHIR_CONCAT_SV(_8$$8, "Cannot pick primary key value: ", k);
-			ZEPHIR_CALL_METHOD(NULL, _7$$8, "__construct", &_5, 2, _8$$8);
+			ZEPHIR_INIT_NVAR(_4$$4);
+			object_init_ex(_4$$4, nc_db_modelexception_ce);
+			ZEPHIR_INIT_LNVAR(_5$$4);
+			ZEPHIR_CONCAT_SV(_5$$4, "Cannot pick primary key values: ", k);
+			ZEPHIR_CALL_METHOD(NULL, _4$$4, "__construct", &_6, 2, _5$$4);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(_7$$8, "nc/db/model.zep", 315 TSRMLS_CC);
+			zephir_throw_exception_debug(_4$$4, "nc/db/model.zep", 384 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -1105,41 +1299,29 @@ PHP_METHOD(Nc_Db_Model, pickPrimaryKeyValue) {
 
 PHP_METHOD(Nc_Db_Model, packPrimaryKeyValue) {
 
-	zend_bool _0$$4;
-	zval *_1 = NULL, *_2 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *id, *pk = NULL, *a = NULL;
+	zval *id = NULL, *_0, *_1;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &id);
 
+	ZEPHIR_SEPARATE_PARAM(id);
 
 
-	ZEPHIR_OBS_VAR(pk);
-	zephir_read_property_this(&pk, this_ptr, SL("primaryKey"), PH_NOISY_CC);
-	if (unlikely(!zephir_is_true(pk))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_modelexception_ce, "Empty primary key", "nc/db/model.zep", 330);
+	if (Z_TYPE_P(id) != IS_ARRAY) {
+		ZEPHIR_INIT_NVAR(id);
+		zephir_create_array(id, 1, 0 TSRMLS_CC);
+		zephir_array_fast_append(id, id);
+	}
+	_0 = zephir_fetch_nproperty_this(this_ptr, SL("primaryKey"), PH_NOISY_CC);
+	if (unlikely(zephir_fast_count_int(_0 TSRMLS_CC) != zephir_fast_count_int(id TSRMLS_CC))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_modelexception_ce, "Invalid id to pack", "nc/db/model.zep", 399);
 		return;
 	}
-	if (Z_TYPE_P(pk) == IS_ARRAY) {
-		_0$$4 = Z_TYPE_P(id) != IS_ARRAY;
-		if (!(_0$$4)) {
-			_0$$4 = zephir_fast_count_int(id TSRMLS_CC) != zephir_fast_count_int(pk TSRMLS_CC);
-		}
-		if (unlikely(_0$$4)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_db_modelexception_ce, "Invalid id to pack", "nc/db/model.zep", 335);
-			return;
-		}
-		ZEPHIR_RETURN_CALL_FUNCTION("array_combine", NULL, 37, pk, id);
-		zephir_check_call_status();
-		RETURN_MM();
-	}
-	ZEPHIR_INIT_VAR(a);
-	array_init(a);
-	zephir_get_strval(_1, id);
-	zephir_get_strval(_2, pk);
-	zephir_array_update_zval(&a, _2, &_1, PH_COPY | PH_SEPARATE);
-	RETURN_CCTOR(a);
+	_1 = zephir_fetch_nproperty_this(this_ptr, SL("primaryKey"), PH_NOISY_CC);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_combine", NULL, 41, _1, id);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 

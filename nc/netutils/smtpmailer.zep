@@ -33,7 +33,7 @@ class SmtpMailer
             let port = (long) Std::valueAt(options, "port", 25);
         }
 
-        let socket = new SocketClient(host, port, connectTimeout, false);
+        let socket = new TcpSocketClient(host, port, connectTimeout, false);
 
         socket->setTcpNodelay(true);
         socket->setBlocking(true);
@@ -165,13 +165,13 @@ class SmtpMailer
     {
         string output;
 
-        if cmd {
+        if cmd->length() > 0 {
             this->socket->write(cmd . self::CRLF);
         }
 
         let output = (string) rtrim(this->socket->readMaxLength(1024));
 
-        if expected && strpos(output, expected) !== 0 {
+        if expected->length() > 0 && strpos(output, expected) !== 0 {
             throw new Exception("Unexpected response on step: " . step . ", with output: " . output);
         }
     }
@@ -180,10 +180,10 @@ class SmtpMailer
     {
         string s = "";
 
-        if name {
+        if name->length() > 0 {
             let s .= "=?UTF-8?B?" . base64_encode(name) . "?=";
         }
-        if addr {
+        if addr->length() > 0 {
             let s .= "<" . addr . ">";
         }
 

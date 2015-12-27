@@ -51,13 +51,13 @@ PHP_METHOD(Nc_Image_Imagick, __construct) {
 
 	ZEPHIR_SINIT_VAR(_0);
 	ZVAL_STRING(&_0, "imagick", 0);
-	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 17, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 18, &_0);
 	zephir_check_call_status();
 	if (unlikely(!zephir_is_true(_1))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_image_exception_ce, "Missing extension: imagick", "nc/image/imagick.zep", 8);
 		return;
 	}
-	ZEPHIR_CALL_PARENT(NULL, nc_image_imagick_ce, this_ptr, "__construct", &_2, 50, defaultOptions);
+	ZEPHIR_CALL_PARENT(NULL, nc_image_imagick_ce, this_ptr, "__construct", &_2, 54, defaultOptions);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -247,7 +247,7 @@ PHP_METHOD(Nc_Image_Imagick, fromPath) {
 	object_init_ex(imagick, zephir_get_internal_ce(SS("imagick") TSRMLS_CC));
 	ZEPHIR_CALL_METHOD(NULL, imagick, "__construct", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_0, "realpath", NULL, 77, path);
+	ZEPHIR_CALL_FUNCTION(&_0, "realpath", NULL, 80, path);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, imagick, "readimage", NULL, 0, _0);
 	zephir_check_call_status();
@@ -268,7 +268,7 @@ PHP_METHOD(Nc_Image_Imagick, fromPath) {
 		ZEPHIR_INIT_VAR(_5$$4);
 		ZEPHIR_SINIT_VAR(_6$$4);
 		ZVAL_LONG(&_6$$4, 4);
-		ZEPHIR_CALL_FUNCTION(&_7$$4, "pathinfo", NULL, 52, path, &_6$$4);
+		ZEPHIR_CALL_FUNCTION(&_7$$4, "pathinfo", NULL, 33, path, &_6$$4);
 		zephir_check_call_status();
 		zephir_fast_strtolower(_5$$4, _7$$4);
 		zephir_get_strval(_8$$4, _5$$4);
@@ -394,7 +394,7 @@ PHP_METHOD(Nc_Image_Imagick, captcha) {
 	rOverlap = zephir_get_doubleval(_8);
 	ZEPHIR_SINIT_VAR(_9);
 	ZVAL_STRING(&_9, "utf-8", 0);
-	ZEPHIR_CALL_FUNCTION(&_10, "mb_strlen", NULL, 61, text, &_9);
+	ZEPHIR_CALL_FUNCTION(&_10, "mb_strlen", NULL, 64, text, &_9);
 	zephir_check_call_status();
 	textLen = zephir_get_intval(_10);
 	fontSize = (long) (zephir_safe_div_double_long((1.0 * width), (((rPadding * (double) 2) + textLen)) TSRMLS_CC));
@@ -517,7 +517,7 @@ PHP_METHOD(Nc_Image_Imagick, captcha) {
 		ZVAL_LONG(&_40$$7, 1);
 		ZEPHIR_SINIT_NVAR(_41$$7);
 		ZVAL_STRING(&_41$$7, "utf-8", 0);
-		ZEPHIR_CALL_FUNCTION(&_42$$7, "mb_substr", &_43, 64, text, &_39$$7, &_40$$7, &_41$$7);
+		ZEPHIR_CALL_FUNCTION(&_42$$7, "mb_substr", &_43, 67, text, &_39$$7, &_40$$7, &_41$$7);
 		zephir_check_call_status();
 		zephir_get_strval(_44$$7, _42$$7);
 		ZEPHIR_CPY_WRT(ch, _44$$7);
@@ -968,7 +968,7 @@ PHP_METHOD(Nc_Image_Imagick, save) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
 	zval *destPath = NULL;
-	zval *im, *destPath_param = NULL, *_0$$3, *_1$$4, *_2$$4 = NULL;
+	zval *im, *destPath_param = NULL, *_0 = NULL, *_1$$3, *_2$$4, *_3$$4 = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &im, &destPath_param);
@@ -976,17 +976,17 @@ PHP_METHOD(Nc_Image_Imagick, save) {
 	zephir_get_strval(destPath, destPath_param);
 
 
-	if (!(!destPath) && Z_STRLEN_P(destPath)) {
-		ZEPHIR_OBS_VAR(_0$$3);
-		zephir_read_property(&_0$$3, im, SL("handler"), PH_NOISY_CC);
-		ZEPHIR_CALL_METHOD(NULL, _0$$3, "writeimage", NULL, 0, destPath);
+	if (zephir_fast_strlen_ev(destPath) > 0) {
+		ZEPHIR_OBS_VAR(_1$$3);
+		zephir_read_property(&_1$$3, im, SL("handler"), PH_NOISY_CC);
+		ZEPHIR_CALL_METHOD(NULL, _1$$3, "writeimage", NULL, 0, destPath);
 		zephir_check_call_status();
 	} else {
-		ZEPHIR_OBS_VAR(_1$$4);
-		zephir_read_property(&_1$$4, im, SL("handler"), PH_NOISY_CC);
-		ZEPHIR_CALL_METHOD(&_2$$4, _1$$4, "getimageblob", NULL, 0);
+		ZEPHIR_OBS_VAR(_2$$4);
+		zephir_read_property(&_2$$4, im, SL("handler"), PH_NOISY_CC);
+		ZEPHIR_CALL_METHOD(&_3$$4, _2$$4, "getimageblob", NULL, 0);
 		zephir_check_call_status();
-		zend_print_zval(_2$$4, 0);
+		zend_print_zval(_3$$4, 0);
 	}
 	ZEPHIR_MM_RESTORE();
 

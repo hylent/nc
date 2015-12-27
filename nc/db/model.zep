@@ -6,21 +6,13 @@ class Model
     protected table;
     protected primaryKey;
     protected autoIncrement;
+    protected columns;
 
-    public function __construct(<DbInterface> db, string table, var primaryKey, string autoIncrement) -> void
+    public function __construct(<DbInterface> db, string table, array primaryKey, string autoIncrement) -> void
     {
         let this->db = db;
         let this->table = table;
-
-        if unlikely ! primaryKey {
-            throw new Exception("Empty primary key");
-        }
-        if typeof primaryKey == "array" {
-            let this->primaryKey = primaryKey;
-        } else {
-            let this->primaryKey[] = (string) primaryKey;
-        }
-
+        let this->primaryKey = primaryKey;
         let this->autoIncrement = autoIncrement;
     }
 
@@ -329,22 +321,22 @@ class Model
 
             if v === "" {
                 if unlikely ! fetch i, c["nullable"] || ! i {
-                    throw new Exception("Failed when checking nullable on column: " . k);
+                    throw new ModelException("Failed when checking nullable on column: " . k);
                 }
                 let r[k] = null;
                 continue;
             }
 
             if fetch i, c["minlen"] && strlen(v) < i {
-                throw new Exception("Failed when checking minlen on column: " . k);
+                throw new ModelException("Failed when checking minlen on column: " . k);
             }
 
             if fetch i, c["maxlen"] && strlen(v) > i {
-                throw new Exception("Failed when checking maxlen on column: " . k);
+                throw new ModelException("Failed when checking maxlen on column: " . k);
             }
 
             if fetch i, c["regexp"] && ! preg_match((string) i, v) {
-                throw new Exception("Failed when checking regexp on column: " . k);
+                throw new ModelException("Failed when checking regexp on column: " . k);
             }
 
             if fetch i, c["numeric"] && i {
@@ -355,11 +347,11 @@ class Model
             }
 
             if fetch i, c["min"] && v < i {
-                throw new Exception("Failed when checking min on column: " . k);
+                throw new ModelException("Failed when checking min on column: " . k);
             }
 
             if fetch i, c["max"] && v > i {
-                throw new Exception("Failed when checking max on column: " . k);
+                throw new ModelException("Failed when checking max on column: " . k);
             }
 
             let r[k] = v;

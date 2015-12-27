@@ -35,7 +35,7 @@ class Text extends ImageAbstract
 
         if fetch opt, mergedOptions["color"] {
             let s = (string) opt;
-            if s && preg_match("/^#([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})/", s, m) {
+            if s && preg_match("/^#([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/", s, m) {
                 let this->color = s->upper();
             }
         }

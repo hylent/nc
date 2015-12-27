@@ -52,7 +52,7 @@ PHP_METHOD(Nc_Std_CacheApc, __construct) {
 
 	ZEPHIR_SINIT_VAR(_0);
 	ZVAL_STRING(&_0, "apc", 0);
-	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 17, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 18, &_0);
 	zephir_check_call_status();
 	if (unlikely(!zephir_is_true(_1))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_std_exception_ce, "Missing extension: apc", "nc/std/cacheapc.zep", 12);
@@ -86,7 +86,7 @@ PHP_METHOD(Nc_Std_CacheApc, setCache) {
 	ZEPHIR_CONCAT_VV(_1, _0, identifier);
 	ZEPHIR_SINIT_VAR(_2);
 	ZVAL_LONG(&_2, lifetime);
-	ZEPHIR_CALL_FUNCTION(&_3, "apc_store", NULL, 116, _1, data, &_2);
+	ZEPHIR_CALL_FUNCTION(&_3, "apc_store", NULL, 112, _1, data, &_2);
 	zephir_check_call_status();
 	if (unlikely(!zephir_is_true(_3))) {
 		ZEPHIR_INIT_VAR(_4$$3);
@@ -121,7 +121,7 @@ PHP_METHOD(Nc_Std_CacheApc, getCache) {
 	ZEPHIR_INIT_VAR(_1);
 	ZEPHIR_CONCAT_VV(_1, _0, identifier);
 	ZEPHIR_MAKE_REF(success);
-	ZEPHIR_CALL_FUNCTION(&data, "apc_fetch", NULL, 117, _1, success);
+	ZEPHIR_CALL_FUNCTION(&data, "apc_fetch", NULL, 113, _1, success);
 	ZEPHIR_UNREF(success);
 	zephir_check_call_status();
 	if (zephir_is_true(success)) {
@@ -146,7 +146,7 @@ PHP_METHOD(Nc_Std_CacheApc, deleteCache) {
 	_0 = zephir_fetch_nproperty_this(this_ptr, SL("prefix"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(_1);
 	ZEPHIR_CONCAT_VV(_1, _0, identifier);
-	ZEPHIR_CALL_FUNCTION(NULL, "apc_delete", NULL, 118, _1);
+	ZEPHIR_CALL_FUNCTION(NULL, "apc_delete", NULL, 114, _1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

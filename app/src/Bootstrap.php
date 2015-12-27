@@ -4,47 +4,55 @@ namespace NcApp;
 
 class Bootstrap
 {
-    public function __construct(\Nc\Application $app)
+    public function __construct($di)
     {
         // configs
-        $app->mergeConfigsInPathIfValid(__DIR__.'/../config.php');
-        $app->mergeConfigsInPathIfValid(__DIR__.'/../config.local.php');
+        $configs = [];
+        foreach ([
+            __DIR__.'/../config.php',
+            __DIR__.'/../config.local.php',
+        ] as $c) {
+            if (file_exists($c)) {
+                $configs = array_replace_recursive($configs, (array) require $c);
+            }
+        }
+        $di->configs = (object) $configs;
 
         // di services
-        $app('redis', function($app) {
+        $di('redis', function($di) {
+            $config = $di->configs->redis;
             $redis = new \Redis();
-            $redis->connect($app->config('redis.host'), $app->config('redis.port'));
+            $redis->connect($config['host'], $config['port']);
             return $redis;
         });
 
-        $app('db', function($app) {
+        $di('mysql', function($di) {
+            $config = $di->configs->mysql;
             return new \Nc\Db\PdoMysql(sprintf(
                 'mysql:host=%s;port=%d;dbname=%s;charset=utf8',
-                $app->config('db.host'),
-                $app->config('db.port'),
-                $app->config('db.dbname')
-            ), $app->config('db.user'), $app->config('db.passwd'));
+                $config['host'],
+                $config['port'],
+                $config['dbname']
+            ), $config['user'], $config['passwd']);
         });
 
-        $app('mongo', function($app) {
+        $di('mongodb', function($di) {
+            $config = $di->configs->mongodb;
             return (new \MongoClient(sprintf(
                 'mongodb://%s:%d',
-                $app->config('mongo.host'),
-                $app->config('mongo.port')
-            )))->selectDb($app->config('mongo.dbname'));
+                $config['host'],
+                $config['port']
+            )))->selectDb($config['dbname']);
         });
 
-        $app('', function($app) {
+        $di('', function($di) {
         });
 
         // routing
-        $actionFactory = new \Nc\Factory\Namespaced(__NAMESPACE__.'\Action');
-        $actionFactory->setArgs($app);
+        $controllerFactory = new \Nc\Factory\Namespaced(__NAMESPACE__.'\Controller');
+        $controllerFactory->setArgs($di);
 
-        $router = new \Nc\Router\Action($actionFactory);
-        $router->setSource(new \Nc\Router\SourceSapiStrategy());
-
-        $router->route();
+        \Nc\Application\ControllerAbstract::dispatch($controllerFactory, []);
     }
 
 }

@@ -9,6 +9,7 @@ PHP_METHOD(Nc_Db_Model, getDb);
 PHP_METHOD(Nc_Db_Model, delete);
 PHP_METHOD(Nc_Db_Model, insert);
 PHP_METHOD(Nc_Db_Model, update);
+PHP_METHOD(Nc_Db_Model, upsert);
 PHP_METHOD(Nc_Db_Model, newEntity);
 PHP_METHOD(Nc_Db_Model, entity);
 PHP_METHOD(Nc_Db_Model, create);
@@ -38,7 +39,7 @@ PHP_METHOD(Nc_Db_Model, packPrimaryKeyValue);
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_model___construct, 0, 0, 4)
 	ZEND_ARG_OBJ_INFO(0, db, Nc\\Db\\DbInterface, 0)
 	ZEND_ARG_INFO(0, table)
-	ZEND_ARG_INFO(0, primaryKey)
+	ZEND_ARG_ARRAY_INFO(0, primaryKey, 0)
 	ZEND_ARG_INFO(0, autoIncrement)
 ZEND_END_ARG_INFO()
 
@@ -57,6 +58,10 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_model_update, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, updates, 0)
 	ZEND_ARG_ARRAY_INFO(0, where, 1)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_model_upsert, 0, 0, 1)
+	ZEND_ARG_ARRAY_INFO(0, row, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_model_newentity, 0, 0, 1)
@@ -174,7 +179,6 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_model_onstore, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, row, 0)
 	ZEND_ARG_INFO(0, isUpdate)
-	ZEND_ARG_ARRAY_INFO(0, where, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_model_onfetch, 0, 0, 1)
@@ -196,6 +200,7 @@ ZEPHIR_INIT_FUNCS(nc_db_model_method_entry) {
 	PHP_ME(Nc_Db_Model, delete, arginfo_nc_db_model_delete, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_Model, insert, arginfo_nc_db_model_insert, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_Model, update, arginfo_nc_db_model_update, ZEND_ACC_PUBLIC)
+	PHP_ME(Nc_Db_Model, upsert, arginfo_nc_db_model_upsert, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_Model, newEntity, arginfo_nc_db_model_newentity, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_Model, entity, arginfo_nc_db_model_entity, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_Model, create, arginfo_nc_db_model_create, ZEND_ACC_PUBLIC)

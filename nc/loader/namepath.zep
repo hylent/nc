@@ -6,9 +6,13 @@ class NamePath extends LoaderAbstract
 
     public function __construct(bool registerSelf = false, array namePaths = []) -> void
     {
+        var n, p;
+
         parent::__construct(registerSelf);
 
-        let this->namePaths = namePaths;
+        for n, p in namePaths {
+            let this->namePaths[strtolower(n)] = (string) p;
+        }
     }
 
     public function __invoke(string name) -> bool
@@ -17,10 +21,6 @@ class NamePath extends LoaderAbstract
 
         if ! fetch path, this->namePaths[name->lower()] {
             return false;
-        }
-
-        if unlikely typeof path != "string" {
-            throw new Exception("Invalid autoload path option: " . name);
         }
 
         if ! file_exists(path) {

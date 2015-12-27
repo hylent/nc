@@ -372,20 +372,20 @@ class Gd extends ImageBackendAbstract
     {
         switch im->extension {
             case "png":
-                if imagepng(im->handler, destPath ? destPath : null) {
+                if imagepng(im->handler, destPath->length() > 0 ? destPath : null) {
                     return;
                 }
                 break;
 
             case "gif":
-                if imagegif(im->handler, destPath ? destPath : null) {
+                if imagegif(im->handler, destPath->length() > 0 ? destPath : null) {
                     return;
                 }
                 break;
 
             case "jpg":
             case "jpeg":
-                if imagejpeg(im->handler, destPath ? destPath : null, 100) {
+                if imagejpeg(im->handler, destPath->length() > 0 ? destPath : null, 100) {
                     return;
                 }
                 break;
@@ -442,7 +442,7 @@ class Gd extends ImageBackendAbstract
         var handler, color, m = null;
         long alpha, r = 0, g = 0, b = 0;
 
-        if preg_match("/^#([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})/", src->color, m) {
+        if preg_match("/^#([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/", src->color, m) {
             let r = (long) hexdec(m[1]);
             let g = (long) hexdec(m[2]);
             let b = (long) hexdec(m[3]);

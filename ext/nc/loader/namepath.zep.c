@@ -14,14 +14,15 @@
 #include "kernel/main.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
-#include "kernel/object.h"
+#include "kernel/hash.h"
 #include "kernel/operators.h"
-#include "kernel/array.h"
+#include "kernel/object.h"
 #include "kernel/string.h"
-#include "kernel/exception.h"
-#include "kernel/concat.h"
+#include "kernel/array.h"
 #include "kernel/file.h"
 #include "kernel/require.h"
+#include "kernel/exception.h"
+#include "kernel/concat.h"
 
 
 ZEPHIR_INIT_CLASS(Nc_Loader_NamePath) {
@@ -36,10 +37,13 @@ ZEPHIR_INIT_CLASS(Nc_Loader_NamePath) {
 
 PHP_METHOD(Nc_Loader_NamePath, __construct) {
 
+	zval *_5$$3 = NULL;
+	HashTable *_3;
+	HashPosition _2;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *namePaths = NULL;
-	zval *registerSelf_param = NULL, *namePaths_param = NULL, *_1;
+	zval *registerSelf_param = NULL, *namePaths_param = NULL, *n = NULL, *p = NULL, *_1, **_4, *_6$$3 = NULL;
 	zend_bool registerSelf;
 
 	ZEPHIR_MM_GROW();
@@ -64,19 +68,30 @@ PHP_METHOD(Nc_Loader_NamePath, __construct) {
 	} else {
 		ZVAL_BOOL(_1, 0);
 	}
-	ZEPHIR_CALL_PARENT(NULL, nc_loader_namepath_ce, this_ptr, "__construct", &_0, 78, _1);
+	ZEPHIR_CALL_PARENT(NULL, nc_loader_namepath_ce, this_ptr, "__construct", &_0, 81, _1);
 	zephir_check_call_status();
-	zephir_update_property_this(this_ptr, SL("namePaths"), namePaths TSRMLS_CC);
+	zephir_is_iterable(namePaths, &_3, &_2, 0, 0, "nc/loader/namepath.zep", 16);
+	for (
+	  ; zephir_hash_get_current_data_ex(_3, (void**) &_4, &_2) == SUCCESS
+	  ; zephir_hash_move_forward_ex(_3, &_2)
+	) {
+		ZEPHIR_GET_HMKEY(n, _3, _2);
+		ZEPHIR_GET_HVALUE(p, _4);
+		zephir_get_strval(_5$$3, p);
+		ZEPHIR_INIT_NVAR(_6$$3);
+		zephir_fast_strtolower(_6$$3, n);
+		zephir_update_property_array(this_ptr, SL("namePaths"), _6$$3, _5$$3 TSRMLS_CC);
+	}
 	ZEPHIR_MM_RESTORE();
 
 }
 
 PHP_METHOD(Nc_Loader_NamePath, __invoke) {
 
-	zephir_fcall_cache_entry *_6 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *name_param = NULL, *path = NULL, *_0, *_1 = NULL, *_2, *_5 = NULL, *_3$$4, *_7$$6, *_8$$6;
-	zval *name = NULL, *_4$$4;
+	zephir_fcall_cache_entry *_4 = NULL;
+	zval *name_param = NULL, *path = NULL, *_0, *_1 = NULL, *_2, *_3 = NULL, *_5$$5, *_6$$5;
+	zval *name = NULL;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
@@ -91,33 +106,22 @@ PHP_METHOD(Nc_Loader_NamePath, __invoke) {
 	if (!(zephir_array_isset_fetch(&path, _0, _2, 0 TSRMLS_CC))) {
 		RETURN_MM_BOOL(0);
 	}
-	if (unlikely(Z_TYPE_P(path) != IS_STRING)) {
-		ZEPHIR_INIT_VAR(_3$$4);
-		object_init_ex(_3$$4, nc_loader_exception_ce);
-		ZEPHIR_INIT_VAR(_4$$4);
-		ZEPHIR_CONCAT_SV(_4$$4, "Invalid autoload path option: ", name);
-		ZEPHIR_CALL_METHOD(NULL, _3$$4, "__construct", NULL, 2, _4$$4);
-		zephir_check_call_status();
-		zephir_throw_exception_debug(_3$$4, "nc/loader/namepath.zep", 23 TSRMLS_CC);
-		ZEPHIR_MM_RESTORE();
-		return;
-	}
 	if (!((zephir_file_exists(path TSRMLS_CC) == SUCCESS))) {
 		RETURN_MM_BOOL(0);
 	}
 	if (zephir_require_zval(path TSRMLS_CC) == FAILURE) {
 		RETURN_MM_NULL();
 	}
-	ZEPHIR_CALL_CE_STATIC(&_5, nc_loader_loaderabstract_ce, "isloaded", &_6, 79, name);
+	ZEPHIR_CALL_CE_STATIC(&_3, nc_loader_loaderabstract_ce, "isloaded", &_4, 82, name);
 	zephir_check_call_status();
-	if (unlikely(!zephir_is_true(_5))) {
-		ZEPHIR_INIT_VAR(_7$$6);
-		object_init_ex(_7$$6, nc_loader_exception_ce);
-		ZEPHIR_INIT_VAR(_8$$6);
-		ZEPHIR_CONCAT_SVSV(_8$$6, "Cannot load: ", name, ", in path: ", path);
-		ZEPHIR_CALL_METHOD(NULL, _7$$6, "__construct", NULL, 2, _8$$6);
+	if (unlikely(!zephir_is_true(_3))) {
+		ZEPHIR_INIT_VAR(_5$$5);
+		object_init_ex(_5$$5, nc_loader_exception_ce);
+		ZEPHIR_INIT_VAR(_6$$5);
+		ZEPHIR_CONCAT_SVSV(_6$$5, "Cannot load: ", name, ", in path: ", path);
+		ZEPHIR_CALL_METHOD(NULL, _5$$5, "__construct", NULL, 2, _6$$5);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_7$$6, "nc/loader/namepath.zep", 33 TSRMLS_CC);
+		zephir_throw_exception_debug(_5$$5, "nc/loader/namepath.zep", 33 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

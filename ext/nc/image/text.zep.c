@@ -88,7 +88,7 @@ PHP_METHOD(Nc_Image_Text, setOptions) {
 		if (_5$$7) {
 			ZEPHIR_INIT_VAR(_6$$7);
 			ZEPHIR_SINIT_VAR(_7$$7);
-			ZVAL_STRING(&_7$$7, "/^#([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})/", 0);
+			ZVAL_STRING(&_7$$7, "/^#([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/", 0);
 			zephir_preg_match(_6$$7, &_7$$7, s, m, 0, 0 , 0  TSRMLS_CC);
 			_5$$7 = zephir_is_true(_6$$7);
 		}

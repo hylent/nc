@@ -30,33 +30,30 @@ class Action extends RouterAbstract
         return this->defaultAction;
     }
 
-    public function route() -> void
+    public function route(array params) -> void
     {
-        var source, actionVar;
         string action, actionName;
+        var actionVar;
 
-        let source = (array) this->getSource();
-
-        if count(source) < 1 {
+        if count(params) < 1 {
             let action = (string) this->defaultAction;
         } else {
-            let action = (string) array_shift(source);
+            let action = (string) array_shift(params);
         }
 
         let this->id = action;
 
         let actionName = (string) Std::camelCase(action);
-
         if unlikely ! this->actionFactory->__isset(actionName) {
             throw new NotFoundException("Action not found: " . action);
         }
 
         let actionVar = this->actionFactory->__get(actionName);
         if unlikely ! is_callable(actionVar) {
-            throw new NotFoundException("Invalid action: " . action);
+            throw new Exception("Invalid action: " . action);
         }
 
-        call_user_func_array(actionVar, source);
+        call_user_func_array(actionVar, params);
     }
 
 }

@@ -54,46 +54,42 @@ class ControllerAction extends RouterAbstract
         return this->actionSuffix;
     }
 
-    public function route() -> void
+    public function route(array params) -> void
     {
-        var source, actionVar;
-        string controller, action, controllerName, actionName;
+        string controller, action, controllerName;
+        var actionVar;
 
-        let source = (array) this->getSource();
-
-        switch count(source) {
+        switch count(params) {
             case 0:
                 let controller = (string) this->defaultController;
                 let action = (string) this->defaultAction;
                 break;
             case 1:
-                let controller = (string) array_shift(source);
+                let controller = (string) array_shift(params);
                 let action = (string) this->defaultAction;
                 break;
             default:
-                let controller = (string) array_shift(source);
-                let action = (string) array_shift(source);
+                let controller = (string) array_shift(params);
+                let action = (string) array_shift(params);
                 break;
         }
 
         let this->id = controller . "/" . action;
 
         let controllerName = (string) Std::camelCase(controller);
-        let actionName = (string) Std::camelCase(action);
-
-        if unlikely ! this->controllerFactory->__isset(actionName) {
+        if unlikely ! this->controllerFactory->__isset(controllerName) {
             throw new NotFoundException("Controller not found: " . controller);
         }
 
         let actionVar = [];
         let actionVar[] = this->controllerFactory->__get(controllerName);
-        let actionVar[] = actionName . this->actionSuffix;
+        let actionVar[] = Std::camelCase(action) . this->actionSuffix;
 
         if unlikely ! is_callable(actionVar) {
-            throw new NotFoundException("Invalid action: " . this->id);
+            throw new NotFoundException("Action not found: " . this->id);
         }
 
-        call_user_func_array(actionVar, source);
+        call_user_func_array(actionVar, params);
     }
 
 }

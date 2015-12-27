@@ -80,66 +80,66 @@ PHP_METHOD(Nc_Router_Action, getDefaultAction) {
 
 PHP_METHOD(Nc_Router_Action, route) {
 
-	zval *_1 = NULL;
-	zval *action = NULL, *actionName = NULL, *_8 = NULL, *_3$$3 = NULL, *_5$$4 = NULL, *_12$$5, *_15$$6;
-	zval *source = NULL, *actionVar = NULL, *_0 = NULL, *_6 = NULL, *_9, *_10 = NULL, *_13, *_16, *_2$$3, *_4$$4 = NULL, *_11$$5, *_14$$6;
-	zephir_fcall_cache_entry *_7 = NULL;
+	zval *action = NULL, *actionName = NULL, *_6 = NULL, *_1$$3 = NULL, *_3$$4 = NULL, *_10$$5, *_13$$6;
+	zephir_fcall_cache_entry *_5 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
+	zval *params_param = NULL, *actionVar = NULL, *_4 = NULL, *_7, *_8 = NULL, *_11, *_14, *_0$$3, *_2$$4 = NULL, *_9$$5, *_12$$6;
+	zval *params = NULL;
 
 	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &params_param);
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getsource", NULL, 0);
-	zephir_check_call_status();
-	zephir_get_arrval(_1, _0);
-	ZEPHIR_CPY_WRT(source, _1);
-	if (zephir_fast_count_int(source TSRMLS_CC) < 1) {
-		ZEPHIR_OBS_VAR(_2$$3);
-		zephir_read_property_this(&_2$$3, this_ptr, SL("defaultAction"), PH_NOISY_CC);
-		zephir_get_strval(_3$$3, _2$$3);
-		ZEPHIR_CPY_WRT(action, _3$$3);
+	zephir_get_arrval(params, params_param);
+
+
+	if (zephir_fast_count_int(params TSRMLS_CC) < 1) {
+		ZEPHIR_OBS_VAR(_0$$3);
+		zephir_read_property_this(&_0$$3, this_ptr, SL("defaultAction"), PH_NOISY_CC);
+		zephir_get_strval(_1$$3, _0$$3);
+		ZEPHIR_CPY_WRT(action, _1$$3);
 	} else {
-		ZEPHIR_MAKE_REF(source);
-		ZEPHIR_CALL_FUNCTION(&_4$$4, "array_shift", NULL, 5, source);
-		ZEPHIR_UNREF(source);
+		ZEPHIR_MAKE_REF(params);
+		ZEPHIR_CALL_FUNCTION(&_2$$4, "array_shift", NULL, 5, params);
+		ZEPHIR_UNREF(params);
 		zephir_check_call_status();
-		zephir_get_strval(_5$$4, _4$$4);
-		ZEPHIR_CPY_WRT(action, _5$$4);
+		zephir_get_strval(_3$$4, _2$$4);
+		ZEPHIR_CPY_WRT(action, _3$$4);
 	}
 	zephir_update_property_this(this_ptr, SL("id"), action TSRMLS_CC);
-	ZEPHIR_CALL_CE_STATIC(&_6, nc_std_ce, "camelcase", &_7, 102, action);
+	ZEPHIR_CALL_CE_STATIC(&_4, nc_std_ce, "camelcase", &_5, 17, action);
 	zephir_check_call_status();
-	zephir_get_strval(_8, _6);
-	ZEPHIR_CPY_WRT(actionName, _8);
-	_9 = zephir_fetch_nproperty_this(this_ptr, SL("actionFactory"), PH_NOISY_CC);
-	ZEPHIR_CALL_METHOD(&_10, _9, "__isset", NULL, 0, actionName);
+	zephir_get_strval(_6, _4);
+	ZEPHIR_CPY_WRT(actionName, _6);
+	_7 = zephir_fetch_nproperty_this(this_ptr, SL("actionFactory"), PH_NOISY_CC);
+	ZEPHIR_CALL_METHOD(&_8, _7, "__isset", NULL, 0, actionName);
 	zephir_check_call_status();
-	if (unlikely(!zephir_is_true(_10))) {
-		ZEPHIR_INIT_VAR(_11$$5);
-		object_init_ex(_11$$5, nc_router_notfoundexception_ce);
-		ZEPHIR_INIT_VAR(_12$$5);
-		ZEPHIR_CONCAT_SV(_12$$5, "Action not found: ", action);
-		ZEPHIR_CALL_METHOD(NULL, _11$$5, "__construct", NULL, 2, _12$$5);
+	if (unlikely(!zephir_is_true(_8))) {
+		ZEPHIR_INIT_VAR(_9$$5);
+		object_init_ex(_9$$5, nc_router_notfoundexception_ce);
+		ZEPHIR_INIT_VAR(_10$$5);
+		ZEPHIR_CONCAT_SV(_10$$5, "Action not found: ", action);
+		ZEPHIR_CALL_METHOD(NULL, _9$$5, "__construct", NULL, 2, _10$$5);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_11$$5, "nc/router/action.zep", 51 TSRMLS_CC);
+		zephir_throw_exception_debug(_9$$5, "nc/router/action.zep", 48 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	_13 = zephir_fetch_nproperty_this(this_ptr, SL("actionFactory"), PH_NOISY_CC);
-	ZEPHIR_CALL_METHOD(&actionVar, _13, "__get", NULL, 0, actionName);
+	_11 = zephir_fetch_nproperty_this(this_ptr, SL("actionFactory"), PH_NOISY_CC);
+	ZEPHIR_CALL_METHOD(&actionVar, _11, "__get", NULL, 0, actionName);
 	zephir_check_call_status();
 	if (unlikely(!(zephir_is_callable(actionVar TSRMLS_CC)))) {
-		ZEPHIR_INIT_VAR(_14$$6);
-		object_init_ex(_14$$6, nc_router_notfoundexception_ce);
-		ZEPHIR_INIT_VAR(_15$$6);
-		ZEPHIR_CONCAT_SV(_15$$6, "Invalid action: ", action);
-		ZEPHIR_CALL_METHOD(NULL, _14$$6, "__construct", NULL, 2, _15$$6);
+		ZEPHIR_INIT_VAR(_12$$6);
+		object_init_ex(_12$$6, nc_router_exception_ce);
+		ZEPHIR_INIT_VAR(_13$$6);
+		ZEPHIR_CONCAT_SV(_13$$6, "Invalid action: ", action);
+		ZEPHIR_CALL_METHOD(NULL, _12$$6, "__construct", NULL, 2, _13$$6);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_14$$6, "nc/router/action.zep", 56 TSRMLS_CC);
+		zephir_throw_exception_debug(_12$$6, "nc/router/action.zep", 53 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_INIT_VAR(_16);
-	ZEPHIR_CALL_USER_FUNC_ARRAY(_16, actionVar, source);
+	ZEPHIR_INIT_VAR(_14);
+	ZEPHIR_CALL_USER_FUNC_ARRAY(_14, actionVar, params);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

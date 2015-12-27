@@ -39,6 +39,7 @@ PHP_METHOD(Nc_Db_DbAbstract, aggregations);
 PHP_METHOD(Nc_Db_DbAbstract, groupAggregations);
 PHP_METHOD(Nc_Db_DbAbstract, parseWhere);
 PHP_METHOD(Nc_Db_DbAbstract, parseWhereMultipleIn);
+PHP_METHOD(Nc_Db_DbAbstract, pickWhereByKey);
 PHP_METHOD(Nc_Db_DbAbstract, parsePagination);
 PHP_METHOD(Nc_Db_DbAbstract, parseRandomOrder);
 PHP_METHOD(Nc_Db_DbAbstract, tryToBegin);
@@ -217,6 +218,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_dbabstract_parsewheremultiplein, 0, 0, 2)
 	ZEND_ARG_INFO(0, isNot)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_dbabstract_pickwherebykey, 0, 0, 2)
+	ZEND_ARG_ARRAY_INFO(0, data, 0)
+	ZEND_ARG_INFO(0, key)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_db_dbabstract_parsepagination, 0, 0, 3)
 	ZEND_ARG_INFO(0, query)
 	ZEND_ARG_INFO(0, limit)
@@ -264,6 +270,7 @@ ZEPHIR_INIT_FUNCS(nc_db_dbabstract_method_entry) {
 	PHP_ME(Nc_Db_DbAbstract, groupAggregations, arginfo_nc_db_dbabstract_groupaggregations, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_DbAbstract, parseWhere, arginfo_nc_db_dbabstract_parsewhere, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_DbAbstract, parseWhereMultipleIn, arginfo_nc_db_dbabstract_parsewheremultiplein, ZEND_ACC_PUBLIC)
+	PHP_ME(Nc_Db_DbAbstract, pickWhereByKey, arginfo_nc_db_dbabstract_pickwherebykey, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_DbAbstract, parsePagination, arginfo_nc_db_dbabstract_parsepagination, ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_DbAbstract, parseRandomOrder, NULL, ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Db_DbAbstract, tryToBegin, NULL, ZEND_ACC_ABSTRACT|ZEND_ACC_PROTECTED)

@@ -137,35 +137,35 @@ PHP_METHOD(Nc_NetUtils_SmtpMailer, __construct) {
 		port = zephir_get_intval(_19$$4);
 	}
 	ZEPHIR_INIT_VAR(socket);
-	object_init_ex(socket, nc_netutils_socketclient_ce);
+	object_init_ex(socket, nc_netutils_tcpsocketclient_ce);
 	ZEPHIR_INIT_NVAR(_2);
 	ZVAL_LONG(_2, port);
 	ZEPHIR_INIT_NVAR(_11);
 	ZVAL_LONG(_11, connectTimeout);
 	ZEPHIR_INIT_VAR(_22);
 	ZVAL_BOOL(_22, 0);
-	ZEPHIR_CALL_METHOD(NULL, socket, "__construct", NULL, 84, host, _2, _11, _22);
+	ZEPHIR_CALL_METHOD(NULL, socket, "__construct", NULL, 87, host, _2, _11, _22);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(_2);
 	ZVAL_BOOL(_2, 1);
-	ZEPHIR_CALL_METHOD(NULL, socket, "settcpnodelay", NULL, 85, _2);
+	ZEPHIR_CALL_METHOD(NULL, socket, "settcpnodelay", NULL, 88, _2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(_2);
 	ZVAL_BOOL(_2, 1);
-	ZEPHIR_CALL_METHOD(NULL, socket, "setblocking", NULL, 86, _2);
+	ZEPHIR_CALL_METHOD(NULL, socket, "setblocking", NULL, 89, _2);
 	zephir_check_call_status();
 	if (timeout > 0) {
 		ZEPHIR_INIT_VAR(_23$$5);
 		ZVAL_DOUBLE(_23$$5, timeout);
-		ZEPHIR_CALL_METHOD(NULL, socket, "settimeout", NULL, 87, _23$$5);
+		ZEPHIR_CALL_METHOD(NULL, socket, "settimeout", NULL, 90, _23$$5);
 		zephir_check_call_status();
 	}
 	if (secure) {
 		ZEPHIR_SINIT_VAR(_24$$6);
 		ZVAL_STRING(&_24$$6, "STREAM_CRYPTO_METHOD_SSLv23_CLIENT", 0);
-		ZEPHIR_CALL_FUNCTION(&_25$$6, "constant", NULL, 88, &_24$$6);
+		ZEPHIR_CALL_FUNCTION(&_25$$6, "constant", NULL, 91, &_24$$6);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, socket, "enablecrypto", NULL, 89, _25$$6);
+		ZEPHIR_CALL_METHOD(NULL, socket, "enablecrypto", NULL, 92, _25$$6);
 		zephir_check_call_status();
 	}
 	zephir_update_property_this(this_ptr, SL("socket"), socket TSRMLS_CC);
@@ -202,7 +202,7 @@ PHP_METHOD(Nc_NetUtils_SmtpMailer, __construct) {
 	zephir_check_temp_parameter(_2);
 	zephir_check_temp_parameter(_11);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_27, "base64_encode", &_28, 90, user);
+	ZEPHIR_CALL_FUNCTION(&_27, "base64_encode", &_28, 93, user);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(_2);
 	ZVAL_STRING(_2, "AUTH USER", ZEPHIR_TEMP_PARAM_COPY);
@@ -211,7 +211,7 @@ PHP_METHOD(Nc_NetUtils_SmtpMailer, __construct) {
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "cmd", &_26, 0, _2, _27, _11);
 	zephir_check_temp_parameter(_2);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_29, "base64_encode", &_28, 90, passwd);
+	ZEPHIR_CALL_FUNCTION(&_29, "base64_encode", &_28, 93, passwd);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(_2);
 	ZVAL_STRING(_2, "AUTH PASSWD", ZEPHIR_TEMP_PARAM_COPY);
@@ -394,7 +394,7 @@ PHP_METHOD(Nc_NetUtils_SmtpMailer, sendMessageTo) {
 	zephir_array_append(&data, _3, PH_SEPARATE, "nc/netutils/smtpmailer.zep", 109);
 	ZEPHIR_SINIT_VAR(_40);
 	ZVAL_STRING(&_40, "r", 0);
-	ZEPHIR_CALL_FUNCTION(&_41, "gmdate", NULL, 91, &_40);
+	ZEPHIR_CALL_FUNCTION(&_41, "gmdate", NULL, 94, &_40);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(_42);
 	ZEPHIR_CONCAT_SV(_42, "Date: ", _41);
@@ -440,9 +440,9 @@ PHP_METHOD(Nc_NetUtils_SmtpMailer, sendMessageTo) {
 		ZEPHIR_INIT_NVAR(body);
 		ZVAL_STRING(body, " ", 1);
 	}
-	ZEPHIR_CALL_FUNCTION(&_48, "base64_encode", &_49, 90, body);
+	ZEPHIR_CALL_FUNCTION(&_48, "base64_encode", &_49, 93, body);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_50, "chunk_split", &_51, 92, _48);
+	ZEPHIR_CALL_FUNCTION(&_50, "chunk_split", &_51, 95, _48);
 	zephir_check_call_status();
 	zephir_array_append(&data, _50, PH_SEPARATE, "nc/netutils/smtpmailer.zep", 130);
 	ZEPHIR_INIT_NVAR(_3);
@@ -494,9 +494,9 @@ PHP_METHOD(Nc_NetUtils_SmtpMailer, sendMessageTo) {
 			zephir_array_append(&data, _63$$15, PH_SEPARATE, "nc/netutils/smtpmailer.zep", 142);
 			ZEPHIR_INIT_NVAR(_63$$15);
 			zephir_file_get_contents(_63$$15, path TSRMLS_CC);
-			ZEPHIR_CALL_FUNCTION(&_64$$15, "base64_encode", &_49, 90, _63$$15);
+			ZEPHIR_CALL_FUNCTION(&_64$$15, "base64_encode", &_49, 93, _63$$15);
 			zephir_check_call_status();
-			ZEPHIR_CALL_FUNCTION(&_65$$15, "chunk_split", &_51, 92, _64$$15);
+			ZEPHIR_CALL_FUNCTION(&_65$$15, "chunk_split", &_51, 95, _64$$15);
 			zephir_check_call_status();
 			zephir_array_append(&data, _65$$15, PH_SEPARATE, "nc/netutils/smtpmailer.zep", 143);
 			ZEPHIR_INIT_NVAR(_66$$15);
@@ -564,10 +564,10 @@ PHP_METHOD(Nc_NetUtils_SmtpMailer, __destruct) {
 
 PHP_METHOD(Nc_NetUtils_SmtpMailer, cmd) {
 
-	zend_bool _7;
+	zend_bool _9;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *step_param = NULL, *cmd_param = NULL, *expected_param = NULL, *_2, *_3, *_4 = NULL, *_5 = NULL, *_0$$3, *_8$$4;
-	zval *step = NULL, *cmd = NULL, *expected = NULL, *output = NULL, *_6 = NULL, *_1$$3, *_9$$4;
+	zval *step_param = NULL, *cmd_param = NULL, *expected_param = NULL, *_0 = NULL, *_3, *_4, *_5 = NULL, *_6 = NULL, *_8 = NULL, *_1$$3, *_10$$4;
+	zval *step = NULL, *cmd = NULL, *expected = NULL, *output = NULL, *_7 = NULL, *_2$$3, *_11$$4;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &step_param, &cmd_param, &expected_param);
@@ -577,36 +577,36 @@ PHP_METHOD(Nc_NetUtils_SmtpMailer, cmd) {
 	zephir_get_strval(expected, expected_param);
 
 
-	if (!(!cmd) && Z_STRLEN_P(cmd)) {
-		_0$$3 = zephir_fetch_nproperty_this(this_ptr, SL("socket"), PH_NOISY_CC);
-		ZEPHIR_INIT_VAR(_1$$3);
-		ZEPHIR_CONCAT_VS(_1$$3, cmd, "\r\n");
-		ZEPHIR_CALL_METHOD(NULL, _0$$3, "write", NULL, 0, _1$$3);
+	if (zephir_fast_strlen_ev(cmd) > 0) {
+		_1$$3 = zephir_fetch_nproperty_this(this_ptr, SL("socket"), PH_NOISY_CC);
+		ZEPHIR_INIT_VAR(_2$$3);
+		ZEPHIR_CONCAT_VS(_2$$3, cmd, "\r\n");
+		ZEPHIR_CALL_METHOD(NULL, _1$$3, "write", NULL, 0, _2$$3);
 		zephir_check_call_status();
 	}
-	ZEPHIR_INIT_VAR(_2);
-	_3 = zephir_fetch_nproperty_this(this_ptr, SL("socket"), PH_NOISY_CC);
-	ZEPHIR_INIT_VAR(_5);
-	ZVAL_LONG(_5, 1024);
-	ZEPHIR_CALL_METHOD(&_4, _3, "readmaxlength", NULL, 0, _5);
+	ZEPHIR_INIT_VAR(_3);
+	_4 = zephir_fetch_nproperty_this(this_ptr, SL("socket"), PH_NOISY_CC);
+	ZEPHIR_INIT_VAR(_6);
+	ZVAL_LONG(_6, 1024);
+	ZEPHIR_CALL_METHOD(&_5, _4, "readmaxlength", NULL, 0, _6);
 	zephir_check_call_status();
-	zephir_fast_trim(_2, _4, NULL , ZEPHIR_TRIM_RIGHT TSRMLS_CC);
-	zephir_get_strval(_6, _2);
-	ZEPHIR_CPY_WRT(output, _6);
-	_7 = zephir_is_true(expected);
-	if (_7) {
-		ZEPHIR_INIT_NVAR(_5);
-		zephir_fast_strpos(_5, output, expected, 0 );
-		_7 = !ZEPHIR_IS_LONG_IDENTICAL(_5, 0);
+	zephir_fast_trim(_3, _5, NULL , ZEPHIR_TRIM_RIGHT TSRMLS_CC);
+	zephir_get_strval(_7, _3);
+	ZEPHIR_CPY_WRT(output, _7);
+	_9 = zephir_fast_strlen_ev(expected) > 0;
+	if (_9) {
+		ZEPHIR_INIT_NVAR(_6);
+		zephir_fast_strpos(_6, output, expected, 0 );
+		_9 = !ZEPHIR_IS_LONG_IDENTICAL(_6, 0);
 	}
-	if (_7) {
-		ZEPHIR_INIT_VAR(_8$$4);
-		object_init_ex(_8$$4, nc_netutils_exception_ce);
-		ZEPHIR_INIT_VAR(_9$$4);
-		ZEPHIR_CONCAT_SVSV(_9$$4, "Unexpected response on step: ", step, ", with output: ", output);
-		ZEPHIR_CALL_METHOD(NULL, _8$$4, "__construct", NULL, 2, _9$$4);
+	if (_9) {
+		ZEPHIR_INIT_VAR(_10$$4);
+		object_init_ex(_10$$4, nc_netutils_exception_ce);
+		ZEPHIR_INIT_VAR(_11$$4);
+		ZEPHIR_CONCAT_SVSV(_11$$4, "Unexpected response on step: ", step, ", with output: ", output);
+		ZEPHIR_CALL_METHOD(NULL, _10$$4, "__construct", NULL, 2, _11$$4);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_8$$4, "nc/netutils/smtpmailer.zep", 175 TSRMLS_CC);
+		zephir_throw_exception_debug(_10$$4, "nc/netutils/smtpmailer.zep", 175 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -617,8 +617,8 @@ PHP_METHOD(Nc_NetUtils_SmtpMailer, cmd) {
 PHP_METHOD(Nc_NetUtils_SmtpMailer, pack) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *name_param = NULL, *addr_param = NULL, *_0$$3 = NULL, *_1$$3;
-	zval *name = NULL, *addr = NULL, *s, *_2$$4;
+	zval *name_param = NULL, *addr_param = NULL, *_0 = NULL, *_3 = NULL, *_1$$3 = NULL, *_2$$3;
+	zval *name = NULL, *addr = NULL, *s, *_4$$4;
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &name_param, &addr_param);
@@ -639,17 +639,17 @@ PHP_METHOD(Nc_NetUtils_SmtpMailer, pack) {
 
 	ZEPHIR_INIT_VAR(s);
 	ZVAL_EMPTY_STRING(s);
-	if (!(!name) && Z_STRLEN_P(name)) {
-		ZEPHIR_CALL_FUNCTION(&_0$$3, "base64_encode", NULL, 90, name);
+	if (zephir_fast_strlen_ev(name) > 0) {
+		ZEPHIR_CALL_FUNCTION(&_1$$3, "base64_encode", NULL, 93, name);
 		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(_1$$3);
-		ZEPHIR_CONCAT_SVS(_1$$3, "=?UTF-8?B?", _0$$3, "?=");
-		zephir_concat_self(&s, _1$$3 TSRMLS_CC);
+		ZEPHIR_INIT_VAR(_2$$3);
+		ZEPHIR_CONCAT_SVS(_2$$3, "=?UTF-8?B?", _1$$3, "?=");
+		zephir_concat_self(&s, _2$$3 TSRMLS_CC);
 	}
-	if (!(!addr) && Z_STRLEN_P(addr)) {
-		ZEPHIR_INIT_VAR(_2$$4);
-		ZEPHIR_CONCAT_SVS(_2$$4, "<", addr, ">");
-		zephir_concat_self(&s, _2$$4 TSRMLS_CC);
+	if (zephir_fast_strlen_ev(addr) > 0) {
+		ZEPHIR_INIT_VAR(_4$$4);
+		ZEPHIR_CONCAT_SVS(_4$$4, "<", addr, ">");
+		zephir_concat_self(&s, _4$$4 TSRMLS_CC);
 	}
 	RETURN_CTOR(s);
 

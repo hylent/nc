@@ -81,7 +81,7 @@ PHP_METHOD(Nc_Std_CacheFileSystem, setCache) {
 	zephir_check_call_status();
 	ZEPHIR_SINIT_VAR(_4);
 	ZVAL_LONG(&_4, 2);
-	ZEPHIR_CALL_FUNCTION(&_5, "file_put_contents", NULL, 82, path, _3, &_4);
+	ZEPHIR_CALL_FUNCTION(&_5, "file_put_contents", NULL, 85, path, _3, &_4);
 	zephir_check_call_status();
 	if (unlikely(!zephir_is_true(_5))) {
 		ZEPHIR_INIT_VAR(_6$$3);
@@ -144,7 +144,7 @@ PHP_METHOD(Nc_Std_CacheFileSystem, deleteCache) {
 	ZEPHIR_CPY_WRT(path, _1);
 	_2 = (zephir_file_exists(path TSRMLS_CC) == SUCCESS);
 	if (_2) {
-		ZEPHIR_CALL_FUNCTION(&_3, "unlink", NULL, 119, path);
+		ZEPHIR_CALL_FUNCTION(&_3, "unlink", NULL, 115, path);
 		zephir_check_call_status();
 		_2 = !zephir_is_true(_3);
 	}
@@ -182,7 +182,7 @@ PHP_METHOD(Nc_Std_CacheFileSystem, path) {
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "sha1", NULL, 113, identifier);
+	ZEPHIR_CALL_FUNCTION(&_0, "sha1", NULL, 108, identifier);
 	zephir_check_call_status();
 	zephir_get_strval(_1, _0);
 	ZEPHIR_CPY_WRT(hash, _1);
@@ -199,7 +199,7 @@ PHP_METHOD(Nc_Std_CacheFileSystem, path) {
 	zephir_concat_self(&path, hash TSRMLS_CC);
 	zephir_concat_self_str(&path, ".php", sizeof(".php")-1 TSRMLS_CC);
 	if (mkdirIfNeeded) {
-		ZEPHIR_CALL_FUNCTION(&_6$$3, "dirname", NULL, 120, path);
+		ZEPHIR_CALL_FUNCTION(&_6$$3, "dirname", NULL, 116, path);
 		zephir_check_call_status();
 		zephir_get_strval(_7$$3, _6$$3);
 		ZEPHIR_CPY_WRT(dirname, _7$$3);
@@ -207,7 +207,7 @@ PHP_METHOD(Nc_Std_CacheFileSystem, path) {
 		if (_8$$3) {
 			ZEPHIR_SINIT_VAR(_9$$3);
 			ZVAL_LONG(&_9$$3, 0755);
-			ZEPHIR_CALL_FUNCTION(&_10$$3, "mkdir", NULL, 121, dirname, &_9$$3, ZEPHIR_GLOBAL(global_true));
+			ZEPHIR_CALL_FUNCTION(&_10$$3, "mkdir", NULL, 117, dirname, &_9$$3, ZEPHIR_GLOBAL(global_true));
 			zephir_check_call_status();
 			_8$$3 = !zephir_is_true(_10$$3);
 		}

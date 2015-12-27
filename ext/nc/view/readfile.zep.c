@@ -32,10 +32,10 @@ ZEPHIR_INIT_CLASS(Nc_View_ReadFile) {
 
 PHP_METHOD(Nc_View_ReadFile, run) {
 
-	zval *readFile = NULL, *readFileContentType = NULL, *_4 = NULL, *_9 = NULL, *_7$$4, *_11$$5, *_17$$7;
+	zval *readFile = NULL, *readFileContentType = NULL, *_4 = NULL, *_9 = NULL, *_7$$4, *_11$$5, *_16$$7;
 	int ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_1 = NULL, *_12 = NULL;
-	zval *data_param = NULL, *options_param = NULL, *_0 = NULL, *_2 = NULL, *_3 = NULL, *_5 = NULL, *_8 = NULL, *_10 = NULL, _14 = zval_used_for_init, *_15 = NULL, *_6$$4, _13$$6 = zval_used_for_init, *_16$$7;
+	zval *data_param = NULL, *options_param = NULL, *_0 = NULL, *_2 = NULL, *_3 = NULL, *_5 = NULL, *_8 = NULL, *_10 = NULL, *_14 = NULL, *_6$$4, _13$$6 = zval_used_for_init, *_15$$7;
 	zval *data = NULL, *options = NULL;
 
 	ZEPHIR_MM_GROW();
@@ -83,44 +83,32 @@ PHP_METHOD(Nc_View_ReadFile, run) {
 	if (zephir_fast_strlen_ev(readFileContentType) > 0) {
 		ZEPHIR_INIT_VAR(_11$$5);
 		ZEPHIR_CONCAT_SV(_11$$5, "Content-Type: ", readFileContentType);
-		ZEPHIR_CALL_FUNCTION(NULL, "header", &_12, 150, _11$$5);
+		ZEPHIR_CALL_FUNCTION(NULL, "header", &_12, 143, _11$$5);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_SINIT_VAR(_13$$6);
 		ZVAL_STRING(&_13$$6, "Content-Description: File Transfer", 0);
-		ZEPHIR_CALL_FUNCTION(NULL, "header", &_12, 150, &_13$$6);
+		ZEPHIR_CALL_FUNCTION(NULL, "header", &_12, 143, &_13$$6);
 		zephir_check_call_status();
 		ZEPHIR_SINIT_NVAR(_13$$6);
 		ZVAL_STRING(&_13$$6, "Content-Type: application/octet-stream", 0);
-		ZEPHIR_CALL_FUNCTION(NULL, "header", &_12, 150, &_13$$6);
+		ZEPHIR_CALL_FUNCTION(NULL, "header", &_12, 143, &_13$$6);
 		zephir_check_call_status();
 		ZEPHIR_SINIT_NVAR(_13$$6);
 		ZVAL_STRING(&_13$$6, "Content-Transfer-Encoding: binary", 0);
-		ZEPHIR_CALL_FUNCTION(NULL, "header", &_12, 150, &_13$$6);
+		ZEPHIR_CALL_FUNCTION(NULL, "header", &_12, 143, &_13$$6);
 		zephir_check_call_status();
 	}
-	ZEPHIR_SINIT_VAR(_14);
-	ZVAL_STRING(&_14, "Expires: 0", 0);
-	ZEPHIR_CALL_FUNCTION(NULL, "header", &_12, 150, &_14);
+	ZEPHIR_CALL_FUNCTION(&_14, "readfile", NULL, 147, readFile);
 	zephir_check_call_status();
-	ZEPHIR_SINIT_NVAR(_14);
-	ZVAL_STRING(&_14, "Cache-Control: must-revalidate", 0);
-	ZEPHIR_CALL_FUNCTION(NULL, "header", &_12, 150, &_14);
-	zephir_check_call_status();
-	ZEPHIR_SINIT_NVAR(_14);
-	ZVAL_STRING(&_14, "Pragma: public", 0);
-	ZEPHIR_CALL_FUNCTION(NULL, "header", &_12, 150, &_14);
-	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_15, "readfile", NULL, 154, readFile);
-	zephir_check_call_status();
-	if (unlikely(ZEPHIR_IS_FALSE_IDENTICAL(_15))) {
+	if (unlikely(ZEPHIR_IS_FALSE_IDENTICAL(_14))) {
+		ZEPHIR_INIT_VAR(_15$$7);
+		object_init_ex(_15$$7, nc_view_exception_ce);
 		ZEPHIR_INIT_VAR(_16$$7);
-		object_init_ex(_16$$7, nc_view_exception_ce);
-		ZEPHIR_INIT_VAR(_17$$7);
-		ZEPHIR_CONCAT_SV(_17$$7, "Cannot read file: ", readFile);
-		ZEPHIR_CALL_METHOD(NULL, _16$$7, "__construct", NULL, 2, _17$$7);
+		ZEPHIR_CONCAT_SV(_16$$7, "Cannot read file: ", readFile);
+		ZEPHIR_CALL_METHOD(NULL, _15$$7, "__construct", NULL, 2, _16$$7);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(_16$$7, "nc/view/readfile.zep", 34 TSRMLS_CC);
+		zephir_throw_exception_debug(_15$$7, "nc/view/readfile.zep", 30 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

@@ -52,7 +52,7 @@ PHP_METHOD(Nc_View_HttpResponse, run) {
 	httpResponseCode = zephir_get_intval(_0);
 	ZEPHIR_SINIT_VAR(_4);
 	ZVAL_LONG(&_4, httpResponseCode);
-	ZEPHIR_CALL_FUNCTION(NULL, "http_response_code", NULL, 153, &_4);
+	ZEPHIR_CALL_FUNCTION(NULL, "http_response_code", NULL, 146, &_4);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(_2);
 	ZVAL_STRING(_2, "httpResponseContent", ZEPHIR_TEMP_PARAM_COPY);

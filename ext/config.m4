@@ -10,35 +10,39 @@ if test "$PHP_NC" = "yes"; then
 
 	AC_DEFINE(HAVE_NC, 1, [Whether you have Nc])
 	nc_sources="nc.c kernel/main.c kernel/memory.c kernel/exception.c kernel/hash.c kernel/debug.c kernel/backtrace.c kernel/object.c kernel/array.c kernel/extended/array.c kernel/string.c kernel/fcall.c kernel/extended/fcall.c kernel/require.c kernel/file.c kernel/operators.c kernel/math.c kernel/concat.c kernel/variables.c kernel/filter.c kernel/iterator.c kernel/time.c kernel/exit.c nc/exception.zep.c
-	nc/router/sourceinterface.zep.c
-	nc/view/viewinterface.zep.c
 	nc/factory/factoryinterface.zep.c
+	nc/view/viewinterface.zep.c
 	nc/db/dbinterface.zep.c
+	nc/factory/factoryabstract.zep.c
 	nc/logger/loggerinterface.zep.c
 	nc/db/dbabstract.zep.c
-	nc/factory/factoryabstract.zep.c
 	nc/logger/loggerabstract.zep.c
 	nc/std/groupedinterface.zep.c
 	nc/std/sequenceinterface.zep.c
 	nc/db/exception.zep.c
 	nc/factory/classnameabstract.zep.c
 	nc/image/imageabstract.zep.c
-	nc/upload/storageabstract.zep.c
+	nc/storage/storageabstract.zep.c
+	nc/application/controllerabstract.zep.c
+	nc/application/exception.zep.c
 	nc/db/pdoabstract.zep.c
 	nc/image/imagebackendabstract.zep.c
 	nc/loader/loaderabstract.zep.c
 	nc/router/routerabstract.zep.c
-	nc/router/sourceuri.zep.c
 	nc/std/cacheinterface.zep.c
 	nc/task/taskmanagerabstract.zep.c
-	nc/di.zep.c
 	nc/factory/prefixed.zep.c
 	nc/image/image.zep.c
 	nc/router/exception.zep.c
 	nc/std/groupedredishash.zep.c
 	nc/std/queueinterface.zep.c
 	nc/std/ratelimiterinterface.zep.c
-	nc/application.zep.c
+	nc/application/controllerabstractcli.zep.c
+	nc/application/controllerabstracthttp.zep.c
+	nc/application/notfoundexception.zep.c
+	nc/application/uploadedfile.zep.c
+	nc/application/uploader.zep.c
+	nc/application/uploaderexception.zep.c
 	nc/db/collection.zep.c
 	nc/db/entity.zep.c
 	nc/db/model.zep.c
@@ -49,6 +53,7 @@ if test "$PHP_NC" = "yes"; then
 	nc/db/queryexception.zep.c
 	nc/db/transactionexception.zep.c
 	nc/factory/classnameclosure.zep.c
+	nc/factory/di.zep.c
 	nc/factory/exception.zep.c
 	nc/factory/factories.zep.c
 	nc/factory/namespaced.zep.c
@@ -67,14 +72,10 @@ if test "$PHP_NC" = "yes"; then
 	nc/logger/nil.zep.c
 	nc/netutils/exception.zep.c
 	nc/netutils/smtpmailer.zep.c
-	nc/netutils/socketclient.zep.c
+	nc/netutils/tcpsocketclient.zep.c
 	nc/router/action.zep.c
 	nc/router/controlleraction.zep.c
 	nc/router/notfoundexception.zep.c
-	nc/router/sourceargv.zep.c
-	nc/router/sourcerequesturi.zep.c
-	nc/router/sourcesapistrategy.zep.c
-	nc/router/sourceuripatterns.zep.c
 	nc/std.zep.c
 	nc/std/cacheapc.zep.c
 	nc/std/cachefilesystem.zep.c
@@ -88,16 +89,14 @@ if test "$PHP_NC" = "yes"; then
 	nc/std/sequencemysql.zep.c
 	nc/std/sequenceredis.zep.c
 	nc/std/sequenceredishash.zep.c
+	nc/storage/exception.zep.c
+	nc/storage/fastdfs.zep.c
+	nc/storage/filesystem.zep.c
+	nc/storage/ftp.zep.c
 	nc/task/exception.zep.c
 	nc/task/queueredis.zep.c
 	nc/task/rundirectly.zep.c
 	nc/task/taskexecutorinterface.zep.c
-	nc/upload/exception.zep.c
-	nc/upload/fastdfs.zep.c
-	nc/upload/filesystem.zep.c
-	nc/upload/ftp.zep.c
-	nc/upload/uploadedfile.zep.c
-	nc/upload/uploader.zep.c
 	nc/view/content.zep.c
 	nc/view/exception.zep.c
 	nc/view/facade.zep.c

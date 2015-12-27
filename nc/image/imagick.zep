@@ -354,7 +354,7 @@ class Imagick extends ImageBackendAbstract
 
     public function save(<Image> im, string destPath) -> void
     {
-        if destPath {
+        if destPath->length() > 0 {
             im->handler->writeImage(destPath);
         } else {
             echo im->handler->getImageBlob();

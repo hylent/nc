@@ -11,17 +11,18 @@ if (PHP_NC != "no") {
     AC_DEFINE("ZEPHIR_USE_PHP_JSON", 1, "Whether PHP json extension is present at compile time");
   }
   
-  ADD_SOURCES(configure_module_dirname + "/nc", "exception.zep.c di.zep.c application.zep.c std.zep.c", "nc");
-	ADD_SOURCES(configure_module_dirname + "/nc/router", "sourceinterface.zep.c routerabstract.zep.c sourceuri.zep.c exception.zep.c action.zep.c controlleraction.zep.c notfoundexception.zep.c sourceargv.zep.c sourcerequesturi.zep.c sourcesapistrategy.zep.c sourceuripatterns.zep.c", "nc");
+  ADD_SOURCES(configure_module_dirname + "/nc", "exception.zep.c std.zep.c", "nc");
+	ADD_SOURCES(configure_module_dirname + "/nc/factory", "factoryinterface.zep.c factoryabstract.zep.c classnameabstract.zep.c prefixed.zep.c classnameclosure.zep.c di.zep.c exception.zep.c factories.zep.c namespaced.zep.c", "nc");
 	ADD_SOURCES(configure_module_dirname + "/nc/view", "viewinterface.zep.c content.zep.c exception.zep.c facade.zep.c httpresponse.zep.c json.zep.c nil.zep.c readfile.zep.c redirect.zep.c tpl.zep.c", "nc");
-	ADD_SOURCES(configure_module_dirname + "/nc/factory", "factoryinterface.zep.c factoryabstract.zep.c classnameabstract.zep.c prefixed.zep.c classnameclosure.zep.c exception.zep.c factories.zep.c namespaced.zep.c", "nc");
 	ADD_SOURCES(configure_module_dirname + "/nc/db", "dbinterface.zep.c dbabstract.zep.c exception.zep.c pdoabstract.zep.c collection.zep.c entity.zep.c model.zep.c modelexception.zep.c oci8.zep.c pdomysql.zep.c pdopgsql.zep.c queryexception.zep.c transactionexception.zep.c", "nc");
 	ADD_SOURCES(configure_module_dirname + "/nc/logger", "loggerinterface.zep.c loggerabstract.zep.c exception.zep.c file.zep.c loggerclosure.zep.c loggers.zep.c nil.zep.c", "nc");
 	ADD_SOURCES(configure_module_dirname + "/nc/std", "groupedinterface.zep.c sequenceinterface.zep.c cacheinterface.zep.c groupedredishash.zep.c queueinterface.zep.c ratelimiterinterface.zep.c cacheapc.zep.c cachefilesystem.zep.c exception.zep.c groupedmongocollections.zep.c groupedproxy.zep.c groupedredishashserialized.zep.c queueredis.zep.c ratelimiterredis.zep.c sequencemongocollection.zep.c sequencemysql.zep.c sequenceredis.zep.c sequenceredishash.zep.c", "nc");
 	ADD_SOURCES(configure_module_dirname + "/nc/image", "imageabstract.zep.c imagebackendabstract.zep.c image.zep.c captcha.zep.c exception.zep.c gd.zep.c imagick.zep.c text.zep.c", "nc");
-	ADD_SOURCES(configure_module_dirname + "/nc/upload", "storageabstract.zep.c exception.zep.c fastdfs.zep.c filesystem.zep.c ftp.zep.c uploadedfile.zep.c uploader.zep.c", "nc");
+	ADD_SOURCES(configure_module_dirname + "/nc/storage", "storageabstract.zep.c exception.zep.c fastdfs.zep.c filesystem.zep.c ftp.zep.c", "nc");
+	ADD_SOURCES(configure_module_dirname + "/nc/application", "controllerabstract.zep.c exception.zep.c controllerabstractcli.zep.c controllerabstracthttp.zep.c notfoundexception.zep.c uploadedfile.zep.c uploader.zep.c uploaderexception.zep.c", "nc");
 	ADD_SOURCES(configure_module_dirname + "/nc/loader", "loaderabstract.zep.c exception.zep.c namepath.zep.c namespacedirectory.zep.c", "nc");
+	ADD_SOURCES(configure_module_dirname + "/nc/router", "routerabstract.zep.c exception.zep.c action.zep.c controlleraction.zep.c notfoundexception.zep.c", "nc");
 	ADD_SOURCES(configure_module_dirname + "/nc/task", "taskmanagerabstract.zep.c exception.zep.c queueredis.zep.c rundirectly.zep.c taskexecutorinterface.zep.c", "nc");
-	ADD_SOURCES(configure_module_dirname + "/nc/netutils", "exception.zep.c smtpmailer.zep.c socketclient.zep.c", "nc");
+	ADD_SOURCES(configure_module_dirname + "/nc/netutils", "exception.zep.c smtpmailer.zep.c tcpsocketclient.zep.c", "nc");
   ADD_FLAG("CFLAGS_NC", "/D ZEPHIR_RELEASE");
 }

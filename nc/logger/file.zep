@@ -34,7 +34,7 @@ class File extends LoggerAbstract
 
     public function flush() -> void
     {
-        if ! this->logs {
+        if count(this->logs) < 1 {
             return;
         }
 
