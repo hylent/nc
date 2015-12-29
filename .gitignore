@@ -3,3 +3,4 @@
 build/*.dll
 config.local.php
 *.phar
+/ext/
