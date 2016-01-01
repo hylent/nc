@@ -1,7 +1,7 @@
-.temp
-.svn
-build/*.dll
+/.temp
+/.svn
+/build/*.dll
 config.local.php
 *.phar
-/ext/
-/compile*
+/ext
+/compile*.log

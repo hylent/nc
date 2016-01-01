@@ -1,8 +1,32 @@
 namespace Nc\Application;
 
-abstract class ControllerAbstractHttp extends ControllerAbstract
+class RequestHttp extends RequestAbstract
 {
-    protected function getRequest(string name, var defaultValue = null)
+    public function getParams() -> array
+    {
+        string uri;
+        var pos;
+
+        let uri = (string) this->getServer("REQUEST_URI", "/");
+        let pos = strpos(uri, "?");
+        if pos !== false {
+            let uri = (string) substr(uri, 0, pos);
+        }
+
+        return preg_split("#/+#", uri, 0, PREG_SPLIT_NO_EMPTY);
+    }
+
+    public function getMethod() -> string
+    {
+        return (string) this->getServer("REQUEST_METHOD", "UNKNOWN");
+    }
+
+    public function getIp(string index = "REMOTE_ADDR") -> string
+    {
+        return (string) this->getServer(index, "0.0.0.0");
+    }
+
+    public function getRequest(string name, var defaultValue = null)
     {
         var value;
 
@@ -13,7 +37,7 @@ abstract class ControllerAbstractHttp extends ControllerAbstract
         return defaultValue;
     }
 
-    protected function getQuery(string name, var defaultValue = null)
+    public function getQuery(string name, var defaultValue = null)
     {
         var value;
 
@@ -24,7 +48,7 @@ abstract class ControllerAbstractHttp extends ControllerAbstract
         return defaultValue;
     }
 
-    protected function getPost(string name, var defaultValue = null)
+    public function getPost(string name, var defaultValue = null)
     {
         var value;
 
@@ -35,7 +59,7 @@ abstract class ControllerAbstractHttp extends ControllerAbstract
         return defaultValue;
     }
 
-    protected function getCookie(string name, var defaultValue = null)
+    public function getCookie(string name, var defaultValue = null)
     {
         var value;
 
@@ -46,17 +70,12 @@ abstract class ControllerAbstractHttp extends ControllerAbstract
         return defaultValue;
     }
 
-    protected function newUploadedFile(var error, var size, var name, var tmpName) -> <UploadedFile>
-    {
-        return new UploadedFile(error, size, name, tmpName);
-    }
-
-    protected function hasUploadedFile(string index) -> bool
+    public function hasUploadedFile(string index) -> bool
     {
         return isset _FILES[index];
     }
 
-    protected function getUploadedFile(string index) -> <UploadedFile>
+    public function getUploadedFile(string index) -> <UploadedFile>
     {
         var a, error, size, name, tmpName;
 
@@ -84,7 +103,7 @@ abstract class ControllerAbstractHttp extends ControllerAbstract
         throw new Exception("Invalid uploaded file: " . index);
     }
 
-    protected function getUploadedFiles(string index) -> array
+    public function getUploadedFiles(string index) -> array
     {
         var files = [], a, errors, i, error, size, name, tmpName;
 
