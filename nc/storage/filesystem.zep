@@ -60,4 +60,9 @@ class FileSystem extends StorageAbstract
         return file_exists(this->baseDirectory . uri);
     }
 
+    public function getPath(string uri) -> string
+    {
+        return this->baseDirectory . uri;
+    }
+
 }
