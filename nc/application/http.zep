@@ -1,5 +1,7 @@
 namespace Nc\Application;
 
+use Nc\Renderer\RendererInterface;
+
 class Http extends ApplicationAbstract
 {
     protected redirect  = "";

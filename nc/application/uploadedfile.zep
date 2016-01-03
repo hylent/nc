@@ -42,4 +42,9 @@ class UploadedFile
         return this->extension;
     }
 
+    public function saveTo(<Uploader> uploader, string prefix = "", bool keep = false) -> string
+    {
+        return uploader->saveUploadedFile(this, prefix, keep);
+    }
+
 }

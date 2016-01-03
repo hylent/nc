@@ -18,12 +18,12 @@ class Cli extends ApplicationAbstract
                 let arg = substr(arg, 2);
                 let pos = strpos(arg, "=");
                 if pos === false {
-                    let this->parmas[arg] = "";
+                    let this->params[arg] = "";
                 } else {
-                    let this->parmas[substr(arg, 0, pos)] = substr(arg, pos + 1);
+                    let this->params[substr(arg, 0, pos)] = substr(arg, pos + 1);
                 }
             } else {
-                let this->routingParmas[] = arg;
+                let this->routingParams[] = arg;
             }
         }
     }
