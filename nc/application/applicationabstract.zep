@@ -48,9 +48,9 @@ abstract class ApplicationAbstract
         return (double) this->serverVar("REQUEST_TIME_FLOAT", 0.0);
     }
 
-    public function newUploadedFile(var error, var size, var name, var tmpName) -> <UploadedFile>
+    public function newUploadedFile(var error, var size, var name, var tmpName, var extension) -> <UploadedFile>
     {
-        return new UploadedFile(error, size, name, tmpName);
+        return new UploadedFile(error, size, name, tmpName, extension);
     }
 
     public function addResponse(string response) -> void

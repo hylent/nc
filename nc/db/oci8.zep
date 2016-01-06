@@ -91,7 +91,7 @@ class Oci8 extends DbAbstract
 
             case DbInterface::CELL:
                 let resultRow = oci_fetch_array(statement, OCI_RETURN_NULLS + OCI_RETURN_LOBS + OCI_NUM);
-                if resultRow && typeof resultRow == "array" && fetch resultCell, resultRow[0] {
+                if typeof resultRow == "array" && fetch resultCell, resultRow[0] {
                     return resultCell;
                 }
                 return "";
@@ -101,7 +101,7 @@ class Oci8 extends DbAbstract
                 let queryMode = OCI_RETURN_NULLS + OCI_RETURN_LOBS + OCI_NUM;
                 loop {
                     let resultRow = oci_fetch_array(statement, queryMode);
-                    if ! resultRow || typeof resultRow != "array" || ! fetch resultCell, resultRow[0] {
+                    if typeof resultRow != "array" || ! fetch resultCell, resultRow[0] {
                         break;
                     }
                     let result[] = resultCell;

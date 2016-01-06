@@ -64,7 +64,7 @@ class Imagick extends ImageBackendAbstract
         let im = this->newImage();
         let im->width = width;
         let im->height = height;
-        if extension {
+        if extension->length() > 0 {
             let im->extension = extension->lower();
         }
 
@@ -86,7 +86,7 @@ class Imagick extends ImageBackendAbstract
         let im->handler = imagick;
         let im->width = imagick->getImageWidth();
         let im->height = imagick->getImageHeight();
-        if extension {
+        if extension->length() > 0 {
             let im->extension = extension->lower();
         } else {
             let im->extension = (string) strtolower(pathinfo(path, PATHINFO_EXTENSION));
@@ -106,7 +106,7 @@ class Imagick extends ImageBackendAbstract
         let im->handler = imagick;
         let im->width = imagick->getImageWidth();
         let im->height = imagick->getImageHeight();
-        if extension {
+        if extension->length() > 0 {
             let im->extension = extension->lower();
         }
 

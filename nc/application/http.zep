@@ -78,9 +78,9 @@ class Http extends ApplicationAbstract
         return isset _FILES[index];
     }
 
-    public function uploadedFile(string index) -> <UploadedFile>
+    public function uploadedFile(string index, bool fixImageExtensions = false) -> <UploadedFile>
     {
-        var a, error, size, name, tmpName;
+        var a, error, size, name, tmpName, extension;
 
         loop {
             if unlikely ! fetch a, _FILES[index] || typeof a != "array" {
@@ -100,15 +100,16 @@ class Http extends ApplicationAbstract
                 break;
             }
 
-            return this->newUploadedFile(error, size, name, tmpName);
+            let extension = this->getExtension(name, tmpName, fixImageExtensions);
+            return this->newUploadedFile(error, size, name, tmpName, extension);
         }
 
         throw new Exception("Invalid uploaded file: " . index);
     }
 
-    public function uploadedFiles(string index) -> array
+    public function uploadedFiles(string index, bool fixImageExtensions = false) -> array
     {
-        var files = [], a, errors, i, error, size, name, tmpName;
+        var files = [], a, errors, i, error, size, name, tmpName, extension;
 
         if unlikely ! fetch a, _FILES[index] && typeof a != "array" {
             return files;
@@ -129,7 +130,8 @@ class Http extends ApplicationAbstract
                 continue;
             }
 
-            let files[i] = this->newUploadedFile(error, size, name, tmpName);
+            let extension = this->getExtension(name, tmpName, fixImageExtensions);
+            let files[i] = this->newUploadedFile(error, size, name, tmpName, extension);
         }
 
         return files;
@@ -220,6 +222,20 @@ class Http extends ApplicationAbstract
         }
 
         parent::__invoke();
+    }
+
+    protected function getExtension(string name, string tmpName, bool fixImageExtensions) -> string
+    {
+        var eit;
+
+        if fixImageExtensions {
+            let eit = exif_imagetype(tmpName);
+            if eit !== false {
+                return image_type_to_extension(eit, false);
+            }
+        }
+
+        return strtolower(pathinfo(name, PATHINFO_EXTENSION));
     }
 
 }

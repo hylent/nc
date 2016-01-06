@@ -8,13 +8,13 @@ class UploadedFile
     protected tmpName;
     protected extension;
 
-    public function __construct(long error, long size, string name, string tmpName) -> void
+    public function __construct(long error, long size, string name, string tmpName, string extension) -> void
     {
         let this->error = error;
         let this->size = size;
         let this->name = name;
         let this->tmpName = tmpName;
-        let this->extension = strtolower(pathinfo(name, PATHINFO_EXTENSION));
+        let this->extension = extension;
     }
 
     public function getError() -> long
@@ -40,11 +40,6 @@ class UploadedFile
     public function getExtension() -> string
     {
         return this->extension;
-    }
-
-    public function saveTo(<Uploader> uploader, string prefix = "", bool keep = false) -> string
-    {
-        return uploader->saveUploadedFile(this, prefix, keep);
     }
 
 }

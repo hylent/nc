@@ -18,7 +18,7 @@ class Captcha extends Image
 
         if fetch opt, mergedOptions["font"] {
             let s = (string) opt;
-            if s {
+            if s->length() > 0 {
                 let this->font = s;
             }
         }

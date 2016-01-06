@@ -52,7 +52,7 @@ class Gd extends ImageBackendAbstract
         let im->handler = gdIm->handler;
         let im->width = gdIm->width;
         let im->height = gdIm->height;
-        if extension {
+        if extension->length() > 0 {
             let im->extension = extension->lower();
         }
 
@@ -61,28 +61,26 @@ class Gd extends ImageBackendAbstract
 
     public function fromPath(string path, string extension = "") -> <Image>
     {
-        var im, handler;
-        string ext;
+        var eit, im, handler;
 
-        if extension {
-            let ext = extension->lower();
-        } else {
-            let ext = (string) strtolower(pathinfo(path, PATHINFO_EXTENSION));
+        let eit = exif_imagetype(path);
+        if unlikely eit === false {
+            throw new Exception("Not an image file: " . path);
         }
 
-        switch ext {
-            case "png":
-                let handler = imagecreatefrompng(path);
-                break;
-            case "gif":
+        switch eit {
+            case IMAGETYPE_GIF:
                 let handler = imagecreatefromgif(path);
                 break;
-            case "jpg":
-            case "jpeg":
+            case IMAGETYPE_JPEG:
                 let handler = imagecreatefromjpeg(path);
                 break;
+            case IMAGETYPE_PNG:
+                let handler = imagecreatefrompng(path);
+                break;
+
             default:
-                throw new Exception("Unsupported extension: " . ext);
+                throw new Exception("Unsupported image type: " . eit);
         }
 
         if unlikely ! handler {
@@ -97,7 +95,12 @@ class Gd extends ImageBackendAbstract
         let im->handler = handler;
         let im->width = imagesx(handler);
         let im->height = imagesy(handler);
-        let im->extension = ext;
+
+        if extension->length() > 0 {
+            let im->extension = extension->lower();
+        } else {
+            let im->extension = image_type_to_extension(eit, false);
+        }
 
         return im;
     }
@@ -119,7 +122,7 @@ class Gd extends ImageBackendAbstract
         let im->handler = handler;
         let im->width = imagesx(handler);
         let im->height = imagesy(handler);
-        if extension {
+        if extension->length() > 0 {
             let im->extension = extension->lower();
         }
 

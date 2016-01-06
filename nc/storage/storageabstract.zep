@@ -45,7 +45,7 @@ abstract class StorageAbstract
         let uri .= '/';
         let uri .= uuid;
 
-        if extension {
+        if extension->length() > 0 {
             let uri .= "." . extension;
         }
 
