@@ -2,13 +2,11 @@ namespace Nc\Image;
 
 class Gd extends ImageBackendAbstract
 {
-    public function __construct(array defaultOptions = []) -> void
+    public function __construct() -> void
     {
         if unlikely ! extension_loaded("gd") {
             throw new Exception("Missing extension: gd");
         }
-
-        parent::__construct(defaultOptions);
     }
 
     public function text(string text, array options = []) -> <Text>

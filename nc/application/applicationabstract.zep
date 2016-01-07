@@ -2,30 +2,16 @@ namespace Nc\Application;
 
 abstract class ApplicationAbstract
 {
-    protected params;
-    protected routingParams;
+    protected args;
     protected response;
 
-    public function param(string name, var defaultValue = null)
+    public function args() -> array
     {
-        var value;
-
-        if fetch value, this->params[name] {
-            return value;
-        }
-
-        return defaultValue;
+        return this->args;
     }
 
-    public function params() -> array
-    {
-        return this->params;
-    }
-
-    public function routingParams() -> array
-    {
-        return this->routingParams;
-    }
+    abstract public function params() -> array;
+    abstract public function get(string name, var defaultValue = null);
 
     public function serverVar(string name, var defaultValue = null)
     {
@@ -48,9 +34,9 @@ abstract class ApplicationAbstract
         return (double) this->serverVar("REQUEST_TIME_FLOAT", 0.0);
     }
 
-    public function newUploadedFile(var error, var size, var name, var tmpName, var extension) -> <UploadedFile>
+    public function newUploadedFile(var error, var size, var name, var tmpName) -> <UploadedFile>
     {
-        return new UploadedFile(error, size, name, tmpName, extension);
+        return new UploadedFile(error, size, name, tmpName);
     }
 
     public function addResponse(string response) -> void

@@ -3,33 +3,33 @@ namespace Nc\Renderer;
 class ReadFile extends RendererAbstract
 {
     protected path;
-    protected mineType;
-    protected fileSize;
 
-    public function __construct(string path, string mineType = "application/octet-stream") -> void
+    public function __construct(string path, string mimeType = "") -> void
     {
+        var finfoMimeType;
+
         if unlikely ! file_exists(path) {
             throw new Exception("Invalid path: " . path);
         }
 
         let this->path = path;
-        let this->mineType = mineType;
-        let this->fileSize = filesize(path);
+
+        if mimeType->length() < 1 {
+            let finfoMimeType = finfo_file(finfo_open(FILEINFO_MIME_TYPE), path);
+            if finfoMimeType === false {
+                let mimeType = "application/octet-stream";
+            } else {
+                let mimeType = (string) finfoMimeType;
+            }
+        }
+
+        let this->extraHeaders[] = "Content-Type: " . mimeType;
+        let this->extraHeaders[] = "Content-Length: " . filesize(path);
     }
 
     public function getPath() -> string
     {
         return this->path;
-    }
-
-    public function getExtraHeaders() -> array
-    {
-        var headers = [];
-
-        let headers[] = "Content-Type: " . this->mineType;
-        let headers[] = "Content-Length: " . this->fileSize;
-
-        return headers;
     }
 
     public function render() -> void

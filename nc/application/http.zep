@@ -4,6 +4,8 @@ use Nc\Renderer\RendererInterface;
 
 class Http extends ApplicationAbstract
 {
+    protected rawInput;
+
     protected redirect  = "";
     protected status    = 200;
     protected headers   = [];
@@ -14,33 +16,21 @@ class Http extends ApplicationAbstract
         string uri;
         var pos;
 
-        let this->params = _REQUEST;
-
         let uri = (string) this->serverVar("REQUEST_URI", "/");
         let pos = strpos(uri, "?");
         if pos !== false {
             let uri = (string) substr(uri, 0, pos);
         }
 
-        let this->routingParams = preg_split("#/+#", uri, null, PREG_SPLIT_NO_EMPTY);
+        let this->args = preg_split("#/+#", uri, null, PREG_SPLIT_NO_EMPTY);
     }
 
-    public function requestMethod() -> string
+    public function params() -> array
     {
-        return (string) this->serverVar("REQUEST_METHOD", "UNKNOWN");
+        return _GET;
     }
 
-    public function ip(string index = "REMOTE_ADDR") -> string
-    {
-        return (string) this->serverVar(index, "0.0.0.0");
-    }
-
-    public function isXhr() -> bool
-    {
-        return this->serverVar("HTTP_X_REQUESTED_WITH") === "XMLHttpRequest";
-    }
-
-    public function query(string name, var defaultValue = null)
+    public function get(string name, var defaultValue = null)
     {
         var value;
 
@@ -62,6 +52,17 @@ class Http extends ApplicationAbstract
         return defaultValue;
     }
 
+    public function request(string name, var defaultValue = null)
+    {
+        var value;
+
+        if fetch value, _REQUEST[name] {
+            return value;
+        }
+
+        return defaultValue;
+    }
+
     public function cookie(string name, var defaultValue = null)
     {
         var value;
@@ -73,14 +74,44 @@ class Http extends ApplicationAbstract
         return defaultValue;
     }
 
+    public function rawInput() -> string
+    {
+        var rawInput;
+
+        let rawInput = this->rawInput;
+        if rawInput !== null {
+            return rawInput;
+        }
+
+        let rawInput = (string) file_get_contents("php://input");
+        let this->rawInput = rawInput;
+
+        return rawInput;
+    }
+
+    public function requestMethod() -> string
+    {
+        return (string) this->serverVar("REQUEST_METHOD", "UNKNOWN");
+    }
+
+    public function isXhr() -> bool
+    {
+        return this->serverVar("HTTP_X_REQUESTED_WITH") === "XMLHttpRequest";
+    }
+
+    public function ip(string index = "REMOTE_ADDR") -> string
+    {
+        return (string) this->serverVar(index, "0.0.0.0");
+    }
+
     public function hasUploadedFile(string index) -> bool
     {
         return isset _FILES[index];
     }
 
-    public function uploadedFile(string index, bool fixImageExtensions = false) -> <UploadedFile>
+    public function uploadedFile(string index) -> <UploadedFile>
     {
-        var a, error, size, name, tmpName, extension;
+        var a, error, size, name, tmpName;
 
         loop {
             if unlikely ! fetch a, _FILES[index] || typeof a != "array" {
@@ -100,16 +131,15 @@ class Http extends ApplicationAbstract
                 break;
             }
 
-            let extension = this->getExtension(name, tmpName, fixImageExtensions);
-            return this->newUploadedFile(error, size, name, tmpName, extension);
+            return this->newUploadedFile(error, size, name, tmpName);
         }
 
         throw new Exception("Invalid uploaded file: " . index);
     }
 
-    public function uploadedFiles(string index, bool fixImageExtensions = false) -> array
+    public function uploadedFiles(string index) -> array
     {
-        var files = [], a, errors, i, error, size, name, tmpName, extension;
+        var files = [], a, errors, i, error, size, name, tmpName;
 
         if unlikely ! fetch a, _FILES[index] && typeof a != "array" {
             return files;
@@ -130,8 +160,7 @@ class Http extends ApplicationAbstract
                 continue;
             }
 
-            let extension = this->getExtension(name, tmpName, fixImageExtensions);
-            let files[i] = this->newUploadedFile(error, size, name, tmpName, extension);
+            let files[i] = this->newUploadedFile(error, size, name, tmpName);
         }
 
         return files;
@@ -222,20 +251,6 @@ class Http extends ApplicationAbstract
         }
 
         parent::__invoke();
-    }
-
-    protected function getExtension(string name, string tmpName, bool fixImageExtensions) -> string
-    {
-        var eit;
-
-        if fixImageExtensions {
-            let eit = exif_imagetype(tmpName);
-            if eit !== false {
-                return image_type_to_extension(eit, false);
-            }
-        }
-
-        return strtolower(pathinfo(name, PATHINFO_EXTENSION));
     }
 
 }

@@ -2,28 +2,15 @@ namespace Nc\Renderer;
 
 class Json extends RendererAbstract
 {
-    protected cors      = false;
-    protected callback  = "";
     protected flag      = 0;
+    protected callback  = "";
 
-    public function setCors(bool cors) -> void
+    public function __construct(bool cors = false) -> void
     {
-        let this->cors = cors;
-    }
-
-    public function getCors() -> bool
-    {
-        return this->cors;
-    }
-
-    public function setCallback(string callback) -> void
-    {
-        let this->callback = callback;
-    }
-
-    public function getCallback() -> string
-    {
-        return this->callback;
+        let this->extraHeaders[] = "Content-type: application/json; charset=UTF-8";
+        if cors {
+            let this->extraHeaders[] = "Access-Control-Allow-Origin: *";
+        }
     }
 
     public function setFlag(long flag) -> void
@@ -36,23 +23,21 @@ class Json extends RendererAbstract
         return this->flag;
     }
 
-    public function getExtraHeaders() -> array
+    public function setCallback(string callback) -> void
     {
-        var headers = [];
+        let this->callback = callback;
+    }
 
-        let headers[] = "Content-type: application/json; charset=UTF-8";
-        if this->cors {
-            let headers[] = "Access-Control-Allow-Origin: *";
-        }
-
-        return headers;
+    public function getCallback() -> string
+    {
+        return this->callback;
     }
 
     public function render() -> void
     {
         string callback;
 
-        let callback = this->callback;
+        let callback = (string) this->callback;
         if callback->length() > 0 {
             echo sprintf("%s(%s);", callback, json_encode(this->data, this->flag));
         } else {

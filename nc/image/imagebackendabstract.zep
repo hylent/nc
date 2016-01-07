@@ -22,11 +22,6 @@ abstract class ImageBackendAbstract
 
     protected defaultOptions;
 
-    public function __construct(array defaultOptions = []) -> void
-    {
-        let this->defaultOptions = defaultOptions;
-    }
-
     public function setDefaultOptions(array options) -> void
     {
         var k, v;
@@ -38,7 +33,22 @@ abstract class ImageBackendAbstract
 
     public function getDefaultOptions() -> array
     {
-        return this->defaultOptions;
+        return (array) this->defaultOptions;
+    }
+
+    public function newText() -> <Text>
+    {
+        return new Text(this);
+    }
+
+    public function newImage() -> <Image>
+    {
+        return new Image(this);
+    }
+
+    public function newCaptcha() -> <Captcha>
+    {
+        return new Captcha(this);
     }
 
     abstract public function text(string text, array options = []) -> <Text>;
@@ -56,20 +66,5 @@ abstract class ImageBackendAbstract
 
     abstract public function save(<Image> im, string destPath) -> void;
     abstract public function destroy(<ImageAbstract> im) -> void;
-
-    public function newText() -> <Text>
-    {
-        return new Text(this);
-    }
-
-    public function newImage() -> <Image>
-    {
-        return new Image(this);
-    }
-
-    public function newCaptcha() -> <Captcha>
-    {
-        return new Captcha(this);
-    }
 
 }

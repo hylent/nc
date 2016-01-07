@@ -2,13 +2,11 @@ namespace Nc\Image;
 
 class Imagick extends ImageBackendAbstract
 {
-    public function __construct(array defaultOptions = []) -> void
+    public function __construct() -> void
     {
         if unlikely ! extension_loaded("imagick") {
             throw new Exception("Missing extension: imagick");
         }
-
-        parent::__construct(defaultOptions);
     }
 
     public function text(string text, array options = []) -> <Text>
@@ -80,12 +78,15 @@ class Imagick extends ImageBackendAbstract
         var im, imagick;
 
         let imagick = new \Imagick();
-        imagick->readImage(realpath(path));
+        if unlikely ! imagick->readImage(realpath(path)) {
+            throw new Exception("Cannot read image: " . path);
+        }
 
         let im = this->newImage();
         let im->handler = imagick;
         let im->width = imagick->getImageWidth();
         let im->height = imagick->getImageHeight();
+
         if extension->length() > 0 {
             let im->extension = extension->lower();
         } else {
@@ -100,12 +101,15 @@ class Imagick extends ImageBackendAbstract
         var im, imagick;
 
         let imagick = new \Imagick();
-        imagick->readImageBlob(data);
+        if unlikely ! imagick->readImageBlob(data) {
+            throw new Exception("Cannot read image blob");
+        }
 
         let im = this->newImage();
         let im->handler = imagick;
         let im->width = imagick->getImageWidth();
         let im->height = imagick->getImageHeight();
+
         if extension->length() > 0 {
             let im->extension = extension->lower();
         }

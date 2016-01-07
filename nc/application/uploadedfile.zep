@@ -8,13 +8,21 @@ class UploadedFile
     protected tmpName;
     protected extension;
 
-    public function __construct(long error, long size, string name, string tmpName, string extension) -> void
+    public function __construct(long error, long size, string name, string tmpName) -> void
     {
+        var eit;
+
         let this->error = error;
         let this->size = size;
         let this->name = name;
         let this->tmpName = tmpName;
-        let this->extension = extension;
+
+        let eit = exif_imagetype(this->tmpName);
+        if eit === false {
+            let this->extension = strtolower(pathinfo(this->name, PATHINFO_EXTENSION));
+        } else {
+            let this->extension = image_type_to_extension(eit, false);
+        }
     }
 
     public function getError() -> long

@@ -2,11 +2,12 @@ namespace Nc\Renderer;
 
 abstract class RendererAbstract implements RendererInterface, \ArrayAccess
 {
-    protected data = [];
+    protected extraHeaders;
+    protected data;
 
     public function getExtraHeaders() -> array
     {
-        return [];
+        return (array) this->extraHeaders;
     }
 
     public function setData(array data) -> void
@@ -20,7 +21,7 @@ abstract class RendererAbstract implements RendererInterface, \ArrayAccess
 
     public function getData() -> array
     {
-        return this->data;
+        return (array) this->data;
     }
 
     public function offsetSet(string key, var value) -> void

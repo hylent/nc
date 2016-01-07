@@ -54,9 +54,9 @@
     },
     "namespace": "nc",
     "name": "Nc Framework",
-    "description": "A PHP framework for web development",
+    "description": "Framework for web development",
     "author": "Hylent",
-    "version": "1.0.160101",
+    "version": "1.0.160108",
     "verbose": false,
     "requires": {
         "extensions": []

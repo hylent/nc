@@ -31,14 +31,13 @@ class Uploader
         return this->storage;
     }
 
-    public function saveUploadedFile(<UploadedFile> uploadedFile, string prefix = "", bool keep = false) -> string
+    public function save(<UploadedFile> uploadedFile, string prefix = "", bool keep = false) -> string
     {
-        var error, size, name, tmpName, extension;
+        var error, size, tmpName, extension;
         long flag;
 
         let error = uploadedFile->getError();
         let size = uploadedFile->getSize();
-        let name = uploadedFile->getName();
         let tmpName = uploadedFile->getTmpName();
         let extension = uploadedFile->getExtension();
 
