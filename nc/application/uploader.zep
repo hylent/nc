@@ -9,13 +9,18 @@ class Uploader
     const INVALID_SIZE      = -2;
 
     protected validExtensions;
+    protected validImageExtensions;
     protected maxSize;
     protected storage;
 
-    public function __construct(string validExtensions, string maxSize = "2M") -> void
+    public function __construct(string validExtensions, string validImageExtensions, string maxSize = "2M") -> void
     {
         let this->validExtensions = array_flip(
             preg_split("#[,/\\s\\|\\.]+#", validExtensions->lower(), -1, PREG_SPLIT_NO_EMPTY)
+        );
+
+        let this->validImageExtensions = array_flip(
+            preg_split("#[,/\\s\\|\\.]+#", validImageExtensions->lower(), -1, PREG_SPLIT_NO_EMPTY)
         );
 
         let this->maxSize = Std::sizeToBytes(maxSize);
@@ -33,19 +38,26 @@ class Uploader
 
     public function save(<UploadedFile> uploadedFile, string prefix = "", bool keep = false) -> string
     {
-        var error, size, tmpName, extension;
+        var error, size, tmpName, imageType, extension;
+        bool invalidExtension;
         long flag;
 
         let error = uploadedFile->getError();
         let size = uploadedFile->getSize();
         let tmpName = uploadedFile->getTmpName();
+        let imageType = uploadedFile->getImageType();
         let extension = uploadedFile->getExtension();
 
         if unlikely error !== 0 {
             throw new UploaderException("Invalid uploaded file with error: " . error, error);
         }
 
-        if unlikely ! isset this->validExtensions[extension] {
+        if imageType > 0 {
+            let invalidExtension = ! isset this->validImageExtensions[extension];
+        } else {
+            let invalidExtension = ! isset this->validExtensions[extension];
+        }
+        if unlikely invalidExtension {
             throw new UploaderException("Invalid uploaded file extension: " . extension, self::INVALID_EXTENSION);
         }
 

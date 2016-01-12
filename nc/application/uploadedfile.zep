@@ -6,22 +6,31 @@ class UploadedFile
     protected size;
     protected name;
     protected tmpName;
-    protected extension;
+
+    protected imageType = 0;
+    protected extension = "";
 
     public function __construct(long error, long size, string name, string tmpName) -> void
     {
-        var eit;
+        var imageType;
 
         let this->error = error;
         let this->size = size;
         let this->name = name;
         let this->tmpName = tmpName;
 
-        let eit = exif_imagetype(this->tmpName);
-        if eit === false {
-            let this->extension = strtolower(pathinfo(this->name, PATHINFO_EXTENSION));
-        } else {
-            let this->extension = image_type_to_extension(eit, false);
+        if error == UPLOAD_ERR_OK {
+            let imageType = exif_imagetype(tmpName);
+            if imageType === false {
+                let this->extension = strtolower(pathinfo(name, PATHINFO_EXTENSION));
+            } else {
+                let this->imageType = imageType;
+                if imageType == IMAGETYPE_JPEG {
+                    let this->extension = "jpg";
+                } else {
+                    let this->extension = image_type_to_extension(imageType, false);
+                }
+            }
         }
     }
 
@@ -43,6 +52,11 @@ class UploadedFile
     public function getTmpName() -> string
     {
         return this->tmpName;
+    }
+
+    public function getImageType() -> long
+    {
+        return this->imageType;
     }
 
     public function getExtension() -> string
