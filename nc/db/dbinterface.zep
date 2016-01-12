@@ -26,6 +26,7 @@ interface DbInterface
     public function savepoint(string savepoint) -> void;
     public function releaseSavepoint(string savepoint) -> void;
     public function rollbackToSavepoint(string savepoint) -> void;
+    public function atomic(var delegate);
 
     public function delete(string table, array where = []) -> void;
     public function insert(string table, array data, string returningId = "");

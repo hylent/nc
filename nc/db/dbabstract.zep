@@ -150,6 +150,40 @@ abstract class DbAbstract implements DbInterface
         }
     }
 
+    public function atomic(var delegate)
+    {
+        bool inTransaction;
+        string savepoint;
+        var re, ex;
+
+        let inTransaction = (bool) this->inTransaction;
+        if inTransaction {
+            let savepoint = (string) this->nextFlag("upsert");
+            this->savepoint(savepoint);
+        } else {
+            this->begin();
+        }
+
+        try {
+            let re = call_user_func(delegate, this);
+        } catch \Exception, ex {
+            if inTransaction {
+                this->rollbackToSavepoint(savepoint);
+            } else {
+                this->rollback();
+            }
+            throw ex;
+        }
+
+        if inTransaction {
+            this->releaseSavepoint(savepoint);
+        } else {
+            this->commit();
+        }
+
+        return re;
+    }
+
     public function delete(string table, array where = []) -> void
     {
         string s, w;
@@ -204,45 +238,6 @@ abstract class DbAbstract implements DbInterface
         }
 
         this->query(s, data);
-    }
-
-    public function upsert(string table, array data, var primaryKey = "id") -> void
-    {
-        var where;
-        bool inTransaction;
-        string savepoint;
-        var ex;
-
-        let where = this->pickWhereByKey(data, primaryKey);
-        if unlikely count(where) < 1 {
-            throw new Exception("Cannot upsert with empty where");
-        }
-
-        let inTransaction = (bool) this->inTransaction;
-        if inTransaction {
-            let savepoint = (string) this->nextFlag("upsert");
-            this->savepoint(savepoint);
-        } else {
-            this->begin();
-        }
-
-        try {
-            this->delete(table, where);
-            this->insert(table, data);
-        } catch \Exception, ex {
-            if inTransaction {
-                this->rollbackToSavepoint(savepoint);
-            } else {
-                this->rollback();
-            }
-            throw ex;
-        }
-
-        if inTransaction {
-            this->releaseSavepoint(savepoint);
-        } else {
-            this->commit();
-        }
     }
 
     public function parseSelect(string table, array options) -> string
