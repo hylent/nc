@@ -12,13 +12,16 @@ abstract class ImageBackendAbstract
     const BOTTOM        = 2;
     const RIGHT_BOTTOM  = 3;
 
-    const DEFAULT_FONT      = "simhei.ttf";
-    const DEFAULT_FONTSIZE  = 24;
-    const DEFAULT_COLOR     = "#000000";
-    const DEFAULT_OPACITY   = 0.5;
-    const DEFAULT_PADDING   = 5;
-    const DEFAULT_R_PADDING = 0.2;
-    const DEFAULT_R_OVERLAP = 0.2;
+    const DEFAULT_FONT  = "DroidSansFallback.ttf";
+
+    const DEFAULT_TEXT_FONT_SIZE    = 24;
+    const DEFAULT_TEXT_COLOR        = "#000000";
+    const DEFAULT_TEXT_SHADOW       = "";
+    const DEFAULT_TEXT_OPACITY      = 0.5;
+    const DEFAULT_TEXT_PADDING      = 5;
+
+    const DEFAULT_CAPTCHA_PADDING_RATIO   = 0.2;
+    const DEFAULT_CAPTCHA_OVERLAP_RATIO   = 0.2;
 
     protected defaultOptions;
 

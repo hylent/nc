@@ -13,6 +13,14 @@ return [
         'passwd' => 'nc',
     ],
 
+    'pgsql' => [
+        'host' => '127.0.0.1',
+        'port' => 5432,
+        'dbname' => 'nc',
+        'user' => 'nc',
+        'passwd' => 'nc',
+    ],
+
     'mongodb' => [
         'host' => '127.0.0.1',
         'port' => 27017,

@@ -2,11 +2,11 @@ namespace Nc\Image;
 
 class Captcha extends Image
 {
-    public text     = "";
+    public text;
 
-    public font     = ImageBackendAbstract::DEFAULT_FONT;
-    public rPadding = ImageBackendAbstract::DEFAULT_R_PADDING;
-    public rOverlap = ImageBackendAbstract::DEFAULT_R_OVERLAP;
+    public font         = ImageBackendAbstract::DEFAULT_FONT;
+    public paddingRatio = ImageBackendAbstract::DEFAULT_CAPTCHA_PADDING_RATIO;
+    public overlapRatio = ImageBackendAbstract::DEFAULT_CAPTCHA_OVERLAP_RATIO;
 
     public function setOptions(array options) -> void
     {
@@ -23,17 +23,17 @@ class Captcha extends Image
             }
         }
 
-        if fetch opt, mergedOptions["rPadding"] {
+        if fetch opt, mergedOptions["captchaPaddingRatio"] {
             let d = (double) opt;
             if d > 0 && d < 1 {
-                let this->rPadding = d;
+                let this->paddingRatio = d;
             }
         }
 
-        if fetch opt, mergedOptions["rOverlap"] {
+        if fetch opt, mergedOptions["captchaOverlapRatio"] {
             let d = (double) opt;
             if d > 0 && d < 1 {
-                let this->rOverlap = d;
+                let this->overlapRatio = d;
             }
         }
     }

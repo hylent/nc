@@ -3,7 +3,7 @@ namespace Nc\Image;
 class Image extends ImageAbstract
 {
     public handler;
-    public extension = "png";
+    public extension = "jpg";
 
     public function largest(long width, long height) -> <Image>
     {
@@ -30,7 +30,7 @@ class Image extends ImageAbstract
         return this->backend->draw(this, srcItem, x, y);
     }
 
-    public function drawTo(<ImageAbstract> srcItem, long position) -> <Image>
+    public function drawAt(<ImageAbstract> srcItem, long position) -> <Image>
     {
         long x, y, w, h, srcW, srcH;
 

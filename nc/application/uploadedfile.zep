@@ -7,8 +7,8 @@ class UploadedFile
     protected name;
     protected tmpName;
 
-    protected imageType = 0;
     protected extension = "";
+    protected imageType = 0;
 
     public function __construct(long error, long size, string name, string tmpName) -> void
     {
@@ -24,12 +24,12 @@ class UploadedFile
             if imageType === false {
                 let this->extension = strtolower(pathinfo(name, PATHINFO_EXTENSION));
             } else {
-                let this->imageType = imageType;
                 if imageType == IMAGETYPE_JPEG {
                     let this->extension = "jpg";
                 } else {
                     let this->extension = image_type_to_extension(imageType, false);
                 }
+                let this->imageType = imageType;
             }
         }
     }
@@ -54,14 +54,19 @@ class UploadedFile
         return this->tmpName;
     }
 
+    public function getExtension() -> string
+    {
+        return this->extension;
+    }
+
     public function getImageType() -> long
     {
         return this->imageType;
     }
 
-    public function getExtension() -> string
+    public function isImage() -> bool
     {
-        return this->extension;
+        return this->imageType > 0;
     }
 
 }

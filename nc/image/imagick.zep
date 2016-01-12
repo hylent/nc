@@ -89,8 +89,6 @@ class Imagick extends ImageBackendAbstract
 
         if extension->length() > 0 {
             let im->extension = extension->lower();
-        } else {
-            let im->extension = (string) strtolower(pathinfo(path, PATHINFO_EXTENSION));
         }
 
         return im;
@@ -120,7 +118,7 @@ class Imagick extends ImageBackendAbstract
     public function captcha(string text, long width, long height, array options = []) -> <Captcha>
     {
         var im, imagick, imagickDraw, shadow;
-        double rPadding, rOverlap;
+        double paddingRatio, overlapRatio;
         string font, ch;
         long textLen, fontSize, padding, r, g, b, dr, dg, db, i, j, x, y, x2, y2, angle;
 
@@ -143,16 +141,16 @@ class Imagick extends ImageBackendAbstract
 
         // options
         let font = (string) im->font;
-        let rPadding = (double) im->rPadding;
-        let rOverlap = (double) im->rOverlap;
+        let paddingRatio = (double) im->paddingRatio;
+        let overlapRatio = (double) im->overlapRatio;
 
         // sizes
         let textLen = (long) mb_strlen(text, "utf-8");
-        let fontSize = (long) (1.0 * width / (rPadding * 2 + textLen));
+        let fontSize = (long) (1.0 * width / (paddingRatio * 2 + textLen));
         if fontSize > height {
             let fontSize = height;
         }
-        let padding = (long) (fontSize * rPadding);
+        let padding = (long) (fontSize * paddingRatio);
 
         let imagickDraw = new \ImagickDraw();
 
@@ -184,7 +182,7 @@ class Imagick extends ImageBackendAbstract
         let x = padding;
         let i = 0;
         while i < textLen {
-            let x2 = width - padding * 2 - ((1.0 - rOverlap) * (textLen - i) + rOverlap) * fontSize;
+            let x2 = width - padding * 2 - ((1.0 - overlapRatio) * (textLen - i) + overlapRatio) * fontSize;
             if x2 > x {
                 let x = mt_rand(x, x2);
             }
@@ -198,7 +196,7 @@ class Imagick extends ImageBackendAbstract
             imagick->annotateImage(imagickDraw, x + 1, y + 1, angle, ch);
             imagickDraw->setFillColor(new \ImagickPixel("rgb(".r.",".g.",".b.")"));
             imagick->annotateImage(imagickDraw, x, y, angle, ch);
-            let x = x + (1.0 - rOverlap) * fontSize;
+            let x = x + (1.0 - overlapRatio) * fontSize;
             let i++;
         }
         imagickDraw->clear();
@@ -332,28 +330,25 @@ class Imagick extends ImageBackendAbstract
 
     public function draw(<Image> destIm, <ImageAbstract> srcIm, long x, long y) -> <Image>
     {
-        var resultIm, imagickDraw;
+        var resultIm;
 
         let resultIm = this->fromImage(destIm);
 
-        if srcIm instanceof Image {
-            resultIm->handler->compositeImage(srcIm->{"handler"}, \Imagick::COMPOSITE_OVER, x, y);
-            return resultIm;
+        loop {
+            if srcIm instanceof Image {
+                resultIm->handler->compositeImage(srcIm->{"handler"}, \Imagick::COMPOSITE_OVER, x, y);
+                break;
+            }
+
+            if srcIm instanceof Text {
+                this->drawText(resultIm, srcIm, x, y);
+                break;
+            }
+
+            throw new Exception("Invalid item type: " . get_class(srcIm));
         }
 
-        if srcIm instanceof Text {
-            let imagickDraw = new \ImagickDraw();
-            imagickDraw->setFont(srcIm->{"font"});
-            imagickDraw->setFontSize(srcIm->{"fontSize"});
-            imagickDraw->setFillColor(srcIm->{"color"});
-            imagickDraw->setFillOpacity(srcIm->{"opacity"});
-            let x += srcIm->{"padding"};
-            let y += srcIm->height - srcIm->{"padding"};
-            resultIm->handler->annotateImage(imagickDraw, x, y, 0, srcIm->{"text"});
-            return resultIm;
-        }
-
-        throw new Exception("Invalid item type: " . get_class(srcIm));
+        return resultIm;
     }
 
     public function save(<Image> im, string destPath) -> void
@@ -371,4 +366,33 @@ class Imagick extends ImageBackendAbstract
             im->{"handler"}->clear();
         }
     }
+
+    protected function drawText(<Image> resultIm, <Text> srcIm, long x, long y) -> void
+    {
+        var imagickDraw, handler;
+        long padding;
+        string text, shadow;
+
+        let padding = (long) srcIm->padding;
+        let x += padding;
+        let y += srcIm->height - padding;
+
+        let imagickDraw = new \ImagickDraw();
+        imagickDraw->setFont(srcIm->font);
+        imagickDraw->setFontSize(srcIm->fontSize);
+        imagickDraw->setFillOpacity(srcIm->opacity);
+
+        let handler = resultIm->handler;
+        let text = (string) srcIm->text;
+
+        let shadow = (string) srcIm->shadow;
+        if shadow->length() > 0 {
+            imagickDraw->setFillColor(shadow);
+            handler->annotateImage(imagickDraw, x + 1, y + 1, 0, text);
+        }
+
+        imagickDraw->setFillColor(srcIm->color);
+        handler->annotateImage(imagickDraw, x, y, 0, text);
+    }
+
 }

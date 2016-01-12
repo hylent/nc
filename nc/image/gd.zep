@@ -96,8 +96,6 @@ class Gd extends ImageBackendAbstract
 
         if extension->length() > 0 {
             let im->extension = extension->lower();
-        } else {
-            let im->extension = image_type_to_extension(eit, false);
         }
 
         return im;
@@ -130,7 +128,7 @@ class Gd extends ImageBackendAbstract
     public function captcha(string text, long width, long height, array options = []) -> <Captcha>
     {
         var im, gdIm, handler, color, shadow;
-        double rPadding, rOverlap;
+        double paddingRatio, overlapRatio;
         string font, ch;
         long textLen, fontSize, padding, r, g, b, dr, dg, db, i, j, x, y, x2, y2, angle;
 
@@ -145,16 +143,16 @@ class Gd extends ImageBackendAbstract
 
         // options
         let font = (string) im->font;
-        let rPadding = (double) im->rPadding;
-        let rOverlap = (double) im->rOverlap;
+        let paddingRatio = (double) im->paddingRatio;
+        let overlapRatio = (double) im->overlapRatio;
 
         // sizes
         let textLen = (long) mb_strlen(text, "utf-8");
-        let fontSize = (long) (1.0 * width / (rPadding * 2 + textLen));
+        let fontSize = (long) (1.0 * width / (paddingRatio * 2 + textLen));
         if fontSize > height {
             let fontSize = height;
         }
-        let padding = (long) (fontSize * rPadding);
+        let padding = (long) (fontSize * paddingRatio);
 
         // handler
         let handler = im->handler;
@@ -181,7 +179,7 @@ class Gd extends ImageBackendAbstract
         let x = padding;
         let i = 0;
         while i < textLen {
-            let x2 = width - padding * 2 - ((1.0 - rOverlap) * (textLen - i) + rOverlap) * fontSize;
+            let x2 = width - padding * 2 - ((1.0 - overlapRatio) * (textLen - i) + overlapRatio) * fontSize;
             if x2 > x {
                 let x = mt_rand(x, x2);
             }
@@ -191,7 +189,7 @@ class Gd extends ImageBackendAbstract
             let color = imagecolorallocate(handler, mt_rand(0, 255), mt_rand(0, 255), mt_rand(0, 255));
             imagettftext(handler, fontSize, angle, x + 1, y + 1, shadow, font, ch);
             imagettftext(handler, fontSize, angle, x, y, color, font, ch);
-            let x = x + (1.0 - rOverlap) * fontSize;
+            let x = x + (1.0 - overlapRatio) * fontSize;
             let i++;
         }
 
@@ -352,7 +350,7 @@ class Gd extends ImageBackendAbstract
 
         let resultIm = this->fromImage(destIm);
 
-        do {
+        loop {
             if srcIm instanceof Image {
                 this->copy(resultIm, srcIm, x, y);
                 break;
@@ -364,7 +362,7 @@ class Gd extends ImageBackendAbstract
             }
 
             throw new Exception("Invalid item type: " . get_class(srcIm));
-        } while false;
+        }
 
         return resultIm;
     }
@@ -440,10 +438,10 @@ class Gd extends ImageBackendAbstract
 
     protected function drawText(<Image> dest, <Text> src, long x, long y) -> void
     {
-        var handler, color, m = null;
+        var handler, color, shadow, m = null;
         long alpha, r = 0, g = 0, b = 0;
 
-        if preg_match("/^#([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/", src->color, m) {
+        if preg_match("/^#([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/", (string) src->color, m) {
             let r = (long) hexdec(m[1]);
             let g = (long) hexdec(m[2]);
             let b = (long) hexdec(m[3]);
@@ -456,6 +454,19 @@ class Gd extends ImageBackendAbstract
         let alpha = (long) ((1.0 - src->opacity) * 127.0);
 
         let color = imagecolorallocatealpha(handler, r, g, b, alpha);
+
+        let m = null;
+        if preg_match("/^#([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/", (string) src->shadow, m) {
+            let r = (long) hexdec(m[1]);
+            let g = (long) hexdec(m[2]);
+            let b = (long) hexdec(m[3]);
+
+            let shadow = imagecolorallocatealpha(handler, r, g, b, alpha);
+
+            if unlikely ! imagettftext(handler, src->fontSize, 0, x + 1, y + 1, shadow, src->font, src->text) {
+                throw new Exception("imagettftext");
+            }
+        }
 
         if unlikely ! imagettftext(handler, src->fontSize, 0, x, y, color, src->font, src->text) {
             throw new Exception("imagettftext");
