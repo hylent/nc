@@ -38,21 +38,20 @@ class Uploader
 
     public function save(<UploadedFile> uploadedFile, string prefix = "", bool keep = false) -> string
     {
-        var error, size, tmpName, imageType, extension;
+        var error, size, tmpName, extension;
         bool invalidExtension;
         long flag;
 
         let error = uploadedFile->getError();
         let size = uploadedFile->getSize();
         let tmpName = uploadedFile->getTmpName();
-        let imageType = uploadedFile->getImageType();
         let extension = uploadedFile->getExtension();
 
         if unlikely error !== 0 {
             throw new UploaderException("Invalid uploaded file with error: " . error, error);
         }
 
-        if imageType > 0 {
+        if uploadedFile->isImage() {
             let invalidExtension = ! isset this->validImageExtensions[extension];
         } else {
             let invalidExtension = ! isset this->validExtensions[extension];
