@@ -167,7 +167,11 @@ class Model
         ]);
 
         let numRows = (long) array_shift(nd);
-        let data = (array) array_shift(nd);
+        let data = array_shift(nd);
+
+        if unlikely typeof data != "array" {
+            throw new ModelException("Invalid result returned");
+        }
 
         if numRows < 1 || count(data) < 1 {
             let numRows = 0;
@@ -391,15 +395,20 @@ class Model
 
     public function packPrimaryKeyValue(var id) -> array
     {
-        if typeof id != "array" {
-            let id = [id];
+        var idValue;
+
+        if typeof id == "array" {
+            let idValue = id;
+        } else {
+            let idValue = [];
+            let idValue[] = (string) id;
         }
 
-        if unlikely count(this->primaryKey) != count(id) {
+        if unlikely count(this->primaryKey) != count(idValue) {
             throw new ModelException("Invalid id to pack");
         }
 
-        return array_combine(this->primaryKey, id);
+        return array_combine(this->primaryKey, idValue);
     }
 
 }

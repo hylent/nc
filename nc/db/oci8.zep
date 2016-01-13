@@ -114,37 +114,28 @@ class Oci8 extends DbAbstract
 
     public function upsert(string table, array data, var primaryKey = "id") -> void
     {
-        var where, k, v, dual, cond, kk, vv, kv;
+        var pks, k, kk = [], vv = [], dual = [], cond = [], updates = [];
         string s;
 
-        let where = this->pickWhereByKey(data, primaryKey);
-        if unlikely count(where) < 1 {
-            throw new Exception("Cannot upsert with empty where");
-        }
-
-        let dual = [];
-        let cond = [];
-        let kk = [];
-        let vv = [];
-        let kv = [];
-
-        for k, v in where {
-            let dual[] = sprintf("'%s' %s", v, k);
-            let cond[] = sprintf("a.%s = b.%s", k, k);
-        }
+        let pks = this->checkUpsertKeys(data, primaryKey);
 
         for k, _ in data {
             let kk[] = k;
             let vv[] = ":" . k;
-            if ! isset where[k] {
-                let kv[] = k . " = :" . k;
+            if isset pks[k] {
+                let dual[] = sprintf(":%s %s", k, k);
+                let cond[] = sprintf("a.%s = b.%s", k, k);
+            } else {
+                let updates[] = k . " = :" . k;
             }
         }
 
         let s = "MERGE INTO " . table . " a";
         let s .= " USING (SELECT " . implode(", ", dual) . " FROM dual WHERE rownum < 2) b";
         let s .= " ON (" . implode(" AND ", cond) . ")";
-        let s .= " WHEN MATCHED THEN UPDATE SET " . implode(", ", kv);
+        if count(updates) > 0 {
+            let s .= " WHEN MATCHED THEN UPDATE SET " . implode(", ", updates);
+        }
         let s .= " WHEN NOT MATCHED THEN INSERT (" . implode(", ", kk) . ") VALUES (" . implode(", ", vv) . ")";
 
         this->query(s, data);

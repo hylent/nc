@@ -4,29 +4,33 @@ use Nc\Renderer\RendererInterface;
 
 class Response
 {
-    protected defaultCookieOptions  = [
-        "expire"    : 0,
-        "path"      : "/",
-        "domain"    : "",
-        "secure"    : false,
-        "httpOnly"  : false
-    ];
+    protected defaultCookieOptions;
 
     protected redirect  = "";
     protected status    = 200;
-    protected cookies   = [];
+    protected cookies;
     protected renderer  = null;
-    protected headers   = [];
+    protected headers;
     protected content   = "";
 
     public function setDefaultCookieOptions(array defaultCookieOptions) -> void
     {
-        let this->defaultCookieOptions = array_merge(this->defaultCookieOptions, defaultCookieOptions);
+        let this->defaultCookieOptions = array_merge(this->getDefaultCookieOptions(), defaultCookieOptions);
     }
 
     public function getDefaultCookieOptions() -> array
     {
-        return this->defaultCookieOptions;
+        if count(this->defaultCookieOptions) > 0 {
+            return this->defaultCookieOptions;
+        }
+
+        return [
+            "expire"    : 0,
+            "path"      : "/",
+            "domain"    : "",
+            "secure"    : false,
+            "httpOnly"  : false
+        ];
     }
 
     public function redirect(string redirect) -> void
@@ -68,12 +72,16 @@ class Response
 
     public function getCookies() -> array
     {
-        return this->cookies;
+        if count(this->cookies) > 0 {
+            return this->cookies;
+        }
+
+        return [];
     }
 
     public function clearCookies() -> void
     {
-        let this->cookies = [];
+        let this->cookies = null;
     }
 
     public function renderer(<RendererInterface> renderer = null) -> void
@@ -97,17 +105,25 @@ class Response
 
     public function addHeaders(array headers) -> void
     {
-        let this->headers = array_merge(this->headers, headers);
+        if count(this->headers) > 0 {
+            let this->headers = array_merge(this->headers, headers);
+        } else {
+            let this->headers = headers;
+        }
     }
 
     public function getHeaders() -> array
     {
-        return this->headers;
+        if count(this->headers) > 0 {
+            return this->headers;
+        }
+
+        return [];
     }
 
     public function clearHeaders() -> void
     {
-        let this->headers = [];
+        let this->headers = null;
     }
 
     public function content(string content) -> void
@@ -129,7 +145,7 @@ class Response
     {
         string redirect;
         long status;
-        var cookie, renderer, headers, header;
+        var cookie, renderer, header;
 
         let redirect = (string) this->redirect;
         if redirect->length() > 0 {
@@ -142,7 +158,7 @@ class Response
             http_response_code(status);
         }
 
-        for cookie in this->cookies {
+        for cookie in this->getCookies() {
             let cookie = array_merge(this->defaultCookieOptions, cookie);
             setcookie(
                 cookie["name"],
@@ -157,15 +173,14 @@ class Response
 
         let renderer = this->renderer;
         if typeof renderer == "object" && (renderer instanceof RendererInterface) {
-            let headers = array_merge(this->headers, renderer->getExtraHeaders());
-            for header in headers {
+            for header in array_merge(this->getHeaders(), renderer->getHeaders()) {
                 header(header);
             }
             renderer->render();
             return;
         }
 
-        for header in this->headers {
+        for header in this->getHeaders() {
             header(header);
         }
 

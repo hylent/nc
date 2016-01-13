@@ -2,24 +2,13 @@ namespace Nc\Http;
 
 class Request
 {
-    protected vars;
+    protected input;
 
     public function server(string name, var defaultValue = null)
     {
         var value;
 
         if fetch value, _SERVER[name] {
-            return value;
-        }
-
-        return defaultValue;
-    }
-
-    public function requestVar(string name, var defaultValue = null)
-    {
-        var value;
-
-        if fetch value, _REQUEST[name] {
             return value;
         }
 
@@ -61,16 +50,11 @@ class Request
 
     public function input() -> string
     {
-        var input;
-
-        if fetch input, this->vars["input"] {
-            return input;
+        if this->input === null {
+            let this->input = (string) file_get_contents("php://input");
         }
 
-        let input = (string) file_get_contents("php://input");
-        let this->vars["input"] = input;
-
-        return input;
+        return this->input;
     }
 
     public function time() -> long
@@ -86,6 +70,16 @@ class Request
     public function method() -> string
     {
         return (string) this->server("REQUEST_METHOD", "UNKNOWN");
+    }
+
+    public function isGet() -> bool
+    {
+        return this->server("REQUEST_METHOD") === "GET";
+    }
+
+    public function isPost() -> bool
+    {
+        return this->server("REQUEST_METHOD") === "POST";
     }
 
     public function isXhr() -> bool

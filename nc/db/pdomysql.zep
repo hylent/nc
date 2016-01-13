@@ -36,24 +36,7 @@ class PdoMysql extends PdoAbstract
 
     public function upsert(string table, array data, var primaryKey = "id") -> void
     {
-        var k;
-
-        if typeof primaryKey == "array" {
-            if unlikely ! primaryKey {
-                throw new Exception("Cannot upsert with empty where");
-            }
-            for k in primaryKey {
-                if unlikely ! isset data[k] {
-                    throw new Exception("Cannot find primary key value in data: " . k);
-                }
-            }
-        } else {
-            let k = (string) primaryKey;
-            if unlikely ! isset data[k] {
-                throw new Exception("Cannot find primary key value in data: " . k);
-            }
-        }
-
+        this->checkUpsertKeys(data, primaryKey);
         this->insert(table, data, "", true);
     }
 

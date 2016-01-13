@@ -7,9 +7,9 @@ class Json extends RendererAbstract
 
     public function __construct(bool cors = false) -> void
     {
-        let this->extraHeaders["content-type"] = "Content-Type: application/json; charset=UTF-8";
+        let this->headers["content-type"] = "Content-Type: application/json; charset=UTF-8";
         if cors {
-            let this->extraHeaders["access-control-allow-origin"] = "Access-Control-Allow-Origin: *";
+            let this->headers["access-control-allow-origin"] = "Access-Control-Allow-Origin: *";
         }
     }
 

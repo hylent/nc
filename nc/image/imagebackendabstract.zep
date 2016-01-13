@@ -36,7 +36,11 @@ abstract class ImageBackendAbstract
 
     public function getDefaultOptions() -> array
     {
-        return (array) this->defaultOptions;
+        if count(this->defaultOptions) > 0 {
+            return this->defaultOptions;
+        }
+
+        return [];
     }
 
     public function newText() -> <Text>

@@ -24,7 +24,7 @@ abstract class DbAbstract implements DbInterface
 
     public function getQueries() -> array
     {
-        if this->queries {
+        if count(this->queries) > 0 {
             return this->queries;
         }
 
@@ -249,7 +249,7 @@ abstract class DbAbstract implements DbInterface
         string s = "SELECT ";
 
         let field = (string) Std::valueAt(options, "field", "*");
-        let where = (array) Std::valueAt(options, "where", []);
+        let where = Std::valueAt(options, "where", []);
         let orderBy = Std::valueAt(options, "orderBy", null, true);
         let limit = (long) Std::valueAt(options, "limit", 0);
         let skip = (long) Std::valueAt(options, "skip", 0);
@@ -315,7 +315,7 @@ abstract class DbAbstract implements DbInterface
 
         let s = "SELECT COUNT(*) FROM " . table;
 
-        let where = (array) Std::valueAt(options, "where", []);
+        let where = Std::valueAt(options, "where", []);
         if count(where) > 0 {
             let w = (string) this->parseWhere(where);
             if w->length() > 0 {
@@ -472,8 +472,8 @@ abstract class DbAbstract implements DbInterface
         var k, v, a = [];
         string s, w;
 
-        let where = (array) Std::valueAt(options, "where", []);
-        let having = (array) Std::valueAt(options, "having", []);
+        let where = Std::valueAt(options, "where", []);
+        let having = Std::valueAt(options, "having", []);
         let orderBy = Std::valueAt(options, "orderBy", null, true);
 
         let a[] = groupBy;
@@ -646,28 +646,6 @@ abstract class DbAbstract implements DbInterface
         return "(" . columns . ")" . isNot . " in (" . implode(", ", vs) . ")";
     }
 
-    public function pickWhereByKey(array data, var key) -> array
-    {
-        var k, v, where = [];
-
-        if typeof key == "array" {
-            for k in key {
-                if unlikely ! fetch v, data[k] {
-                    throw new Exception("Cannot find value in data: " . k);
-                }
-                let where[k] = v;
-            }
-        } else {
-            let k = (string) key;
-            if unlikely ! fetch v, data[k] {
-                throw new Exception("Cannot find value in data: " . k);
-            }
-            let where[k] = v;
-        }
-
-        return where;
-    }
-
     abstract public function parsePagination(string query, long limit, long skip) -> string;
     abstract public function parseRandomOrder() -> string;
 
@@ -683,6 +661,31 @@ abstract class DbAbstract implements DbInterface
         let this->nextFlag = flag + 1;
 
         return sprintf("%s%d", prefix, flag);
+    }
+
+    protected function checkUpsertKeys(array data, var key) -> array
+    {
+        var k, ks = [];
+
+        if typeof key == "array" {
+            if unlikely count(key) < 1 {
+                throw new Exception("Cannot upsert with empty keys");
+            }
+            for k in key {
+                if unlikely ! isset data[k] {
+                    throw new Exception("Cannot upsert when missing value of key: " . k);
+                }
+                let ks[k] = 1;
+            }
+        } else {
+            let k = (string) key;
+            if unlikely ! isset data[k] {
+                throw new Exception("Cannot upsert when missing value of key: " . k);
+            }
+            let ks[k] = 1;
+        }
+
+        return ks;
     }
 
 }

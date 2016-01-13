@@ -4,19 +4,16 @@ class PdoPgsql extends PdoAbstract
 {
     public function upsert(string table, array data, var primaryKey = "id") -> void
     {
-        var where, k, ks = [], vs = [], os = [], us = [];
+        var pks, k, ks = [], vs = [], os = [], us = [];
         string s;
 
-        let where = this->pickWhereByKey(data, primaryKey);
-        if unlikely count(where) < 1 {
-            throw new Exception("Cannot upsert with empty where");
-        }
+        let pks = this->checkUpsertKeys(data, primaryKey);
 
         for k, _ in data {
             let ks[] = k;
             let vs[] = ":" . k;
 
-            if isset where[k] {
+            if isset pks[k] {
                 let os[] = k;
             } else {
                 let us[] = k . " = EXCLUDED." . k;
