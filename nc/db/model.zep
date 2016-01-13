@@ -2,18 +2,19 @@ namespace Nc\Db;
 
 class Model
 {
-    protected db;
     protected table;
     protected primaryKey;
     protected autoIncrement;
     protected columns;
 
-    public function __construct(<DbInterface> db, string table, array primaryKey, string autoIncrement) -> void
+    protected db;
+
+    public function __construct(string table, array primaryKey, string autoIncrement, array columns) -> void
     {
-        let this->db = db;
         let this->table = table;
         let this->primaryKey = primaryKey;
         let this->autoIncrement = autoIncrement;
+        let this->columns = columns;
     }
 
     public function setDb(<DbInterface> db) -> void
