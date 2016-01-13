@@ -23,8 +23,8 @@ class ReadFile extends RendererAbstract
             }
         }
 
-        let this->extraHeaders[] = "Content-Type: " . mimeType;
-        let this->extraHeaders[] = "Content-Length: " . filesize(path);
+        let this->extraHeaders["content-type"] = "Content-Type: " . mimeType;
+        let this->extraHeaders["content-length"] = "Content-Length: " . filesize(path);
     }
 
     public function getPath() -> string

@@ -67,6 +67,7 @@ abstract class ImageBackendAbstract
     abstract public function thumbnail(<Image> im, long width, long height, bool cropped) -> <Image>;
     abstract public function draw(<Image> destIm, <ImageAbstract> srcIm, long x, long y) -> <Image>;
 
+    abstract public function mimeType(<Image> im) -> string;
     abstract public function save(<Image> im, string destPath) -> void;
     abstract public function destroy(<ImageAbstract> im) -> void;
 

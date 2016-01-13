@@ -31,18 +31,26 @@ class Imagick extends ImageBackendAbstract
         return im;
     }
 
-    public function fromImage(<Image> im) -> <Image>
+    public function fromImage(<Image> im, string extension = "") -> <Image>
     {
         var copyIm, imagick;
+        string ext;
+
+        if extension->length() > 0 {
+            let ext = extension->lower();
+        } else {
+            let ext = (string) im->extension;
+        }
 
         let imagick = new \Imagick();
         imagick->readImageBlob(im->handler->getImageBlob());
+        imagick->setImageFormat(ext);
 
         let copyIm = this->newImage();
         let copyIm->handler = imagick;
         let copyIm->width = im->width;
         let copyIm->height = im->height;
-        let copyIm->extension = im->extension;
+        let copyIm->extension = ext;
 
         return copyIm;
     }
@@ -91,6 +99,8 @@ class Imagick extends ImageBackendAbstract
             let im->extension = extension->lower();
         }
 
+        imagick->setImageFormat(im->extension);
+
         return im;
     }
 
@@ -111,6 +121,8 @@ class Imagick extends ImageBackendAbstract
         if extension->length() > 0 {
             let im->extension = extension->lower();
         }
+
+        imagick->setImageFormat(im->extension);
 
         return im;
     }
@@ -349,6 +361,11 @@ class Imagick extends ImageBackendAbstract
         }
 
         return resultIm;
+    }
+
+    public function mimeType(<Image> im) -> string
+    {
+        return im->handler->getImageMimeType();
     }
 
     public function save(<Image> im, string destPath) -> void

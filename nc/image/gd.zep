@@ -30,11 +30,18 @@ class Gd extends ImageBackendAbstract
         return im;
     }
 
-    public function fromImage(<Image> im) -> <Image>
+    public function fromImage(<Image> im, string extension = "") -> <Image>
     {
         var copyIm;
+        string ext;
 
-        let copyIm = this->fromSize(im->width, im->height, im->extension);
+        if extension->length() > 0 {
+            let ext = extension->lower();
+        } else {
+            let ext = (string) im->extension;
+        }
+
+        let copyIm = this->fromSize(im->width, im->height, ext);
         this->copy(copyIm, im, 0, 0);
 
         return copyIm;
@@ -365,6 +372,23 @@ class Gd extends ImageBackendAbstract
         }
 
         return resultIm;
+    }
+
+    public function mimeType(<Image> im) -> string
+    {
+        switch im->extension {
+            case "png":
+                return "image/png";
+
+            case "gif":
+                return "image/gif";
+
+            case "jpg":
+            case "jpeg":
+                return "image/jpeg";
+        }
+
+        throw new Exception("Unsupported extension: " . im->extension);
     }
 
     public function save(<Image> im, string destPath) -> void

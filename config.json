@@ -56,7 +56,7 @@
     "name": "Nc Framework",
     "description": "Framework for web development",
     "author": "Hylent",
-    "version": "1.0.160108",
+    "version": "1.0.160113",
     "verbose": false,
     "requires": {
         "extensions": []

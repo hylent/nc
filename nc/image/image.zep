@@ -84,6 +84,11 @@ class Image extends ImageAbstract
         return this->backend->draw(this, srcItem, x, y);
     }
 
+    public function mimeType() -> string
+    {
+        return this->backend->mimeType(this);
+    }
+
     public function save(string destPath) -> void
     {
         this->backend->save(this, destPath);
