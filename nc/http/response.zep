@@ -20,17 +20,17 @@ class Response
 
     public function getDefaultCookieOptions() -> array
     {
-        if count(this->defaultCookieOptions) > 0 {
-            return this->defaultCookieOptions;
+        if count(this->defaultCookieOptions) < 1 {
+            let this->defaultCookieOptions = [
+                "expire"    : 0,
+                "path"      : "/",
+                "domain"    : "",
+                "secure"    : false,
+                "httpOnly"  : false
+            ];
         }
 
-        return [
-            "expire"    : 0,
-            "path"      : "/",
-            "domain"    : "",
-            "secure"    : false,
-            "httpOnly"  : false
-        ];
+        return this->defaultCookieOptions;
     }
 
     public function redirect(string redirect) -> void
@@ -145,7 +145,7 @@ class Response
     {
         string redirect;
         long status;
-        var cookie, renderer, header;
+        var defaultCookieOptions, cookie, renderer, header;
 
         let redirect = (string) this->redirect;
         if redirect->length() > 0 {
@@ -158,8 +158,9 @@ class Response
             http_response_code(status);
         }
 
+        let defaultCookieOptions = this->getDefaultCookieOptions();
         for cookie in this->getCookies() {
-            let cookie = array_merge(this->defaultCookieOptions, cookie);
+            let cookie = array_merge(defaultCookieOptions, cookie);
             setcookie(
                 cookie["name"],
                 cookie["value"],
