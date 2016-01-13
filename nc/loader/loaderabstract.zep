@@ -21,13 +21,6 @@ abstract class LoaderAbstract
         return x;
     }
 
-    public function __construct(bool registerSelf = false) -> void
-    {
-        if unlikely registerSelf && ! this->register() {
-            throw new Exception("Cannot register loader");
-        }
-    }
-
     public function register() -> bool
     {
         return spl_autoload_register(this);

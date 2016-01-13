@@ -97,7 +97,7 @@ class Response
     public function header(string header, string exclusionName = "") -> void
     {
         if exclusionName->length() > 0 {
-            let this->headers[exclusionName] = header;
+            let this->headers[exclusionName->lower()] = header;
         } else {
             let this->headers[] = header;
         }

@@ -8,19 +8,22 @@ class Uploader
     const INVALID_EXTENSION = -1;
     const INVALID_SIZE      = -2;
 
-    protected validExtensions;
-    protected validImageExtensions;
+    protected imageExtensions;
+    protected otherExtensions;
     protected maxSize;
+
     protected storage;
 
-    public function __construct(string validExtensions, string validImageExtensions, string maxSize = "2M") -> void
+    public function __construct(string imageExtensions, string otherExtensions = "", string maxSize = "2M") -> void
     {
-        let this->validExtensions = array_flip(
-            preg_split("#[,/\\s\\|\\.]+#", validExtensions->lower(), -1, PREG_SPLIT_NO_EMPTY)
+        string pattern = "#[,/\\s\\|\\.]+#";
+
+        let this->imageExtensions = array_flip(
+            preg_split(pattern, imageExtensions->lower(), -1, PREG_SPLIT_NO_EMPTY)
         );
 
-        let this->validImageExtensions = array_flip(
-            preg_split("#[,/\\s\\|\\.]+#", validImageExtensions->lower(), -1, PREG_SPLIT_NO_EMPTY)
+        let this->otherExtensions = array_flip(
+            preg_split(pattern, otherExtensions->lower(), -1, PREG_SPLIT_NO_EMPTY)
         );
 
         let this->maxSize = Std::sizeToBytes(maxSize);
@@ -39,7 +42,6 @@ class Uploader
     public function save(<UploadedFile> uploadedFile, string prefix = "", bool keep = false) -> string
     {
         var error, size, tmpName, extension;
-        bool invalidExtension;
         long flag;
 
         let error = uploadedFile->getError();
@@ -51,12 +53,16 @@ class Uploader
             throw new UploaderException("Invalid uploaded file with error: " . error, error);
         }
 
-        if uploadedFile->isImage() {
-            let invalidExtension = ! isset this->validImageExtensions[extension];
-        } else {
-            let invalidExtension = ! isset this->validExtensions[extension];
-        }
-        if unlikely invalidExtension {
+        loop {
+            if uploadedFile->isImage() {
+                if isset this->imageExtensions[extension] {
+                    break;
+                }
+            } else {
+                if isset this->otherExtensions[extension] {
+                    break;
+                }
+            }
             throw new UploaderException("Invalid uploaded file extension: " . extension, self::INVALID_EXTENSION);
         }
 

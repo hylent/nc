@@ -4,11 +4,9 @@ class NamePath extends LoaderAbstract
 {
     protected namePaths;
 
-    public function __construct(bool registerSelf = false, array namePaths = []) -> void
+    public function __construct(array namePaths = []) -> void
     {
         var n, p;
-
-        parent::__construct(registerSelf);
 
         for n, p in namePaths {
             let this->namePaths[strtolower(n)] = (string) p;

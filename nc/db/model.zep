@@ -193,6 +193,33 @@ class Model
         ]);
     }
 
+    public function chunk(var delegate, array where = [], var orderBy = null, long limit = 5000) -> long
+    {
+        var collection;
+        long sum = 0, c, skip = 0;
+
+        if unlikely limit < 1 {
+            throw new ModelException("Invalid limit: " . strval(limit));
+        }
+
+        loop {
+            let collection = this->all(where, orderBy, limit, skip);
+            let c = (long) collection->count();
+            if c < 1 {
+                break;
+            }
+
+            let sum += c;
+            if call_user_func(delegate, collection) === false || c < limit {
+                break;
+            }
+
+            let skip += limit;
+        }
+
+        return sum;
+    }
+
     public function chunkByDynamicWhere(var delegate, array where = [], var orderBy = null, long limit = 5000) -> long
     {
         var collection, w;
@@ -217,33 +244,6 @@ class Model
             if typeof w != "array" || count(w) < 1 || c < limit {
                 break;
             }
-        }
-
-        return sum;
-    }
-
-    public function chunkByFixedWhere(var delegate, array where = [], var orderBy = null, long limit = 5000) -> long
-    {
-        var collection;
-        long sum = 0, c, skip = 0;
-
-        if unlikely limit < 1 {
-            throw new ModelException("Invalid limit: " . strval(limit));
-        }
-
-        loop {
-            let collection = this->all(where, orderBy, limit, skip);
-            let c = (long) collection->count();
-            if c < 1 {
-                break;
-            }
-
-            let sum += c;
-            if call_user_func(delegate, collection) === false || c < limit {
-                break;
-            }
-
-            let skip += limit;
         }
 
         return sum;
@@ -297,10 +297,6 @@ class Model
     public function onStore(array row, bool isUpdate = false) -> array
     {
         var k, v, c, i, r = [];
-
-        if typeof this->columns != "array" {
-            return row;
-        }
 
         for k, c in this->columns {
             if typeof c != "array" {

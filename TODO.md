@@ -1,10 +1,11 @@
 # TODO
 
-* Master-slave db connections
+* Add setters to factories
+* Application, http, cli
+* Router, actions, dispatchers
+* Session
 * Extra updates supported in db drivers
-* Validations in models
+* Master-slave db connections
 * Model proxy for caching
-* Actions & dispatchers
-* Data types
+* Std data types
 * More reliable redis queue
-* Shared factories as default

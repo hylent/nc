@@ -4,11 +4,9 @@ class NamespaceDirectory extends LoaderAbstract
 {
     protected namespaceDirectories;
 
-    public function __construct(bool registerSelf = false, array namespaceDirectories = []) -> void
+    public function __construct(array namespaceDirectories = []) -> void
     {
         var n, d;
-
-        parent::__construct(registerSelf);
 
         for n, d in namespaceDirectories {
             let this->namespaceDirectories[strtolower(n)] = d;
