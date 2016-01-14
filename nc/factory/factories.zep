@@ -48,8 +48,7 @@ class Factories implements FactoryInterface, \ArrayAccess
 
         if count(this->priorities) > 0 {
             for index, _ in this->priorities {
-                let factory = <FactoryInterface> this->factories[index];
-                if factory->__isset(name) {
+                if fetch factory, this->factories[index] && factory->__isset(name) {
                     return true;
                 }
             }
@@ -64,8 +63,7 @@ class Factories implements FactoryInterface, \ArrayAccess
 
         if count(this->priorities) > 0 {
             for index, _ in this->priorities {
-                let factory = <FactoryInterface> this->factories[index];
-                if factory->__isset(name) {
+                if fetch factory, this->factories[index] && factory->__isset(name) {
                     return factory->__get(name);
                 }
             }
@@ -74,15 +72,14 @@ class Factories implements FactoryInterface, \ArrayAccess
         throw new Exception("Invalid production: " . name);
     }
 
-    public function newProduction(string name)
+    public function create(string name)
     {
         var index, factory;
 
         if count(this->priorities) > 0 {
             for index, _ in this->priorities {
-                let factory = <FactoryInterface> this->factories[index];
-                if factory->__isset(name) {
-                    return factory->newProduction(name);
+                if fetch factory, this->factories[index] && factory->__isset(name) {
+                    return factory->create(name);
                 }
             }
         }

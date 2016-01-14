@@ -1,6 +1,5 @@
 # TODO
 
-* Add setters to factories
 * Application, http, cli
 * Router, actions, dispatchers
 * Session

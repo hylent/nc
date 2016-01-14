@@ -6,21 +6,11 @@ abstract class ClassNameAbstract extends FactoryAbstract
 {
     protected args;
 
+    abstract public function getClassName(string name) -> string;
+
     public function __isset(string name) -> bool
     {
-        return isset this->productions[name] || class_exists(this->getClassName(name));
-    }
-
-    public function newProduction(string name)
-    {
-        string className;
-
-        let className = (string) this->getClassName(name);
-        if unlikely ! class_exists(className) {
-            throw new Exception("Invalid production: " . name);
-        }
-
-        return Std::newInstanceOf(className, this->args);
+        return parent::__isset(name) || class_exists(this->getClassName(name));
     }
 
     public function setArgs() -> void
@@ -42,6 +32,16 @@ abstract class ClassNameAbstract extends FactoryAbstract
         return [];
     }
 
-    abstract public function getClassName(string name) -> string;
+    protected function createInternally(string name)
+    {
+        string className;
+
+        let className = (string) this->getClassName(name);
+        if unlikely ! class_exists(className) {
+            throw new Exception("Invalid production: " . name);
+        }
+
+        return Std::newInstanceOf(className, this->args);
+    }
 
 }

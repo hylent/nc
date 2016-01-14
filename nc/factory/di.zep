@@ -22,10 +22,10 @@ class Di extends FactoryAbstract
 
     public function __isset(string name) -> bool
     {
-        return isset this->productions[name] || isset this->initializers[name];
+        return parent::__isset(name) || isset this->initializers[name];
     }
 
-    public function newProduction(string name)
+    protected function createInternally(string name)
     {
         var initializer;
 
