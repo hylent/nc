@@ -9,14 +9,14 @@ class Di extends FactoryAbstract
         let this->initializers[name] = initializer;
     }
 
-    public function __set(string name, var production) -> void
+    public function __set(string name, var obj) -> void
     {
-        let this->productions[name] = production;
+        let this->creations[name] = obj;
     }
 
     public function __unset(string name) -> void
     {
-        unset this->productions[name];
+        unset this->creations[name];
         unset this->initializers[name];
     }
 
