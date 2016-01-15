@@ -87,4 +87,6 @@ session_start();
 var_dump(session_status());
 print_R($_COOKIE);
 
+throw new Exception();
+
 $response();

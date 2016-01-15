@@ -1,47 +1,16 @@
 namespace Nc\Http;
 
 use Nc\Renderer\RendererInterface;
+use Nc\Renderer\Nil;
 
 class Response
 {
-    protected defaultCookieOptions;
+    protected status = 200;
 
-    protected redirect  = "";
-    protected status    = 200;
+    protected cookieOptions;
     protected cookies;
-    protected renderer  = null;
     protected headers;
-    protected content   = "";
-
-    public function setDefaultCookieOptions(array defaultCookieOptions) -> void
-    {
-        let this->defaultCookieOptions = array_merge(this->getDefaultCookieOptions(), defaultCookieOptions);
-    }
-
-    public function getDefaultCookieOptions() -> array
-    {
-        if count(this->defaultCookieOptions) < 1 {
-            let this->defaultCookieOptions = [
-                "expire"    : 0,
-                "path"      : "/",
-                "domain"    : "",
-                "secure"    : false,
-                "httpOnly"  : false
-            ];
-        }
-
-        return this->defaultCookieOptions;
-    }
-
-    public function redirect(string redirect) -> void
-    {
-        let this->redirect = redirect;
-    }
-
-    public function getRedirect() -> string
-    {
-        return this->redirect;
-    }
+    protected renderer;
 
     public function status(long status) -> void
     {
@@ -53,12 +22,42 @@ class Response
         return this->status;
     }
 
+    public function setCookieOptions(array cookieOptions) -> void
+    {
+        let this->cookieOptions = array_merge(this->getCookieOptions(), cookieOptions);
+    }
+
+    public function getCookieOptions() -> array
+    {
+        if count(this->cookieOptions) < 1 {
+            let this->cookieOptions = [
+                "expire"    : 0,
+                "path"      : "/",
+                "domain"    : "",
+                "secure"    : false,
+                "httpOnly"  : false
+            ];
+        }
+
+        return this->cookieOptions;
+    }
+
     public function cookie(string name, string value, array options = []) -> void
     {
         let options["name"] = name;
         let options["value"] = value;
 
         let this->cookies[name] = options;
+    }
+
+    public function hasCookie(string name) -> bool
+    {
+        return isset this->cookies[name];
+    }
+
+    public function removeCookie(string name) -> void
+    {
+        unset this->cookies[name];
     }
 
     public function getCookie(string name)
@@ -84,32 +83,38 @@ class Response
         let this->cookies = null;
     }
 
-    public function renderer(<RendererInterface> renderer = null) -> void
+    public function header(string name, string value) -> void
     {
-        let this->renderer = renderer;
+        let this->headers[name->lower()] = name . ": " . value;
     }
 
-    public function getRenderer() -> <RendererInterface>
+    public function headers(array headers) -> void
     {
-        return this->renderer;
-    }
+        var name, value;
 
-    public function header(string header, string exclusionName = "") -> void
-    {
-        if exclusionName->length() > 0 {
-            let this->headers[exclusionName->lower()] = header;
-        } else {
-            let this->headers[] = header;
+        for name, value in headers {
+            let this->headers[strtolower(name)] = name . ": " . value;
         }
     }
 
-    public function addHeaders(array headers) -> void
+    public function addHeader(string name, string value) -> void
     {
-        if count(this->headers) > 0 {
-            let this->headers = array_merge(this->headers, headers);
-        } else {
-            let this->headers = headers;
-        }
+        var newHeaders;
+
+        let newHeaders = [];
+        let newHeaders[name->lower()] = name . ": " . value;
+
+        let this->headers = array_merge_recursive(this->getHeaders(), newHeaders);
+    }
+
+    public function hasHeader(string name) -> bool
+    {
+        return isset this->headers[name];
+    }
+
+    public function removeHeader(string name) -> void
+    {
+        unset this->headers[name];
     }
 
     public function getHeaders() -> array
@@ -126,41 +131,36 @@ class Response
         let this->headers = null;
     }
 
-    public function content(string content) -> void
+    public function renderer(<RendererInterface> renderer) -> void
     {
-        let this->content = content;
+        let this->renderer = renderer;
     }
 
-    public function addContent(string content) -> void
+    public function getRenderer() -> <RendererInterface>
     {
-        let this->content = this->content . content;
-    }
+        if this->renderer === null {
+            let this->renderer = new Nil();
+        }
 
-    public function getContent() -> string
-    {
-        return this->content;
+        return this->renderer;
     }
 
     public function __invoke() -> void
     {
-        string redirect;
+        var renderer, cookieOptions, cookie, headerGroup, header;
         long status;
-        var defaultCookieOptions, cookie, renderer, header;
 
-        let redirect = (string) this->redirect;
-        if redirect->length() > 0 {
-            header("Location: " . redirect);
-            return;
-        }
+        let renderer = this->getRenderer();
+        renderer->withResponse(this);
 
         let status = (long) this->status;
         if status != 200 {
             http_response_code(status);
         }
 
-        let defaultCookieOptions = this->getDefaultCookieOptions();
+        let cookieOptions = this->getCookieOptions();
         for cookie in this->getCookies() {
-            let cookie = array_merge(defaultCookieOptions, cookie);
+            let cookie = array_merge(cookieOptions, cookie);
             setcookie(
                 cookie["name"],
                 cookie["value"],
@@ -172,20 +172,18 @@ class Response
             );
         }
 
-        let renderer = this->renderer;
-        if typeof renderer == "object" && (renderer instanceof RendererInterface) {
-            for header in array_merge(this->getHeaders(), renderer->getHeaders()) {
+        for headerGroup in this->getHeaders() {
+            if typeof headerGroup == "array" {
+                for header in headerGroup {
+                    header(header);
+                }
+            } else {
+                let header = (string) headerGroup;
                 header(header);
             }
-            renderer->render();
-            return;
         }
 
-        for header in this->getHeaders() {
-            header(header);
-        }
-
-        echo this->content;
+        renderer->render();
     }
 
 }

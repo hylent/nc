@@ -1,8 +1,11 @@
 namespace Nc\Renderer;
 
-class ReadFile extends RendererAbstract
+use Nc\Http\Response;
+
+class ReadFile implements RendererInterface
 {
     protected path;
+    protected mimeType;
 
     public function __construct(string path, string mimeType = "") -> void
     {
@@ -14,22 +17,36 @@ class ReadFile extends RendererAbstract
 
         let this->path = path;
 
-        if mimeType->length() < 1 {
+        if mimeType->length() > 0 {
+            let this->mimeType = mimeType;
+        } else {
             let finfoMimeType = finfo_file(finfo_open(FILEINFO_MIME_TYPE), path);
             if finfoMimeType === false {
-                let mimeType = "application/octet-stream";
+                let this->mimeType = "application/octet-stream";
             } else {
-                let mimeType = (string) finfoMimeType;
+                let this->mimeType = finfoMimeType;
             }
         }
-
-        let this->headers["content-type"] = "Content-Type: " . mimeType;
-        let this->headers["content-length"] = "Content-Length: " . filesize(path);
     }
 
     public function getPath() -> string
     {
         return this->path;
+    }
+
+    public function getMimeType() -> string
+    {
+        return this->mimeType;
+    }
+
+    public function withResponse(<Response> response) -> void
+    {
+        var headers = [];
+
+        let headers["Content-Type"] = this->mimeType;
+        let headers["Content-Length"] = filesize(this->path);
+
+        response->headers(headers);
     }
 
     public function render() -> void

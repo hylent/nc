@@ -1,17 +1,14 @@
 namespace Nc\Renderer;
 
+use Nc\Http\Response;
+
 abstract class RendererAbstract implements RendererInterface, \ArrayAccess
 {
-    protected headers;
     protected data;
 
-    public function getHeaders() -> array
+    public function withResponse(<Response> response) -> void
     {
-        if count(this->headers) > 0 {
-            return this->headers;
-        }
-
-        return [];
+        return;
     }
 
     public function setData(array data) -> void

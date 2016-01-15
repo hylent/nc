@@ -1,25 +1,35 @@
 namespace Nc\Renderer;
 
 use Nc\Image\Image;
+use Nc\Http\Response;
 
-class Image extends RendererAbstract
+class Image implements RendererInterface
 {
-    protected imageContent;
+    protected image;
 
     public function __construct(<Image> image) -> void
     {
+        let this->image = image;
+    }
+
+    public function withResponse(<Response> response) -> void
+    {
+        var image, headers = [];
         string imageContent;
 
+        let image = this->image;
         let imageContent = (string) image->__toString();
-        let this->imageContent = imageContent;
+        let this->image = imageContent;
 
-        let this->headers["content-type"] = "Content-Type: " . image->mimeType();
-        let this->headers["content-length"] = "Content-Length: " . strlen(imageContent);
+        let headers["Content-Type"] = image->mimeType();
+        let headers["Content-Length"] = strlen(imageContent);
+
+        response->headers(headers);
     }
 
     public function render() -> void
     {
-        echo this->imageContent;
+        echo (string) this->image;
     }
 
 }

@@ -1,6 +1,7 @@
 namespace Nc\Renderer;
 
 use Nc\Std;
+use Nc\Http\Response;
 
 class Tpl extends RendererAbstract
 {

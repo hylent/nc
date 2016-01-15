@@ -1,16 +1,21 @@
 namespace Nc\Renderer;
 
+use Nc\Http\Response;
+
 class Json extends RendererAbstract
 {
+    protected cors      = false;
     protected flag      = 0;
     protected callback  = "";
 
-    public function __construct(bool cors = false) -> void
+    public function setCors(bool cors) -> void
     {
-        let this->headers["content-type"] = "Content-Type: application/json; charset=UTF-8";
-        if cors {
-            let this->headers["access-control-allow-origin"] = "Access-Control-Allow-Origin: *";
-        }
+        let this->cors = cors;
+    }
+
+    public function getCors() -> bool
+    {
+        return this->cors;
     }
 
     public function setFlag(long flag) -> void
@@ -31,6 +36,18 @@ class Json extends RendererAbstract
     public function getCallback() -> string
     {
         return this->callback;
+    }
+
+    public function withResponse(<Response> response) -> void
+    {
+        var headers = [];
+
+        let headers["Content-Type"] = "application/json; charset=UTF-8";
+        if this->cors {
+            let headers["Access-Control-Allow-Origin"] = "*";
+        }
+
+        response->headers(headers);
     }
 
     public function render() -> void
