@@ -1,12 +1,12 @@
 namespace Nc\Renderer;
 
-use Nc\Application\Http;
+use Nc\Http\Response;
 
 abstract class RendererAbstract implements RendererInterface, \ArrayAccess
 {
     protected data;
 
-    public function withHttp(<Http> http) -> void
+    public function withResponse(<Response> response) -> void
     {
         return;
     }

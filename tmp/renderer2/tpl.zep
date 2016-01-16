@@ -1,7 +1,7 @@
 namespace Nc\Renderer;
 
 use Nc\Std;
-use Nc\Application\Http;
+use Nc\Application\ApplicationAbstract;
 
 class Tpl extends RendererAbstract
 {

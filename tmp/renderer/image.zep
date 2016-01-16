@@ -1,7 +1,7 @@
 namespace Nc\Renderer;
 
 use Nc\Image\Image;
-use Nc\Application\Http;
+use Nc\Http\Response;
 
 class Image implements RendererInterface
 {
@@ -12,7 +12,7 @@ class Image implements RendererInterface
         let this->image = image;
     }
 
-    public function withHttp(<Http> http) -> void
+    public function withResponse(<Response> response) -> void
     {
         var image, headers = [];
         string imageContent;
@@ -24,7 +24,7 @@ class Image implements RendererInterface
         let headers["Content-Type"] = image->mimeType();
         let headers["Content-Length"] = strlen(imageContent);
 
-        http->setResponseHeaders(headers);
+        response->headers(headers);
     }
 
     public function render() -> void

@@ -1,2 +1,2 @@
 #!/bin/bash
-svn up && zephir install && php -S 0.0.0.0:88 -t public
+svn up && zephir install && php -S 0.0.0.0:88 -t app/public

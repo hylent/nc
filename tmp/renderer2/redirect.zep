@@ -1,6 +1,6 @@
 namespace Nc\Renderer;
 
-use Nc\Application\Http;
+use Nc\Application\ApplicationAbstract;
 
 class Redirect extends RendererAbstract
 {
@@ -16,7 +16,7 @@ class Redirect extends RendererAbstract
         return this->redirectUrl;
     }
 
-    public function withHttp(<Http> http) -> void
+    public function withApplication(<ApplicationAbstract> application) -> void
     {
         string u, q;
 
@@ -31,7 +31,7 @@ class Redirect extends RendererAbstract
             }
         }
 
-        http->setResponseHeader("Location", u);
+        application->setResponseHeader("Location", u);
     }
 
     public function render() -> void

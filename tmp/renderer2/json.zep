@@ -1,6 +1,6 @@
 namespace Nc\Renderer;
 
-use Nc\Application\Http;
+use Nc\Application\ApplicationAbstract;
 
 class Json extends RendererAbstract
 {
@@ -38,7 +38,7 @@ class Json extends RendererAbstract
         return this->callback;
     }
 
-    public function withHttp(<Http> http) -> void
+    public function withApplication(<ApplicationAbstract> application) -> void
     {
         var headers = [];
 
@@ -47,7 +47,7 @@ class Json extends RendererAbstract
             let headers["Access-Control-Allow-Origin"] = "*";
         }
 
-        http->setResponseHeaders(headers);
+        application->setResponseHeaders(headers);
     }
 
     public function render() -> void

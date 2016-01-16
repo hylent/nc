@@ -1,10 +1,10 @@
 namespace Nc\Renderer;
 
-use Nc\Application\Http;
+use Nc\Http\Response;
 
 interface RendererInterface
 {
-    public function withHttp(<Http> http) -> void;
+    public function withResponse(<Response> response) -> void;
     public function render() -> void;
 
 }

@@ -1,6 +1,6 @@
 namespace Nc\Renderer;
 
-use Nc\Application\Http;
+use Nc\Http\Response;
 
 class ReadFile implements RendererInterface
 {
@@ -39,14 +39,14 @@ class ReadFile implements RendererInterface
         return this->mimeType;
     }
 
-    public function withHttp(<Http> http) -> void
+    public function withResponse(<Response> response) -> void
     {
         var headers = [];
 
         let headers["Content-Type"] = this->mimeType;
         let headers["Content-Length"] = filesize(this->path);
 
-        http->setResponseHeaders(headers);
+        response->headers(headers);
     }
 
     public function render() -> void

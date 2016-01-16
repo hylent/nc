@@ -1,10 +1,10 @@
 namespace Nc\Renderer;
 
-use Nc\Application\Http;
+use Nc\Http\Response;
 
 class Nil implements RendererInterface
 {
-    public function withHttp(<Http> http) -> void
+    public function withResponse(<Response> response) -> void
     {
         return;
     }
