@@ -13,11 +13,15 @@ class NamespaceDirectory extends LoaderAbstract
         }
     }
 
-    public function __invoke(string name) -> bool
+    public function set(string ns, string dir) -> void
+    {
+        let this->namespaceDirectories[ns->lower()] = dir;
+    }
+
+    public function findPath(string name) -> string
     {
         var match, pos, dir;
         bool found = false;
-        string path;
 
         let match = name->lower();
         loop {
@@ -32,29 +36,11 @@ class NamespaceDirectory extends LoaderAbstract
             }
         }
 
-        if ! found {
-            return false;
+        if found {
+            return dir . "/" . strtr(substr(name, pos + 1), "\\", "/") . ".php";
         }
 
-        let path = (string) substr(name, pos + 1);
-        let path = dir . "/" . str_replace("\\", "/", path) . ".php";
-
-        if ! file_exists(path) {
-            return false;
-        }
-
-        require path;
-
-        if unlikely ! LoaderAbstract::isLoaded(name) {
-            throw new Exception("Cannot load: " . name . ", in path: " . path);
-        }
-
-        return true;
-    }
-
-    public function set(string ns, string dir) -> void
-    {
-        let this->namespaceDirectories[ns->lower()] = dir;
+        return "";
     }
 
 }

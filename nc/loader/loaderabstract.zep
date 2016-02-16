@@ -2,35 +2,36 @@ namespace Nc\Loader;
 
 abstract class LoaderAbstract
 {
-    public static function isLoaded(string name) -> bool
+    abstract public function findPath(string name) -> string;
+
+    public function __invoke(string name) -> bool
     {
-        bool x = false;
+        var x = false;
+        string path;
 
-        if class_exists(name, x) {
-            return true;
+        let path = (string) this->findPath(name);
+
+        if path->length() < 1 || ! file_exists(path) {
+            return x;
         }
 
-        if interface_exists(name, x) {
-            return true;
+        require path;
+
+        if unlikely ! class_exists(name, x) && ! interface_exists(name, x) && ! trait_exists(name, x) {
+            throw new Exception(sprintf("Cannot load %s in path: %s", name, path));
         }
 
-        if trait_exists(name, x) {
-            return true;
-        }
-
-        return x;
+        return true;
     }
 
-    public function register() -> bool
+    public function register(bool prepend = false) -> bool
     {
-        return spl_autoload_register(this);
+        return spl_autoload_register(this, false, prepend);
     }
 
     public function unregister() -> bool
     {
         return spl_autoload_unregister(this);
     }
-
-    abstract public function __invoke(string name) -> bool;
 
 }
