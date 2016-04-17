@@ -31,7 +31,7 @@ class Factories implements FactoryInterface, \ArrayAccess
         throw new Exception("Invalid index: " . index);
     }
 
-    public function offsetExists(string index) -> bool
+    public function offsetExists(string index) -> boolean
     {
         return isset this->factories[index];
     }
@@ -42,7 +42,7 @@ class Factories implements FactoryInterface, \ArrayAccess
         unset this->priorities[index];
     }
 
-    public function __isset(string name) -> bool
+    public function __isset(string name) -> boolean
     {
         var index, factory;
 

@@ -6,6 +6,13 @@ class NamePath extends LoaderAbstract
 
     public function __construct(array namePaths = []) -> void
     {
+        if count(namePaths) > 0 {
+            this->setNamePaths(namePaths);
+        }
+    }
+
+    public function setNamePaths(array namePaths) -> void
+    {
         var n, p;
 
         for n, p in namePaths {
@@ -13,9 +20,14 @@ class NamePath extends LoaderAbstract
         }
     }
 
-    public function set(string name, string path) -> void
+    public function setNamePath(string name, string path) -> void
     {
         let this->namePaths[name->lower()] = path;
+    }
+
+    public function hasName(string name) -> boolean
+    {
+        return isset this->namePaths[name->lower()];
     }
 
     public function findPath(string name) -> string

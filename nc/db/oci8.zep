@@ -9,12 +9,12 @@ class Oci8 extends DbAbstract
         var oci;
 
         if unlikely ! extension_loaded("oci8") {
-            throw new Exception("Missing extension: oci8");
+            throw new Exception("Missing extension: 'oci8'");
         }
 
         let oci = oci_connect(user, passwd, dsn, "utf8");
         if unlikely ! oci {
-            throw new Exception("Cannot connect: " . dsn);
+            throw new Exception(sprintf("Cannot connect to '%s'", dsn));
         }
 
         let this->oci = oci;
@@ -30,15 +30,13 @@ class Oci8 extends DbAbstract
         return "'" . str_replace("'", "''", value) . "'";
     }
 
-    public function queryAndFetch(long $fetch, string sql, array params = [])
+    public function execute(string sql, array params = [], long $fetch = DbInterface::NONE)
     {
-        var statement, k, v, err, errMessage, queryMode;
-        double startMt;
-        string profiledQuery;
-        bool success;
+        var t, q, statement, k, v, err, errMessage, queryMode;
+        boolean success;
         var result, resultRow, resultCell;
 
-        let startMt = (double) microtime(true);
+        let t = microtime(true);
         let statement = oci_parse(this->oci, sql);
 
         if count(params) > 0 {
@@ -53,17 +51,15 @@ class Oci8 extends DbAbstract
             let queryMode = OCI_COMMIT_ON_SUCCESS;
         }
 
-        let success = (bool) oci_execute(statement, queryMode);
-
-        let profiledQuery = (string) DbAbstract::profiledQuery(sql, params, startMt);
-        let this->queries[] = profiledQuery;
+        let success = (boolean) oci_execute(statement, queryMode);
+        let q = this->addQuery(sql, params, t);
 
         if unlikely ! success {
             let err = oci_error(this->oci);
             if typeof err != "array" || ! fetch errMessage, err["message"] {
                 let errMessage = "Unknown Error";
             }
-            throw new QueryException(errMessage . " [SQL] " . profiledQuery);
+            throw new ExecutionException(errMessage . " [SQL] " . q);
         }
 
         switch $fetch {
@@ -87,7 +83,7 @@ class Oci8 extends DbAbstract
                 if resultRow {
                     return array_change_key_case(resultRow);
                 }
-                return null;
+                return;
 
             case DbInterface::CELL:
                 let resultRow = oci_fetch_array(statement, OCI_RETURN_NULLS + OCI_RETURN_LOBS + OCI_NUM);
@@ -109,15 +105,14 @@ class Oci8 extends DbAbstract
                 return result;
         }
 
-        throw new Exception("Invalid fetch mode: " . strval($fetch));
+        throw new Exception(sprintf("Invalid fetch mode '%s'", $fetch));
     }
 
-    public function upsert(string table, array data, var primaryKey = "id") -> void
+    public function upsert(string t, array data, var primaryKey = "id") -> void
     {
-        var pks, k, kk = [], vv = [], dual = [], cond = [], updates = [];
-        string s;
+        var pks, k, kk = [], vv = [], dual = [], cond = [], updates = [], s;
 
-        let pks = this->checkUpsertKeys(data, primaryKey);
+        let pks = this->checkUpsert(data, primaryKey);
 
         for k, _ in data {
             let kk[] = k;
@@ -126,11 +121,11 @@ class Oci8 extends DbAbstract
                 let dual[] = sprintf(":%s %s", k, k);
                 let cond[] = sprintf("a.%s = b.%s", k, k);
             } else {
-                let updates[] = k . " = :" . k;
+                let updates[] = sprintf("%s = :%s", k, k);
             }
         }
 
-        let s = "MERGE INTO " . table . " a";
+        let s = "MERGE INTO " . t . " a";
         let s .= " USING (SELECT " . implode(", ", dual) . " FROM dual WHERE rownum < 2) b";
         let s .= " ON (" . implode(" AND ", cond) . ")";
         if count(updates) > 0 {
@@ -138,54 +133,41 @@ class Oci8 extends DbAbstract
         }
         let s .= " WHEN NOT MATCHED THEN INSERT (" . implode(", ", kk) . ") VALUES (" . implode(", ", vv) . ")";
 
-        this->query(s, data);
+        this->execute(s, data);
     }
 
-    public function parsePagination(string query, long limit, long skip) -> string
-    {
-        string s, t1, t2, r3;
-
-        let t1 = (string) this->nextFlag("t");
-        let s = (string) sprintf("SELECT %s.* FROM (%s) %s WHERE rownum <= %d", t1, query, t1, limit);
-
-        if skip == 0 {
-            return s;
-        }
-
-        let t2 = (string) this->nextFlag("t");
-        let r3 = (string) this->nextFlag("r");
-
-        return sprintf(
-            "SELECT * FROM (SELECT %s.*, rownum %s FROM (%s) %s WHERE rownum <= %d) %s WHERE %s > %d",
-            t1,
-            r3,
-            query,
-            t1,
-            limit,
-            t2,
-            r3,
-            skip
-        );
-    }
-
-    public function parseRandomOrder() -> string
-    {
-        return "dbms_random.value()";
-    }
-
-    protected function tryToBegin() -> bool
+    protected function tryToBegin() -> boolean
     {
         return true;
     }
 
-    protected function tryToCommit() -> bool
+    protected function tryToCommit() -> boolean
     {
         return oci_commit(this->oci);
     }
 
-    protected function tryToRollback() -> bool
+    protected function tryToRollback() -> boolean
     {
         return oci_rollback(this->oci);
+    }
+
+    protected function makeRandomOrder() -> string
+    {
+        return "dbms_random.value()";
+    }
+
+    protected function makePagination(string query, long limit, long skip) -> string
+    {
+        if skip == 0 {
+            return sprintf("SELECT a.* FROM (%s) a WHERE rownum <= %d", query, limit);
+        }
+
+        return sprintf(
+            "SELECT * FROM (SELECT a.*, rownum r FROM (%s) a WHERE rownum <= %d) b WHERE r > %d",
+            query,
+            limit,
+            skip
+        );
     }
 
 }

@@ -1,40 +1,54 @@
 namespace Nc\Application;
 
-use Nc\Renderer\RendererInterface;
-
-class Http extends ApplicationAbstract
+class Http extends ContextAbstract
 {
-    protected cookieOptions;
+    protected queries;
+    protected posts;
+    protected cookies;
+    protected files;
 
-    protected responseStatus = 200;
-    protected responseCookies;
-    protected responseHeaders;
+    protected defaultCookieOptions;
 
-    protected renderer;
-
-    public function getArgs() -> array
+    public function __construct() -> void
     {
-        var uri, pos;
+        let this->serverVars = _SERVER;
+        let this->queries = _GET;
+        let this->posts = _POST;
+        let this->cookies = _COOKIE;
+        let this->files = _FILES;
 
-        let uri = (string) this->getServerVar("REQUEST_URI");
-        let pos = strpos(uri, "?");
-        if pos !== false {
-            let uri = (string) substr(uri, 0, pos);
-        }
-
-        return preg_split("#/+#", uri, null, PREG_SPLIT_NO_EMPTY);
+        this->setParamsFromRequestUri();
     }
 
-    public function getParams() -> array
-    {
-        return _GET;
-    }
-
-    public function getParam(string name, var defaultValue = null)
+    public function get(string name, var defaultValue = null)
     {
         var value;
 
-        if fetch value, _GET[name] {
+        if fetch value, this->queries[name] {
+            return value;
+        }
+
+        if fetch value, this->posts[name] {
+            return value;
+        }
+
+        if fetch value, this->cookies[name] {
+            return value;
+        }
+
+        return defaultValue;
+    }
+
+    public function getRawInput() -> string
+    {
+        return file_get_contents("php://input");
+    }
+
+    public function getQuery(string name, var defaultValue = null)
+    {
+        var value;
+
+        if fetch value, this->queries[name] {
             return value;
         }
 
@@ -45,18 +59,7 @@ class Http extends ApplicationAbstract
     {
         var value;
 
-        if fetch value, _POST[name] {
-            return value;
-        }
-
-        return defaultValue;
-    }
-
-    public function getRequest(string name, var defaultValue = null)
-    {
-        var value;
-
-        if fetch value, _REQUEST[name] {
+        if fetch value, this->posts[name] {
             return value;
         }
 
@@ -67,63 +70,23 @@ class Http extends ApplicationAbstract
     {
         var value;
 
-        if fetch value, _COOKIE[name] {
+        if fetch value, this->cookies[name] {
             return value;
         }
 
         return defaultValue;
     }
 
-    public function getInput() -> string
+    public function newUploadedFile(var error, var size, var name, var tmpName) -> <UploadedFile>
     {
-        return (string) file_get_contents("php://input");
+        return new UploadedFile(error, size, name, tmpName);
     }
 
-    public function getScheme() -> string
-    {
-        return (string) this->getServerVar("REQUEST_SCHEME", "unknown");
-    }
-
-    public function isHttp() -> bool
-    {
-        return this->getServerVar("REQUEST_SCHEME") === "http";
-    }
-
-    public function isHttps() -> bool
-    {
-        return this->getServerVar("REQUEST_SCHEME") === "https";
-    }
-
-    public function getMethod() -> string
-    {
-        return (string) this->getServerVar("REQUEST_METHOD", "UNKNOWN");
-    }
-
-    public function isGet() -> bool
-    {
-        return this->getServerVar("REQUEST_METHOD") === "GET";
-    }
-
-    public function isPost() -> bool
-    {
-        return this->getServerVar("REQUEST_METHOD") === "POST";
-    }
-
-    public function isXhr() -> bool
-    {
-        return this->getServerVar("HTTP_X_REQUESTED_WITH") === "XMLHttpRequest";
-    }
-
-    public function getIp(string index = "REMOTE_ADDR") -> string
-    {
-        return (string) this->getServerVar(index, "0.0.0.0");
-    }
-
-    public function hasUploadedFile(string index) -> bool
+    public function hasUploadedFile(string index) -> boolean
     {
         var error;
 
-        return fetch error, _FILES[index]["error"] && is_numeric(error);
+        return fetch error, this->files[index]["error"] && is_numeric(error);
     }
 
     public function getUploadedFile(string index) -> <UploadedFile>
@@ -131,7 +94,7 @@ class Http extends ApplicationAbstract
         var a, error, size, name, tmpName;
 
         loop {
-            if unlikely ! fetch a, _FILES[index] || typeof a != "array" {
+            if unlikely ! fetch a, this->files[index] || typeof a != "array" {
                 break;
             }
 
@@ -151,14 +114,14 @@ class Http extends ApplicationAbstract
             return this->newUploadedFile(error, size, name, tmpName);
         }
 
-        throw new Exception("Invalid uploaded file: " . index);
+        throw new Exception(sprintf("Invalid uploaded file '%s'", index));
     }
 
     public function getUploadedFiles(string index) -> array
     {
         var files = [], a, errors, i, error, size, name, tmpName;
 
-        if unlikely ! fetch a, _FILES[index] && typeof a != "array" {
+        if unlikely ! fetch a, this->files[index] && typeof a != "array" {
             return files;
         }
 
@@ -183,10 +146,45 @@ class Http extends ApplicationAbstract
         return files;
     }
 
-    public function cookieOptions() -> array
+    public function getRequestMethod() -> string
     {
-        if count(this->cookieOptions) < 1 {
-            let this->cookieOptions = [
+        return (string) this->getServerVar("REQUEST_METHOD", "UNKNOWN");
+    }
+
+    public function getRemoteAddr() -> string
+    {
+        return (string) this->getServerVar("REMOTE_ADDR", "0.0.0.0");
+    }
+
+    public function isXhr() -> boolean
+    {
+        return this->getServerVar("HTTP_X_REQUESTED_WITH") === "XMLHttpRequest";
+    }
+
+    public function getHttpHost() -> string
+    {
+        return (string) this->getServerVar("HTTP_HOST");
+    }
+
+    public function getHttpUserAgent() -> string
+    {
+        return (string) this->getServerVar("HTTP_USER_AGENT");
+    }
+
+    public function getHttpReferer() -> string
+    {
+        return (string) this->getServerVar("HTTP_REFERER");
+    }
+
+    public function setDefaultCookieOptions(array options) -> void
+    {
+        let this->defaultCookieOptions = array_merge(this->getDefaultCookieOptions(), options);
+    }
+
+    public function getDefaultCookieOptions() -> array
+    {
+        if this->defaultCookieOptions === null {
+            let this->defaultCookieOptions = [
                 "expire"    : 0,
                 "path"      : "/",
                 "domain"    : "",
@@ -195,174 +193,48 @@ class Http extends ApplicationAbstract
             ];
         }
 
-        return this->cookieOptions;
+        return this->defaultCookieOptions;
     }
 
-    public function setCookieOptions(array cookieOptions) -> void
+    public function status(long status) -> void
     {
-        let this->cookieOptions = array_merge(this->cookieOptions(), cookieOptions);
+        http_response_code(status);
     }
 
-    public function responseStatus() -> long
+    public function cookie(string name, string value, array options = []) -> void
     {
-        return this->responseStatus;
+        var a;
+
+        let a = array_merge(this->getDefaultCookieOptions(), options);
+        setcookie(name, value, a["expire"], a["path"], a["domain"], a["secure"], a["httpOnly"]);
     }
 
-    public function setResponseStatus(long responseStatus) -> void
+    public function header(string name, string value) -> void
     {
-        let this->responseStatus = responseStatus;
+        header(name . ": " . value);
     }
 
-    public function sendResponseStatus() -> void
+    public function redirect(string url) -> void
     {
-        long responseStatus;
-
-        let responseStatus = (long) this->responseStatus;
-        if responseStatus != 200 {
-            http_response_code(responseStatus);
-        }
+        this->header("Location", url);
     }
 
-    public function responseCookie(string name)
+    public function sendFile(string path) -> void
     {
-        var cookie;
-
-        if fetch cookie, this->responseCookies[name] {
-            return cookie;
-        }
+        readfile(path);
     }
 
-    public function responseCookies() -> array
+    protected function setParamsFromRequestUri() -> void
     {
-        if count(this->responseCookies) > 0 {
-            return this->responseCookies;
+        var uri, pos;
+
+        let uri = (string) this->getServerVar("REQUEST_URI");
+        let pos = strpos(uri, "?");
+        if pos !== false {
+            let uri = (string) substr(uri, 0, pos);
         }
 
-        return [];
-    }
-
-    public function setResponseCookie(string name, string value, array options = []) -> void
-    {
-        let options["name"] = name;
-        let options["value"] = value;
-
-        let this->responseCookies[name] = options;
-    }
-
-    public function hasResponseCookie(string name) -> bool
-    {
-        return isset this->responseCookies[name];
-    }
-
-    public function removeResponseCookie(string name) -> void
-    {
-        unset this->responseCookies[name];
-    }
-
-    public function clearResponseCookies() -> void
-    {
-        let this->responseCookies = null;
-    }
-
-    public function sendResponseCookies() -> void
-    {
-        var cookieOptions, cookie;
-
-        let cookieOptions = this->cookieOptions();
-
-        for cookie in this->responseCookies() {
-            let cookie = array_merge(cookieOptions, cookie);
-            setcookie(
-                cookie["name"],
-                cookie["value"],
-                cookie["expire"],
-                cookie["path"],
-                cookie["domain"],
-                cookie["secure"],
-                cookie["httpOnly"]
-            );
-        }
-
-        this->clearResponseCookies();
-    }
-
-    public function responseHeaders() -> array
-    {
-        if count(this->responseHeaders) > 0 {
-            return this->responseHeaders;
-        }
-
-        return [];
-    }
-
-    public function setResponseHeader(string name, string value) -> void
-    {
-        let this->responseHeaders[name->lower()] = name . ": " . value;
-    }
-
-    public function setResponseHeaders(array responseHeaders) -> void
-    {
-        var name, value;
-
-        for name, value in responseHeaders {
-            let this->responseHeaders[strtolower(name)] = name . ": " . value;
-        }
-    }
-
-    public function addResponseHeader(string name, string value) -> void
-    {
-        var newHeaders;
-
-        let newHeaders = [];
-        let newHeaders[name->lower()] = name . ": " . value;
-
-        let this->responseHeaders = array_merge_recursive(this->responseHeaders(), newHeaders);
-    }
-
-    public function hasResponseHeader(string name) -> bool
-    {
-        return isset this->responseHeaders[name];
-    }
-
-    public function removeResponseHeader(string name) -> void
-    {
-        unset this->responseHeaders[name];
-    }
-
-    public function clearResponseHeaders() -> void
-    {
-        let this->responseHeaders = null;
-    }
-
-    public function sendResponseHeaders() -> void
-    {
-        var headerGroup, header;
-
-        for headerGroup in this->responseHeaders() {
-            if typeof headerGroup == "array" {
-                for header in headerGroup {
-                    header(header);
-                }
-            } else {
-                header(headerGroup);
-            }
-        }
-
-        this->clearResponseHeaders();
-    }
-
-    public function __invoke() -> void
-    {
-        var renderer;
-
-        let renderer = this->renderer();
-        renderer->withHttp(this);
-
-        this->sendResponseStatus();
-        this->sendResponseCookies();
-        this->sendResponseHeaders();
-
-        renderer->render();
+        let this->params = preg_split("#/+#", uri, null, PREG_SPLIT_NO_EMPTY);
     }
 
 }

@@ -6,6 +6,13 @@ class NamespaceDirectory extends LoaderAbstract
 
     public function __construct(array namespaceDirectories = []) -> void
     {
+        if count(namespaceDirectories) > 0 {
+            this->setNamespaceDirectories(namespaceDirectories);
+        }
+    }
+
+    public function setNamespaceDirectories(array namespaceDirectories) -> void
+    {
         var n, d;
 
         for n, d in namespaceDirectories {
@@ -13,15 +20,20 @@ class NamespaceDirectory extends LoaderAbstract
         }
     }
 
-    public function set(string ns, string dir) -> void
+    public function setNamespaceDirectory(string ns, string dir) -> void
     {
         let this->namespaceDirectories[ns->lower()] = dir;
+    }
+
+    public function hasNamespace(string ns) -> boolean
+    {
+        return isset this->namespaceDirectories[ns->lower()];
     }
 
     public function findPath(string name) -> string
     {
         var match, pos, dir;
-        bool found = false;
+        boolean found = false;
 
         let match = name->lower();
         loop {

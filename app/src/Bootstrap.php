@@ -6,53 +6,20 @@ class Bootstrap
 {
     public function __construct($di)
     {
-        // configs
-        $configs = [];
-        foreach ([
-            __DIR__.'/../config.php',
-            __DIR__.'/../config.local.php',
-        ] as $c) {
-            if (file_exists($c)) {
-                $configs = array_replace_recursive($configs, (array) require $c);
-            }
+        $context = $di->context;
+
+        if ($context instanceof \Nc\Application\Http) {
+            $context->header('Content-Type', 'text/plain; charset=UTF-8');
         }
-        $di->configs = (object) $configs;
 
-        // di services
-        $di('redis', function($di) {
-            $config = $di->configs->redis;
-            $redis = new \Redis();
-            $redis->connect($config['host'], $config['port']);
-            return $redis;
-        });
+        $context->output(sprintf(
+            '%0.3fms,%0.3fM',
+            (microtime(true) - $context->getRequestTimeFloat()) * 1e3,
+            memory_get_peak_usage() / 1024 /1024
+        ));
 
-        $di('mysql', function($di) {
-            $config = $di->configs->mysql;
-            return new \Nc\Db\PdoMysql(sprintf(
-                'mysql:host=%s;port=%d;dbname=%s;charset=utf8',
-                $config['host'],
-                $config['port'],
-                $config['dbname']
-            ), $config['user'], $config['passwd']);
-        });
-
-        $di('mongodb', function($di) {
-            $config = $di->configs->mongodb;
-            return (new \MongoClient(sprintf(
-                'mongodb://%s:%d',
-                $config['host'],
-                $config['port']
-            )))->selectDb($config['dbname']);
-        });
-
-        $di('', function($di) {
-        });
-
-        // routing
-        $controllerFactory = new \Nc\Factory\Namespaced(__NAMESPACE__.'\Controller');
-        $controllerFactory->setArgs($di);
-
-        \Nc\Application\ControllerAbstract::dispatch($controllerFactory, []);
+        $context->output(PHP_EOL);
+        $context->output(print_R(get_included_files(), true));
     }
 
 }

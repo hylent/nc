@@ -3,5 +3,5 @@
 /build/*.dll
 config.local.php
 *.phar
-/ext
 /compile*.log
+/ext/

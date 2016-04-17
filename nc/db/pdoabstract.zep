@@ -7,7 +7,7 @@ abstract class PdoAbstract extends DbAbstract
     public function __construct() -> void
     {
         if unlikely ! extension_loaded("pdo") {
-            throw new Exception("Missing extension: pdo");
+            throw new Exception("Missing extension: 'pdo'");
         }
 
         let this->pdo = (new \ReflectionClass("Pdo"))->newInstanceArgs(func_get_args());
@@ -23,15 +23,13 @@ abstract class PdoAbstract extends DbAbstract
         return this->pdo->quote(value);
     }
 
-    public function queryAndFetch(long $fetch, string sql, array params = [])
+    public function execute(string sql, array params = [], long $fetch = DbInterface::NONE)
     {
-        var statement, k, v, err;
-        double startMt;
-        string profiledQuery;
-        bool success;
+        var t, q, statement, k, v, err;
+        boolean success;
         var resultItem, result;
 
-        let startMt = (double) microtime(true);
+        let t = microtime(true);
         let statement = this->pdo->prepare(sql);
 
         if count(params) > 0 {
@@ -44,14 +42,12 @@ abstract class PdoAbstract extends DbAbstract
             }
         }
 
-        let success = (bool) statement->execute();
-
-        let profiledQuery = (string) DbAbstract::profiledQuery(sql, params, startMt);
-        let this->queries[] = profiledQuery;
+        let success = (boolean) statement->execute();
+        let q = this->addQuery(sql, params, t);
 
         if unlikely ! success {
             let err = statement->errorInfo();
-            throw new QueryException(err[2] . " [SQL] " . profiledQuery);
+            throw new ExecutionException(err[2] . " [SQL] " . q);
         }
 
         switch $fetch {
@@ -66,7 +62,7 @@ abstract class PdoAbstract extends DbAbstract
                 if resultItem {
                     return resultItem;
                 }
-                return null;
+                return;
 
             case DbInterface::CELL:
                 return (string) statement->fetchColumn();
@@ -83,20 +79,20 @@ abstract class PdoAbstract extends DbAbstract
                 return result;
         }
 
-        throw new Exception("Invalid fetch mode: " . strval($fetch));
+        throw new Exception(sprintf("Invalid fetch mode '%s'", $fetch));
     }
 
-    protected function tryToBegin() -> bool
+    protected function tryToBegin() -> boolean
     {
         return this->pdo->beginTransaction();
     }
 
-    protected function tryToCommit() -> bool
+    protected function tryToCommit() -> boolean
     {
         return this->pdo->commit();
     }
 
-    protected function tryToRollback() -> bool
+    protected function tryToRollback() -> boolean
     {
         return this->pdo->rollback();
     }

@@ -18,7 +18,7 @@ abstract class FactoryAbstract implements FactoryInterface
         return this;
     }
 
-    public function __isset(string name) -> bool
+    public function __isset(string name) -> boolean
     {
         return isset this->creations[name];
     }

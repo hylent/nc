@@ -1,23 +1,34 @@
 namespace Nc\Storage;
 
-use Nc\Std;
-
 class Ftp extends StorageAbstract
 {
     protected ftp;
     protected baseDirectory;
 
+    public static function ignoreError(long n, string s, string f, string l, array context = null) -> void
+    {
+        return;
+    }
+
     public function __construct(string host, string user, string passwd, array options = []) -> void
     {
-        string baseDirectory;
-        long port, timeout;
-        bool ssl;
-        var ftp;
+        var o, ftp;
+        string baseDirectory = "";
+        long port = 21, timeout = 10;
+        boolean ssl = false;
 
-        let baseDirectory = (string) Std::valueAt(options, "baseDirectory", "");
-        let port = (long) Std::valueAt(options, "port", 21);
-        let timeout = (long) Std::valueAt(options, "timeout", 10);
-        let ssl = (bool) Std::valueAt(options, "ssl", false);
+        if fetch o, options["baseDirectory"] {
+            let baseDirectory = (string) o;
+        }
+        if fetch o, options["port"] {
+            let port = (long) o;
+        }
+        if fetch o, options["timeout"] {
+            let timeout = (long) o;
+        }
+        if fetch o, options["ssl"] {
+            let ssl = (boolean) o;
+        }
 
         if ssl {
             if unlikely ! function_exists("ftp_ssl_connect") {
@@ -34,11 +45,11 @@ class Ftp extends StorageAbstract
         }
 
         if unlikely ! ftp {
-            throw new Exception("Cannot connect to ftp server: " . host);
+            throw new Exception(sprintf("Cannot connect to ftp server '%s'", host));
         }
 
         if unlikely user && ! ftp_login(ftp, user, passwd) {
-            throw new Exception("Cannot login ftp server: " . user . "@" . host);
+            throw new Exception(sprintf("Cannot login ftp server '%s@%s'", user, host));
         }
 
         if unlikely ! ftp_pasv(ftp, true) {
@@ -54,35 +65,40 @@ class Ftp extends StorageAbstract
         return this->ftp;
     }
 
-    public function store(string source, string prefix = "", string extension = "", long flag = 0) -> string
+    public function getBaseDirectory() -> string
+    {
+        return this->baseDirectory;
+    }
+
+    public function store(string src, string pre = "", string ext = "", long type = 0) -> string
     {
         string destUri, destPath;
 
-        let destUri = (string) this->generateUri(source, prefix, extension);
+        let destUri = (string) this->generateUri(src, pre, ext);
         let destPath = this->baseDirectory . destUri;
 
         this->mkDirIfNotExists(dirname(destPath));
 
-        if unlikely ! ftp_put(this->ftp, destPath, source, FTP_BINARY) {
+        if unlikely ! ftp_put(this->ftp, destPath, src, FTP_BINARY) {
             throw new Exception("Cannot store file to: " . destPath);
         }
 
-        switch flag {
+        switch type {
             case StorageAbstract::MOVE_UPLOADED_FILE:
             case StorageAbstract::MOVE:
-                unlink(source);
+                unlink(src);
                 break;
         }
 
         return destUri;
     }
 
-    public function remove(string uri) -> bool
+    public function remove(string uri) -> boolean
     {
         return ftp_delete(this->ftp, uri);
     }
 
-    public function exists(string uri) -> bool
+    public function exists(string uri) -> boolean
     {
         return ftp_mdtm(this->ftp, uri) !== -1;
     }
@@ -99,7 +115,7 @@ class Ftp extends StorageAbstract
         let ftp = this->ftp;
         let parts = preg_split("#/+#", dir, -1, PREG_SPLIT_NO_EMPTY);
 
-        set_error_handler(Std::IGNORE_ERROR);
+        set_error_handler(__CLASS__ . "::ignoreError");
 
         while count(parts) > 0 {
             let cur = "/" . join("/", parts);

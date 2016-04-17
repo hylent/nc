@@ -1,7 +1,0 @@
-<?php
-
-//
-
-
-action
-data access

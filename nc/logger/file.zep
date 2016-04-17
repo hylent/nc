@@ -6,11 +6,17 @@ class File extends LoggerAbstract
 
     protected logs;
     protected path;
-    protected chunkSize = 0;
+    protected chunkSize;
 
-    public function __construct(string path) -> void
+    public function __construct(string path, long chunkSize = 0) -> void
     {
         let this->path = path;
+        let this->chunkSize = chunkSize;
+    }
+
+    public function getPath() -> string
+    {
+        return this->path;
     }
 
     public function setChunkSize(long chunkSize) -> void

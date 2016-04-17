@@ -20,7 +20,7 @@ class Image extends ImageAbstract
         return this->backend->crop(this, x, y, w, h);
     }
 
-    public function thumbnail(long width, long height = 0, bool cropped = false) -> <Image>
+    public function thumbnail(long width, long height = 0, boolean cropped = false) -> <Image>
     {
         return this->backend->thumbnail(this, width, height, cropped);
     }
@@ -78,7 +78,7 @@ class Image extends ImageAbstract
                 break;
 
             default:
-                throw new Exception("Invalid position: " . position);
+                throw new Exception(sprintf("Invalid position '%d'", position));
         }
 
         return this->backend->draw(this, srcItem, x, y);

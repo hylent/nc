@@ -5,7 +5,7 @@ class Gd extends ImageBackendAbstract
     public function __construct() -> void
     {
         if unlikely ! extension_loaded("gd") {
-            throw new Exception("Missing extension: gd");
+            throw new Exception("Missing extension: 'gd'");
         }
     }
 
@@ -70,7 +70,7 @@ class Gd extends ImageBackendAbstract
 
         let eit = exif_imagetype(path);
         if unlikely eit === false {
-            throw new Exception("Not an image file: " . path);
+            throw new Exception(sprintf("Not an image file '%s'", path));
         }
 
         switch eit {
@@ -85,7 +85,7 @@ class Gd extends ImageBackendAbstract
                 break;
 
             default:
-                throw new Exception("Unsupported image type: " . eit);
+                throw new Exception(sprintf("Unsupported image type '%s'", eit));
         }
 
         if unlikely ! handler {
@@ -306,7 +306,7 @@ class Gd extends ImageBackendAbstract
         return destIm;
     }
 
-    public function thumbnail(<Image> im, long width, long height, bool cropped) -> <Image>
+    public function thumbnail(<Image> im, long width, long height, boolean cropped) -> <Image>
     {
         var destIm;
         long srcW, srcH, w, h, x, y;
@@ -368,7 +368,7 @@ class Gd extends ImageBackendAbstract
                 break;
             }
 
-            throw new Exception("Invalid item type: " . get_class(srcIm));
+            throw new Exception(sprintf("Invalid item type '%s'", get_class(srcIm)));
         }
 
         return resultIm;
@@ -388,7 +388,7 @@ class Gd extends ImageBackendAbstract
                 return "image/jpeg";
         }
 
-        throw new Exception("Unsupported extension: " . im->extension);
+        throw new Exception(sprintf("Unsupported extension '%s'", im->extension));
     }
 
     public function save(<Image> im, string destPath) -> void
@@ -414,7 +414,7 @@ class Gd extends ImageBackendAbstract
                 break;
 
             default:
-                throw new Exception("Unsupported extension: " . im->extension);
+                throw new Exception(sprintf("Unsupported extension '%s'", im->extension));
         }
 
         throw new Exception("Cannot save image");

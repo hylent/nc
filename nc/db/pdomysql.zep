@@ -2,53 +2,42 @@ namespace Nc\Db;
 
 class PdoMysql extends PdoAbstract
 {
-    public function insert(string table, array data, string returningId = "", bool upsert = false)
+    public function insert(string t, array data, string returningId = "", boolean upsert = false)
     {
-        var k, ks = [], vs = [];
-        string s;
-        var returningIdValue;
+        var s, r;
 
-        for k, _ in data {
-            let ks[] = k;
-            let vs[] = ":" . k;
-        }
+        let s = this->makeInsert(t, data);
 
         if upsert {
-            let s = "REPLACE";
-        } else {
-            let s = "INSERT";
+            let s = (string) preg_replace("/^INSERT /i", "REPLACE ", s);
         }
 
-        let s .= " INTO " . table . " (" . implode(", ", ks) . ") VALUES (" . implode(", ", vs) . ")";
+        this->execute(s, data);
 
-        this->query(s, data);
+        if returningId->length() > 0 {
+            if fetch r, data[returningId] {
+                return r;
+            }
 
-        if returningId->length() < 1 {
-            return;
+            return this->queryCell("SELECT LAST_INSERT_ID()");
         }
-
-        if fetch returningIdValue, data[returningId] {
-            return (string) returningIdValue;
-        }
-
-        return this->queryCell("SELECT LAST_INSERT_ID()");
     }
 
-    public function upsert(string table, array data, var primaryKey = "id") -> void
+    public function upsert(string t, array data, var primaryKey = "id") -> void
     {
-        this->checkUpsertKeys(data, primaryKey);
-        this->insert(table, data, "", true);
+        this->checkUpsert(data, primaryKey);
+        this->insert(t, data, "", true);
     }
 
-    public function countAndSelect(string table, array options = [], long $fetch = DbInterface::ALL) -> array
+    public function countAndSelect(string t, array where = [], array options = []) -> array
     {
-        string s;
         var d;
 
-        let s = (string) this->parseSelect(table, options);
-        let s = (string) preg_replace("/^SELECT /i", "SELECT SQL_CALC_FOUND_ROWS ", s);
-
-        let d = this->queryAndFetch($fetch, s);
+        let d = this->query(preg_replace(
+            "/^SELECT /i",
+            "SELECT SQL_CALC_FOUND_ROWS ",
+            this->makeSelect(t, where, options)
+        ));
 
         return [
             (long) this->queryCell("SELECT FOUND_ROWS()"),
@@ -56,18 +45,18 @@ class PdoMysql extends PdoAbstract
         ];
     }
 
-    public function parsePagination(string query, long limit, long skip) -> string
+    protected function makeRandomOrder() -> string
+    {
+        return "RAND()";
+    }
+
+    protected function makePagination(string query, long limit, long skip) -> string
     {
         if skip == 0 {
             return sprintf("%s LIMIT %d", query, limit);
         }
 
         return sprintf("%s LIMIT %d, %d", query, skip, limit);
-    }
-
-    public function parseRandomOrder() -> string
-    {
-        return "RAND()";
     }
 
 }

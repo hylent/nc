@@ -1,41 +1,42 @@
 namespace Nc\Storage;
 
-use Nc\Std;
-
-abstract class StorageAbstract
+abstract class StorageAbstract implements StorageInterface, UriGeneratorInterface
 {
-    const COPY                  = 0;
-    const MOVE                  = 1;
-    const MOVE_UPLOADED_FILE    = 2;
-
     protected uriGenerator;
 
-    public function setUriGenerator(<\Closure> uriGenerator) -> void
+    public static function uuid(string salt = "") -> string
+    {
+        return sha1(uniqid(mt_rand(), true) . salt) . sprintf("%04x", (long) time() & 0xffff);
+    }
+
+    public function setUriGenerator(<UriGeneratorInterface> uriGenerator = null) -> void
     {
         let this->uriGenerator = uriGenerator;
     }
 
-    public function getUriGenerator() -> <\Closure>
+    public function getUriGenerator() -> <UriGeneratorInterface>
     {
         return this->uriGenerator;
     }
 
-    public function generateUri(string source, string prefix, string extension) -> string
+    public function generateUri(string src, string pre, string ext) -> string
     {
+        var uriGenerator;
         string uri = "/", uuid;
 
-        if this->uriGenerator {
-            return call_user_func(this->uriGenerator, source, prefix, extension);
+        let uriGenerator = this->uriGenerator;
+        if typeof uriGenerator == "object" && (uriGenerator instanceof UriGeneratorInterface) {
+            return uriGenerator->generateUri(src, pre, ext);
         }
 
-        if prefix->length() > 0 {
-            if unlikely ! preg_match("#^(\\w+/)*\\w*$#", prefix) {
-                throw new Exception("Invalid prefix: " . prefix);
+        if pre->length() > 0 {
+            if unlikely ! preg_match("#^(\\w+/)*\\w*$#", pre) {
+                throw new Exception(sprintf("Invalid uri prefix '%s'", pre));
             }
-            let uri .= prefix;
+            let uri .= pre;
         }
 
-        let uuid = (string) Std::uuid(source . extension);
+        let uuid = (string) self::uuid(src . ext);
 
         let uri .= uuid[0];
         let uri .= uuid[1];
@@ -45,15 +46,11 @@ abstract class StorageAbstract
         let uri .= '/';
         let uri .= uuid;
 
-        if extension->length() > 0 {
-            let uri .= "." . extension;
+        if ext->length() > 0 {
+            let uri .= "." . ext;
         }
 
         return uri;
     }
-
-    abstract public function store(string source, string prefix = "", string extension = "", long flag = 0) -> string;
-    abstract public function remove(string uri) -> bool;
-    abstract public function exists(string uri) -> bool;
 
 }

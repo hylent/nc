@@ -7,48 +7,50 @@ class Fastdfs extends StorageAbstract
     public function __construct(array prefixGroups = []) -> void
     {
         if unlikely ! extension_loaded("fastdfs_client") {
-            throw new Exception("Missing extension: fastdfs_client");
+            throw new Exception("Missing extension 'fastdfs_client'");
         }
 
         let this->prefixGroups = prefixGroups;
     }
 
-    public function store(string source, string prefix = "", string extension = "", long flag = 0) -> string
+    public function store(string src, string pre = "", string ext = "", long type = StorageInterface::COPY) -> string
     {
-        var extensionArg = null, groupArg, destUri;
+        var extArg = null, groupArg, destUri;
         string fun = "fastdfs_storage_upload_by_filename1";
 
-        if extension->length() > 0 {
-            let extensionArg = extension;
+        if ext->length() > 0 {
+            let extArg = ext;
         }
-        if ! fetch groupArg, this->prefixGroups[prefix] {
+        if ! fetch groupArg, this->prefixGroups[pre] {
             let groupArg = null;
         }
 
-        let destUri = {fun}(source, extensionArg, [], groupArg);
+        let destUri = {fun}(src, extArg, [], groupArg);
         if unlikely destUri === false {
             throw new Exception("Cannot store file");
         }
 
-        switch flag {
+        switch type {
             case StorageAbstract::MOVE_UPLOADED_FILE:
             case StorageAbstract::MOVE:
-                unlink(source);
+                unlink(src);
                 break;
         }
 
         return "/" . destUri;
     }
 
-    public function remove(string uri) -> bool
+    public function remove(string uri) -> boolean
     {
         string fun = "fastdfs_storage_delete_file1";
+
         return {fun}(ltrim(uri, "/"));
     }
 
-    public function exists(string uri) -> bool
+    public function exists(string uri) -> boolean
     {
         string fun = "fastdfs_storage_file_exist1";
+
         return {fun}(ltrim(uri, "/"));
     }
 

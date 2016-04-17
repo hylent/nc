@@ -5,7 +5,7 @@ class Imagick extends ImageBackendAbstract
     public function __construct() -> void
     {
         if unlikely ! extension_loaded("imagick") {
-            throw new Exception("Missing extension: imagick");
+            throw new Exception("Missing extension: 'imagick'");
         }
     }
 
@@ -87,7 +87,7 @@ class Imagick extends ImageBackendAbstract
 
         let imagick = new \Imagick();
         if unlikely ! imagick->readImage(realpath(path)) {
-            throw new Exception("Cannot read image: " . path);
+            throw new Exception(sprintf("Cannot read image '%s'", path));
         }
 
         let im = this->newImage();
@@ -314,7 +314,7 @@ class Imagick extends ImageBackendAbstract
         return destIm;
     }
 
-    public function thumbnail(<Image> im, long width, long height, bool cropped) -> <Image>
+    public function thumbnail(<Image> im, long width, long height, boolean cropped) -> <Image>
     {
         var destIm;
 
@@ -357,7 +357,7 @@ class Imagick extends ImageBackendAbstract
                 break;
             }
 
-            throw new Exception("Invalid item type: " . get_class(srcIm));
+            throw new Exception(sprintf("Invalid item type '%s'", get_class(srcIm)));
         }
 
         return resultIm;

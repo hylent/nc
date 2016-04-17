@@ -2,39 +2,54 @@ namespace Nc\Logger;
 
 class Loggers extends LoggerAbstract
 {
-    protected globalLoggers;
-    protected loggers;
+    protected commonLoggers;
+    protected levelLoggers;
 
     public function addLogger(<LoggerInterface> logger, string level = "") -> void
     {
-        string h;
-        var lev;
+        var h, lev;
 
-        let h = (string) spl_object_hash(logger);
+        let h = spl_object_hash(logger);
 
         if level->length() < 1 {
-            let this->globalLoggers[h] = logger;
-            return;
-        }
-
-        for lev in preg_split("@[,/\\|]+@", level, PREG_SPLIT_NO_EMPTY) {
-            let this->loggers[lev][h] = logger;
+            let this->commonLoggers[h] = logger;
+        } else {
+            for lev in preg_split("@[,/\\|]+@", level, PREG_SPLIT_NO_EMPTY) {
+                let this->levelLoggers[lev][h] = logger;
+            }
         }
     }
 
+    public function getLoggers(string level = "") -> array
+    {
+        var loggers;
+
+        if level->length() < 1 {
+            let loggers = this->commonLoggers;
+            if typeof loggers == "array" {
+                return loggers;
+            }
+        } else {
+            if fetch loggers, this->levelLoggers[level] && typeof loggers == "array" {
+                return loggers;
+            }
+        }
+
+        return [];
+    }
 
     public function log(string level, string message, array context = []) -> void
     {
         var loggers, logger;
 
-        let loggers = this->globalLoggers;
+        let loggers = this->commonLoggers;
         if typeof loggers == "array" {
             for logger in loggers {
                 logger->log(level, message, context);
             }
         }
 
-        if fetch loggers, this->loggers[level] && typeof loggers == "array" {
+        if fetch loggers, this->levelLoggers[level] && typeof loggers == "array" {
             for logger in loggers {
                 logger->log(level, message, context);
             }

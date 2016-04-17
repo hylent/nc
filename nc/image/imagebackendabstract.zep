@@ -68,7 +68,7 @@ abstract class ImageBackendAbstract
     abstract public function largest(<Image> im, long width, long height) -> <Image>;
     abstract public function resize(<Image> im, long width, long height) -> <Image>;
     abstract public function crop(<Image> im, long x, long y, long w, long h) -> <Image>;
-    abstract public function thumbnail(<Image> im, long width, long height, bool cropped) -> <Image>;
+    abstract public function thumbnail(<Image> im, long width, long height, boolean cropped) -> <Image>;
     abstract public function draw(<Image> destIm, <ImageAbstract> srcIm, long x, long y) -> <Image>;
 
     abstract public function mimeType(<Image> im) -> string;

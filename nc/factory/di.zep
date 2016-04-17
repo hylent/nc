@@ -20,7 +20,7 @@ class Di extends FactoryAbstract
         unset this->initializers[name];
     }
 
-    public function __isset(string name) -> bool
+    public function __isset(string name) -> boolean
     {
         return parent::__isset(name) || isset this->initializers[name];
     }

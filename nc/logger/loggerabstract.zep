@@ -1,7 +1,5 @@
 namespace Nc\Logger;
 
-use Nc\Std;
-
 abstract class LoggerAbstract implements LoggerInterface
 {
     const EMERGENCY = "emergency";
@@ -15,11 +13,17 @@ abstract class LoggerAbstract implements LoggerInterface
 
     public static function stringifyLog(string level, string message, array context = []) -> string
     {
+        var k, v, r = [];
+
+        for k, v in context {
+            let r["{" . k . "}"] = (string) v;
+        }
+
         return sprintf(
             "[%s] [%s] %s",
             date("c"),
             level,
-            Std::tr(message, context)
+            strtr(message, r)
         );
     }
 
