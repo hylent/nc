@@ -5,3 +5,4 @@ config.local.php
 *.phar
 /compile*.log
 /ext/
+/*.bat
