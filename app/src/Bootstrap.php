@@ -15,7 +15,7 @@ class Bootstrap
         $context->output(sprintf(
             '%0.3fms,%0.3fM',
             (microtime(true) - $context->getRequestTimeFloat()) * 1e3,
-            memory_get_peak_usage() / 1024 /1024
+            memory_get_peak_usage() / 1024 / 1024
         ));
 
         $context->output(PHP_EOL);
