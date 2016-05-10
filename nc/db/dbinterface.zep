@@ -42,12 +42,6 @@ interface DbInterface
     public function selectColumns(string t, array where = [], array options = []);
     public function countAndSelect(string t, array where = [], array options = []) -> array;
 
-    public function first(string t, array where = [], var orderBy = null, boolean forUpdate = false);
-    public function find(string t, array where = [], var orderBy = null, long limit = 0, long skip = 0) -> array;
-    public function paged(string t, array where = [], var orderBy = null, long limit = 10, long page = 1) -> array;
-    public function chunk(string t, var cb, array where = [], var orderBy = null, long limit = 5000) -> long;
-    public function chunkDynamicly(string t, var cb, array where = [], var orderBy = null, long limit = 5000) -> long;
-
     public function group(string t, string groupBy, array aggrs, array where = [], array options = []) -> array;
     public function aggregations(string t, array aggrs, array where = []) -> array;
     public function aggregation(string t, string aggrFunction, string column, array where = []) -> string;

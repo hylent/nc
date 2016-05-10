@@ -56,7 +56,7 @@
     "name": "Nc Framework",
     "description": "A PHP framework for web development.",
     "author": "Hylent",
-    "version": "0.16.4",
+    "version": "0.16.5",
     "verbose": false,
     "requires": {
         "extensions": []
