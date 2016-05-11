@@ -3,6 +3,7 @@ namespace Nc\Db;
 class Oci8 extends DbAbstract
 {
     protected oci;
+    protected lastStatement;
 
     public function __construct(string dsn, string user, string passwd) -> void
     {
@@ -30,11 +31,10 @@ class Oci8 extends DbAbstract
         return "'" . str_replace("'", "''", value) . "'";
     }
 
-    public function execute(string sql, array params = [], long $fetch = DbInterface::NONE)
+    public function execute(string sql, array params = [])
     {
         var t, q, statement, k, v, err, errMessage, queryMode;
         boolean success;
-        var result, resultRow, resultCell;
 
         let t = microtime(true);
         let statement = oci_parse(this->oci, sql);
@@ -62,50 +62,79 @@ class Oci8 extends DbAbstract
             throw new ExecutionException(errMessage . " [SQL] " . q);
         }
 
-        switch $fetch {
-            case DbInterface::NONE:
-                return;
+        let this->lastStatement = statement;
+    }
 
-            case DbInterface::ALL:
-                let result = [];
-                let queryMode = OCI_RETURN_NULLS + OCI_RETURN_LOBS + OCI_ASSOC;
-                loop {
-                    let resultRow = oci_fetch_array(statement, queryMode);
-                    if ! resultRow {
-                        break;
-                    }
-                    let result[] = array_change_key_case(resultRow);
-                }
-                return result;
+    public function query(string sql, array params = []) -> array
+    {
+        var statement, queryMode, result = [], resultRow;
 
-            case DbInterface::ROW:
-                let resultRow = oci_fetch_array(statement, OCI_RETURN_NULLS + OCI_RETURN_LOBS + OCI_ASSOC);
-                if resultRow {
-                    return array_change_key_case(resultRow);
-                }
-                return;
+        this->execute(sql, params);
 
-            case DbInterface::CELL:
-                let resultRow = oci_fetch_array(statement, OCI_RETURN_NULLS + OCI_RETURN_LOBS + OCI_NUM);
-                if typeof resultRow == "array" && fetch resultCell, resultRow[0] {
-                    return resultCell;
-                }
-                return "";
+        let statement = this->lastStatement;
+        let queryMode = OCI_RETURN_NULLS + OCI_RETURN_LOBS + OCI_ASSOC;
 
-            case DbInterface::COLUMNS:
-                let result = [];
-                let queryMode = OCI_RETURN_NULLS + OCI_RETURN_LOBS + OCI_NUM;
-                loop {
-                    let resultRow = oci_fetch_array(statement, queryMode);
-                    if typeof resultRow != "array" || ! fetch resultCell, resultRow[0] {
-                        break;
-                    }
-                    let result[] = resultCell;
-                }
-                return result;
+        loop {
+            let resultRow = oci_fetch_array(statement, queryMode);
+            if ! resultRow {
+                break;
+            }
+            let result[] = array_change_key_case(resultRow);
         }
 
-        throw new Exception(sprintf("Invalid fetch mode '%s'", $fetch));
+        return result;
+    }
+
+    public function queryRow(string sql, array params = [])
+    {
+        var statement, queryMode, resultRow;
+
+        this->execute(sql, params);
+
+        let statement = this->lastStatement;
+        let queryMode = OCI_RETURN_NULLS + OCI_RETURN_LOBS + OCI_ASSOC;
+
+        let resultRow = oci_fetch_array(statement, queryMode);
+        if resultRow {
+            return array_change_key_case(resultRow);
+        }
+    }
+
+    public function queryCell(string sql, array params = []) -> string
+    {
+        var statement, queryMode, resultRow, resultCell;
+
+        this->execute(sql, params);
+
+        let statement = this->lastStatement;
+        let queryMode = OCI_RETURN_NULLS + OCI_RETURN_LOBS + OCI_NUM;
+
+        let resultRow = oci_fetch_array(statement, queryMode);
+        if typeof resultRow == "array" && fetch resultCell, resultRow[0] {
+            return resultCell;
+        }
+
+        return "";
+    }
+
+    public function queryColumns(string sql, array params = []) -> array
+    {
+        var statement, queryMode, resultRow, resultCell, result = [];
+
+        this->execute(sql, params);
+
+        let statement = this->lastStatement;
+        let queryMode = OCI_RETURN_NULLS + OCI_RETURN_LOBS + OCI_NUM;
+
+        loop {
+            let resultRow = oci_fetch_array(statement, queryMode);
+            if typeof resultRow != "array" || ! fetch resultCell, resultRow[0] {
+                break;
+            }
+            let result[] = resultCell;
+        }
+
+        return result;
     }
 
     public function upsert(string t, array data, var primaryKey = "id") -> void

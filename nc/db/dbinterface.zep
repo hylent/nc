@@ -2,12 +2,6 @@ namespace Nc\Db;
 
 interface DbInterface
 {
-    const NONE      = 0;
-    const ALL       = 1;
-    const ROW       = 2;
-    const CELL      = 3;
-    const COLUMNS   = 4;
-
     public function getInternalHandler();
 
     public function inTransaction() -> boolean;
@@ -22,7 +16,7 @@ interface DbInterface
     public function atomic(var cb, string savepoint = "sp0");
 
     public function quote(string value) -> string;
-    public function execute(string sql, array params = [], long $fetch = DbInterface::NONE);
+    public function execute(string sql, array params = []) -> void;
 
     public function query(string sql, array params = []) -> array;
     public function queryRow(string sql, array params = []);

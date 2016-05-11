@@ -132,26 +132,6 @@ abstract class DbAbstract implements DbInterface
         return re;
     }
 
-    public function query(string sql, array params = []) -> array
-    {
-        return this->execute(sql, params, DbInterface::ALL);
-    }
-
-    public function queryRow(string sql, array params = [])
-    {
-        return this->execute(sql, params, DbInterface::ROW);
-    }
-
-    public function queryCell(string sql, array params = []) -> string
-    {
-        return this->execute(sql, params, DbInterface::CELL);
-    }
-
-    public function queryColumns(string sql, array params = []) -> array
-    {
-        return this->execute(sql, params, DbInterface::COLUMNS);
-    }
-
     public function getQueries() -> array
     {
         if count(this->queries) > 0 {
@@ -159,19 +139,6 @@ abstract class DbAbstract implements DbInterface
         }
 
         return [];
-    }
-
-    protected function addQuery(string sql, array params, double startTime) -> string
-    {
-        var q;
-
-        let q = sprintf("%s # %0.3fms", sql, 1000.0 * ((double) microtime(true) - startTime));
-        if count(params) > 0 {
-            let q .= " " . json_encode(params, JSON_UNESCAPED_UNICODE);
-        }
-
-        let this->queries[] = q;
-        return q;
     }
 
     public function delete(string t, array where = []) -> void
@@ -573,6 +540,19 @@ abstract class DbAbstract implements DbInterface
         }
 
         return " ORDER BY " . (string) orderBy;
+    }
+
+    protected function addQuery(string sql, array params, double startTime) -> string
+    {
+        var q;
+
+        let q = sprintf("%s # %0.3fms", sql, 1000.0 * ((double) microtime(true) - startTime));
+        if count(params) > 0 {
+            let q .= " " . json_encode(params, JSON_UNESCAPED_UNICODE);
+        }
+
+        let this->queries[] = q;
+        return q;
     }
 
 }

@@ -3,6 +3,7 @@ namespace Nc\Db;
 abstract class PdoAbstract extends DbAbstract
 {
     protected pdo;
+    protected lastStatement;
 
     public function __construct() -> void
     {
@@ -23,11 +24,10 @@ abstract class PdoAbstract extends DbAbstract
         return this->pdo->quote(value);
     }
 
-    public function execute(string sql, array params = [], long $fetch = DbInterface::NONE)
+    public function execute(string sql, array params = []) -> void
     {
         var t, q, statement, k, v, err;
         boolean success;
-        var resultItem, result;
 
         let t = microtime(true);
         let statement = this->pdo->prepare(sql);
@@ -50,36 +50,51 @@ abstract class PdoAbstract extends DbAbstract
             throw new ExecutionException(err[2] . " [SQL] " . q);
         }
 
-        switch $fetch {
-            case DbInterface::NONE:
-                return;
+        let this->lastStatement = statement;
+    }
 
-            case DbInterface::ALL:
-                return statement->fetchAll(\Pdo::FETCH_ASSOC);
+    public function query(string sql, array params = []) -> array
+    {
+        this->execute(sql, params);
 
-            case DbInterface::ROW:
-                let resultItem = statement->$fetch(\Pdo::FETCH_ASSOC);
-                if resultItem {
-                    return resultItem;
-                }
-                return;
+        return this->lastStatement->fetchAll(\Pdo::FETCH_ASSOC);
+    }
 
-            case DbInterface::CELL:
-                return (string) statement->fetchColumn();
+    public function queryRow(string sql, array params = [])
+    {
+        var resultRow;
 
-            case DbInterface::COLUMNS:
-                let result = [];
-                loop {
-                    let resultItem = statement->fetchColumn();
-                    if resultItem === false || typeof resultItem != "string" {
-                        break;
-                    }
-                    let result[] = resultItem;
-                }
-                return result;
+        this->execute(sql, params);
+
+        let resultRow = this->lastStatement->$fetch(\Pdo::FETCH_ASSOC);
+        if resultRow {
+            return resultRow;
+        }
+    }
+
+    public function queryCell(string sql, array params = []) -> string
+    {
+        this->execute(sql, params);
+
+        return (string) this->lastStatement->fetchColumn();
+    }
+
+    public function queryColumns(string sql, array params = []) -> array
+    {
+        var statement, resultCell, result = [];
+
+        this->execute(sql, params);
+        let statement = this->lastStatement;
+
+        loop {
+            let resultCell = statement->fetchColumn();
+            if resultCell === false || typeof resultCell != "string" {
+                break;
+            }
+            let result[] = resultCell;
         }
 
-        throw new Exception(sprintf("Invalid fetch mode '%s'", $fetch));
+        return result;
     }
 
     protected function tryToBegin() -> boolean
