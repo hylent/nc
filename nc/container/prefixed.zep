@@ -1,4 +1,4 @@
-namespace Nc\Factory;
+namespace Nc\Container;
 
 class Prefixed extends ClassNameAbstract
 {

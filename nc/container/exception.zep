@@ -1,4 +1,4 @@
-namespace Nc\Factory;
+namespace Nc\Container;
 
 use Nc\Exception as Ex;
 
