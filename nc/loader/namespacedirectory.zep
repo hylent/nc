@@ -2,13 +2,18 @@ namespace Nc\Loader;
 
 class NamespaceDirectory extends LoaderAbstract
 {
-    protected namespaceDirectories;
+    const DEFAULT_DELIMITER = "\\";
 
-    public function __construct(array namespaceDirectories = []) -> void
+    protected namespaceDirectories;
+    protected delimiter;
+
+    public function __construct(array namespaceDirectories = [], string delimiter = self::DEFAULT_DELIMITER) -> void
     {
         if count(namespaceDirectories) > 0 {
             this->setNamespaceDirectories(namespaceDirectories);
         }
+
+        let this->delimiter = delimiter;
     }
 
     public function setNamespaceDirectories(array namespaceDirectories) -> void
@@ -37,7 +42,7 @@ class NamespaceDirectory extends LoaderAbstract
 
         let match = name->lower();
         loop {
-            let pos = strrpos(match, "\\");
+            let pos = strrpos(match, self::DEFAULT_DELIMITER);
             if pos === false || pos < 1 {
                 break;
             }
@@ -49,7 +54,7 @@ class NamespaceDirectory extends LoaderAbstract
         }
 
         if found {
-            return dir . "/" . strtr(substr(name, pos + 1), "\\", "/") . ".php";
+            return dir . "/" . strtr(substr(name, pos + 1), self::DEFAULT_DELIMITER, "/") . ".php";
         }
 
         return "";
