@@ -64,7 +64,7 @@ class UploadedFile
         return this->imageType;
     }
 
-    public function isImage() -> bool
+    public function isImage() -> boolean
     {
         return this->imageType > 0;
     }
