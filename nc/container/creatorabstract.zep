@@ -16,6 +16,11 @@ abstract class CreatorAbstract extends ContainerAbstract
         return isset this->creations[name];
     }
 
+    public function __get(string name)
+    {
+        return this->get(name, true);
+    }
+
     public function get(string name, boolean shared = false)
     {
         var obj, onCreated;

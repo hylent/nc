@@ -14,9 +14,4 @@ abstract class ContainerAbstract implements ContainerInterface
         return this->super;
     }
 
-    public function __get(string name)
-    {
-        return this->get(name, true);
-    }
-
 }

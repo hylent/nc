@@ -2,76 +2,70 @@ namespace Nc\Container;
 
 class Containers extends ContainerAbstract implements \ArrayAccess
 {
-    const DEFAULT_PRIORITY = 0;
-
     protected containers;
-    protected priorities;
 
-    public function set(string index, <ContainerInterface> container, long priority = self::DEFAULT_PRIORITY) -> void
+    public function __construct() -> void
     {
+        let this->containers = new Sorted();
+    }
+
+    public function set(string name, <ContainerInterface> container, long order = Sorted::DEFAULT_ORDER) -> void
+    {
+        this->containers->set(name, container, order);
         container->setSuper(this);
-
-        let this->containers[index] = container;
-        let this->priorities[index] = priority;
-
-        asort(this->priorities, SORT_NUMERIC);
     }
 
-    public function offsetSet(string index, var container) -> void
+    public function offsetSet(string name, var container) -> void
     {
-        this->set(index, container);
+        this->set(name, container);
     }
 
-    public function offsetGet(string index) -> <ContainerInterface>
+    public function offsetGet(string name) -> <ContainerInterface>
     {
-        var container;
-
-        if fetch container, this->containers[index] {
-            return container;
-        }
-
-        throw new Exception(sprintf(
-            "Cannot find container at index '%s'",
-            index
-        ));
+        return this->containers->__get(name);
     }
 
-    public function offsetExists(string index) -> boolean
+    public function offsetExists(string name) -> boolean
     {
-        return isset this->containers[index];
+        return this->containers->__isset(name);
     }
 
-    public function offsetUnset(string index) -> void
+    public function offsetUnset(string name) -> void
     {
-        unset this->containers[index];
-        unset this->priorities[index];
+        this->containers->__unset(name);
     }
 
     public function __isset(string name) -> boolean
     {
-        var index, container;
+        var containers, container;
 
-        if count(this->priorities) > 0 {
-            for index, _ in this->priorities {
-                if fetch container, this->containers[index] && container->__isset(name) {
-                    return true;
-                }
+        let containers = this->containers;
+
+        containers->rewind();
+        while containers->valid() {
+            let container = containers->current();
+            if container->__isset(name) {
+                return true;
             }
+            containers->next();
         }
 
         return false;
     }
 
-    public function get(string name, boolean shared = false)
+    public function __get(string name)
     {
-        var index, container;
+        var containers, container;
 
-        if count(this->priorities) > 0 {
-            for index, _ in this->priorities {
-                if fetch container, this->containers[index] && container->__isset(name) {
-                    return container->get(name, shared);
-                }
+        let containers = this->containers;
+
+        containers->rewind();
+        while containers->valid() {
+            let container = containers->current();
+            if container->__isset(name) {
+                return container->__get(name);
             }
+            containers->next();
         }
 
         throw new Exception(sprintf(

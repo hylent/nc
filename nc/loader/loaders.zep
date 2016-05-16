@@ -1,72 +1,54 @@
 namespace Nc\Loader;
 
+use Nc\Container\Sorted;
+
 class Loaders extends LoaderAbstract implements \ArrayAccess
 {
-    const DEFAULT_ORDER = 0;
-
     protected loaders;
-    protected orders;
-    protected unsorted = false;
 
-    public function set(string index, <LoaderInterface> loader, long order = self::DEFAULT_ORDER) -> void
+    public function __construct() -> void
     {
-        let this->loaders[index] = loader;
-        let this->orders[index] = order;
-
-        let this->unsorted = true;
+        let this->loaders = new Sorted();
     }
 
-    public function setOrder(string index, long order) -> void
+    public function set(string name, <LoaderInterface> loader, long order = Sorted::DEFAULT_ORDER) -> void
     {
-        let this->orders[index] = order;
-
-        let this->unsorted = true;
+        this->loaders->set(name, loader, order);
     }
 
-    public function offsetSet(string index, var loader) -> void
+    public function offsetSet(string name, var loader) -> void
     {
-        this->set(index, loader);
+        this->set(name, loader);
     }
 
-    public function offsetGet(string index)
+    public function offsetGet(string name) -> <ContainerInterface>
     {
-        var loader;
-
-        if fetch loader, this->loaders[index] {
-            return loader;
-        }
-
-        throw new Exception("Undefined index: " . index);
+        return this->loaders->__get(name);
     }
 
-    public function offsetExists(string index) -> boolean
+    public function offsetExists(string name) -> boolean
     {
-        return isset this->loaders[index];
+        return this->loaders->__isset(name);
     }
 
-    public function offsetUnset(string index) -> void
+    public function offsetUnset(string name) -> void
     {
-        unset this->loaders[index];
-        unset this->orders[index];
+        this->loaders->__unset(name);
     }
 
     public function findPath(string name) -> string
     {
-        var loader, index, path;
+        var loaders, path;
 
-        if count(this->orders) > 0 {
-            if this->unsorted {
-                asort(this->orders, SORT_NUMERIC);
-            }
+        let loaders = this->loaders;
 
-            for index, _ in this->orders {
-                if fetch loader, this->loaders[index] {
-                    let path = loader->findPath(name);
-                    if strlen(path) > 0 {
-                        return path;
-                    }
-                }
+        loaders->rewind();
+        while loaders->valid() {
+            let path = loaders->current()->findPath(name);
+            if strlen(path) > 0 {
+                return path;
             }
+            loaders->next();
         }
 
         return "";

@@ -1,6 +1,6 @@
 namespace Nc\Container;
 
-class Callback extends CreatorAbstract
+class Callbacks extends CreatorAbstract
 {
     protected callbacks;
 
@@ -11,6 +11,10 @@ class Callback extends CreatorAbstract
 
     public function __set(string name, var obj) -> void
     {
+        if typeof obj == "object" && (obj instanceof ContainerInterface) {
+            obj->setSuper(this);
+        }
+
         let this->creations[name] = obj;
     }
 

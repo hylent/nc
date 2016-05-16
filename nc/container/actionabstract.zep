@@ -41,7 +41,7 @@ abstract class ActionAbstract
         return output;
     }
 
-    public static function run(<ContainerInterface> container, var args = null) -> void
+    public static function invokeContainer(<ContainerInterface> container, var args = null) -> void
     {
         while args && typeof args == "array" {
             let args = call_user_func_array(container->__get(self::camelCase(array_shift(args))), args);
