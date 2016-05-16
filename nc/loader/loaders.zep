@@ -39,7 +39,7 @@ class Loaders extends LoaderAbstract implements \ArrayAccess
         throw new Exception("Undefined index: " . index);
     }
 
-    public function offsetExists(string index) -> bool
+    public function offsetExists(string index) -> boolean
     {
         return isset this->loaders[index];
     }
