@@ -56,8 +56,14 @@
     "name": "Nc Framework",
     "description": "A PHP framework for web development.",
     "author": "Hylent",
-    "version": "0.16.5",
+    "version": "0.16.6",
     "verbose": false,
+    "optimizer-dirs": [
+        "optimizers"
+    ],
+    "extra-sources": [
+        "optimizers/utils.c"
+    ],
     "requires": {
         "extensions": []
     }
