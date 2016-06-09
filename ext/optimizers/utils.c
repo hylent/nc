@@ -3,13 +3,74 @@
 #endif
 
 #include "php.h"
-#include "php_nc.h"
-#include "nc.h"
+#include "ext/standard/info.h"
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
+
+#include "php_nc.h"
+#include "nc.h"
+
+/* Static definitions */
+
+static unsigned short crc16(const char *buf, int len);
+static unsigned int get_machine_hash(TSRMLS_D);
+
+/* API functions */
+
+void nc_utils_crc16(zval *return_value, zval *str)
+{
+    long retval = 0;
+
+    if (Z_TYPE_P(str) == IS_STRING) {
+        retval = crc16(Z_STRVAL_P(str), Z_STRLEN_P(str));
+    }
+
+    RETURN_LONG(retval);
+}
+
+void nc_utils_serial(zval *return_value TSRMLS_DC)
+{
+    zephir_struct_serial *serial;
+#ifdef PHP_WIN32
+    unsigned __int64 id;
+#else
+    unsigned long long id;
+#endif
+    unsigned int now, machine;
+    char buf[21];
+
+    serial = &ZEPHIR_GLOBAL(serial);
+
+    now = (unsigned int) time(NULL);
+    if (serial->now != now) {
+        serial->now = now;
+        serial->sequence &= 0xff;
+    }
+    id = now;
+    id <<= 32;
+
+    machine = serial->machine;
+    if (unlikely(!machine)) {
+        machine = get_machine_hash(TSRMLS_C);
+        serial->machine = machine;
+    }
+    id |= machine << 16;
+
+    id |= 0xffff & (serial->sequence++);
+
+#ifdef PHP_WIN32
+    sprintf(buf, "%I64u", id);
+#else
+    sprintf(buf, "%llu", id);
+#endif
+
+    RETURN_STRING(buf, strlen(buf));
+}
+
+/* Static implementations */
 
 static const unsigned short crc16tab[256] = {
     0x0000,0x1021,0x2042,0x3063,0x4084,0x50a5,0x60c6,0x70e7,
@@ -58,13 +119,27 @@ static unsigned short crc16(const char *buf, int len)
     return crc;
 }
 
-void nc_utils_crc16(zval *return_value, zval *str)
+static unsigned int get_machine_hash(TSRMLS_D)
 {
-    long retval = 0;
+    unsigned int machine = 0;
+    char *hostname;
 
-    if (Z_TYPE_P(str) == IS_STRING) {
-        retval = crc16(Z_STRVAL_P(str), Z_STRLEN_P(str));
+    hostname = php_get_uname('n');
+    if (hostname) {
+        machine = 0xff & crc16(hostname, strlen(hostname));
+        machine <<= 8;
+        efree(hostname);
     }
 
-    RETURN_LONG(retval);
+#ifdef ZTS
+    machine |= ((0xf & getpid()) << 4) | (0xf & tsrm_thread_id());
+#else
+    machine |= 0xff & getpid();
+#endif
+
+    if (machine) {
+        return machine;
+    }
+
+    return 0xffff;
 }

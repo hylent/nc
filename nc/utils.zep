@@ -7,4 +7,9 @@ class Utils
         return nc_utils_crc16(str);
     }
 
+    public static function serial() -> long
+    {
+        return nc_utils_serial();
+    }
+
 }

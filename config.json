@@ -61,9 +61,29 @@
     "optimizer-dirs": [
         "optimizers"
     ],
+    "constants-sources": [
+        "ext/optimizers/utils.h"
+    ],
     "extra-sources": [
         "optimizers/utils.c"
     ],
+    "globals": {
+        "serial.machine": {
+            "type": "uint",
+            "default": 0,
+            "module": true
+        },
+        "serial.now": {
+            "type": "uint",
+            "default": 0,
+            "module": true
+        },
+        "serial.sequence": {
+            "type": "uint",
+            "default": 0,
+            "module": true
+        }
+    },
     "requires": {
         "extensions": []
     }

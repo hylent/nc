@@ -8,16 +8,12 @@ use Zephir\CompilerException;
 use Zephir\CompiledExpression;
 use Zephir\Optimizers\OptimizerAbstract;
 
-class NcUtilsCrc16Optimizer extends OptimizerAbstract
+class NcUtilsSerialOptimizer extends OptimizerAbstract
 {
     public function optimize(array $expression, Call $call, CompilationContext $context)
     {
-        if (!isset($expression['parameters'])) {
-            return false;
-        }
-
-        if (count($expression['parameters']) != 1) {
-            throw new CompilerException("nc_utils_crc16 only accepts one parameter", $expression);
+        if (isset($expression['parameters']) && count($expression['parameters']) != 0) {
+            throw new CompilerException("nc_utils_serial accepts no parameters", $expression);
         }
 
         $call->processExpectedReturn($context);
@@ -31,10 +27,7 @@ class NcUtilsCrc16Optimizer extends OptimizerAbstract
             $symbolVariable->initVariant($context);
         }
 
-        $symbolVariable->setDynamicTypes('string');
-
-        $resolvedParams = $call->getResolvedParams($expression['parameters'], $context, $expression);
-        $context->codePrinter->output('nc_utils_crc16(' . $symbolVariable->getName() . ', ' . $resolvedParams[0] . ');');
+        $context->codePrinter->output('nc_utils_serial(' . $symbolVariable->getName() . ' TSRMLS_CC);');
 
         return new CompiledExpression('variable', $symbolVariable->getRealName(), $expression);
     }
