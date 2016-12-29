@@ -1,415 +1,399 @@
 namespace Nc\Image;
 
-class Imagick extends ImageBackendAbstract
+class Imagick extends ImageAbstract
 {
+    protected handler;
+
     public function __construct() -> void
     {
         if unlikely ! extension_loaded("imagick") {
-            throw new Exception("Missing extension: 'imagick'");
+            throw new Exception(__FUNCTION__);
         }
     }
 
-    public function text(string text, array options = []) -> <Text>
+    public function bySize(long w, long h = 0, string extension = "png") -> <ImageInterface>
     {
-        var im, imagick, imgickDraw, m;
-        long padding2;
-
-        let im = this->newText();
-        let im->text = text;
-        im->setOptions(options);
-
-        let imagick = new \Imagick();
-        let imgickDraw = new \ImagickDraw();
-        imgickDraw->setFont(im->font);
-        imgickDraw->setFontSize(im->fontSize);
-        let m = imagick->queryFontMetrics(imgickDraw, text);
-
-        let padding2 = (long) im->padding * 2;
-        let im->width = m["textWidth"] + padding2;
-        let im->height = m["textHeight"] + padding2;
-
-        return im;
-    }
-
-    public function fromImage(<Image> im, string extension = "") -> <Image>
-    {
-        var copyIm, imagick;
-        string ext;
-
-        if extension->length() > 0 {
-            let ext = extension->lower();
-        } else {
-            let ext = (string) im->extension;
-        }
-
-        let imagick = new \Imagick();
-        imagick->readImageBlob(im->handler->getImageBlob());
-        imagick->setImageFormat(ext);
-
-        let copyIm = this->newImage();
-        let copyIm->handler = imagick;
-        let copyIm->width = im->width;
-        let copyIm->height = im->height;
-        let copyIm->extension = ext;
-
-        return copyIm;
-    }
-
-    public function fromSize(long width, long height = 0, string extension = "") -> <Image>
-    {
-        var im, imagick;
-
-        if width < 1 {
-            throw new Exception("Argument width must be positive");
-        }
-
-        if height < 1 {
-            let height = width;
-        }
-
-        let im = this->newImage();
-        let im->width = width;
-        let im->height = height;
-        if extension->length() > 0 {
-            let im->extension = extension->lower();
-        }
-
-        let imagick = new \Imagick();
-        imagick->newImage(width, height, new \ImagickPixel("rgba(255,255,255,127)"), im->extension);
-        let im->handler = imagick;
-
-        return im;
-    }
-
-    public function fromPath(string path, string extension = "") -> <Image>
-    {
-        var im, imagick;
-
-        let imagick = new \Imagick();
-        if unlikely ! imagick->readImage(realpath(path)) {
-            throw new Exception(sprintf("Cannot read image '%s'", path));
-        }
-
-        let im = this->newImage();
-        let im->handler = imagick;
-        let im->width = imagick->getImageWidth();
-        let im->height = imagick->getImageHeight();
-
-        if extension->length() > 0 {
-            let im->extension = extension->lower();
-        }
-
-        imagick->setImageFormat(im->extension);
-
-        return im;
-    }
-
-    public function fromString(string data, string extension = "") -> <Image>
-    {
-        var im, imagick;
-
-        let imagick = new \Imagick();
-        if unlikely ! imagick->readImageBlob(data) {
-            throw new Exception("Cannot read image blob");
-        }
-
-        let im = this->newImage();
-        let im->handler = imagick;
-        let im->width = imagick->getImageWidth();
-        let im->height = imagick->getImageHeight();
-
-        if extension->length() > 0 {
-            let im->extension = extension->lower();
-        }
-
-        imagick->setImageFormat(im->extension);
-
-        return im;
-    }
-
-    public function captcha(string text, long width, long height, array options = []) -> <Captcha>
-    {
-        var im, imagick, imagickDraw, shadow;
-        double paddingRatio, overlapRatio;
-        string font, ch;
-        long textLen, fontSize, padding, r, g, b, dr, dg, db, i, j, x, y, x2, y2, angle;
-
-        if width < 1 {
-            throw new Exception("Argument width must be positive");
-        }
-        if height < 1 {
-            let height = width;
-        }
-
-        // im
-        let im = this->newCaptcha();
-        let im->width = width;
-        let im->height = height;
-        let im->text = text;
-        im->setOptions(options);
-        let imagick = new \Imagick();
-        imagick->newImage(width, height, new \ImagickPixel("rgba(255,255,255,127)"), im->extension);
-        let im->handler = imagick;
-
-        // options
-        let font = (string) im->font;
-        let paddingRatio = (double) im->paddingRatio;
-        let overlapRatio = (double) im->overlapRatio;
-
-        // sizes
-        let textLen = (long) mb_strlen(text, "utf-8");
-        let fontSize = (long) (1.0 * width / (paddingRatio * 2 + textLen));
-        if fontSize > height {
-            let fontSize = height;
-        }
-        let padding = (long) (fontSize * paddingRatio);
-
-        let imagickDraw = new \ImagickDraw();
-
-        // background
-        let r = mt_rand(200, 255);
-        let g = mt_rand(200, 255);
-        let b = mt_rand(200, 255);
-        let dr = (r - mt_rand(100, 150)) / width;
-        let dg = (g - mt_rand(100, 150)) / width;
-        let db = (b - mt_rand(100, 150)) / width;
-        let i = 0;
-        while i < width {
-            imagickDraw->setFillColor(new \ImagickPixel("rgb(".r.",".g.",".b.")"));
-            imagickDraw->line(i, 0, i, height);
-            let r -= dr;
-            let g -= dg;
-            let b -= db;
-            let i++;
-        }
-        imagick->drawImage(imagickDraw);
-        imagickDraw->clear();
-
-        // shadow
-        let shadow = new \ImagickPixel("#000000");
-
-        // text
-        imagickDraw->setFont(font);
-        imagickDraw->setFontSize(fontSize);
-        let x = padding;
-        let i = 0;
-        while i < textLen {
-            let x2 = width - padding * 2 - ((1.0 - overlapRatio) * (textLen - i) + overlapRatio) * fontSize;
-            if x2 > x {
-                let x = mt_rand(x, x2);
-            }
-            let y = mt_rand(fontSize, height);
-            let angle = mt_rand(-15, 15);
-            let ch = (string) mb_substr(text, i, 1, "utf-8");
-            let r = mt_rand(0, 255);
-            let g = mt_rand(0, 255);
-            let b = mt_rand(0, 255);
-            imagickDraw->setFillColor(shadow);
-            imagick->annotateImage(imagickDraw, x + 1, y + 1, angle, ch);
-            imagickDraw->setFillColor(new \ImagickPixel("rgb(".r.",".g.",".b.")"));
-            imagick->annotateImage(imagickDraw, x, y, angle, ch);
-            let x = x + (1.0 - overlapRatio) * fontSize;
-            let i++;
-        }
-        imagickDraw->clear();
-
-        // adulterate
-        let i = 0;
-        while i < textLen {
-            let r = mt_rand(0, 255);
-            let g = mt_rand(0, 255);
-            let b = mt_rand(0, 255);
-            imagickDraw->setFillColor(new \ImagickPixel("rgb(".r.",".g.",".b.")"));
-            let x = mt_rand(0, width);
-            let y = mt_rand(0, height);
-            let x2 = mt_rand(0, width);
-            let y2 = mt_rand(0, height);
-            let j = 0;
-            while j <= padding {
-                imagickDraw->line(x + j, y, x2 + j, y2);
-                let j++;
-            }
-            imagickDraw->setFillColor(shadow);
-            imagickDraw->line(x + j, y, x2 + j, y2);
-            let i++;
-        }
-        imagick->drawImage(imagickDraw);
-        imagickDraw->clear();
-
-        return im;
-    }
-
-    public function largest(<Image> im, long width, long height) -> <Image>
-    {
-        var destIm, imagick;
-
-        if width < 1 {
-            let width = (long) im->width;
-        }
-
-        if height < 1 {
-            let height = (long) im->height;
-        }
-
-        let destIm = this->fromImage(im);
-        let imagick = destIm->handler;
-
-        imagick->thumbnailImage(width, height);
-
-        let destIm->width = imagick->getImageWidth();
-        let destIm->height = imagick->getImageHeight();
-
-        return destIm;
-    }
-
-    public function resize(<Image> im, long width, long height) -> <Image>
-    {
-        var destIm, imagick;
-
-        if unlikely width < 1 {
-            throw new Exception("Argument width must be positive");
-        }
-
-        if height < 1 {
-            let height = width;
-        }
-
-        let destIm = this->fromImage(im);
-        let imagick = destIm->handler;
-
-        imagick->thumbnailImage(width, height, true);
-
-        let destIm->width = imagick->getImageWidth();
-        let destIm->height = imagick->getImageHeight();
-
-        return destIm;
-    }
-
-    public function crop(<Image> im, long x, long y, long w, long h) -> <Image>
-    {
-        var destIm;
-
-        if unlikely x < 0 || y < 0 {
-            throw new Exception("Arguments x and y must not be negative");
-        }
+        var handler;
 
         if unlikely w < 1 {
-            throw new Exception("Argument w must be positive");
+            throw new Exception(__FUNCTION__);
         }
 
         if h < 1 {
             let h = w;
         }
 
-        if unlikely x + w > im->width || y + h > im->height {
-            throw new Exception("Cropping out of area");
+        let handler = new \Imagick();
+
+        if unlikely ! handler->newImage(w, h, new \ImagickPixel("rgba(255,255,255,127)"), extension) {
+            throw new Exception(__FUNCTION__);
         }
 
-        let destIm = this->fromImage(im);
-        destIm->handler->cropImage(w, h, x, y);
-
-        let destIm->width = w;
-        let destIm->height = h;
-
-        return destIm;
+        return this->newImage(handler, extension);
     }
 
-    public function thumbnail(<Image> im, long width, long height, boolean cropped) -> <Image>
+    public function byString(string data, string extension = "png") -> <ImageInterface>
     {
-        var destIm;
+        var handler;
 
-        if unlikely width < 1 {
-            throw new Exception("Argument width must be positive");
+        if unlikely data->length() < 1 {
+            throw new Exception(__FUNCTION__);
         }
 
-        if height < 1 {
-            let height = width;
+        let handler = new \Imagick();
+
+        if unlikely ! handler->readImageBlob(data) {
+            throw new Exception(__FUNCTION__);
         }
 
-        let destIm = this->fromImage(im);
-
-        if cropped {
-            destIm->handler->cropThumbnailImage(width, height);
-        } else {
-            destIm->handler->thumbnailImage(width, height, true, true);
-        }
-
-        let destIm->width = width;
-        let destIm->height = height;
-
-        return destIm;
+        return this->newImage(handler, extension);
     }
 
-    public function draw(<Image> destIm, <ImageAbstract> srcIm, long x, long y) -> <Image>
+    public function byPath(string path) -> <ImageInterface>
     {
-        var resultIm;
+        var eit, handler, extension;
 
-        let resultIm = this->fromImage(destIm);
+        if unlikely ! file_exists(path) {
+            throw new Exception(__FUNCTION__);
+        }
 
-        loop {
-            if srcIm instanceof Image {
-                resultIm->handler->compositeImage(srcIm->{"handler"}, \Imagick::COMPOSITE_OVER, x, y);
+        let eit = exif_imagetype(path);
+
+        if unlikely eit === false {
+            throw new Exception(__FUNCTION__);
+        }
+
+        let handler = new \Imagick();
+
+        if unlikely ! handler->readImage(path) {
+            throw new Exception(__FUNCTION__);
+        }
+
+        switch eit {
+            case IMAGETYPE_JPEG:
+                let extension = "jpg";
                 break;
-            }
-
-            if srcIm instanceof Text {
-                this->drawText(resultIm, srcIm, x, y);
+            case IMAGETYPE_PNG:
+                let extension = "png";
                 break;
-            }
+            case IMAGETYPE_GIF:
+                let extension = "gif";
+                break;
 
-            throw new Exception(sprintf("Invalid item type '%s'", get_class(srcIm)));
+            default:
+                let extension = handler->getImageFormat();
+                break;
         }
 
-        return resultIm;
+        return this->newImage(handler, extension);
     }
 
-    public function mimeType(<Image> im) -> string
+    public function copy() -> <ImageInterface>
     {
-        return im->handler->getImageMimeType();
+        var dstHandler;
+
+        if unlikely ! this->handler {
+            throw new Exception(__FUNCTION__);
+        }
+
+        let dstHandler = new \Imagick();
+        dstHandler->addImage(this->handler);
+
+        return this->newImage(dstHandler, this->extension);
     }
 
-    public function save(<Image> im, string destPath) -> void
+    public function largest(long w, long h) -> <ImageInterface>
     {
-        if destPath->length() > 0 {
-            im->handler->writeImage(destPath);
+        var dstHandler;
+
+        if unlikely ! this->handler {
+            throw new Exception(__FUNCTION__);
+        }
+
+        if unlikely w < 1 {
+            throw new Exception(__FUNCTION__);
+        }
+
+        if h < 1 {
+            let h = w;
+        }
+
+        let dstHandler = new \Imagick();
+        dstHandler->addImage(this->handler);
+        dstHandler->thumbnailImage(w, h);
+
+        return this->newImage(dstHandler, this->extension);
+    }
+
+    public function resize(long w, long h = 0) -> <ImageInterface>
+    {
+        var dstHandler;
+
+        if unlikely ! this->handler {
+            throw new Exception(__FUNCTION__);
+        }
+
+        if unlikely w < 1 {
+            throw new Exception(__FUNCTION__);
+        }
+
+        if h < 1 {
+            let h = w;
+        }
+
+        let dstHandler = new \Imagick();
+        dstHandler->addImage(this->handler);
+        dstHandler->thumbnailImage(w, h, true);
+
+        return this->newImage(dstHandler, this->extension);
+    }
+
+    public function thumbnail(long w, long h = 0) -> <ImageInterface>
+    {
+        var dstHandler;
+
+        if unlikely ! this->handler {
+            throw new Exception(__FUNCTION__);
+        }
+
+        if unlikely w < 1 {
+            throw new Exception(__FUNCTION__);
+        }
+
+        if h < 1 {
+            let h = w;
+        }
+
+        let dstHandler = new \Imagick();
+        dstHandler->addImage(this->handler);
+        dstHandler->thumbnailImage(w, h, true, true);
+
+        return this->newImage(dstHandler, this->extension);
+    }
+
+    public function cropThumbnail(long w, long h = 0) -> <ImageInterface>
+    {
+        var dstHandler;
+
+        if unlikely ! this->handler {
+            throw new Exception(__FUNCTION__);
+        }
+
+        if unlikely w < 1 {
+            throw new Exception(__FUNCTION__);
+        }
+
+        if h < 1 {
+            let h = w;
+        }
+
+        let dstHandler = new \Imagick();
+        dstHandler->addImage(this->handler);
+        dstHandler->cropThumbnailImage(w, h);
+
+        return this->newImage(dstHandler, this->extension);
+    }
+
+    public function crop(long x, long y, long w, long h = 0) -> <ImageInterface>
+    {
+        var oriW, oriH, dstHandler;
+
+        if unlikely ! this->handler {
+            throw new Exception(__FUNCTION__);
+        }
+
+        if unlikely x < 0 || y < 0 {
+            throw new Exception(__FUNCTION__);
+        }
+
+        if unlikely w < 1 {
+            throw new Exception(__FUNCTION__);
+        }
+
+        if h < 1 {
+            let h = w;
+        }
+
+        let oriW = (long) this->width;
+        let oriH = (long) this->height;
+
+        if unlikely x + w > oriW || y + h > oriH {
+            throw new Exception(__FUNCTION__);
+        }
+
+        let dstHandler = new \Imagick();
+        dstHandler->addImage(this->handler);
+        dstHandler->cropImage(w, h, x, y);
+
+        return this->newImage(dstHandler, this->extension);
+    }
+
+    public function paste(<ImageInterface> im, long x, long y = -2147483647) -> <ImageInterface>
+    {
+        var srcIm, dstIm, paintingArea;
+
+        if unlikely ! this->handler {
+            throw new Exception(__FUNCTION__);
+        }
+
+        if im instanceof Imagick {
+            let srcIm = im;
         } else {
-            echo im->handler->getImageBlob();
+            let srcIm = this->byImage(im);
         }
+
+        if unlikely ! srcIm->handler {
+            throw new Exception(__FUNCTION__);
+        }
+
+        let dstIm = this->copy();
+
+        if y === -2147483647 {
+            let paintingArea = this->getPaintingAreaByPosition(im->getWidth(), im->getHeight(), x);
+            let x = paintingArea->x;
+            let y = paintingArea->y;
+        }
+
+        if unlikely ! dstIm->handler->compositeImage(srcIm->handler, \Imagick::COMPOSITE_OVER, x, y) {
+            throw new Exception(__FUNCTION__);
+        }
+
+        return dstIm;
     }
 
-    public function destroy(<ImageAbstract> im) -> void
+    public function annotate(string text, array options, long x, long y = -2147483647) -> <ImageInterface>
     {
-        if im instanceof Image {
-            im->{"handler"}->clear();
+        var dstIm, dstHandler, mo, textArea, paintingArea, imagickDraw;
+
+        if unlikely ! this->handler {
+            throw new Exception(__FUNCTION__);
         }
-    }
 
-    protected function drawText(<Image> resultIm, <Text> srcIm, long x, long y) -> void
-    {
-        var imagickDraw, handler;
-        long padding;
-        string text, shadow;
+        let dstIm = this->copy();
+        let dstHandler = dstIm->handler;
 
-        let padding = (long) srcIm->padding;
-        let x += padding;
-        let y += srcIm->height - padding;
+        let mo = options + [
+            "font"          : "simsun.ttf",
+            "fontSize"      : 28,
+            "padding"       : 2,
+            "opacity"       : 1.0,
+            "color"         : "#000000",
+            "shadowColor"   : ""
+        ];
+
+        let textArea = this->queryTextArea(text, mo["font"], mo["fontSize"], mo["padding"]);
+
+        if y === -2147483647 {
+            let paintingArea = this->getPaintingAreaByPosition(textArea->w, textArea->h, x);
+            let x = paintingArea->x + textArea->x;
+            let y = paintingArea->y + textArea->y;
+        } else {
+            let x += textArea->x;
+            let y += textArea->y;
+        }
 
         let imagickDraw = new \ImagickDraw();
-        imagickDraw->setFont(srcIm->font);
-        imagickDraw->setFontSize(srcIm->fontSize);
-        imagickDraw->setFillOpacity(srcIm->opacity);
+        imagickDraw->setResolution(96, 96);
+        imagickDraw->setFont(realpath(mo["font"]));
+        imagickDraw->setFontSize(mo["fontSize"]);
+        imagickDraw->setFillOpacity(mo["opacity"]);
 
-        let handler = resultIm->handler;
-        let text = (string) srcIm->text;
-
-        let shadow = (string) srcIm->shadow;
-        if shadow->length() > 0 {
-            imagickDraw->setFillColor(shadow);
-            handler->annotateImage(imagickDraw, x + 1, y + 1, 0, text);
+        if preg_match("/^#[0-9a-fA-F]{6}$/", mo["shadowColor"]) {
+            imagickDraw->setFillColor(mo["shadowColor"]);
+            if unlikely ! dstHandler->annotateImage(imagickDraw, x + 1, y + 1, 0, text) {
+                throw new Exception(__FUNCTION__);
+            }
         }
 
-        imagickDraw->setFillColor(srcIm->color);
-        handler->annotateImage(imagickDraw, x, y, 0, text);
+        if ! preg_match("/^#[0-9a-fA-F]{6}$/", mo["color"]) {
+            let mo["color"] = "#000000";
+        }
+
+        imagickDraw->setFillColor(mo["color"]);
+        if unlikely ! dstHandler->annotateImage(imagickDraw, x, y, 0, text) {
+            throw new Exception(__FUNCTION__);
+        }
+
+        return dstIm;
+    }
+
+    public function queryTextArea(string text, string font, long fontSize, long padding = 0) -> <Area>
+    {
+        var testF, testW, testH, imagickDraw, imagick, page, x, y, w, h;
+
+        let testF = fontSize * 2;
+        let testW = testF * (mb_strlen(text, "UTF-8") + 2);
+        let testH = testF * 2;
+
+        let imagickDraw = new \ImagickDraw();
+        imagickDraw->setResolution(96, 96);
+        imagickDraw->setFont(realpath(font));
+        imagickDraw->setFontSize(fontSize);
+
+        let imagick = new \Imagick();
+        imagick->newImage(testW, testH, "transparent", "png");
+        imagick->annotateImage(imagickDraw, testF, testF, 0, text);
+        imagick->trimImage(0);
+        let page = imagick->getImagePage();
+
+        let x = (long) (padding + testF - page["x"]);
+        let y = (long) (padding + testF - page["y"]);
+        let w = (long) (padding * 2 + imagick->getImageWidth());
+        let h = (long) (padding * 2 + imagick->getImageHeight());
+
+        imagick->clear();
+
+        return new Area(x, y, w, h);
+    }
+
+    public function save(string path) -> void
+    {
+        if unlikely ! this->handler {
+            throw new Exception(__FUNCTION__);
+        }
+
+        if unlikely ! this->handler->writeImage(path) {
+            throw new Exception(__FUNCTION__);
+        }
+    }
+
+    public function toString() -> string
+    {
+        if unlikely ! this->handler {
+            throw new Exception(__FUNCTION__);
+        }
+
+        return (string) this->handler->getImageBlob();
+    }
+
+    public function __destruct() -> void
+    {
+        try {
+            if this->handler {
+                this->handler->clear();
+            }
+        }
+
+        return;
+    }
+
+    protected function newImage(<\Imagick> handler, extension) -> <Imagick>
+    {
+        var im;
+
+        if unlikely ! handler->setImageFormat(extension) {
+            throw new Exception(__FUNCTION__);
+        }
+
+        let im = this->newInstance();
+
+        let im->handler     = handler;
+        let im->width       = handler->getImageWidth();
+        let im->height      = handler->getImageHeight();
+        let im->extension   = extension;
+        let im->mimeType    = handler->getImageMimeType();
+
+        return im;
     }
 
 }

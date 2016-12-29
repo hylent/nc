@@ -23,7 +23,7 @@ class RateLimiter
 
     public function pass(long seconds, long times) -> boolean
     {
-        return this->backend->pass(this->name, seconds, times);
+        return this->passRateLimits([seconds: times]);
     }
 
     public function passRateLimits(array rateLimits) -> boolean

@@ -22,43 +22,47 @@ class Smtp
         return s;
     }
 
-    public function __construct(string host, string user, string passwd, array options = []) -> void
+    public function __construct(array options = []) -> void
     {
-        var o, port = 25, connectTimeout = 10, timeout = 5.0, from, name, tcpSocketClient;
+        var mergedOptions, timeout, user, passwd, from, name;
+        var tcpSocketClient;
         int secure = 0;
 
-        if fetch o, options["port"] {
-            let port = (long) o;
-        }
+        let mergedOptions = options + [
+            "host"              : "",
+            "port"              : 25,
+            "connectTimeout"    : 10,
+            "persistent"        : false,
+            "timeout"           : 5.0,
+            "user"              : "",
+            "passwd"            : "",
+            "from"              : "",
+            "name"              : "",
+            "ssl"               : false,
+            "tls"               : false
+        ];
 
-        if fetch o, options["connectTimeout"] {
-            let connectTimeout = (long) o;
-        }
-        if fetch o, options["timeout"] {
-            let timeout = (double) o;
-        }
-        if fetch o, options["secure"] && o {
+        let timeout = (double) mergedOptions["timeout"];
+        let user    = (string) mergedOptions["user"];
+        let passwd  = (string) mergedOptions["passwd"];
+        let from    = (string) mergedOptions["from"];
+        let name    = (string) mergedOptions["name"];
+
+        if mergedOptions["ssl"] {
             let secure = 1;
-            if o === "tls" {
-                let secure = 2;
-            }
+        }
+        if mergedOptions["tls"] {
+            let secure = 2;
         }
 
-        if fetch o, options["name"] {
-            let name = (string) o;
-        } else {
-            let name = "";
-        }
-        if fetch o, options["from"] {
-            let from = (string) o;
-        } else {
+        if from === "" {
             let from = user;
         }
 
         let this->sender = self::pack("", from);
         let this->namedSender = self::pack(name, from);
 
-        let tcpSocketClient = new TcpSocketClient(host, port, connectTimeout, false);
+        let tcpSocketClient = new TcpSocketClient(mergedOptions);
         let this->tcpSocketClient = tcpSocketClient;
 
         tcpSocketClient->setTcpNodelay(true);

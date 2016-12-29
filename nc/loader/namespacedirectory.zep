@@ -42,7 +42,7 @@ class NamespaceDirectory extends LoaderAbstract
 
         let match = name->lower();
         loop {
-            let pos = strrpos(match, self::DEFAULT_DELIMITER);
+            let pos = strrpos(match, this->delimiter);
             if pos === false || pos < 1 {
                 break;
             }
@@ -54,7 +54,7 @@ class NamespaceDirectory extends LoaderAbstract
         }
 
         if found {
-            return dir . "/" . strtr(substr(name, pos + 1), self::DEFAULT_DELIMITER, "/") . ".php";
+            return dir . "/" . strtr(substr(name, pos + 1), this->delimiter, "/") . ".php";
         }
 
         return "";

@@ -4,15 +4,17 @@ use Nc\Cache\CachePool;
 
 class Cached extends LoaderAbstract
 {
+    const DEFAULT_TTL = 900;
+
     protected loader;
     protected cachePool;
     protected cacheTtl;
 
-    public function __construct(<LoaderInterface> loader, <CachePool> cachePool, long cacheTtl = 900) -> void
+    public function __construct(<LoaderInterface> loader, <CachePool> pool, long ttl = self::DEFAULT_TTL) -> void
     {
-        let this->loader = loader;
-        let this->cachePool = cachePool;
-        let this->cacheTtl = cacheTtl;
+        let this->loader    = loader;
+        let this->cachePool = pool;
+        let this->cacheTtl  = ttl;
     }
 
     public function setLoader(<LoaderInterface> loader) -> void

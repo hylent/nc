@@ -1,0 +1,15 @@
+
+extern zend_class_entry *nc_ratelimiter_ratelimiterbackendabstract_ce;
+
+ZEPHIR_INIT_CLASS(Nc_RateLimiter_RateLimiterBackendAbstract);
+
+PHP_METHOD(Nc_RateLimiter_RateLimiterBackendAbstract, getRateLimiter);
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_ratelimiter_ratelimiterbackendabstract_getratelimiter, 0, 0, 1)
+	ZEND_ARG_INFO(0, name)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(nc_ratelimiter_ratelimiterbackendabstract_method_entry) {
+	PHP_ME(Nc_RateLimiter_RateLimiterBackendAbstract, getRateLimiter, arginfo_nc_ratelimiter_ratelimiterbackendabstract_getratelimiter, ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};

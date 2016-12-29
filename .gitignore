@@ -4,6 +4,5 @@
 config.local.php
 *.phar
 /compile*.log
-/ext/*
-!/ext/optimizers
 /*.bat
+/Makefile

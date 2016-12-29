@@ -3,25 +3,24 @@ namespace Nc\Db;
 class Oci8 extends DbAbstract
 {
     protected oci;
-    protected lastStatement;
 
-    public function __construct(string dsn, string user, string passwd) -> void
+    public function __construct(string dsn, string user = "", string passwd = "") -> void
     {
         var oci;
 
         if unlikely ! extension_loaded("oci8") {
-            throw new Exception("Missing extension: 'oci8'");
+            throw new Exception("oci8", Exception::CONNECTION_NOT_SUPPORTED);
         }
 
         let oci = oci_connect(user, passwd, dsn, "utf8");
         if unlikely ! oci {
-            throw new Exception(sprintf("Cannot connect to '%s'", dsn));
+            throw new Exception(dsn, Exception::CONNECTION_FAILURE);
         }
 
         let this->oci = oci;
     }
 
-    public function getInternalHandler()
+    public function getOciResource()
     {
         return this->oci;
     }
@@ -29,140 +28,6 @@ class Oci8 extends DbAbstract
     public function quote(string value) -> string
     {
         return "'" . str_replace("'", "''", value) . "'";
-    }
-
-    public function execute(string sql, array params = [])
-    {
-        var t, q, statement, k, v, err, errMessage, queryMode;
-        boolean success;
-
-        let t = microtime(true);
-        let statement = oci_parse(this->oci, sql);
-
-        if count(params) > 0 {
-            for k, v in params {
-                oci_bind_by_name(statement, ":" . k, v);
-            }
-        }
-
-        if this->inTransaction {
-            let queryMode = OCI_NO_AUTO_COMMIT;
-        } else {
-            let queryMode = OCI_COMMIT_ON_SUCCESS;
-        }
-
-        let success = (boolean) oci_execute(statement, queryMode);
-        let q = this->addQuery(sql, params, t);
-
-        if unlikely ! success {
-            let err = oci_error(this->oci);
-            if typeof err != "array" || ! fetch errMessage, err["message"] {
-                let errMessage = "Unknown Error";
-            }
-            throw new ExecutionException(errMessage . " [SQL] " . q);
-        }
-
-        let this->lastStatement = statement;
-    }
-
-    public function query(string sql, array params = []) -> array
-    {
-        var statement, queryMode, result = [], resultRow;
-
-        this->execute(sql, params);
-
-        let statement = this->lastStatement;
-        let queryMode = OCI_RETURN_NULLS + OCI_RETURN_LOBS + OCI_ASSOC;
-
-        loop {
-            let resultRow = oci_fetch_array(statement, queryMode);
-            if ! resultRow {
-                break;
-            }
-            let result[] = array_change_key_case(resultRow);
-        }
-
-        return result;
-    }
-
-    public function queryRow(string sql, array params = [])
-    {
-        var statement, queryMode, resultRow;
-
-        this->execute(sql, params);
-
-        let statement = this->lastStatement;
-        let queryMode = OCI_RETURN_NULLS + OCI_RETURN_LOBS + OCI_ASSOC;
-
-        let resultRow = oci_fetch_array(statement, queryMode);
-        if resultRow {
-            return array_change_key_case(resultRow);
-        }
-    }
-
-    public function queryCell(string sql, array params = []) -> string
-    {
-        var statement, queryMode, resultRow, resultCell;
-
-        this->execute(sql, params);
-
-        let statement = this->lastStatement;
-        let queryMode = OCI_RETURN_NULLS + OCI_RETURN_LOBS + OCI_NUM;
-
-        let resultRow = oci_fetch_array(statement, queryMode);
-        if typeof resultRow == "array" && fetch resultCell, resultRow[0] {
-            return resultCell;
-        }
-
-        return "";
-    }
-
-    public function queryColumns(string sql, array params = []) -> array
-    {
-        var statement, queryMode, resultRow, resultCell, result = [];
-
-        this->execute(sql, params);
-
-        let statement = this->lastStatement;
-        let queryMode = OCI_RETURN_NULLS + OCI_RETURN_LOBS + OCI_NUM;
-
-        loop {
-            let resultRow = oci_fetch_array(statement, queryMode);
-            if typeof resultRow != "array" || ! fetch resultCell, resultRow[0] {
-                break;
-            }
-            let result[] = resultCell;
-        }
-
-        return result;
-    }
-
-    public function upsert(string t, array data, var primaryKey = "id") -> void
-    {
-        var pks, k, kk = [], vv = [], dual = [], cond = [], updates = [], s;
-
-        let pks = this->checkUpsert(data, primaryKey);
-
-        for k, _ in data {
-            let kk[] = k;
-            let vv[] = ":" . k;
-            if isset pks[k] {
-                let dual[] = sprintf(":%s %s", k, k);
-                let cond[] = sprintf("a.%s = b.%s", k, k);
-            } else {
-                let updates[] = sprintf("%s = :%s", k, k);
-            }
-        }
-
-        let s = "MERGE INTO " . t . " a";
-        let s .= " USING (SELECT " . implode(", ", dual) . " FROM dual WHERE rownum < 2) b";
-        let s .= " ON (" . implode(" AND ", cond) . ")";
-        if count(updates) > 0 {
-            let s .= " WHEN MATCHED THEN UPDATE SET " . implode(", ", updates);
-        }
-        let s .= " WHEN NOT MATCHED THEN INSERT (" . implode(", ", kk) . ") VALUES (" . implode(", ", vv) . ")";
-
-        this->execute(s, data);
     }
 
     protected function tryToBegin() -> boolean
@@ -180,23 +45,52 @@ class Oci8 extends DbAbstract
         return oci_rollback(this->oci);
     }
 
-    protected function makeRandomOrder() -> string
+    protected function executeQuery(string sql, array params = [], boolean executionOnly = false)
     {
-        return "dbms_random.value()";
-    }
+        var t, s, statement, k, v, mode, err, result, resultRow;
+        boolean success;
 
-    protected function makePagination(string query, long limit, long skip) -> string
-    {
-        if skip == 0 {
-            return sprintf("SELECT a.* FROM (%s) a WHERE rownum <= %d", query, limit);
+        let t = microtime(true);
+        let statement = oci_parse(this->oci, sql);
+
+        if count(params) > 0 {
+            for k, v in params {
+                if ! is_int(k) {
+                    oci_bind_by_name(statement, ":" . k, v);
+                }
+            }
         }
 
-        return sprintf(
-            "SELECT * FROM (SELECT a.*, rownum r FROM (%s) a WHERE rownum <= %d) b WHERE r > %d",
-            query,
-            limit,
-            skip
-        );
+        if this->inTransaction {
+            let mode = OCI_NO_AUTO_COMMIT;
+        } else {
+            let mode = OCI_COMMIT_ON_SUCCESS;
+        }
+
+        let success = (boolean) oci_execute(statement, mode);
+        let s = this->addSql(sql, params, t);
+
+        if unlikely ! success {
+            let err = oci_error(this->oci);
+            throw new Exception(err["message"] . " [SQL] " . s, Exception::EXECUTION_FAILURE);
+        }
+
+        if executionOnly {
+            return (long) oci_num_rows(statement);
+        }
+
+        let result = [];
+        let mode = OCI_RETURN_NULLS + OCI_RETURN_LOBS + OCI_ASSOC;
+
+        loop {
+            let resultRow = oci_fetch_array(statement, mode);
+            if ! resultRow {
+                break;
+            }
+            let result[] = array_change_key_case(resultRow);
+        }
+
+        return result;
     }
 
 }

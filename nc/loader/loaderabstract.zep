@@ -2,18 +2,16 @@ namespace Nc\Loader;
 
 abstract class LoaderAbstract implements LoaderInterface
 {
-    protected static loadedPaths;
+    protected loadedNamePaths;
 
-    public static function getLoadedPaths() -> array
+    public function register(boolean prepend = false) -> boolean
     {
-        var loadedPaths;
+        return spl_autoload_register(this, false, prepend);
+    }
 
-        let loadedPaths = self::loadedPaths;
-        if count(loadedPaths) > 0 {
-            return loadedPaths;
-        }
-
-        return [];
+    public function unregister() -> boolean
+    {
+        return spl_autoload_unregister(this);
     }
 
     public function __invoke(string name) -> boolean
@@ -32,18 +30,20 @@ abstract class LoaderAbstract implements LoaderInterface
             throw new Exception(sprintf("Cannot load '%s' in path '%s'", name, path));
         }
 
-        let self::loadedPaths[name] = path;
+        let this->loadedNamePaths[name] = path;
         return true;
     }
 
-    public function register(boolean prepend = false) -> boolean
+    public function getLoadedNamePaths() -> array
     {
-        return spl_autoload_register(this, false, prepend);
-    }
+        var loadedNamePaths;
 
-    public function unregister() -> boolean
-    {
-        return spl_autoload_unregister(this);
+        let loadedNamePaths = this->loadedNamePaths;
+        if count(loadedNamePaths) > 0 {
+            return loadedNamePaths;
+        }
+
+        return [];
     }
 
 }

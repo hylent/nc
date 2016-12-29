@@ -4,9 +4,22 @@ class TcpSocketClient
 {
     protected handler;
 
-    public function __construct(string host, long port, long connectTimeout = 5, boolean persistent = false) -> void
+    public function __construct(array options = []) -> void
     {
+        var mergedOptions, host, port, connectTimeout, persistent;
         var address, flags, handler, errNo = null, errStr = null;
+
+        let mergedOptions = options + [
+            "host"              : "",
+            "port"              : 0,
+            "connectTimeout"    : 5,
+            "persistent"        : false
+        ];
+
+        let host            = (string) mergedOptions["host"];
+        let port            = (long) mergedOptions["port"];
+        let connectTimeout  = (long) mergedOptions["connectTimeout"];
+        let persistent      = (boolean) mergedOptions["persistent"];
 
         let address = sprintf("tcp://%s:%d", host, port);
         let flags = STREAM_CLIENT_CONNECT;

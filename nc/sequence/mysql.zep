@@ -1,58 +1,55 @@
 namespace Nc\Sequence;
 
-use Nc\Db\PdoMysql;
+use Nc\Db\DbInterface;
+use Nc\Db\DaoMysql;
 
 class Mysql extends SequenceBackendAbstract
 {
-    const DEFAULT_TABLE = "sequencetable";
+    const DDL = "CREATE TABLE %s (name VARCHAR(100) NOT NULL, sequence BIGINT UNSIGNED NOT NULL, PRIMARY KEY (name)) ENGINE=InnoDB";
 
-    protected mysql;
-    protected table;
+    protected daoMysql;
 
-    public static function createTableSql(string table = self::DEFAULT_TABLE) -> string
+    public function __construct(<DbInterface> db, string table) -> void
     {
-        return "CREATE TABLE IF NOT EXISTS " . table . " ("
-            . "name VARCHAR(100) NOT NULL,"
-            . "sequence INT(11) NOT NULL AUTO_INCREMENT,"
-            . "PRIMARY KEY (name),"
-            . "KEY (name, sequence)"
-            . ") ENGINE=MyISAM";
+        let this->daoMysql = new DaoMysql(db, table, ["name"], "");
     }
 
-    public function __construct(<PdoMysql> mysql, string table = self::DEFAULT_TABLE) -> void
+    public function getDaoMysql() -> <DaoMysql>
     {
-        let this->mysql = mysql;
-        let this->table = table;
+        return this->daoMysql;
     }
 
-    public function getPdoMysql() -> <PdoMysql>
+    public function initialize() -> void
     {
-        return this->mysql;
-    }
-
-    public function getTable() -> string
-    {
-        return this->table;
+        this->daoMysql->getDb()->execute(sprintf(
+            self::DDL,
+            this->daoMysql->getTable()
+        ));
     }
 
     public function next(string name) -> long
     {
-        return (long) this->mysql->insert(this->table, [
-            "name": name
-        ], "sequence", true);
+        this->daoMysql->upsert([
+            "name"      : name,
+            "sequence"  : ["last_insert_id(1)"]
+        ], [
+            "sequence = last_insert_id(sequence + 1)"
+        ]);
+
+        return (long) this->daoMysql->queryLastInsertId();
     }
 
     public function restore(string name, long sequence) -> void
     {
-        this->mysql->insert(this->table, [
-            "name": name,
-            "sequence": sequence
-        ], "", true);
+        this->daoMysql->replace([
+            "name"      : name,
+            "sequence"  : sequence
+        ]);
     }
 
     public function clear() -> void
     {
-        this->mysql->delete(this->table, []);
+        this->daoMysql->delete();
     }
 
 }

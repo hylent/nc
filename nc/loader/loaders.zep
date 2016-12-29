@@ -1,54 +1,50 @@
 namespace Nc\Loader;
 
-use Nc\Container\Sorted;
-
 class Loaders extends LoaderAbstract implements \ArrayAccess
 {
     protected loaders;
 
-    public function __construct() -> void
-    {
-        let this->loaders = new Sorted();
-    }
-
-    public function set(string name, <LoaderInterface> loader, long order = Sorted::DEFAULT_ORDER) -> void
-    {
-        this->loaders->set(name, loader, order);
-    }
-
     public function offsetSet(string name, var loader) -> void
     {
-        this->set(name, loader);
+        if unlikely typeof loader != "object" || ! (loader instanceof LoaderInterface) {
+            throw new Exception("Invalid loader: " . name);
+        }
+
+        let this->loaders[name] = loader;
     }
 
-    public function offsetGet(string name) -> <ContainerInterface>
+    public function offsetGet(string name) -> <LoaderInterface>
     {
-        return this->loaders->__get(name);
+        var loader;
+
+        if unlikely ! fetch loader, this->loaders[name] {
+            throw new Exception("Undefined loader: " . name);
+        }
+
+        return loader;
     }
 
     public function offsetExists(string name) -> boolean
     {
-        return this->loaders->__isset(name);
+        return isset this->loaders[name];
     }
 
     public function offsetUnset(string name) -> void
     {
-        this->loaders->__unset(name);
+        unset this->loaders[name];
     }
 
     public function findPath(string name) -> string
     {
-        var loaders, path;
+        var loader, path;
 
-        let loaders = this->loaders;
-
-        loaders->rewind();
-        while loaders->valid() {
-            let path = loaders->current()->findPath(name);
-            if strlen(path) > 0 {
-                return path;
+        if count(this->loaders) > 0 {
+            for loader in this->loaders {
+                let path = loader->findPath(name);
+                if strlen(path) > 0 {
+                    return path;
+                }
             }
-            loaders->next();
         }
 
         return "";

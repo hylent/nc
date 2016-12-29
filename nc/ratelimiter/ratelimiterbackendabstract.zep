@@ -7,9 +7,4 @@ abstract class RateLimiterBackendAbstract implements RateLimiterBackendInterface
         return new RateLimiter(this, name);
     }
 
-    public function pass(string name, long seconds, long times) -> boolean
-    {
-        return this->passRateLimits(name, [seconds: times]);
-    }
-
 }

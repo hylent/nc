@@ -8,7 +8,7 @@
         "theme": {
             "name": "zephir",
             "options": {
-                "github": null,
+                "github": "https://github.com/hylent/nc",
                 "analytics": null,
                 "main_color": "#3E6496",
                 "link_color": "#3E6496",
@@ -56,34 +56,8 @@
     "name": "Nc Framework",
     "description": "A PHP framework for web development.",
     "author": "Hylent",
-    "version": "0.16.6",
-    "verbose": false,
-    "optimizer-dirs": [
-        "optimizers"
-    ],
-    "constants-sources": [
-        "ext/optimizers/utils.h"
-    ],
-    "extra-sources": [
-        "optimizers/utils.c"
-    ],
-    "globals": {
-        "serial.machine": {
-            "type": "uint",
-            "default": 0,
-            "module": true
-        },
-        "serial.now": {
-            "type": "uint",
-            "default": 0,
-            "module": true
-        },
-        "serial.sequence": {
-            "type": "uint",
-            "default": 0,
-            "module": true
-        }
-    },
+    "version": "0.1612.0",
+    "verbose": true,
     "requires": {
         "extensions": []
     }
