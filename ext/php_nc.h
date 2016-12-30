@@ -14,7 +14,7 @@
 #define PHP_NC_VERSION     "0.1612.0"
 #define PHP_NC_EXTNAME     "nc"
 #define PHP_NC_AUTHOR      "Hylent"
-#define PHP_NC_ZEPVERSION  "0.9.5a-dev-bad1ef6b4d"
+#define PHP_NC_ZEPVERSION  "0.9.5a-dev-c701ae2f8c"
 #define PHP_NC_DESCRIPTION "A PHP framework for web development."
 
 
