@@ -1,0 +1,10 @@
+# Makefile
+
+REMOTE='root@s1'
+REMOTE_DIR='/opt/nc'
+
+main:
+	git commit -am "Debug"
+	git push
+	ssh $(REMOTE) 'cd '$(REMOTE_DIR)' && sh generate-ext.sh'
+	git pull
