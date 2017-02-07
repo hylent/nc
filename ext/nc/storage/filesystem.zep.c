@@ -185,16 +185,16 @@ PHP_METHOD(Nc_Storage_FileSystem, store) {
 	}
 	do {
 		if (type == 3) {
-			ZEPHIR_CALL_FUNCTION(&success, "move_uploaded_file", NULL, 100, &src, &destPath);
+			ZEPHIR_CALL_FUNCTION(&success, "move_uploaded_file", NULL, 101, &src, &destPath);
 			zephir_check_call_status();
 			break;
 		}
 		if (type == 2) {
-			ZEPHIR_CALL_FUNCTION(&success, "rename", NULL, 101, &src, &destPath);
+			ZEPHIR_CALL_FUNCTION(&success, "rename", NULL, 102, &src, &destPath);
 			zephir_check_call_status();
 			break;
 		}
-		ZEPHIR_CALL_FUNCTION(&success, "copy", NULL, 102, &src, &destPath);
+		ZEPHIR_CALL_FUNCTION(&success, "copy", NULL, 103, &src, &destPath);
 		zephir_check_call_status();
 		break;
 	} while(0);

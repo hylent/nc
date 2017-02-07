@@ -75,6 +75,7 @@ zend_class_entry *nc_log_file_ce;
 zend_class_entry *nc_log_logger_ce;
 zend_class_entry *nc_log_nil_ce;
 zend_class_entry *nc_log_redislist_ce;
+zend_class_entry *nc_log_stderr_ce;
 zend_class_entry *nc_netutils_smtp_ce;
 zend_class_entry *nc_netutils_smtpexception_ce;
 zend_class_entry *nc_netutils_tcpsocketclient_ce;
@@ -159,6 +160,7 @@ static PHP_MINIT_FUNCTION(nc)
 	ZEPHIR_INIT(Nc_Log_Logger);
 	ZEPHIR_INIT(Nc_Log_Nil);
 	ZEPHIR_INIT(Nc_Log_RedisList);
+	ZEPHIR_INIT(Nc_Log_StdErr);
 	ZEPHIR_INIT(Nc_NetUtils_Smtp);
 	ZEPHIR_INIT(Nc_NetUtils_SmtpException);
 	ZEPHIR_INIT(Nc_NetUtils_TcpSocketClient);

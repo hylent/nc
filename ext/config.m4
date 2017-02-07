@@ -13,10 +13,10 @@ if test "$PHP_NC" = "yes"; then
 	nc/sequence/sequencebackendinterface.zep.c
 	nc/factory/factoryinterface.zep.c
 	nc/loader/loaderinterface.zep.c
+	nc/log/writerinterface.zep.c
 	nc/sequence/sequencebackendabstract.zep.c
 	nc/factory/factoryabstract.zep.c
 	nc/loader/loaderabstract.zep.c
-	nc/log/writerinterface.zep.c
 	nc/storage/storageinterface.zep.c
 	nc/storage/urigeneratorinterface.zep.c
 	nc/cache/cachebackendinterface.zep.c
@@ -61,6 +61,7 @@ if test "$PHP_NC" = "yes"; then
 	nc/log/logger.zep.c
 	nc/log/nil.zep.c
 	nc/log/redislist.zep.c
+	nc/log/stderr.zep.c
 	nc/netutils/smtp.zep.c
 	nc/netutils/smtpexception.zep.c
 	nc/netutils/tcpsocketclient.zep.c
