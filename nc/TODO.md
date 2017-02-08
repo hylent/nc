@@ -1,9 +1,10 @@
 # TODO
 
 * application
-* task
 * config
-* model
 * router
 * session
+* model
+* service
+* task
 * exceptions
