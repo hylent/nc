@@ -109,9 +109,9 @@ PHP_METHOD(Nc_Sequence_MongoCollection, next) {
 		object_init_ex(&_6$$3, nc_sequence_exception_ce);
 		ZEPHIR_INIT_VAR(&_7$$3);
 		ZVAL_STRING(&_7$$3, "Cannot get next sequence of '%s'");
-		ZEPHIR_CALL_FUNCTION(&_8$$3, "sprintf", NULL, 6, &_7$$3, &name);
+		ZEPHIR_CALL_FUNCTION(&_8$$3, "sprintf", NULL, 2, &_7$$3, &name);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_6$$3, "__construct", NULL, 7, &_8$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_6$$3, "__construct", NULL, 3, &_8$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_6$$3, "nc/sequence/mongocollection.zep", 33 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();

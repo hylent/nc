@@ -391,9 +391,11 @@ abstract class DaoAbstract
             }
 
             let ks = explode("$", k, 3);
+            let k1 = (string) array_shift(ks);
+            let k2 = (string) array_shift(ks);
 
-            if ! fetch k1, ks[0] || ! fetch k2, ks[1] || strlen(k2) < 1 {
-                let ws[] = k . " " . this->db->quote(v);
+            if k2 === "" {
+                let ws[] = k1 . " " . this->db->quote(v);
                 continue;
             }
 

@@ -42,7 +42,7 @@ PHP_METHOD(Nc_RateLimiter_RateLimiterBackendAbstract, getRateLimiter) {
 
 
 	object_init_ex(return_value, nc_ratelimiter_ratelimiter_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 19, this_ptr, &name);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 17, this_ptr, &name);
 	zephir_check_call_status();
 	RETURN_MM();
 

@@ -63,7 +63,7 @@ PHP_METHOD(Nc_Queue_Mysql, __construct) {
 	zephir_array_fast_append(&_1, &_2);
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "");
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 100, db, &table, &_1, &_2);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 127, db, &table, &_1, &_2);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("daoMysql"), &_0);
 	ZEPHIR_MM_RESTORE();
@@ -102,7 +102,7 @@ PHP_METHOD(Nc_Queue_Mysql, initialize) {
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_4);
 	ZVAL_STRING(&_4, "CREATE TABLE %s (id BIGINT UNSIGNED NOT NULL, ts INT UNSIGNED NOT NULL, PRIMARY KEY (id), KEY (ts)) ENGINE=InnoDB");
-	ZEPHIR_CALL_FUNCTION(&_5, "sprintf", NULL, 6, &_4, &_3);
+	ZEPHIR_CALL_FUNCTION(&_5, "sprintf", NULL, 2, &_4, &_3);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &_1, "execute", NULL, 0, &_5);
 	zephir_check_call_status();
@@ -181,7 +181,7 @@ PHP_METHOD(Nc_Queue_Mysql, reserve) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "reserve");
 		ZVAL_LONG(&_2$$3, 3);
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 7, &_1$$3, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 3, &_1$$3, &_2$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_0$$3, "nc/queue/mysql.zep", 43 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();

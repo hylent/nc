@@ -12,14 +12,15 @@ if (PHP_NC != "no") {
   }
   
   ADD_SOURCES(configure_module_dirname + "/nc", "exception.zep.c", "nc");
+	ADD_SOURCES(configure_module_dirname + "/nc/di", "containerinterface.zep.c injectedsetupmethodinterface.zep.c creatorabstract.zep.c creatorclassprefix.zep.c creatorclassmapper.zep.c creatorclassnamespace.zep.c creators.zep.c exception.zep.c injectedctorparamsinterface.zep.c injectedpropertyinterface.zep.c injector.zep.c", "nc");
 	ADD_SOURCES(configure_module_dirname + "/nc/sequence", "sequencebackendinterface.zep.c sequencebackendabstract.zep.c exception.zep.c mongocollection.zep.c mysql.zep.c mysqlmyisam.zep.c redis.zep.c redishash.zep.c sequence.zep.c", "nc");
-	ADD_SOURCES(configure_module_dirname + "/nc/factory", "factoryinterface.zep.c factoryabstract.zep.c classnameabstract.zep.c callback.zep.c exception.zep.c factories.zep.c prefixed.zep.c", "nc");
-	ADD_SOURCES(configure_module_dirname + "/nc/loader", "loaderinterface.zep.c loaderabstract.zep.c cached.zep.c exception.zep.c loaders.zep.c namepath.zep.c namespacedirectory.zep.c", "nc");
 	ADD_SOURCES(configure_module_dirname + "/nc/log", "writerinterface.zep.c writerbufferedabstract.zep.c exception.zep.c file.zep.c logger.zep.c nil.zep.c redislist.zep.c stderr.zep.c", "nc");
 	ADD_SOURCES(configure_module_dirname + "/nc/storage", "storageinterface.zep.c urigeneratorinterface.zep.c storageabstract.zep.c exception.zep.c fastdfs.zep.c filesystem.zep.c ftp.zep.c", "nc");
 	ADD_SOURCES(configure_module_dirname + "/nc/cache", "cachebackendinterface.zep.c cachebackendabstract.zep.c apcu.zep.c cachepool.zep.c exception.zep.c filesystem.zep.c", "nc");
+	ADD_SOURCES(configure_module_dirname + "/nc/config", "configinterface.zep.c filesystemabstract.zep.c exception.zep.c ini.zep.c php.zep.c", "nc");
 	ADD_SOURCES(configure_module_dirname + "/nc/db", "daoabstract.zep.c dbinterface.zep.c dbabstract.zep.c daomysql.zep.c daooracle.zep.c daopgsql.zep.c exception.zep.c oci8.zep.c pdo.zep.c", "nc");
 	ADD_SOURCES(configure_module_dirname + "/nc/image", "imageinterface.zep.c imageabstract.zep.c area.zep.c exception.zep.c gd.zep.c imagick.zep.c", "nc");
+	ADD_SOURCES(configure_module_dirname + "/nc/mvc", "contextabstract.zep.c controllerinterface.zep.c contexthttp.zep.c application.zep.c contextcli.zep.c contexthttpswoole.zep.c controllercliswoole.zep.c controllerdefault.zep.c exception.zep.c uploadedfile.zep.c", "nc");
 	ADD_SOURCES(configure_module_dirname + "/nc/ratelimiter", "ratelimiterbackendinterface.zep.c ratelimiterbackendabstract.zep.c exception.zep.c mysql.zep.c ratelimiter.zep.c redis.zep.c", "nc");
 	ADD_SOURCES(configure_module_dirname + "/nc/netutils", "exception.zep.c smtp.zep.c smtpexception.zep.c tcpsocketclient.zep.c tcpsocketclientexception.zep.c", "nc");
 	ADD_SOURCES(configure_module_dirname + "/nc/queue", "queueinterface.zep.c exception.zep.c mysql.zep.c redis.zep.c", "nc");

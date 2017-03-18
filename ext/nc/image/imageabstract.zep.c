@@ -153,9 +153,9 @@ PHP_METHOD(Nc_Image_ImageAbstract, newInstance) {
 	object_init_ex(&_0, zephir_get_internal_ce(SL("reflectionclass")));
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_get_called_class(&_1 TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 16, &_1);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 14, &_1);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "newinstancewithoutconstructor", NULL, 17);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "newinstancewithoutconstructor", NULL, 15);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -259,7 +259,7 @@ PHP_METHOD(Nc_Image_ImageAbstract, getPaintingAreaByPosition) {
 		object_init_ex(&_2$$12, nc_image_exception_ce);
 		ZEPHIR_INIT_VAR(&_3$$12);
 		ZVAL_STRING(&_3$$12, "getPaintingAreaByPosition");
-		ZEPHIR_CALL_METHOD(NULL, &_2$$12, "__construct", NULL, 7, &_3$$12);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$12, "__construct", NULL, 3, &_3$$12);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_2$$12, "nc/image/imageabstract.zep", 100 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -269,7 +269,7 @@ PHP_METHOD(Nc_Image_ImageAbstract, getPaintingAreaByPosition) {
 	object_init_ex(return_value, nc_image_area_ce);
 	ZVAL_LONG(&_4, w);
 	ZVAL_LONG(&_5, h);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 18, &x, &y, &_4, &_5);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 16, &x, &y, &_4, &_5);
 	zephir_check_call_status();
 	RETURN_MM();
 

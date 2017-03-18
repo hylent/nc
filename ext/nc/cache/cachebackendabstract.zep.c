@@ -44,7 +44,7 @@ PHP_METHOD(Nc_Cache_CacheBackendAbstract, getPool) {
 
 
 	object_init_ex(return_value, nc_cache_cachepool_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 14, this_ptr, &poolName);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 10, this_ptr, &poolName);
 	zephir_check_call_status();
 	RETURN_MM();
 

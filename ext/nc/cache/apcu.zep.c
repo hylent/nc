@@ -46,7 +46,7 @@ PHP_METHOD(Nc_Cache_Apcu, __construct) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "apcu");
-	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 24, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 25, &_0);
 	zephir_check_call_status();
 	if (unlikely(!zephir_is_true(&_1))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_cache_exception_ce, "Missing extension 'apcu'", "nc/cache/apcu.zep", 8);
@@ -58,7 +58,7 @@ PHP_METHOD(Nc_Cache_Apcu, __construct) {
 	if (_2) {
 		ZEPHIR_INIT_VAR(&_3);
 		ZVAL_STRING(&_3, "apc.enable_cli");
-		ZEPHIR_CALL_FUNCTION(&_4, "ini_get", NULL, 25, &_3);
+		ZEPHIR_CALL_FUNCTION(&_4, "ini_get", NULL, 26, &_3);
 		zephir_check_call_status();
 		_2 = !ZEPHIR_IS_LONG(&_4, 1);
 	}
@@ -106,7 +106,7 @@ PHP_METHOD(Nc_Cache_Apcu, clear) {
 	if (zephir_fast_strlen_ev(&poolName) < 1) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "user");
-		ZEPHIR_CALL_FUNCTION(&_2$$3, "apc_clear_cache", NULL, 26, &_1$$3);
+		ZEPHIR_CALL_FUNCTION(&_2$$3, "apcu_clear_cache", NULL, 27, &_1$$3);
 		zephir_check_call_status();
 		if (unlikely(!zephir_is_true(&_2$$3))) {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_cache_exception_ce, "Cannot clear all user caches", "nc/cache/apcu.zep", 22);
@@ -115,12 +115,12 @@ PHP_METHOD(Nc_Cache_Apcu, clear) {
 		RETURN_MM_NULL();
 	}
 	ZEPHIR_INIT_VAR(&iter);
-	object_init_ex(&iter, zephir_get_internal_ce(SL("apciterator")));
+	object_init_ex(&iter, zephir_get_internal_ce(SL("apcuiterator")));
 	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_CONCAT_VS(&_3, &poolName, ":");
 	ZEPHIR_INIT_VAR(&_4);
 	ZVAL_STRING(&_4, "/");
-	ZEPHIR_CALL_FUNCTION(&_5, "preg_quote", NULL, 27, &_3, &_4);
+	ZEPHIR_CALL_FUNCTION(&_5, "preg_quote", NULL, 28, &_3, &_4);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_6);
 	ZEPHIR_CONCAT_SVS(&_6, "/^", &_5, "/");
@@ -140,7 +140,7 @@ PHP_METHOD(Nc_Cache_Apcu, clear) {
 		}
 		ZEPHIR_CALL_METHOD(&_11$$5, &iter, "key", &_12, 0);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(NULL, "apc_delete", &_13, 28, &_11$$5);
+		ZEPHIR_CALL_FUNCTION(NULL, "apcu_delete", &_13, 29, &_11$$5);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &iter, "next", &_14, 0);
 		zephir_check_call_status();
@@ -182,16 +182,16 @@ PHP_METHOD(Nc_Cache_Apcu, store) {
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_VSV(&_0, &poolName, ":", &key);
 	ZVAL_LONG(&_1, ttl);
-	ZEPHIR_CALL_FUNCTION(&_2, "apc_store", NULL, 29, &_0, value, &_1);
+	ZEPHIR_CALL_FUNCTION(&_2, "apcu_store", NULL, 30, &_0, value, &_1);
 	zephir_check_call_status();
 	if (unlikely(!zephir_is_true(&_2))) {
 		ZEPHIR_INIT_VAR(&_3$$3);
 		object_init_ex(&_3$$3, nc_cache_exception_ce);
 		ZEPHIR_INIT_VAR(&_4$$3);
 		ZVAL_STRING(&_4$$3, "Cannot store cache key '%s'");
-		ZEPHIR_CALL_FUNCTION(&_5$$3, "sprintf", NULL, 6, &_4$$3, &key);
+		ZEPHIR_CALL_FUNCTION(&_5$$3, "sprintf", NULL, 2, &_4$$3, &key);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 7, &_5$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 3, &_5$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_3$$3, "nc/cache/apcu.zep", 39 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -254,7 +254,7 @@ PHP_METHOD(Nc_Cache_Apcu, storeMany) {
 	ZEPHIR_INIT_NVAR(&v);
 	ZEPHIR_INIT_NVAR(&k);
 	ZVAL_LONG(&_4, ttl);
-	ZEPHIR_CALL_FUNCTION(&_5, "apc_store", NULL, 29, &kvs, &__$null, &_4);
+	ZEPHIR_CALL_FUNCTION(&_5, "apcu_store", NULL, 30, &kvs, &__$null, &_4);
 	zephir_check_call_status();
 	if (unlikely(!(!zephir_is_true(&_5)))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_cache_exception_ce, "Cannot store cache keys", "nc/cache/apcu.zep", 52);
@@ -289,7 +289,7 @@ PHP_METHOD(Nc_Cache_Apcu, fetch) {
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_VSV(&_0, &poolName, ":", &key);
 	ZEPHIR_MAKE_REF(&success);
-	ZEPHIR_CALL_FUNCTION(&value, "apc_fetch", NULL, 30, &_0, &success);
+	ZEPHIR_CALL_FUNCTION(&value, "apcu_fetch", NULL, 31, &_0, &success);
 	ZEPHIR_UNREF(&success);
 	zephir_check_call_status();
 	if (zephir_is_true(&success)) {
@@ -350,7 +350,7 @@ PHP_METHOD(Nc_Cache_Apcu, fetchMany) {
 	} ZEND_HASH_FOREACH_END();
 	ZEPHIR_INIT_NVAR(&k);
 	ZEPHIR_MAKE_REF(&success);
-	ZEPHIR_CALL_FUNCTION(&kvs, "apc_fetch", NULL, 30, &ks, &success);
+	ZEPHIR_CALL_FUNCTION(&kvs, "apcu_fetch", NULL, 31, &ks, &success);
 	ZEPHIR_UNREF(&success);
 	zephir_check_call_status();
 	if (zephir_is_true(&success)) {
@@ -398,7 +398,7 @@ PHP_METHOD(Nc_Cache_Apcu, forget) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_VSV(&_0, &poolName, ":", &key);
-	ZEPHIR_CALL_FUNCTION(NULL, "apc_delete", NULL, 28, &_0);
+	ZEPHIR_CALL_FUNCTION(NULL, "apcu_delete", NULL, 29, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

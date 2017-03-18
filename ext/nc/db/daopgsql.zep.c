@@ -111,7 +111,7 @@ PHP_METHOD(Nc_Db_DaoPgsql, upsert) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "upsert");
 		ZVAL_LONG(&_3$$3, 7);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 7, &_2$$3, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 3, &_2$$3, &_3$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "nc/db/daopgsql.zep", 10 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -132,7 +132,7 @@ PHP_METHOD(Nc_Db_DaoPgsql, upsert) {
 			ZEPHIR_INIT_NVAR(&_7$$5);
 			object_init_ex(&_7$$5, nc_db_exception_ce);
 			ZVAL_LONG(&_8$$5, 8);
-			ZEPHIR_CALL_METHOD(NULL, &_7$$5, "__construct", NULL, 7, &k, &_8$$5);
+			ZEPHIR_CALL_METHOD(NULL, &_7$$5, "__construct", NULL, 3, &k, &_8$$5);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_7$$5, "nc/db/daopgsql.zep", 14 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
@@ -180,7 +180,7 @@ PHP_METHOD(Nc_Db_DaoPgsql, upsert) {
 	zephir_fast_join_str(&_18, SL(", "), &_19 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(&_20);
 	ZVAL_STRING(&_20, "INSERT INTO %s (%s) VALUES (%s) ON CONFLICT (%s) DO");
-	ZEPHIR_CALL_FUNCTION(&s, "sprintf", &_21, 6, &_20, &_15, &_16, &_17, &_18);
+	ZEPHIR_CALL_FUNCTION(&s, "sprintf", &_21, 2, &_20, &_15, &_16, &_17, &_18);
 	zephir_check_call_status();
 	if (zephir_fast_count_int(&updates TSRMLS_CC) < 1) {
 		zephir_concat_self_str(&s, SL(" NOTHING") TSRMLS_CC);
@@ -221,7 +221,7 @@ PHP_METHOD(Nc_Db_DaoPgsql, upsert) {
 		zephir_fast_join_str(&_29$$11, SL(", "), &us TSRMLS_CC);
 		ZEPHIR_INIT_VAR(&_30$$11);
 		ZVAL_STRING(&_30$$11, " UPDATE SET %s");
-		ZEPHIR_CALL_FUNCTION(&_31$$11, "sprintf", &_21, 6, &_30$$11, &_29$$11);
+		ZEPHIR_CALL_FUNCTION(&_31$$11, "sprintf", &_21, 2, &_30$$11, &_29$$11);
 		zephir_check_call_status();
 		zephir_concat_self(&s, &_31$$11 TSRMLS_CC);
 	}
@@ -331,7 +331,7 @@ PHP_METHOD(Nc_Db_DaoPgsql, updateTop) {
 	ZEPHIR_INIT_VAR(&_13);
 	ZVAL_STRING(&_13, "WITH t1 AS (SELECT %s FROM %s%s%s LIMIT %d) UPDATE %s SET %s WHERE (%s) IN (SELECT %s FROM t1)");
 	ZVAL_LONG(&_14, limit);
-	ZEPHIR_CALL_FUNCTION(&s, "sprintf", NULL, 6, &_13, &pks, &_8, &_9, &_10, &_14, &_11, &_12, &pks, &pks);
+	ZEPHIR_CALL_FUNCTION(&s, "sprintf", NULL, 2, &_13, &pks, &_8, &_9, &_10, &_14, &_11, &_12, &pks, &pks);
 	zephir_check_call_status();
 	zephir_read_property(&_14, this_ptr, SL("db"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_14, "execute", NULL, 0, &s, &updates);
@@ -391,7 +391,7 @@ PHP_METHOD(Nc_Db_DaoPgsql, deleteTop) {
 	ZEPHIR_INIT_VAR(&_5);
 	ZVAL_STRING(&_5, "WITH t1 AS (SELECT %s FROM %s%s%s LIMIT %d) DELETE FROM %s WHERE (%s) IN (SELECT %s FROM t1)");
 	ZVAL_LONG(&_6, limit);
-	ZEPHIR_CALL_FUNCTION(&s, "sprintf", NULL, 6, &_5, &pks, &_1, &_2, &_3, &_6, &_4, &pks, &pks);
+	ZEPHIR_CALL_FUNCTION(&s, "sprintf", NULL, 2, &_5, &pks, &_1, &_2, &_3, &_6, &_4, &pks, &pks);
 	zephir_check_call_status();
 	zephir_read_property(&_6, this_ptr, SL("db"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_6, "execute", NULL, 0, &s);
@@ -437,7 +437,7 @@ PHP_METHOD(Nc_Db_DaoPgsql, makePagination) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		ZVAL_STRING(&_0$$3, "%s LIMIT %d");
 		ZVAL_LONG(&_1$$3, limit);
-		ZEPHIR_RETURN_CALL_FUNCTION("sprintf", &_2, 6, &_0$$3, &sql, &_1$$3);
+		ZEPHIR_RETURN_CALL_FUNCTION("sprintf", &_2, 2, &_0$$3, &sql, &_1$$3);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -445,7 +445,7 @@ PHP_METHOD(Nc_Db_DaoPgsql, makePagination) {
 	ZVAL_STRING(&_3, "%s LIMIT %d OFFSET %d");
 	ZVAL_LONG(&_4, limit);
 	ZVAL_LONG(&_5, skip);
-	ZEPHIR_RETURN_CALL_FUNCTION("sprintf", &_2, 6, &_3, &sql, &_4, &_5);
+	ZEPHIR_RETURN_CALL_FUNCTION("sprintf", &_2, 2, &_3, &sql, &_4, &_5);
 	zephir_check_call_status();
 	RETURN_MM();
 

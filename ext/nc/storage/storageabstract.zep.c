@@ -63,20 +63,20 @@ PHP_METHOD(Nc_Storage_StorageAbstract, uuid) {
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "mt_rand", NULL, 11);
+	ZEPHIR_CALL_FUNCTION(&_0, "mt_rand", NULL, 7);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_1, "uniqid", NULL, 12, &_0, &__$true);
+	ZEPHIR_CALL_FUNCTION(&_1, "uniqid", NULL, 8, &_0, &__$true);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_CONCAT_VV(&_2, &_1, &salt);
-	ZEPHIR_CALL_FUNCTION(&_3, "sha1", NULL, 13, &_2);
+	ZEPHIR_CALL_FUNCTION(&_3, "sha1", NULL, 9, &_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_4);
 	zephir_time(&_4);
 	ZEPHIR_INIT_VAR(&_5);
 	ZVAL_STRING(&_5, "%04x");
 	ZVAL_LONG(&_6, (zephir_get_intval(&_4) & 0xffff));
-	ZEPHIR_CALL_FUNCTION(&_7, "sprintf", NULL, 6, &_5, &_6);
+	ZEPHIR_CALL_FUNCTION(&_7, "sprintf", NULL, 2, &_5, &_6);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_VV(return_value, &_3, &_7);
 	RETURN_MM();
@@ -173,9 +173,9 @@ PHP_METHOD(Nc_Storage_StorageAbstract, generateUri) {
 			object_init_ex(&_6$$5, nc_storage_exception_ce);
 			ZEPHIR_INIT_VAR(&_7$$5);
 			ZVAL_STRING(&_7$$5, "Invalid uri prefix '%s'");
-			ZEPHIR_CALL_FUNCTION(&_8$$5, "sprintf", NULL, 6, &_7$$5, &pre);
+			ZEPHIR_CALL_FUNCTION(&_8$$5, "sprintf", NULL, 2, &_7$$5, &pre);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &_6$$5, "__construct", NULL, 7, &_8$$5);
+			ZEPHIR_CALL_METHOD(NULL, &_6$$5, "__construct", NULL, 3, &_8$$5);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_6$$5, "nc/storage/storageabstract.zep", 34 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();

@@ -90,7 +90,7 @@ PHP_METHOD(Nc_Log_Logger, generateLogId) {
 	ZVAL_LONG(&_4, mt0);
 	ZVAL_DOUBLE(&_5, (1000000.0 * ((mt -  (double) mt0))));
 	ZVAL_LONG(&_6, zephir_mt_rand(zephir_get_intval(&_1), zephir_get_intval(&_2) TSRMLS_CC));
-	ZEPHIR_RETURN_CALL_FUNCTION("sprintf", NULL, 6, &_3, &_4, &_5, &_6);
+	ZEPHIR_RETURN_CALL_FUNCTION("sprintf", NULL, 2, &_3, &_4, &_5, &_6);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -195,7 +195,7 @@ PHP_METHOD(Nc_Log_Logger, offsetSet) {
 		object_init_ex(&_1$$3, nc_log_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_CONCAT_SV(&_2$$3, "Invalid writer: ", &level);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 7, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 3, &_2$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "nc/log/logger.zep", 66 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -702,19 +702,19 @@ PHP_METHOD(Nc_Log_Logger, stringifyLog) {
 		} ZEND_HASH_FOREACH_END();
 		ZEPHIR_INIT_NVAR(&v);
 		ZEPHIR_INIT_NVAR(&k);
-		ZEPHIR_CALL_FUNCTION(&m, "strtr", NULL, 78, &message, &r);
+		ZEPHIR_CALL_FUNCTION(&m, "strtr", NULL, 94, &message, &r);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_CPY_WRT(&m, &message);
 	}
 	ZEPHIR_INIT_VAR(&_5);
 	ZVAL_STRING(&_5, "c");
-	ZEPHIR_CALL_FUNCTION(&_6, "date", NULL, 79, &_5);
+	ZEPHIR_CALL_FUNCTION(&_6, "date", NULL, 93, &_5);
 	zephir_check_call_status();
 	zephir_read_property(&_7, this_ptr, SL("logId"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_NVAR(&_5);
 	ZVAL_STRING(&_5, "[%s] [%s] [%s] %s");
-	ZEPHIR_RETURN_CALL_FUNCTION("sprintf", NULL, 6, &_5, &_6, &_7, &level, &m);
+	ZEPHIR_RETURN_CALL_FUNCTION("sprintf", NULL, 2, &_5, &_6, &_7, &level, &m);
 	zephir_check_call_status();
 	RETURN_MM();
 

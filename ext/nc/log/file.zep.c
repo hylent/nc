@@ -121,7 +121,7 @@ PHP_METHOD(Nc_Log_File, writeLogs) {
 	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_CONCAT_VS(&_3, &_1, "\n");
 	ZVAL_LONG(&_4, (8 | 2));
-	ZEPHIR_CALL_FUNCTION(&res, "file_put_contents", NULL, 36, &_0, &_3, &_4);
+	ZEPHIR_CALL_FUNCTION(&res, "file_put_contents", NULL, 37, &_0, &_3, &_4);
 	zephir_check_call_status();
 	if (unlikely(!zephir_is_true(&res))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_log_exception_ce, "Failed to write to log file", "nc/log/file.zep", 45);
@@ -154,7 +154,7 @@ PHP_METHOD(Nc_Log_File, getPath) {
 		if (ZEPHIR_IS_LONG(&_0, 1)) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			ZVAL_STRING(&_1$$3, ".Ymd");
-			ZEPHIR_CALL_FUNCTION(&_2$$3, "date", &_3, 79, &_1$$3);
+			ZEPHIR_CALL_FUNCTION(&_2$$3, "date", &_3, 93, &_1$$3);
 			zephir_check_call_status();
 			zephir_concat_self(&path, &_2$$3 TSRMLS_CC);
 			break;
@@ -162,7 +162,7 @@ PHP_METHOD(Nc_Log_File, getPath) {
 		if (ZEPHIR_IS_LONG(&_0, 2)) {
 			ZEPHIR_INIT_VAR(&_4$$4);
 			ZVAL_STRING(&_4$$4, ".YmdH");
-			ZEPHIR_CALL_FUNCTION(&_5$$4, "date", &_3, 79, &_4$$4);
+			ZEPHIR_CALL_FUNCTION(&_5$$4, "date", &_3, 93, &_4$$4);
 			zephir_check_call_status();
 			zephir_concat_self(&path, &_5$$4 TSRMLS_CC);
 			break;

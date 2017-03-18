@@ -161,14 +161,14 @@ PHP_METHOD(Nc_Storage_FileSystem, store) {
 	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_CONCAT_VV(&_3, &_2, &destUri);
 	zephir_get_strval(&destPath, &_3);
-	ZEPHIR_CALL_FUNCTION(&temp, "dirname", NULL, 38, &destPath);
+	ZEPHIR_CALL_FUNCTION(&temp, "dirname", NULL, 39, &destPath);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_4, "is_dir", NULL, 33, &temp);
+	ZEPHIR_CALL_FUNCTION(&_4, "is_dir", NULL, 34, &temp);
 	zephir_check_call_status();
 	_5 = !zephir_is_true(&_4);
 	if (_5) {
 		zephir_read_property(&_6, this_ptr, SL("mode"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_FUNCTION(&_7, "mkdir", NULL, 39, &temp, &_6, &__$true);
+		ZEPHIR_CALL_FUNCTION(&_7, "mkdir", NULL, 40, &temp, &_6, &__$true);
 		zephir_check_call_status();
 		_5 = !zephir_is_true(&_7);
 	}
@@ -177,7 +177,7 @@ PHP_METHOD(Nc_Storage_FileSystem, store) {
 		object_init_ex(&_8$$3, nc_storage_exception_ce);
 		ZEPHIR_INIT_VAR(&_9$$3);
 		ZEPHIR_CONCAT_SV(&_9$$3, "Cannot mkdir: ", &temp);
-		ZEPHIR_CALL_METHOD(NULL, &_8$$3, "__construct", NULL, 7, &_9$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_8$$3, "__construct", NULL, 3, &_9$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_8$$3, "nc/storage/filesystem.zep", 39 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -185,16 +185,16 @@ PHP_METHOD(Nc_Storage_FileSystem, store) {
 	}
 	do {
 		if (type == 3) {
-			ZEPHIR_CALL_FUNCTION(&success, "move_uploaded_file", NULL, 101, &src, &destPath);
+			ZEPHIR_CALL_FUNCTION(&success, "move_uploaded_file", NULL, 128, &src, &destPath);
 			zephir_check_call_status();
 			break;
 		}
 		if (type == 2) {
-			ZEPHIR_CALL_FUNCTION(&success, "rename", NULL, 102, &src, &destPath);
+			ZEPHIR_CALL_FUNCTION(&success, "rename", NULL, 129, &src, &destPath);
 			zephir_check_call_status();
 			break;
 		}
-		ZEPHIR_CALL_FUNCTION(&success, "copy", NULL, 103, &src, &destPath);
+		ZEPHIR_CALL_FUNCTION(&success, "copy", NULL, 130, &src, &destPath);
 		zephir_check_call_status();
 		break;
 	} while(0);
@@ -204,7 +204,7 @@ PHP_METHOD(Nc_Storage_FileSystem, store) {
 		object_init_ex(&_10$$7, nc_storage_exception_ce);
 		ZEPHIR_INIT_VAR(&_11$$7);
 		ZEPHIR_CONCAT_SV(&_11$$7, "Cannot store file to path: ", &destPath);
-		ZEPHIR_CALL_METHOD(NULL, &_10$$7, "__construct", NULL, 7, &_11$$7);
+		ZEPHIR_CALL_METHOD(NULL, &_10$$7, "__construct", NULL, 3, &_11$$7);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_10$$7, "nc/storage/filesystem.zep", 57 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -233,7 +233,7 @@ PHP_METHOD(Nc_Storage_FileSystem, remove) {
 	ZEPHIR_CALL_METHOD(&path, this_ptr, "getpath", NULL, 0, &uri);
 	zephir_check_call_status();
 	if ((zephir_file_exists(&path TSRMLS_CC) == SUCCESS)) {
-		ZEPHIR_RETURN_CALL_FUNCTION("unlink", NULL, 34, &path);
+		ZEPHIR_RETURN_CALL_FUNCTION("unlink", NULL, 35, &path);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

@@ -60,7 +60,7 @@ PHP_METHOD(Nc_Sequence_MysqlMyisam, __construct) {
 	zephir_array_fast_append(&_1, &_2);
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "sequence");
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 100, db, &table, &_1, &_2);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 127, db, &table, &_1, &_2);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("daoMysql"), &_0);
 	ZEPHIR_MM_RESTORE();
@@ -99,7 +99,7 @@ PHP_METHOD(Nc_Sequence_MysqlMyisam, initialize) {
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_4);
 	ZVAL_STRING(&_4, "CREATE TABLE %s (name VARCHAR(100) NOT NULL, sequence BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, PRIMARY KEY (name, sequence), UNIQUE KEY(name)) ENGINE=MyISAM");
-	ZEPHIR_CALL_FUNCTION(&_5, "sprintf", NULL, 6, &_4, &_3);
+	ZEPHIR_CALL_FUNCTION(&_5, "sprintf", NULL, 2, &_4, &_3);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &_1, "execute", NULL, 0, &_5);
 	zephir_check_call_status();

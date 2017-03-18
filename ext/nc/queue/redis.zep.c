@@ -114,7 +114,7 @@ PHP_METHOD(Nc_Queue_Redis, put) {
 		object_init_ex(&_4$$3, nc_queue_exception_ce);
 		zephir_read_property(&_5$$3, this_ptr, SL("keyName"), PH_NOISY_CC | PH_READONLY);
 		ZVAL_LONG(&_6$$3, 1);
-		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 7, &_5$$3, &_6$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 3, &_5$$3, &_6$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_4$$3, "nc/queue/redis.zep", 30 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -163,7 +163,7 @@ PHP_METHOD(Nc_Queue_Redis, reserve) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "reserve");
 		ZVAL_LONG(&_2$$3, 3);
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 7, &_1$$3, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 3, &_1$$3, &_2$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_0$$3, "nc/queue/redis.zep", 39 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -190,7 +190,7 @@ PHP_METHOD(Nc_Queue_Redis, reserve) {
 		object_init_ex(&_10$$4, nc_queue_exception_ce);
 		zephir_read_property(&_11$$4, this_ptr, SL("keyName"), PH_NOISY_CC | PH_READONLY);
 		ZVAL_LONG(&_12$$4, 2);
-		ZEPHIR_CALL_METHOD(NULL, &_10$$4, "__construct", NULL, 7, &_11$$4, &_12$$4);
+		ZEPHIR_CALL_METHOD(NULL, &_10$$4, "__construct", NULL, 3, &_11$$4, &_12$$4);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_10$$4, "nc/queue/redis.zep", 53 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -231,7 +231,7 @@ PHP_METHOD(Nc_Queue_Redis, delete) {
 		object_init_ex(&_2$$3, nc_queue_exception_ce);
 		zephir_read_property(&_3$$3, this_ptr, SL("keyName"), PH_NOISY_CC | PH_READONLY);
 		ZVAL_LONG(&_4$$3, 4);
-		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 7, &_3$$3, &_4$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 3, &_3$$3, &_4$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_2$$3, "nc/queue/redis.zep", 65 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();

@@ -58,13 +58,13 @@ PHP_METHOD(Nc_Cache_FileSystem, rmDirRecursively) {
 	zephir_get_strval(&dir, dir_param);
 
 
-	ZEPHIR_CALL_FUNCTION(&handle, "opendir", NULL, 31, &dir);
+	ZEPHIR_CALL_FUNCTION(&handle, "opendir", NULL, 32, &dir);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&handle))) {
 		RETURN_MM_NULL();
 	}
 	while (1) {
-		ZEPHIR_CALL_FUNCTION(&path, "readdir", &_0, 32, &handle);
+		ZEPHIR_CALL_FUNCTION(&path, "readdir", &_0, 33, &handle);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_FALSE_IDENTICAL(&path)) {
 			break;
@@ -79,17 +79,17 @@ PHP_METHOD(Nc_Cache_FileSystem, rmDirRecursively) {
 		ZEPHIR_INIT_LNVAR(_2$$4);
 		ZEPHIR_CONCAT_VSV(&_2$$4, &dir, "/", &path);
 		ZEPHIR_CPY_WRT(&path, &_2$$4);
-		ZEPHIR_CALL_FUNCTION(&_3$$4, "is_dir", &_4, 33, &path);
+		ZEPHIR_CALL_FUNCTION(&_3$$4, "is_dir", &_4, 34, &path);
 		zephir_check_call_status();
 		if (zephir_is_true(&_3$$4)) {
 			ZEPHIR_CALL_SELF(NULL, "rmdirrecursively", &_5, 0, &path);
 			zephir_check_call_status();
 		} else {
-			ZEPHIR_CALL_FUNCTION(NULL, "unlink", &_6, 34, &path);
+			ZEPHIR_CALL_FUNCTION(NULL, "unlink", &_6, 35, &path);
 			zephir_check_call_status();
 		}
 	}
-	ZEPHIR_CALL_FUNCTION(NULL, "rmdir", NULL, 35, &dir);
+	ZEPHIR_CALL_FUNCTION(NULL, "rmdir", NULL, 36, &dir);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -217,16 +217,16 @@ PHP_METHOD(Nc_Cache_FileSystem, store) {
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "packdata", NULL, 0, value, &_0);
 	zephir_check_call_status();
 	ZVAL_LONG(&_0, 2);
-	ZEPHIR_CALL_FUNCTION(&_2, "file_put_contents", NULL, 36, &path, &_1, &_0);
+	ZEPHIR_CALL_FUNCTION(&_2, "file_put_contents", NULL, 37, &path, &_1, &_0);
 	zephir_check_call_status();
 	if (unlikely(!zephir_is_true(&_2))) {
 		ZEPHIR_INIT_VAR(&_3$$3);
 		object_init_ex(&_3$$3, nc_cache_exception_ce);
 		ZEPHIR_INIT_VAR(&_4$$3);
 		ZVAL_STRING(&_4$$3, "Cannot write cache value to path '%s'");
-		ZEPHIR_CALL_FUNCTION(&_5$$3, "sprintf", NULL, 6, &_4$$3, &path);
+		ZEPHIR_CALL_FUNCTION(&_5$$3, "sprintf", NULL, 2, &_4$$3, &path);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 7, &_5$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 3, &_5$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_3$$3, "nc/cache/filesystem.zep", 72 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -295,7 +295,7 @@ PHP_METHOD(Nc_Cache_FileSystem, forget) {
 	zephir_check_call_status();
 	_0 = (zephir_file_exists(&path TSRMLS_CC) == SUCCESS);
 	if (_0) {
-		ZEPHIR_CALL_FUNCTION(&_1, "unlink", NULL, 34, &path);
+		ZEPHIR_CALL_FUNCTION(&_1, "unlink", NULL, 35, &path);
 		zephir_check_call_status();
 		_0 = !zephir_is_true(&_1);
 	}
@@ -304,9 +304,9 @@ PHP_METHOD(Nc_Cache_FileSystem, forget) {
 		object_init_ex(&_2$$3, nc_cache_exception_ce);
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZVAL_STRING(&_3$$3, "Cannot forget cache value in path '%s'");
-		ZEPHIR_CALL_FUNCTION(&_4$$3, "sprintf", NULL, 6, &_3$$3, &path);
+		ZEPHIR_CALL_FUNCTION(&_4$$3, "sprintf", NULL, 2, &_3$$3, &path);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 7, &_4$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 3, &_4$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_2$$3, "nc/cache/filesystem.zep", 94 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -334,7 +334,7 @@ PHP_METHOD(Nc_Cache_FileSystem, getDir) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("baseDirectory"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_FUNCTION(&_1, "urlencode", NULL, 37, &poolName);
+	ZEPHIR_CALL_FUNCTION(&_1, "urlencode", NULL, 38, &poolName);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_VSV(return_value, &_0, "/", &_1);
 	RETURN_MM();
@@ -378,7 +378,7 @@ PHP_METHOD(Nc_Cache_FileSystem, getPath) {
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "sha1", NULL, 13, &key);
+	ZEPHIR_CALL_FUNCTION(&_0, "sha1", NULL, 9, &key);
 	zephir_check_call_status();
 	zephir_get_strval(&_1, &_0);
 	ZEPHIR_CPY_WRT(&hash, &_1);
@@ -395,12 +395,12 @@ PHP_METHOD(Nc_Cache_FileSystem, getPath) {
 	zephir_concat_self(&path, &hash TSRMLS_CC);
 	zephir_concat_self_str(&path, ".php", sizeof(".php")-1 TSRMLS_CC);
 	if (mkDirIfNeeded) {
-		ZEPHIR_CALL_FUNCTION(&dirname, "dirname", NULL, 38, &path);
+		ZEPHIR_CALL_FUNCTION(&dirname, "dirname", NULL, 39, &path);
 		zephir_check_call_status();
 		_6$$3 = !((zephir_file_exists(&dirname TSRMLS_CC) == SUCCESS));
 		if (_6$$3) {
 			zephir_read_property(&_7$$3, this_ptr, SL("mode"), PH_NOISY_CC | PH_READONLY);
-			ZEPHIR_CALL_FUNCTION(&_8$$3, "mkdir", NULL, 39, &dirname, &_7$$3, &__$true);
+			ZEPHIR_CALL_FUNCTION(&_8$$3, "mkdir", NULL, 40, &dirname, &_7$$3, &__$true);
 			zephir_check_call_status();
 			_6$$3 = !zephir_is_true(&_8$$3);
 		}
@@ -409,9 +409,9 @@ PHP_METHOD(Nc_Cache_FileSystem, getPath) {
 			object_init_ex(&_9$$4, nc_cache_exception_ce);
 			ZEPHIR_INIT_VAR(&_10$$4);
 			ZVAL_STRING(&_10$$4, "Cannot mkdir '%s'");
-			ZEPHIR_CALL_FUNCTION(&_11$$4, "sprintf", NULL, 6, &_10$$4, &dirname);
+			ZEPHIR_CALL_FUNCTION(&_11$$4, "sprintf", NULL, 2, &_10$$4, &dirname);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &_9$$4, "__construct", NULL, 7, &_11$$4);
+			ZEPHIR_CALL_METHOD(NULL, &_9$$4, "__construct", NULL, 3, &_11$$4);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_9$$4, "nc/cache/filesystem.zep", 121 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
@@ -450,7 +450,7 @@ PHP_METHOD(Nc_Cache_FileSystem, packData) {
 		zephir_var_export_ex(&_0$$3, value TSRMLS_CC);
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "<?php return %s;\n");
-		ZEPHIR_RETURN_CALL_FUNCTION("sprintf", &_2, 6, &_1$$3, &_0$$3);
+		ZEPHIR_RETURN_CALL_FUNCTION("sprintf", &_2, 2, &_1$$3, &_0$$3);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -462,7 +462,7 @@ PHP_METHOD(Nc_Cache_FileSystem, packData) {
 	ZEPHIR_INIT_VAR(&_5);
 	ZVAL_STRING(&_5, "<?php return time() > %d ? null : %s;\n");
 	ZVAL_LONG(&_6, (ttl + zephir_get_numberval(&_3)));
-	ZEPHIR_RETURN_CALL_FUNCTION("sprintf", &_2, 6, &_5, &_6, &_4);
+	ZEPHIR_RETURN_CALL_FUNCTION("sprintf", &_2, 2, &_5, &_6, &_4);
 	zephir_check_call_status();
 	RETURN_MM();
 

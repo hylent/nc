@@ -114,9 +114,9 @@ PHP_METHOD(Nc_Sequence_Redis, next) {
 		object_init_ex(&_4$$3, nc_sequence_exception_ce);
 		ZEPHIR_INIT_VAR(&_5$$3);
 		ZVAL_STRING(&_5$$3, "Cannot get next sequence of '%s'");
-		ZEPHIR_CALL_FUNCTION(&_6$$3, "sprintf", NULL, 6, &_5$$3, &name);
+		ZEPHIR_CALL_FUNCTION(&_6$$3, "sprintf", NULL, 2, &_5$$3, &name);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 7, &_6$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 3, &_6$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_4$$3, "nc/sequence/redis.zep", 32 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();

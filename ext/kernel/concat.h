@@ -39,6 +39,11 @@
 #define ZEPHIR_SCONCAT_VSVS(result, op1, op2, op3, op4) \
 	 zephir_concat_vsvs(result, op1, op2, sizeof(op2)-1, op3, op4, sizeof(op4)-1, 1);
 
+#define ZEPHIR_CONCAT_VSVSV(result, op1, op2, op3, op4, op5) \
+	 zephir_concat_vsvsv(result, op1, op2, sizeof(op2)-1, op3, op4, sizeof(op4)-1, op5, 0);
+#define ZEPHIR_SCONCAT_VSVSV(result, op1, op2, op3, op4, op5) \
+	 zephir_concat_vsvsv(result, op1, op2, sizeof(op2)-1, op3, op4, sizeof(op4)-1, op5, 1);
+
 #define ZEPHIR_CONCAT_VV(result, op1, op2) \
 	 zephir_concat_vv(result, op1, op2, 0);
 #define ZEPHIR_SCONCAT_VV(result, op1, op2) \
@@ -52,6 +57,7 @@ void zephir_concat_svsv(zval *result, const char *op1, zend_uint op1_len, zval *
 void zephir_concat_vs(zval *result, zval *op1, const char *op2, zend_uint op2_len, int self_var);
 void zephir_concat_vsv(zval *result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, int self_var);
 void zephir_concat_vsvs(zval *result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, const char *op4, zend_uint op4_len, int self_var);
+void zephir_concat_vsvsv(zval *result, zval *op1, const char *op2, zend_uint op2_len, zval *op3, const char *op4, zend_uint op4_len, zval *op5, int self_var);
 void zephir_concat_vv(zval *result, zval *op1, zval *op2, int self_var);
 void zephir_concat_function(zval *result, zval *op1, zval *op2);
 #endif /* ZEPHIR_KERNEL_CONCAT_H */

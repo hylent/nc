@@ -126,7 +126,7 @@ PHP_METHOD(Nc_Db_DaoMysql, replace) {
 	zephir_fast_join_str(&_8, SL(", "), &vs TSRMLS_CC);
 	ZEPHIR_INIT_VAR(&_9);
 	ZVAL_STRING(&_9, "REPLACE INTO %s (%s) VALUES (%s)");
-	ZEPHIR_CALL_FUNCTION(&s, "sprintf", NULL, 6, &_9, &_7, &_0, &_8);
+	ZEPHIR_CALL_FUNCTION(&s, "sprintf", NULL, 2, &_9, &_7, &_0, &_8);
 	zephir_check_call_status();
 	zephir_read_property(&_10, this_ptr, SL("db"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_10, "execute", NULL, 0, &s, &data);
@@ -166,7 +166,7 @@ PHP_METHOD(Nc_Db_DaoMysql, insert) {
 
 
 	ZVAL_BOOL(&_1, 1);
-	ZEPHIR_CALL_PARENT(&rc, nc_db_daomysql_ce, this_ptr, "insert", &_0, 40, &inserts, &_1);
+	ZEPHIR_CALL_PARENT(&rc, nc_db_daomysql_ce, this_ptr, "insert", &_0, 42, &inserts, &_1);
 	zephir_check_call_status();
 	while (1) {
 		_2$$3 = ignoreSequence;
@@ -274,7 +274,7 @@ PHP_METHOD(Nc_Db_DaoMysql, upsert) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "upsert");
 		ZVAL_LONG(&_3$$3, 7);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 7, &_2$$3, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 3, &_2$$3, &_3$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "nc/db/daomysql.zep", 69 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -295,7 +295,7 @@ PHP_METHOD(Nc_Db_DaoMysql, upsert) {
 			ZEPHIR_INIT_NVAR(&_7$$5);
 			object_init_ex(&_7$$5, nc_db_exception_ce);
 			ZVAL_LONG(&_8$$5, 8);
-			ZEPHIR_CALL_METHOD(NULL, &_7$$5, "__construct", NULL, 7, &k, &_8$$5);
+			ZEPHIR_CALL_METHOD(NULL, &_7$$5, "__construct", NULL, 3, &k, &_8$$5);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_7$$5, "nc/db/daomysql.zep", 73 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
@@ -389,7 +389,7 @@ PHP_METHOD(Nc_Db_DaoMysql, upsert) {
 	zephir_fast_join_str(&_28, SL(", "), &us TSRMLS_CC);
 	ZEPHIR_INIT_VAR(&_29);
 	ZVAL_STRING(&_29, "INSERT INTO %s (%s) VALUES (%s) ON DUPLICATE KEY UPDATE %s");
-	ZEPHIR_CALL_FUNCTION(&s, "sprintf", NULL, 6, &_29, &_25, &_26, &_27, &_28);
+	ZEPHIR_CALL_FUNCTION(&s, "sprintf", NULL, 2, &_29, &_25, &_26, &_27, &_28);
 	zephir_check_call_status();
 	zephir_read_property(&_30, this_ptr, SL("db"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_30, "execute", NULL, 0, &s, &params);
@@ -490,7 +490,7 @@ PHP_METHOD(Nc_Db_DaoMysql, updateTop) {
 	ZEPHIR_INIT_VAR(&_11);
 	ZVAL_STRING(&_11, "UPDATE %s SET %s%s%s LIMIT %d");
 	ZVAL_LONG(&_12, limit);
-	ZEPHIR_CALL_FUNCTION(&s, "sprintf", NULL, 6, &_11, &_7, &_8, &_9, &_10, &_12);
+	ZEPHIR_CALL_FUNCTION(&s, "sprintf", NULL, 2, &_11, &_7, &_8, &_9, &_10, &_12);
 	zephir_check_call_status();
 	zephir_read_property(&_12, this_ptr, SL("db"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_12, "execute", NULL, 0, &s, &updates);
@@ -543,7 +543,7 @@ PHP_METHOD(Nc_Db_DaoMysql, deleteTop) {
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "DELETE FROM %s%s%s LIMIT %d");
 	ZVAL_LONG(&_4, limit);
-	ZEPHIR_CALL_FUNCTION(&s, "sprintf", NULL, 6, &_3, &_0, &_1, &_2, &_4);
+	ZEPHIR_CALL_FUNCTION(&s, "sprintf", NULL, 2, &_3, &_0, &_1, &_2, &_4);
 	zephir_check_call_status();
 	zephir_read_property(&_4, this_ptr, SL("db"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_4, "execute", NULL, 0, &s);
@@ -594,7 +594,7 @@ PHP_METHOD(Nc_Db_DaoMysql, countAndFind) {
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "SELECT SQL_CALC_FOUND_ROWS %s FROM %s%s%s");
-	ZEPHIR_CALL_FUNCTION(&s, "sprintf", NULL, 6, &_3, &fields, &_0, &_1, &_2);
+	ZEPHIR_CALL_FUNCTION(&s, "sprintf", NULL, 2, &_3, &fields, &_0, &_1, &_2);
 	zephir_check_call_status();
 	if (limit > 0) {
 		ZVAL_LONG(&_5$$3, limit);
@@ -662,7 +662,7 @@ PHP_METHOD(Nc_Db_DaoMysql, makePagination) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		ZVAL_STRING(&_0$$3, "%s LIMIT %d");
 		ZVAL_LONG(&_1$$3, limit);
-		ZEPHIR_RETURN_CALL_FUNCTION("sprintf", &_2, 6, &_0$$3, &sql, &_1$$3);
+		ZEPHIR_RETURN_CALL_FUNCTION("sprintf", &_2, 2, &_0$$3, &sql, &_1$$3);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -670,7 +670,7 @@ PHP_METHOD(Nc_Db_DaoMysql, makePagination) {
 	ZVAL_STRING(&_3, "%s LIMIT %d, %d");
 	ZVAL_LONG(&_4, skip);
 	ZVAL_LONG(&_5, limit);
-	ZEPHIR_RETURN_CALL_FUNCTION("sprintf", &_2, 6, &_3, &sql, &_4, &_5);
+	ZEPHIR_RETURN_CALL_FUNCTION("sprintf", &_2, 2, &_3, &sql, &_4, &_5);
 	zephir_check_call_status();
 	RETURN_MM();
 

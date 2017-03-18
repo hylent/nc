@@ -85,7 +85,7 @@ PHP_METHOD(Nc_Db_Pdo, __construct) {
 	ZVAL_NULL(&ex);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "pdo");
-	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 24, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 25, &_0);
 	zephir_check_call_status();
 	if (unlikely(!zephir_is_true(&_1))) {
 		ZEPHIR_INIT_VAR(&_2$$3);
@@ -93,7 +93,7 @@ PHP_METHOD(Nc_Db_Pdo, __construct) {
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZVAL_STRING(&_3$$3, "pdo");
 		ZVAL_LONG(&_4$$3, 1);
-		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 7, &_3$$3, &_4$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 3, &_3$$3, &_4$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_2$$3, "nc/db/pdo.zep", 12 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -120,7 +120,7 @@ PHP_METHOD(Nc_Db_Pdo, __construct) {
 			ZEPHIR_CALL_METHOD(&_7$$5, &ex, "getmessage", NULL, 0);
 			zephir_check_call_status();
 			ZVAL_LONG(&_8$$5, 2);
-			ZEPHIR_CALL_METHOD(NULL, &_6$$5, "__construct", NULL, 7, &_7$$5, &_8$$5);
+			ZEPHIR_CALL_METHOD(NULL, &_6$$5, "__construct", NULL, 3, &_7$$5, &_8$$5);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_6$$5, "nc/db/pdo.zep", 18 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
@@ -305,7 +305,7 @@ PHP_METHOD(Nc_Db_Pdo, executeQuery) {
 		ZEPHIR_INIT_VAR(&_10$$6);
 		ZEPHIR_CONCAT_VSV(&_10$$6, &_9$$6, " [SQL] ", &s);
 		ZVAL_LONG(&_11$$6, 3);
-		ZEPHIR_CALL_METHOD(NULL, &_8$$6, "__construct", NULL, 7, &_10$$6, &_11$$6);
+		ZEPHIR_CALL_METHOD(NULL, &_8$$6, "__construct", NULL, 3, &_10$$6, &_11$$6);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_8$$6, "nc/db/pdo.zep", 68 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();

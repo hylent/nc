@@ -161,9 +161,9 @@ PHP_METHOD(Nc_RateLimiter_Redis, passRateLimits) {
 			object_init_ex(&_7$$5, nc_ratelimiter_exception_ce);
 			ZEPHIR_INIT_NVAR(&_8$$5);
 			ZVAL_STRING(&_8$$5, "Invalid input seconds/times '%d/%d'");
-			ZEPHIR_CALL_FUNCTION(&_9$$5, "sprintf", &_10, 6, &_8$$5, &seconds, &times);
+			ZEPHIR_CALL_FUNCTION(&_9$$5, "sprintf", &_10, 2, &_8$$5, &seconds, &times);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &_7$$5, "__construct", &_11, 7, &_9$$5);
+			ZEPHIR_CALL_METHOD(NULL, &_7$$5, "__construct", &_11, 3, &_9$$5);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_7$$5, "nc/ratelimiter/redis.zep", 41 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
@@ -175,7 +175,7 @@ PHP_METHOD(Nc_RateLimiter_Redis, passRateLimits) {
 		ZEPHIR_INIT_NVAR(&_13$$4);
 		ZVAL_STRING(&_13$$4, "%s:%d:%d");
 		ZVAL_LONG(&_14$$4, index);
-		ZEPHIR_CALL_FUNCTION(&_15$$4, "sprintf", &_10, 6, &_13$$4, &pre, &seconds, &_14$$4);
+		ZEPHIR_CALL_FUNCTION(&_15$$4, "sprintf", &_10, 2, &_13$$4, &pre, &seconds, &_14$$4);
 		zephir_check_call_status();
 		zephir_array_append(&keys, &_15$$4, PH_SEPARATE, "nc/ratelimiter/redis.zep", 46);
 		zephir_array_append(&argv, &times, PH_SEPARATE, "nc/ratelimiter/redis.zep", 47);

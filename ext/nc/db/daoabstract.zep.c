@@ -200,7 +200,7 @@ PHP_METHOD(Nc_Db_DaoAbstract, insert) {
 	zephir_fast_join_str(&_8, SL(", "), &vs TSRMLS_CC);
 	ZEPHIR_INIT_VAR(&_9);
 	ZVAL_STRING(&_9, "INSERT INTO %s (%s) VALUES (%s)");
-	ZEPHIR_CALL_FUNCTION(&s, "sprintf", NULL, 6, &_9, &_7, &_0, &_8);
+	ZEPHIR_CALL_FUNCTION(&s, "sprintf", NULL, 2, &_9, &_7, &_0, &_8);
 	zephir_check_call_status();
 	_10 = ignoreSequence;
 	if (!(_10)) {
@@ -255,7 +255,7 @@ PHP_METHOD(Nc_Db_DaoAbstract, upsert) {
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "upsert");
 	ZVAL_LONG(&_2, 5);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 7, &_1, &_2);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 3, &_1, &_2);
 	zephir_check_call_status();
 	zephir_throw_exception_debug(&_0, "nc/db/daoabstract.zep", 85 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
@@ -339,7 +339,7 @@ PHP_METHOD(Nc_Db_DaoAbstract, update) {
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_10);
 	ZVAL_STRING(&_10, "UPDATE %s SET %s%s");
-	ZEPHIR_CALL_FUNCTION(&s, "sprintf", NULL, 6, &_10, &_7, &_8, &_9);
+	ZEPHIR_CALL_FUNCTION(&s, "sprintf", NULL, 2, &_10, &_7, &_8, &_9);
 	zephir_check_call_status();
 	zephir_read_property(&_11, this_ptr, SL("db"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_11, "execute", NULL, 0, &s, &updates);
@@ -389,7 +389,7 @@ PHP_METHOD(Nc_Db_DaoAbstract, updateTop) {
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "updateTop");
 	ZVAL_LONG(&_2, 5);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 7, &_1, &_2);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 3, &_1, &_2);
 	zephir_check_call_status();
 	zephir_throw_exception_debug(&_0, "nc/db/daoabstract.zep", 117 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
@@ -425,7 +425,7 @@ PHP_METHOD(Nc_Db_DaoAbstract, delete) {
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "DELETE FROM %s%s");
-	ZEPHIR_CALL_FUNCTION(&s, "sprintf", NULL, 6, &_2, &_0, &_1);
+	ZEPHIR_CALL_FUNCTION(&s, "sprintf", NULL, 2, &_2, &_0, &_1);
 	zephir_check_call_status();
 	zephir_read_property(&_3, this_ptr, SL("db"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_3, "execute", NULL, 0, &s);
@@ -472,7 +472,7 @@ PHP_METHOD(Nc_Db_DaoAbstract, deleteTop) {
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "deleteTop");
 	ZVAL_LONG(&_2, 5);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 7, &_1, &_2);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 3, &_1, &_2);
 	zephir_check_call_status();
 	zephir_throw_exception_debug(&_0, "nc/db/daoabstract.zep", 135 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
@@ -519,7 +519,7 @@ PHP_METHOD(Nc_Db_DaoAbstract, find) {
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "SELECT %s FROM %s%s%s");
-	ZEPHIR_CALL_FUNCTION(&s, "sprintf", NULL, 6, &_3, &fields, &_0, &_1, &_2);
+	ZEPHIR_CALL_FUNCTION(&s, "sprintf", NULL, 2, &_3, &fields, &_0, &_1, &_2);
 	zephir_check_call_status();
 	if (limit > 0) {
 		ZVAL_LONG(&_5$$3, limit);
@@ -705,12 +705,12 @@ PHP_METHOD(Nc_Db_DaoAbstract, findPaged) {
 		array_init(&result);
 	}
 	ZEPHIR_MAKE_REF(&result);
-	ZEPHIR_CALL_FUNCTION(&_4, "array_shift", &_5, 8, &result);
+	ZEPHIR_CALL_FUNCTION(&_4, "array_shift", &_5, 4, &result);
 	ZEPHIR_UNREF(&result);
 	zephir_check_call_status();
 	numRows = zephir_get_intval(&_4);
 	ZEPHIR_MAKE_REF(&result);
-	ZEPHIR_CALL_FUNCTION(&data, "array_shift", &_5, 8, &result);
+	ZEPHIR_CALL_FUNCTION(&data, "array_shift", &_5, 4, &result);
 	ZEPHIR_UNREF(&result);
 	zephir_check_call_status();
 	_6 = numRows < 1;
@@ -908,7 +908,7 @@ PHP_METHOD(Nc_Db_DaoAbstract, findVector) {
 		ZVAL_COPY(&row, _3);
 		if (Z_TYPE_P(&row) == IS_ARRAY) {
 			ZEPHIR_MAKE_REF(&row);
-			ZEPHIR_CALL_FUNCTION(&_4$$4, "array_shift", &_5, 8, &row);
+			ZEPHIR_CALL_FUNCTION(&_4$$4, "array_shift", &_5, 4, &row);
 			ZEPHIR_UNREF(&row);
 			zephir_check_call_status();
 			zephir_get_strval(&_6$$4, &_4$$4);
@@ -985,13 +985,13 @@ PHP_METHOD(Nc_Db_DaoAbstract, findMap) {
 		ZVAL_COPY(&row, _4);
 		if (Z_TYPE_P(&row) == IS_ARRAY) {
 			ZEPHIR_MAKE_REF(&row);
-			ZEPHIR_CALL_FUNCTION(&_5$$4, "array_shift", &_6, 8, &row);
+			ZEPHIR_CALL_FUNCTION(&_5$$4, "array_shift", &_6, 4, &row);
 			ZEPHIR_UNREF(&row);
 			zephir_check_call_status();
 			zephir_get_strval(&_7$$4, &_5$$4);
 			ZEPHIR_CPY_WRT(&k, &_7$$4);
 			ZEPHIR_MAKE_REF(&row);
-			ZEPHIR_CALL_FUNCTION(&_8$$4, "array_shift", &_6, 8, &row);
+			ZEPHIR_CALL_FUNCTION(&_8$$4, "array_shift", &_6, 4, &row);
 			ZEPHIR_UNREF(&row);
 			zephir_check_call_status();
 			zephir_get_strval(&_9$$4, &_8$$4);
@@ -1051,7 +1051,7 @@ PHP_METHOD(Nc_Db_DaoAbstract, findCell) {
 	}
 	if (_3) {
 		ZEPHIR_MAKE_REF(&row);
-		ZEPHIR_CALL_FUNCTION(&_4$$3, "array_shift", NULL, 8, &row);
+		ZEPHIR_CALL_FUNCTION(&_4$$3, "array_shift", NULL, 4, &row);
 		ZEPHIR_UNREF(&row);
 		zephir_check_call_status();
 		zephir_get_strval(&_5$$3, &_4$$3);
@@ -1140,7 +1140,7 @@ PHP_METHOD(Nc_Db_DaoAbstract, group) {
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_8);
 	ZVAL_STRING(&_8, "SELECT %s FROM %s%s GROUP BY %s%s%s");
-	ZEPHIR_CALL_FUNCTION(&s, "sprintf", NULL, 6, &_8, &f, &_4, &_5, &byField, &_7, &_9);
+	ZEPHIR_CALL_FUNCTION(&s, "sprintf", NULL, 2, &_8, &f, &_4, &_5, &byField, &_7, &_9);
 	zephir_check_call_status();
 	zephir_read_property(&_10, this_ptr, SL("db"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_10, "query", NULL, 0, &s);
@@ -1208,7 +1208,7 @@ PHP_METHOD(Nc_Db_DaoAbstract, aggregations) {
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_7);
 	ZVAL_STRING(&_7, "SELECT %s FROM %s%s");
-	ZEPHIR_CALL_FUNCTION(&s, "sprintf", NULL, 6, &_7, &_4, &_5, &_6);
+	ZEPHIR_CALL_FUNCTION(&s, "sprintf", NULL, 2, &_7, &_4, &_5, &_6);
 	zephir_check_call_status();
 	zephir_read_property(&_8, this_ptr, SL("db"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_8, "queryrow", NULL, 0, &s);
@@ -1250,7 +1250,7 @@ PHP_METHOD(Nc_Db_DaoAbstract, aggregation) {
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "SELECT %s(%s) FROM %s%s");
-	ZEPHIR_CALL_FUNCTION(&s, "sprintf", NULL, 6, &_2, &aggrFunction, &field, &_0, &_1);
+	ZEPHIR_CALL_FUNCTION(&s, "sprintf", NULL, 2, &_2, &aggrFunction, &field, &_0, &_1);
 	zephir_check_call_status();
 	zephir_read_property(&_3, this_ptr, SL("db"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_3, "querycell", NULL, 0, &s);
@@ -1481,13 +1481,13 @@ PHP_METHOD(Nc_Db_DaoAbstract, makeWhere) {
 
 PHP_METHOD(Nc_Db_DaoAbstract, parseWhere) {
 
-	zend_bool _7$$3, _8$$3, _12$$8, _19$$10, _24$$12, _30$$14, _35$$16, _42$$18, _48$$20;
+	zend_bool _15$$8, _22$$10, _27$$12, _33$$14, _38$$16, _45$$18, _51$$20;
 	zend_string *_2;
 	zend_ulong _1;
-	zephir_fcall_cache_entry *_15 = NULL, *_18 = NULL, *_29 = NULL, *_40 = NULL;
+	zephir_fcall_cache_entry *_8 = NULL, *_18 = NULL, *_21 = NULL, *_32 = NULL, *_43 = NULL;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval sep;
-	zval *where_param = NULL, *sep_param = NULL, k, v, ws, ks, k1, k2, *_0, _3$$5, _4$$5, _5$$5, _6$$6, _9$$7, _10$$7, _11$$7, _16$$8, _17$$8, _13$$9, _14$$9, _22$$10, _23$$10, _20$$11, _21$$11, _27$$12, _28$$12, _25$$13, _26$$13, _33$$14, _34$$14, _31$$15, _32$$15, _38$$16, _39$$16, _41$$16, _36$$17, _37$$17, _45$$18, _46$$18, _47$$18, _43$$19, _44$$19, _51$$20, _52$$20, _53$$20, _49$$21, _50$$21, _54$$22, _55$$22;
+	zval sep, _9$$3, _11$$3;
+	zval *where_param = NULL, *sep_param = NULL, k, v, ws, ks, k1, k2, *_0, _3$$5, _4$$5, _5$$5, _6$$6, _7$$3, _10$$3, _12$$7, _13$$7, _14$$7, _19$$8, _20$$8, _16$$9, _17$$9, _25$$10, _26$$10, _23$$11, _24$$11, _30$$12, _31$$12, _28$$13, _29$$13, _36$$14, _37$$14, _34$$15, _35$$15, _41$$16, _42$$16, _44$$16, _39$$17, _40$$17, _48$$18, _49$$18, _50$$18, _46$$19, _47$$19, _54$$20, _55$$20, _56$$20, _52$$21, _53$$21, _57$$22, _58$$22;
 	zval where;
 	ZEPHIR_INIT_THIS();
 
@@ -1502,43 +1502,47 @@ PHP_METHOD(Nc_Db_DaoAbstract, parseWhere) {
 	ZVAL_UNDEF(&_4$$5);
 	ZVAL_UNDEF(&_5$$5);
 	ZVAL_UNDEF(&_6$$6);
-	ZVAL_UNDEF(&_9$$7);
-	ZVAL_UNDEF(&_10$$7);
-	ZVAL_UNDEF(&_11$$7);
-	ZVAL_UNDEF(&_16$$8);
-	ZVAL_UNDEF(&_17$$8);
-	ZVAL_UNDEF(&_13$$9);
-	ZVAL_UNDEF(&_14$$9);
-	ZVAL_UNDEF(&_22$$10);
-	ZVAL_UNDEF(&_23$$10);
-	ZVAL_UNDEF(&_20$$11);
-	ZVAL_UNDEF(&_21$$11);
-	ZVAL_UNDEF(&_27$$12);
-	ZVAL_UNDEF(&_28$$12);
-	ZVAL_UNDEF(&_25$$13);
-	ZVAL_UNDEF(&_26$$13);
-	ZVAL_UNDEF(&_33$$14);
-	ZVAL_UNDEF(&_34$$14);
-	ZVAL_UNDEF(&_31$$15);
-	ZVAL_UNDEF(&_32$$15);
-	ZVAL_UNDEF(&_38$$16);
-	ZVAL_UNDEF(&_39$$16);
+	ZVAL_UNDEF(&_7$$3);
+	ZVAL_UNDEF(&_10$$3);
+	ZVAL_UNDEF(&_12$$7);
+	ZVAL_UNDEF(&_13$$7);
+	ZVAL_UNDEF(&_14$$7);
+	ZVAL_UNDEF(&_19$$8);
+	ZVAL_UNDEF(&_20$$8);
+	ZVAL_UNDEF(&_16$$9);
+	ZVAL_UNDEF(&_17$$9);
+	ZVAL_UNDEF(&_25$$10);
+	ZVAL_UNDEF(&_26$$10);
+	ZVAL_UNDEF(&_23$$11);
+	ZVAL_UNDEF(&_24$$11);
+	ZVAL_UNDEF(&_30$$12);
+	ZVAL_UNDEF(&_31$$12);
+	ZVAL_UNDEF(&_28$$13);
+	ZVAL_UNDEF(&_29$$13);
+	ZVAL_UNDEF(&_36$$14);
+	ZVAL_UNDEF(&_37$$14);
+	ZVAL_UNDEF(&_34$$15);
+	ZVAL_UNDEF(&_35$$15);
 	ZVAL_UNDEF(&_41$$16);
-	ZVAL_UNDEF(&_36$$17);
-	ZVAL_UNDEF(&_37$$17);
-	ZVAL_UNDEF(&_45$$18);
-	ZVAL_UNDEF(&_46$$18);
-	ZVAL_UNDEF(&_47$$18);
-	ZVAL_UNDEF(&_43$$19);
-	ZVAL_UNDEF(&_44$$19);
-	ZVAL_UNDEF(&_51$$20);
-	ZVAL_UNDEF(&_52$$20);
-	ZVAL_UNDEF(&_53$$20);
-	ZVAL_UNDEF(&_49$$21);
-	ZVAL_UNDEF(&_50$$21);
-	ZVAL_UNDEF(&_54$$22);
-	ZVAL_UNDEF(&_55$$22);
+	ZVAL_UNDEF(&_42$$16);
+	ZVAL_UNDEF(&_44$$16);
+	ZVAL_UNDEF(&_39$$17);
+	ZVAL_UNDEF(&_40$$17);
+	ZVAL_UNDEF(&_48$$18);
+	ZVAL_UNDEF(&_49$$18);
+	ZVAL_UNDEF(&_50$$18);
+	ZVAL_UNDEF(&_46$$19);
+	ZVAL_UNDEF(&_47$$19);
+	ZVAL_UNDEF(&_54$$20);
+	ZVAL_UNDEF(&_55$$20);
+	ZVAL_UNDEF(&_56$$20);
+	ZVAL_UNDEF(&_52$$21);
+	ZVAL_UNDEF(&_53$$21);
+	ZVAL_UNDEF(&_57$$22);
+	ZVAL_UNDEF(&_58$$22);
 	ZVAL_UNDEF(&sep);
+	ZVAL_UNDEF(&_9$$3);
+	ZVAL_UNDEF(&_11$$3);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &where_param, &sep_param);
@@ -1554,7 +1558,7 @@ PHP_METHOD(Nc_Db_DaoAbstract, parseWhere) {
 
 	ZEPHIR_INIT_VAR(&ws);
 	array_init(&ws);
-	zephir_is_iterable(&where, 0, "nc/db/daoabstract.zep", 451);
+	zephir_is_iterable(&where, 0, "nc/db/daoabstract.zep", 453);
 	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&where), _1, _2, _0)
 	{
 		ZEPHIR_INIT_NVAR(&k);
@@ -1582,188 +1586,190 @@ PHP_METHOD(Nc_Db_DaoAbstract, parseWhere) {
 		}
 		ZEPHIR_INIT_NVAR(&ks);
 		zephir_fast_explode_str(&ks, SL("$"), &k, 3  TSRMLS_CC);
-		ZEPHIR_OBS_NVAR(&k1);
-		_7$$3 = !(zephir_array_isset_long_fetch(&k1, &ks, 0, 0 TSRMLS_CC));
-		if (!(_7$$3)) {
-			ZEPHIR_OBS_NVAR(&k2);
-			_7$$3 = !(zephir_array_isset_long_fetch(&k2, &ks, 1, 0 TSRMLS_CC));
-		}
-		_8$$3 = _7$$3;
-		if (!(_8$$3)) {
-			_8$$3 = zephir_fast_strlen_ev(&k2) < 1;
-		}
-		if (_8$$3) {
-			zephir_read_property(&_9$$7, this_ptr, SL("db"), PH_NOISY_CC | PH_READONLY);
-			ZEPHIR_CALL_METHOD(&_10$$7, &_9$$7, "quote", NULL, 0, &v);
+		ZEPHIR_MAKE_REF(&ks);
+		ZEPHIR_CALL_FUNCTION(&_7$$3, "array_shift", &_8, 4, &ks);
+		ZEPHIR_UNREF(&ks);
+		zephir_check_call_status();
+		zephir_get_strval(&_9$$3, &_7$$3);
+		ZEPHIR_CPY_WRT(&k1, &_9$$3);
+		ZEPHIR_MAKE_REF(&ks);
+		ZEPHIR_CALL_FUNCTION(&_10$$3, "array_shift", &_8, 4, &ks);
+		ZEPHIR_UNREF(&ks);
+		zephir_check_call_status();
+		zephir_get_strval(&_11$$3, &_10$$3);
+		ZEPHIR_CPY_WRT(&k2, &_11$$3);
+		if (ZEPHIR_IS_STRING_IDENTICAL(&k2, "")) {
+			zephir_read_property(&_12$$7, this_ptr, SL("db"), PH_NOISY_CC | PH_READONLY);
+			ZEPHIR_CALL_METHOD(&_13$$7, &_12$$7, "quote", NULL, 0, &v);
 			zephir_check_call_status();
-			ZEPHIR_INIT_LNVAR(_11$$7);
-			ZEPHIR_CONCAT_VSV(&_11$$7, &k, " ", &_10$$7);
-			zephir_array_append(&ws, &_11$$7, PH_SEPARATE, "nc/db/daoabstract.zep", 396);
+			ZEPHIR_INIT_LNVAR(_14$$7);
+			ZEPHIR_CONCAT_VSV(&_14$$7, &k1, " ", &_13$$7);
+			zephir_array_append(&ws, &_14$$7, PH_SEPARATE, "nc/db/daoabstract.zep", 398);
 			continue;
 		}
 		do {
 			if (ZEPHIR_IS_STRING(&k2, "in")) {
-				_12$$8 = Z_TYPE_P(&v) == IS_ARRAY;
-				if (_12$$8) {
-					_12$$8 = zephir_fast_count_int(&v TSRMLS_CC) < 1;
+				_15$$8 = Z_TYPE_P(&v) == IS_ARRAY;
+				if (_15$$8) {
+					_15$$8 = zephir_fast_count_int(&v TSRMLS_CC) < 1;
 				}
-				if (unlikely(_12$$8)) {
-					ZEPHIR_INIT_NVAR(&_13$$9);
-					object_init_ex(&_13$$9, nc_db_exception_ce);
-					ZVAL_LONG(&_14$$9, 6);
-					ZEPHIR_CALL_METHOD(NULL, &_13$$9, "__construct", &_15, 7, &k2, &_14$$9);
+				if (unlikely(_15$$8)) {
+					ZEPHIR_INIT_NVAR(&_16$$9);
+					object_init_ex(&_16$$9, nc_db_exception_ce);
+					ZVAL_LONG(&_17$$9, 6);
+					ZEPHIR_CALL_METHOD(NULL, &_16$$9, "__construct", &_18, 3, &k2, &_17$$9);
 					zephir_check_call_status();
-					zephir_throw_exception_debug(&_13$$9, "nc/db/daoabstract.zep", 403 TSRMLS_CC);
+					zephir_throw_exception_debug(&_16$$9, "nc/db/daoabstract.zep", 405 TSRMLS_CC);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
-				ZVAL_BOOL(&_17$$8, 0);
-				ZEPHIR_CALL_METHOD(&_16$$8, this_ptr, "parsewherein", &_18, 0, &k1, &v, &_17$$8);
+				ZVAL_BOOL(&_20$$8, 0);
+				ZEPHIR_CALL_METHOD(&_19$$8, this_ptr, "parsewherein", &_21, 0, &k1, &v, &_20$$8);
 				zephir_check_call_status();
-				zephir_array_append(&ws, &_16$$8, PH_SEPARATE, "nc/db/daoabstract.zep", 405);
+				zephir_array_append(&ws, &_19$$8, PH_SEPARATE, "nc/db/daoabstract.zep", 407);
 				break;
 			}
 			if (ZEPHIR_IS_STRING(&k2, "notIn")) {
-				_19$$10 = Z_TYPE_P(&v) == IS_ARRAY;
-				if (_19$$10) {
-					_19$$10 = zephir_fast_count_int(&v TSRMLS_CC) < 1;
+				_22$$10 = Z_TYPE_P(&v) == IS_ARRAY;
+				if (_22$$10) {
+					_22$$10 = zephir_fast_count_int(&v TSRMLS_CC) < 1;
 				}
-				if (unlikely(_19$$10)) {
-					ZEPHIR_INIT_NVAR(&_20$$11);
-					object_init_ex(&_20$$11, nc_db_exception_ce);
-					ZVAL_LONG(&_21$$11, 6);
-					ZEPHIR_CALL_METHOD(NULL, &_20$$11, "__construct", &_15, 7, &k2, &_21$$11);
+				if (unlikely(_22$$10)) {
+					ZEPHIR_INIT_NVAR(&_23$$11);
+					object_init_ex(&_23$$11, nc_db_exception_ce);
+					ZVAL_LONG(&_24$$11, 6);
+					ZEPHIR_CALL_METHOD(NULL, &_23$$11, "__construct", &_18, 3, &k2, &_24$$11);
 					zephir_check_call_status();
-					zephir_throw_exception_debug(&_20$$11, "nc/db/daoabstract.zep", 409 TSRMLS_CC);
+					zephir_throw_exception_debug(&_23$$11, "nc/db/daoabstract.zep", 411 TSRMLS_CC);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
-				ZVAL_BOOL(&_23$$10, 1);
-				ZEPHIR_CALL_METHOD(&_22$$10, this_ptr, "parsewherein", &_18, 0, &k1, &v, &_23$$10);
+				ZVAL_BOOL(&_26$$10, 1);
+				ZEPHIR_CALL_METHOD(&_25$$10, this_ptr, "parsewherein", &_21, 0, &k1, &v, &_26$$10);
 				zephir_check_call_status();
-				zephir_array_append(&ws, &_22$$10, PH_SEPARATE, "nc/db/daoabstract.zep", 411);
+				zephir_array_append(&ws, &_25$$10, PH_SEPARATE, "nc/db/daoabstract.zep", 413);
 				break;
 			}
 			if (ZEPHIR_IS_STRING(&k2, "between")) {
-				_24$$12 = Z_TYPE_P(&v) != IS_ARRAY;
-				if (!(_24$$12)) {
-					_24$$12 = zephir_fast_count_int(&v TSRMLS_CC) != 2;
+				_27$$12 = Z_TYPE_P(&v) != IS_ARRAY;
+				if (!(_27$$12)) {
+					_27$$12 = zephir_fast_count_int(&v TSRMLS_CC) != 2;
 				}
-				if (unlikely(_24$$12)) {
-					ZEPHIR_INIT_NVAR(&_25$$13);
-					object_init_ex(&_25$$13, nc_db_exception_ce);
-					ZVAL_LONG(&_26$$13, 6);
-					ZEPHIR_CALL_METHOD(NULL, &_25$$13, "__construct", &_15, 7, &k2, &_26$$13);
+				if (unlikely(_27$$12)) {
+					ZEPHIR_INIT_NVAR(&_28$$13);
+					object_init_ex(&_28$$13, nc_db_exception_ce);
+					ZVAL_LONG(&_29$$13, 6);
+					ZEPHIR_CALL_METHOD(NULL, &_28$$13, "__construct", &_18, 3, &k2, &_29$$13);
 					zephir_check_call_status();
-					zephir_throw_exception_debug(&_25$$13, "nc/db/daoabstract.zep", 416 TSRMLS_CC);
+					zephir_throw_exception_debug(&_28$$13, "nc/db/daoabstract.zep", 418 TSRMLS_CC);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
-				ZVAL_BOOL(&_28$$12, 0);
-				ZEPHIR_CALL_METHOD(&_27$$12, this_ptr, "parsewherebetween", &_29, 0, &k1, &v, &_28$$12);
+				ZVAL_BOOL(&_31$$12, 0);
+				ZEPHIR_CALL_METHOD(&_30$$12, this_ptr, "parsewherebetween", &_32, 0, &k1, &v, &_31$$12);
 				zephir_check_call_status();
-				zephir_array_append(&ws, &_27$$12, PH_SEPARATE, "nc/db/daoabstract.zep", 418);
+				zephir_array_append(&ws, &_30$$12, PH_SEPARATE, "nc/db/daoabstract.zep", 420);
 				break;
 			}
 			if (ZEPHIR_IS_STRING(&k2, "notBetween")) {
-				_30$$14 = Z_TYPE_P(&v) != IS_ARRAY;
-				if (!(_30$$14)) {
-					_30$$14 = zephir_fast_count_int(&v TSRMLS_CC) != 2;
+				_33$$14 = Z_TYPE_P(&v) != IS_ARRAY;
+				if (!(_33$$14)) {
+					_33$$14 = zephir_fast_count_int(&v TSRMLS_CC) != 2;
 				}
-				if (unlikely(_30$$14)) {
-					ZEPHIR_INIT_NVAR(&_31$$15);
-					object_init_ex(&_31$$15, nc_db_exception_ce);
-					ZVAL_LONG(&_32$$15, 6);
-					ZEPHIR_CALL_METHOD(NULL, &_31$$15, "__construct", &_15, 7, &k2, &_32$$15);
+				if (unlikely(_33$$14)) {
+					ZEPHIR_INIT_NVAR(&_34$$15);
+					object_init_ex(&_34$$15, nc_db_exception_ce);
+					ZVAL_LONG(&_35$$15, 6);
+					ZEPHIR_CALL_METHOD(NULL, &_34$$15, "__construct", &_18, 3, &k2, &_35$$15);
 					zephir_check_call_status();
-					zephir_throw_exception_debug(&_31$$15, "nc/db/daoabstract.zep", 422 TSRMLS_CC);
+					zephir_throw_exception_debug(&_34$$15, "nc/db/daoabstract.zep", 424 TSRMLS_CC);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
-				ZVAL_BOOL(&_34$$14, 1);
-				ZEPHIR_CALL_METHOD(&_33$$14, this_ptr, "parsewherebetween", &_29, 0, &k1, &v, &_34$$14);
+				ZVAL_BOOL(&_37$$14, 1);
+				ZEPHIR_CALL_METHOD(&_36$$14, this_ptr, "parsewherebetween", &_32, 0, &k1, &v, &_37$$14);
 				zephir_check_call_status();
-				zephir_array_append(&ws, &_33$$14, PH_SEPARATE, "nc/db/daoabstract.zep", 424);
+				zephir_array_append(&ws, &_36$$14, PH_SEPARATE, "nc/db/daoabstract.zep", 426);
 				break;
 			}
 			if (ZEPHIR_IS_STRING(&k2, "and")) {
-				_35$$16 = Z_TYPE_P(&v) != IS_ARRAY;
-				if (!(_35$$16)) {
-					_35$$16 = zephir_fast_count_int(&v TSRMLS_CC) < 1;
+				_38$$16 = Z_TYPE_P(&v) != IS_ARRAY;
+				if (!(_38$$16)) {
+					_38$$16 = zephir_fast_count_int(&v TSRMLS_CC) < 1;
 				}
-				if (unlikely(_35$$16)) {
-					ZEPHIR_INIT_NVAR(&_36$$17);
-					object_init_ex(&_36$$17, nc_db_exception_ce);
-					ZVAL_LONG(&_37$$17, 6);
-					ZEPHIR_CALL_METHOD(NULL, &_36$$17, "__construct", &_15, 7, &k2, &_37$$17);
+				if (unlikely(_38$$16)) {
+					ZEPHIR_INIT_NVAR(&_39$$17);
+					object_init_ex(&_39$$17, nc_db_exception_ce);
+					ZVAL_LONG(&_40$$17, 6);
+					ZEPHIR_CALL_METHOD(NULL, &_39$$17, "__construct", &_18, 3, &k2, &_40$$17);
 					zephir_check_call_status();
-					zephir_throw_exception_debug(&_36$$17, "nc/db/daoabstract.zep", 429 TSRMLS_CC);
+					zephir_throw_exception_debug(&_39$$17, "nc/db/daoabstract.zep", 431 TSRMLS_CC);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
-				ZEPHIR_INIT_NVAR(&_39$$16);
-				ZVAL_STRING(&_39$$16, " AND ");
-				ZEPHIR_CALL_METHOD(&_38$$16, this_ptr, "parsewhere", &_40, 9, &v, &_39$$16);
+				ZEPHIR_INIT_NVAR(&_42$$16);
+				ZVAL_STRING(&_42$$16, " AND ");
+				ZEPHIR_CALL_METHOD(&_41$$16, this_ptr, "parsewhere", &_43, 5, &v, &_42$$16);
 				zephir_check_call_status();
-				ZEPHIR_INIT_LNVAR(_41$$16);
-				ZEPHIR_CONCAT_SVS(&_41$$16, "(", &_38$$16, ")");
-				zephir_array_append(&ws, &_41$$16, PH_SEPARATE, "nc/db/daoabstract.zep", 431);
+				ZEPHIR_INIT_LNVAR(_44$$16);
+				ZEPHIR_CONCAT_SVS(&_44$$16, "(", &_41$$16, ")");
+				zephir_array_append(&ws, &_44$$16, PH_SEPARATE, "nc/db/daoabstract.zep", 433);
 				break;
 			}
 			if (ZEPHIR_IS_STRING(&k2, "or")) {
-				_42$$18 = Z_TYPE_P(&v) != IS_ARRAY;
-				if (!(_42$$18)) {
-					_42$$18 = zephir_fast_count_int(&v TSRMLS_CC) < 1;
+				_45$$18 = Z_TYPE_P(&v) != IS_ARRAY;
+				if (!(_45$$18)) {
+					_45$$18 = zephir_fast_count_int(&v TSRMLS_CC) < 1;
 				}
-				if (unlikely(_42$$18)) {
-					ZEPHIR_INIT_NVAR(&_43$$19);
-					object_init_ex(&_43$$19, nc_db_exception_ce);
-					ZVAL_LONG(&_44$$19, 6);
-					ZEPHIR_CALL_METHOD(NULL, &_43$$19, "__construct", &_15, 7, &k2, &_44$$19);
+				if (unlikely(_45$$18)) {
+					ZEPHIR_INIT_NVAR(&_46$$19);
+					object_init_ex(&_46$$19, nc_db_exception_ce);
+					ZVAL_LONG(&_47$$19, 6);
+					ZEPHIR_CALL_METHOD(NULL, &_46$$19, "__construct", &_18, 3, &k2, &_47$$19);
 					zephir_check_call_status();
-					zephir_throw_exception_debug(&_43$$19, "nc/db/daoabstract.zep", 435 TSRMLS_CC);
+					zephir_throw_exception_debug(&_46$$19, "nc/db/daoabstract.zep", 437 TSRMLS_CC);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
-				ZEPHIR_INIT_NVAR(&_46$$18);
-				ZVAL_STRING(&_46$$18, " OR ");
-				ZEPHIR_CALL_METHOD(&_45$$18, this_ptr, "parsewhere", &_40, 9, &v, &_46$$18);
+				ZEPHIR_INIT_NVAR(&_49$$18);
+				ZVAL_STRING(&_49$$18, " OR ");
+				ZEPHIR_CALL_METHOD(&_48$$18, this_ptr, "parsewhere", &_43, 5, &v, &_49$$18);
 				zephir_check_call_status();
-				ZEPHIR_INIT_LNVAR(_47$$18);
-				ZEPHIR_CONCAT_SVS(&_47$$18, "(", &_45$$18, ")");
-				zephir_array_append(&ws, &_47$$18, PH_SEPARATE, "nc/db/daoabstract.zep", 437);
+				ZEPHIR_INIT_LNVAR(_50$$18);
+				ZEPHIR_CONCAT_SVS(&_50$$18, "(", &_48$$18, ")");
+				zephir_array_append(&ws, &_50$$18, PH_SEPARATE, "nc/db/daoabstract.zep", 439);
 				break;
 			}
 			if (ZEPHIR_IS_STRING(&k2, "xor")) {
-				_48$$20 = Z_TYPE_P(&v) != IS_ARRAY;
-				if (!(_48$$20)) {
-					_48$$20 = zephir_fast_count_int(&v TSRMLS_CC) < 1;
+				_51$$20 = Z_TYPE_P(&v) != IS_ARRAY;
+				if (!(_51$$20)) {
+					_51$$20 = zephir_fast_count_int(&v TSRMLS_CC) < 1;
 				}
-				if (unlikely(_48$$20)) {
-					ZEPHIR_INIT_NVAR(&_49$$21);
-					object_init_ex(&_49$$21, nc_db_exception_ce);
-					ZVAL_LONG(&_50$$21, 6);
-					ZEPHIR_CALL_METHOD(NULL, &_49$$21, "__construct", &_15, 7, &k2, &_50$$21);
+				if (unlikely(_51$$20)) {
+					ZEPHIR_INIT_NVAR(&_52$$21);
+					object_init_ex(&_52$$21, nc_db_exception_ce);
+					ZVAL_LONG(&_53$$21, 6);
+					ZEPHIR_CALL_METHOD(NULL, &_52$$21, "__construct", &_18, 3, &k2, &_53$$21);
 					zephir_check_call_status();
-					zephir_throw_exception_debug(&_49$$21, "nc/db/daoabstract.zep", 441 TSRMLS_CC);
+					zephir_throw_exception_debug(&_52$$21, "nc/db/daoabstract.zep", 443 TSRMLS_CC);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
-				ZEPHIR_INIT_NVAR(&_52$$20);
-				ZVAL_STRING(&_52$$20, " XOR ");
-				ZEPHIR_CALL_METHOD(&_51$$20, this_ptr, "parsewhere", &_40, 9, &v, &_52$$20);
+				ZEPHIR_INIT_NVAR(&_55$$20);
+				ZVAL_STRING(&_55$$20, " XOR ");
+				ZEPHIR_CALL_METHOD(&_54$$20, this_ptr, "parsewhere", &_43, 5, &v, &_55$$20);
 				zephir_check_call_status();
-				ZEPHIR_INIT_LNVAR(_53$$20);
-				ZEPHIR_CONCAT_SVS(&_53$$20, "(", &_51$$20, ")");
-				zephir_array_append(&ws, &_53$$20, PH_SEPARATE, "nc/db/daoabstract.zep", 443);
+				ZEPHIR_INIT_LNVAR(_56$$20);
+				ZEPHIR_CONCAT_SVS(&_56$$20, "(", &_54$$20, ")");
+				zephir_array_append(&ws, &_56$$20, PH_SEPARATE, "nc/db/daoabstract.zep", 445);
 				break;
 			}
-			ZEPHIR_INIT_NVAR(&_54$$22);
-			object_init_ex(&_54$$22, nc_db_exception_ce);
-			ZVAL_LONG(&_55$$22, 6);
-			ZEPHIR_CALL_METHOD(NULL, &_54$$22, "__construct", &_15, 7, &k2, &_55$$22);
+			ZEPHIR_INIT_NVAR(&_57$$22);
+			object_init_ex(&_57$$22, nc_db_exception_ce);
+			ZVAL_LONG(&_58$$22, 6);
+			ZEPHIR_CALL_METHOD(NULL, &_57$$22, "__construct", &_18, 3, &k2, &_58$$22);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_54$$22, "nc/db/daoabstract.zep", 447 TSRMLS_CC);
+			zephir_throw_exception_debug(&_57$$22, "nc/db/daoabstract.zep", 449 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		} while(0);
@@ -1817,7 +1823,7 @@ PHP_METHOD(Nc_Db_DaoAbstract, parseWhereIn) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "quote");
 		zephir_array_fast_append(&_0$$3, &_2$$3);
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "array_map", NULL, 10, &_0$$3, values);
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "array_map", NULL, 6, &_0$$3, values);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&v);
 		zephir_fast_join_str(&v, SL(", "), &_3$$3 TSRMLS_CC);
@@ -1828,13 +1834,13 @@ PHP_METHOD(Nc_Db_DaoAbstract, parseWhereIn) {
 	if (not) {
 		ZEPHIR_INIT_VAR(&_5$$5);
 		ZVAL_STRING(&_5$$5, "%s NOT IN (%s)");
-		ZEPHIR_RETURN_CALL_FUNCTION("sprintf", &_6, 6, &_5$$5, &field, &v);
+		ZEPHIR_RETURN_CALL_FUNCTION("sprintf", &_6, 2, &_5$$5, &field, &v);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
 	ZEPHIR_INIT_VAR(&_7);
 	ZVAL_STRING(&_7, "%s IN (%s)");
-	ZEPHIR_RETURN_CALL_FUNCTION("sprintf", &_6, 6, &_7, &field, &v);
+	ZEPHIR_RETURN_CALL_FUNCTION("sprintf", &_6, 2, &_7, &field, &v);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -1875,14 +1881,14 @@ PHP_METHOD(Nc_Db_DaoAbstract, parseWhereBetween) {
 
 	zephir_read_property(&_0, this_ptr, SL("db"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_MAKE_REF(&values);
-	ZEPHIR_CALL_FUNCTION(&_1, "array_shift", &_2, 8, &values);
+	ZEPHIR_CALL_FUNCTION(&_1, "array_shift", &_2, 4, &values);
 	ZEPHIR_UNREF(&values);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&v1, &_0, "quote", NULL, 0, &_1);
 	zephir_check_call_status();
 	zephir_read_property(&_3, this_ptr, SL("db"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_MAKE_REF(&values);
-	ZEPHIR_CALL_FUNCTION(&_4, "array_shift", &_2, 8, &values);
+	ZEPHIR_CALL_FUNCTION(&_4, "array_shift", &_2, 4, &values);
 	ZEPHIR_UNREF(&values);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&v2, &_3, "quote", NULL, 0, &_4);
@@ -1890,13 +1896,13 @@ PHP_METHOD(Nc_Db_DaoAbstract, parseWhereBetween) {
 	if (not) {
 		ZEPHIR_INIT_VAR(&_5$$3);
 		ZVAL_STRING(&_5$$3, "%s NOT BETWEEN %s AND %s");
-		ZEPHIR_RETURN_CALL_FUNCTION("sprintf", &_6, 6, &_5$$3, &field, &v1, &v2);
+		ZEPHIR_RETURN_CALL_FUNCTION("sprintf", &_6, 2, &_5$$3, &field, &v1, &v2);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
 	ZEPHIR_INIT_VAR(&_7);
 	ZVAL_STRING(&_7, "%s BETWEEN %s AND %s");
-	ZEPHIR_RETURN_CALL_FUNCTION("sprintf", &_6, 6, &_7, &field, &v1, &v2);
+	ZEPHIR_RETURN_CALL_FUNCTION("sprintf", &_6, 2, &_7, &field, &v1, &v2);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -1943,7 +1949,7 @@ PHP_METHOD(Nc_Db_DaoAbstract, makeOrder) {
 			}
 			ZEPHIR_INIT_NVAR(&a);
 			array_init(&a);
-			zephir_is_iterable(order, 0, "nc/db/daoabstract.zep", 507);
+			zephir_is_iterable(order, 0, "nc/db/daoabstract.zep", 509);
 			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(order), _3$$5, _4$$5, _2$$5)
 			{
 				ZEPHIR_INIT_NVAR(&k);
@@ -1957,11 +1963,11 @@ PHP_METHOD(Nc_Db_DaoAbstract, makeOrder) {
 				if (zephir_is_true(&v)) {
 					ZEPHIR_INIT_LNVAR(_5$$8);
 					ZEPHIR_CONCAT_VS(&_5$$8, &k, " ASC");
-					zephir_array_append(&a, &_5$$8, PH_SEPARATE, "nc/db/daoabstract.zep", 502);
+					zephir_array_append(&a, &_5$$8, PH_SEPARATE, "nc/db/daoabstract.zep", 504);
 				} else {
 					ZEPHIR_INIT_LNVAR(_6$$9);
 					ZEPHIR_CONCAT_VS(&_6$$9, &k, " DESC");
-					zephir_array_append(&a, &_6$$9, PH_SEPARATE, "nc/db/daoabstract.zep", 504);
+					zephir_array_append(&a, &_6$$9, PH_SEPARATE, "nc/db/daoabstract.zep", 506);
 				}
 			} ZEND_HASH_FOREACH_END();
 			ZEPHIR_INIT_NVAR(&v);
@@ -1999,9 +2005,9 @@ PHP_METHOD(Nc_Db_DaoAbstract, makeRandomOrder) {
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "makeRandomOrder");
 	ZVAL_LONG(&_2, 5);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 7, &_1, &_2);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 3, &_1, &_2);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_0, "nc/db/daoabstract.zep", 524 TSRMLS_CC);
+	zephir_throw_exception_debug(&_0, "nc/db/daoabstract.zep", 526 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -2033,9 +2039,9 @@ PHP_METHOD(Nc_Db_DaoAbstract, makePagination) {
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "makePagination");
 	ZVAL_LONG(&_2, 5);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 7, &_1, &_2);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 3, &_1, &_2);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_0, "nc/db/daoabstract.zep", 529 TSRMLS_CC);
+	zephir_throw_exception_debug(&_0, "nc/db/daoabstract.zep", 531 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 

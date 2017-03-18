@@ -18,24 +18,24 @@ class Apcu extends CacheBackendAbstract
         var iter;
 
         if poolName->length() < 1 {
-            if unlikely ! apc_clear_cache("user") {
+            if unlikely ! apcu_clear_cache("user") {
                 throw new Exception("Cannot clear all user caches");
             }
             return;
         }
 
-        let iter = new \ApcIterator("user", "/^" . preg_quote(poolName . ":", "/") . "/", APC_ITER_KEY, 1000);
+        let iter = new \ApcuIterator("user", "/^" . preg_quote(poolName . ":", "/") . "/", APC_ITER_KEY, 1000);
 
         iter->rewind();
         while iter->valid() {
-            apc_delete(iter->key());
+            apcu_delete(iter->key());
             iter->next();
         }
     }
 
     public function store(string poolName, string key, var value, long ttl = 0) -> void
     {
-        if unlikely ! apc_store(poolName . ":" . key, value, ttl) {
+        if unlikely ! apcu_store(poolName . ":" . key, value, ttl) {
             throw new Exception(sprintf("Cannot store cache key '%s'", key));
         }
     }
@@ -48,7 +48,7 @@ class Apcu extends CacheBackendAbstract
             let kvs[poolName . ":" . k] = v;
         }
 
-        if unlikely !! apc_store(kvs, null, ttl) {
+        if unlikely !! apcu_store(kvs, null, ttl) {
             throw new Exception("Cannot store cache keys");
         }
     }
@@ -57,7 +57,7 @@ class Apcu extends CacheBackendAbstract
     {
         var value, success = null;
 
-        let value = apc_fetch(poolName . ":" . key, success);
+        let value = apcu_fetch(poolName . ":" . key, success);
         if success {
             return value;
         }
@@ -73,7 +73,7 @@ class Apcu extends CacheBackendAbstract
             let ks[] = pre . k;
         }
 
-        let kvs = apc_fetch(ks, success);
+        let kvs = apcu_fetch(ks, success);
         if success {
             let len = strlen(pre);
             for k, v in kvs {
@@ -86,7 +86,7 @@ class Apcu extends CacheBackendAbstract
 
     public function forget(string poolName, string key) -> void
     {
-        apc_delete(poolName . ":" . key);
+        apcu_delete(poolName . ":" . key);
     }
 
 }

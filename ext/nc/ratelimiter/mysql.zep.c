@@ -73,7 +73,7 @@ PHP_METHOD(Nc_RateLimiter_Mysql, __construct) {
 	zephir_array_fast_append(&_1, &_2);
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "");
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 100, db, &table, &_1, &_2);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 127, db, &table, &_1, &_2);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("daoMysql"), &_0);
 	ZEPHIR_INIT_ZVAL_NREF(_3);
@@ -115,7 +115,7 @@ PHP_METHOD(Nc_RateLimiter_Mysql, initialize) {
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_4);
 	ZVAL_STRING(&_4, "CREATE TABLE %s (name VARCHAR(200) NOT NULL, rate VARCHAR(1000) NOT NULL, ts INT UNSIGNED NOT NULL DEFAULT 0, PRIMARY KEY (name)) ENGINE=InnoDB");
-	ZEPHIR_CALL_FUNCTION(&_5, "sprintf", NULL, 6, &_4, &_3);
+	ZEPHIR_CALL_FUNCTION(&_5, "sprintf", NULL, 2, &_4, &_3);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &_1, "execute", NULL, 0, &_5);
 	zephir_check_call_status();
@@ -220,9 +220,9 @@ PHP_METHOD(Nc_RateLimiter_Mysql, passRateLimits) {
 			object_init_ex(&_6$$5, nc_ratelimiter_exception_ce);
 			ZEPHIR_INIT_NVAR(&_7$$5);
 			ZVAL_STRING(&_7$$5, "Invalid input s/t '%d/%d'");
-			ZEPHIR_CALL_FUNCTION(&_8$$5, "sprintf", &_9, 6, &_7$$5, &s, &t);
+			ZEPHIR_CALL_FUNCTION(&_8$$5, "sprintf", &_9, 2, &_7$$5, &s, &t);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &_6$$5, "__construct", &_10, 7, &_8$$5);
+			ZEPHIR_CALL_METHOD(NULL, &_6$$5, "__construct", &_10, 3, &_8$$5);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_6$$5, "nc/ratelimiter/mysql.zep", 53 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();

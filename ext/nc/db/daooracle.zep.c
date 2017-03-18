@@ -121,7 +121,7 @@ PHP_METHOD(Nc_Db_DaoOracle, upsert) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "upsert");
 		ZVAL_LONG(&_3$$3, 7);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 7, &_2$$3, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 3, &_2$$3, &_3$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "nc/db/daooracle.zep", 10 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -142,7 +142,7 @@ PHP_METHOD(Nc_Db_DaoOracle, upsert) {
 			ZEPHIR_INIT_NVAR(&_7$$5);
 			object_init_ex(&_7$$5, nc_db_exception_ce);
 			ZVAL_LONG(&_8$$5, 8);
-			ZEPHIR_CALL_METHOD(NULL, &_7$$5, "__construct", NULL, 7, &k, &_8$$5);
+			ZEPHIR_CALL_METHOD(NULL, &_7$$5, "__construct", NULL, 3, &k, &_8$$5);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_7$$5, "nc/db/daooracle.zep", 15 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
@@ -150,12 +150,12 @@ PHP_METHOD(Nc_Db_DaoOracle, upsert) {
 		}
 		ZEPHIR_INIT_NVAR(&_9$$4);
 		ZVAL_STRING(&_9$$4, ":%s%s %s");
-		ZEPHIR_CALL_FUNCTION(&_10$$4, "sprintf", &_11, 6, &_9$$4, &iPre, &k, &k);
+		ZEPHIR_CALL_FUNCTION(&_10$$4, "sprintf", &_11, 2, &_9$$4, &iPre, &k, &k);
 		zephir_check_call_status();
 		zephir_array_append(&ds, &_10$$4, PH_SEPARATE, "nc/db/daooracle.zep", 18);
 		ZEPHIR_INIT_NVAR(&_9$$4);
 		ZVAL_STRING(&_9$$4, "t1.%s = t2.%s");
-		ZEPHIR_CALL_FUNCTION(&_12$$4, "sprintf", &_11, 6, &_9$$4, &k, &k);
+		ZEPHIR_CALL_FUNCTION(&_12$$4, "sprintf", &_11, 2, &_9$$4, &k, &k);
 		zephir_check_call_status();
 		zephir_array_append(&cs, &_12$$4, PH_SEPARATE, "nc/db/daooracle.zep", 19);
 	} ZEND_HASH_FOREACH_END();
@@ -197,7 +197,7 @@ PHP_METHOD(Nc_Db_DaoOracle, upsert) {
 	zephir_fast_join_str(&_21, SL(" AND "), &cs TSRMLS_CC);
 	ZEPHIR_INIT_VAR(&_22);
 	ZVAL_STRING(&_22, "MERGE INTO %s t1 USING (SELECT %s FROM dual WHERE rownum < 2) t2 ON (%s)");
-	ZEPHIR_CALL_FUNCTION(&s, "sprintf", &_11, 6, &_22, &_19, &_20, &_21);
+	ZEPHIR_CALL_FUNCTION(&s, "sprintf", &_11, 2, &_22, &_19, &_20, &_21);
 	zephir_check_call_status();
 	if (zephir_fast_count_int(&updates TSRMLS_CC) > 0) {
 		zephir_is_iterable(&updates, 0, "nc/db/daooracle.zep", 57);
@@ -236,7 +236,7 @@ PHP_METHOD(Nc_Db_DaoOracle, upsert) {
 		zephir_fast_join_str(&_30$$10, SL(", "), &us TSRMLS_CC);
 		ZEPHIR_INIT_VAR(&_31$$10);
 		ZVAL_STRING(&_31$$10, " WHEN MATCHED THEN UPDATE SET %s");
-		ZEPHIR_CALL_FUNCTION(&_32$$10, "sprintf", &_11, 6, &_31$$10, &_30$$10);
+		ZEPHIR_CALL_FUNCTION(&_32$$10, "sprintf", &_11, 2, &_31$$10, &_30$$10);
 		zephir_check_call_status();
 		zephir_concat_self(&s, &_32$$10 TSRMLS_CC);
 	}
@@ -246,7 +246,7 @@ PHP_METHOD(Nc_Db_DaoOracle, upsert) {
 	zephir_fast_join_str(&_33, SL(", "), &ivs TSRMLS_CC);
 	ZEPHIR_INIT_VAR(&_34);
 	ZVAL_STRING(&_34, " WHEN NOT MATCHED THEN INSERT (%s) VALUES (%s)");
-	ZEPHIR_CALL_FUNCTION(&_35, "sprintf", &_11, 6, &_34, &_22, &_33);
+	ZEPHIR_CALL_FUNCTION(&_35, "sprintf", &_11, 2, &_34, &_22, &_33);
 	zephir_check_call_status();
 	zephir_concat_self(&s, &_35 TSRMLS_CC);
 	zephir_read_property(&_36, this_ptr, SL("db"), PH_NOISY_CC | PH_READONLY);
@@ -355,7 +355,7 @@ PHP_METHOD(Nc_Db_DaoOracle, updateTop) {
 	ZEPHIR_INIT_VAR(&_13);
 	ZVAL_STRING(&_13, "UPDATE %s SET %s WHERE (%s) IN (SELECT %s FROM %s%s%s where rownum <= %d)");
 	ZVAL_LONG(&_14, limit);
-	ZEPHIR_CALL_FUNCTION(&s, "sprintf", NULL, 6, &_13, &_8, &_9, &pks, &pks, &_10, &_11, &_12, &_14);
+	ZEPHIR_CALL_FUNCTION(&s, "sprintf", NULL, 2, &_13, &_8, &_9, &pks, &pks, &_10, &_11, &_12, &_14);
 	zephir_check_call_status();
 	zephir_read_property(&_14, this_ptr, SL("db"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_14, "execute", NULL, 0, &s, &updates);
@@ -415,7 +415,7 @@ PHP_METHOD(Nc_Db_DaoOracle, deleteTop) {
 	ZEPHIR_INIT_VAR(&_5);
 	ZVAL_STRING(&_5, "DELETE FROM %s WHERE (%s) IN (SELECT %s FROM %s%s%s where rownum <= %d)");
 	ZVAL_LONG(&_6, limit);
-	ZEPHIR_CALL_FUNCTION(&s, "sprintf", NULL, 6, &_5, &_1, &pks, &pks, &_2, &_3, &_4, &_6);
+	ZEPHIR_CALL_FUNCTION(&s, "sprintf", NULL, 2, &_5, &_1, &pks, &pks, &_2, &_3, &_4, &_6);
 	zephir_check_call_status();
 	zephir_read_property(&_6, this_ptr, SL("db"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_6, "execute", NULL, 0, &s);
@@ -461,7 +461,7 @@ PHP_METHOD(Nc_Db_DaoOracle, makePagination) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		ZVAL_STRING(&_0$$3, "SELECT t1.* FROM (%s) t1 WHERE rownum <= %d");
 		ZVAL_LONG(&_1$$3, limit);
-		ZEPHIR_RETURN_CALL_FUNCTION("sprintf", &_2, 6, &_0$$3, &sql, &_1$$3);
+		ZEPHIR_RETURN_CALL_FUNCTION("sprintf", &_2, 2, &_0$$3, &sql, &_1$$3);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -469,7 +469,7 @@ PHP_METHOD(Nc_Db_DaoOracle, makePagination) {
 	ZVAL_STRING(&_3, "SELECT * FROM (SELECT t1.*, rownum r FROM (%s) t1 WHERE rownum <= %d) t2 WHERE r > %d");
 	ZVAL_LONG(&_4, (limit + skip));
 	ZVAL_LONG(&_5, skip);
-	ZEPHIR_RETURN_CALL_FUNCTION("sprintf", &_2, 6, &_3, &sql, &_4, &_5);
+	ZEPHIR_RETURN_CALL_FUNCTION("sprintf", &_2, 2, &_3, &sql, &_4, &_5);
 	zephir_check_call_status();
 	RETURN_MM();
 

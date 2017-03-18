@@ -48,7 +48,7 @@ PHP_METHOD(Nc_Log_StdErr, __construct) {
 	ZVAL_STRING(&_0, "php://stderr");
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "w");
-	ZEPHIR_CALL_FUNCTION(&_2, "fopen", NULL, 81, &_0, &_1);
+	ZEPHIR_CALL_FUNCTION(&_2, "fopen", NULL, 96, &_0, &_1);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("fp"), &_2);
 	ZEPHIR_MM_RESTORE();
@@ -88,7 +88,7 @@ PHP_METHOD(Nc_Log_StdErr, appendLog) {
 		object_init_ex(&_4$$3, nc_log_exception_ce);
 		ZEPHIR_INIT_VAR(&_5$$3);
 		ZVAL_STRING(&_5$$3, "appendLog");
-		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 7, &_5$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 3, &_5$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_4$$3, "nc/log/stderr.zep", 15 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();

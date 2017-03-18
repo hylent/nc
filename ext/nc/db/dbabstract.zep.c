@@ -76,7 +76,7 @@ PHP_METHOD(Nc_Db_DbAbstract, begin) {
 		ZEPHIR_INIT_VAR(&_4$$3);
 		ZVAL_STRING(&_4$$3, "begin");
 		ZVAL_LONG(&_5$$3, 4);
-		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 7, &_4$$3, &_5$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 3, &_4$$3, &_5$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_3$$3, "nc/db/dbabstract.zep", 16 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -121,7 +121,7 @@ PHP_METHOD(Nc_Db_DbAbstract, commit) {
 		ZEPHIR_INIT_VAR(&_4$$3);
 		ZVAL_STRING(&_4$$3, "commit");
 		ZVAL_LONG(&_5$$3, 4);
-		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 7, &_4$$3, &_5$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 3, &_4$$3, &_5$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_3$$3, "nc/db/dbabstract.zep", 25 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -166,7 +166,7 @@ PHP_METHOD(Nc_Db_DbAbstract, rollback) {
 		ZEPHIR_INIT_VAR(&_4$$3);
 		ZVAL_STRING(&_4$$3, "rollback");
 		ZVAL_LONG(&_5$$3, 4);
-		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 7, &_4$$3, &_5$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 3, &_4$$3, &_5$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_3$$3, "nc/db/dbabstract.zep", 34 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -208,7 +208,7 @@ PHP_METHOD(Nc_Db_DbAbstract, savepoint) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "savepoint");
 		ZVAL_LONG(&_3$$3, 4);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 7, &_2$$3, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 3, &_2$$3, &_3$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "nc/db/dbabstract.zep", 43 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -249,7 +249,7 @@ PHP_METHOD(Nc_Db_DbAbstract, releaseSavepoint) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "releaseSavepoint");
 		ZVAL_LONG(&_3$$3, 4);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 7, &_2$$3, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 3, &_2$$3, &_3$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "nc/db/dbabstract.zep", 52 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -290,7 +290,7 @@ PHP_METHOD(Nc_Db_DbAbstract, rollbackToSavepoint) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "rollbackToSavepoint");
 		ZVAL_LONG(&_3$$3, 4);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 7, &_2$$3, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 3, &_2$$3, &_3$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "nc/db/dbabstract.zep", 61 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -346,7 +346,7 @@ PHP_METHOD(Nc_Db_DbAbstract, expression) {
 	ZVAL_STRING(&_2, "%s");
 	zephir_array_fast_append(&_3, &_2);
 	ZEPHIR_MAKE_REF(&input);
-	ZEPHIR_CALL_FUNCTION(&_4, "array_shift", NULL, 8, &input);
+	ZEPHIR_CALL_FUNCTION(&_4, "array_shift", NULL, 4, &input);
 	ZEPHIR_UNREF(&input);
 	zephir_check_call_status();
 	zephir_get_strval(&_5, &_4);
@@ -357,9 +357,9 @@ PHP_METHOD(Nc_Db_DbAbstract, expression) {
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "quote");
 	zephir_array_fast_append(&_6, &_2);
-	ZEPHIR_CALL_FUNCTION(&_7, "array_map", NULL, 10, &_6, &input);
+	ZEPHIR_CALL_FUNCTION(&_7, "array_map", NULL, 6, &_6, &input);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("vsprintf", NULL, 15, &_0, &_7);
+	ZEPHIR_RETURN_CALL_FUNCTION("vsprintf", NULL, 13, &_0, &_7);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -503,7 +503,7 @@ PHP_METHOD(Nc_Db_DbAbstract, queryCell) {
 	}
 	if (_0) {
 		ZEPHIR_MAKE_REF(&row);
-		ZEPHIR_CALL_FUNCTION(&_1$$3, "array_shift", NULL, 8, &row);
+		ZEPHIR_CALL_FUNCTION(&_1$$3, "array_shift", NULL, 4, &row);
 		ZEPHIR_UNREF(&row);
 		zephir_check_call_status();
 		zephir_get_strval(&_2$$3, &_1$$3);
@@ -553,7 +553,7 @@ PHP_METHOD(Nc_Db_DbAbstract, queryVector) {
 		ZVAL_COPY(&row, _0);
 		if (Z_TYPE_P(&row) == IS_ARRAY) {
 			ZEPHIR_MAKE_REF(&row);
-			ZEPHIR_CALL_FUNCTION(&_1$$4, "array_shift", &_2, 8, &row);
+			ZEPHIR_CALL_FUNCTION(&_1$$4, "array_shift", &_2, 4, &row);
 			ZEPHIR_UNREF(&row);
 			zephir_check_call_status();
 			zephir_get_strval(&_3$$4, &_1$$4);
@@ -609,13 +609,13 @@ PHP_METHOD(Nc_Db_DbAbstract, queryMap) {
 		ZVAL_COPY(&row, _0);
 		if (Z_TYPE_P(&row) == IS_ARRAY) {
 			ZEPHIR_MAKE_REF(&row);
-			ZEPHIR_CALL_FUNCTION(&_1$$4, "array_shift", &_2, 8, &row);
+			ZEPHIR_CALL_FUNCTION(&_1$$4, "array_shift", &_2, 4, &row);
 			ZEPHIR_UNREF(&row);
 			zephir_check_call_status();
 			zephir_get_strval(&_3$$4, &_1$$4);
 			ZEPHIR_CPY_WRT(&k, &_3$$4);
 			ZEPHIR_MAKE_REF(&row);
-			ZEPHIR_CALL_FUNCTION(&_4$$4, "array_shift", &_2, 8, &row);
+			ZEPHIR_CALL_FUNCTION(&_4$$4, "array_shift", &_2, 4, &row);
 			ZEPHIR_UNREF(&row);
 			zephir_check_call_status();
 			zephir_get_strval(&_5$$4, &_4$$4);
@@ -694,7 +694,7 @@ PHP_METHOD(Nc_Db_DbAbstract, addSql) {
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "%s # %0.3fms");
 	ZVAL_DOUBLE(&_2, (1000.0 * (double) (zephir_get_doubleval(&_0) - startTime)));
-	ZEPHIR_CALL_FUNCTION(&s, "sprintf", NULL, 6, &_1, &sql, &_2);
+	ZEPHIR_CALL_FUNCTION(&s, "sprintf", NULL, 2, &_1, &sql, &_2);
 	zephir_check_call_status();
 	if (zephir_fast_count_int(&params TSRMLS_CC) > 0) {
 		ZEPHIR_INIT_VAR(&_3$$3);
