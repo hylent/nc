@@ -218,7 +218,7 @@ PHP_METHOD(Nc_Log_RedisList, writeLogs) {
 	}
 	ZEPHIR_CALL_METHOD(&res, &redis, "exec", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_7, "array_filter", NULL, 95, &res);
+	ZEPHIR_CALL_FUNCTION(&_7, "array_filter", NULL, 98, &res);
 	zephir_check_call_status();
 	if (unlikely(zephir_fast_count_int(&_7 TSRMLS_CC) != numCmds)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_log_exception_ce, "Failed to write logs", "nc/log/redislist.zep", 87);

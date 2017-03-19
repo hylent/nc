@@ -76,7 +76,7 @@ PHP_METHOD(Nc_NetUtils_Smtp, pack) {
 	ZEPHIR_INIT_VAR(&s);
 	ZVAL_STRING(&s, "");
 	if (zephir_fast_strlen_ev(&name) > 0) {
-		ZEPHIR_CALL_FUNCTION(&_1$$3, "base64_encode", NULL, 109, &name);
+		ZEPHIR_CALL_FUNCTION(&_1$$3, "base64_encode", NULL, 118, &name);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_CONCAT_SVS(&_2$$3, "=?UTF-8?B?", &_1$$3, "?=");
@@ -202,26 +202,26 @@ PHP_METHOD(Nc_NetUtils_Smtp, __construct) {
 	zephir_update_property_zval(this_ptr, SL("namedSender"), &_14);
 	ZEPHIR_INIT_VAR(&tcpSocketClient);
 	object_init_ex(&tcpSocketClient, nc_netutils_tcpsocketclient_ce);
-	ZEPHIR_CALL_METHOD(NULL, &tcpSocketClient, "__construct", NULL, 110, &mergedOptions);
+	ZEPHIR_CALL_METHOD(NULL, &tcpSocketClient, "__construct", NULL, 119, &mergedOptions);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("tcpSocketClient"), &tcpSocketClient);
 	ZVAL_BOOL(&_15, 1);
-	ZEPHIR_CALL_METHOD(NULL, &tcpSocketClient, "settcpnodelay", NULL, 111, &_15);
+	ZEPHIR_CALL_METHOD(NULL, &tcpSocketClient, "settcpnodelay", NULL, 120, &_15);
 	zephir_check_call_status();
 	ZVAL_BOOL(&_15, 1);
-	ZEPHIR_CALL_METHOD(NULL, &tcpSocketClient, "setblocking", NULL, 112, &_15);
+	ZEPHIR_CALL_METHOD(NULL, &tcpSocketClient, "setblocking", NULL, 121, &_15);
 	zephir_check_call_status();
 	if (timeout > 0) {
 		ZVAL_DOUBLE(&_16$$6, timeout);
-		ZEPHIR_CALL_METHOD(NULL, &tcpSocketClient, "settimeout", NULL, 113, &_16$$6);
+		ZEPHIR_CALL_METHOD(NULL, &tcpSocketClient, "settimeout", NULL, 122, &_16$$6);
 		zephir_check_call_status();
 	}
 	if (secure == 1) {
 		ZEPHIR_INIT_VAR(&_17$$7);
 		ZVAL_STRING(&_17$$7, "STREAM_CRYPTO_METHOD_SSLv23_CLIENT");
-		ZEPHIR_CALL_FUNCTION(&_18$$7, "constant", NULL, 114, &_17$$7);
+		ZEPHIR_CALL_FUNCTION(&_18$$7, "constant", NULL, 123, &_17$$7);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &tcpSocketClient, "enablecrypto", NULL, 115, &_18$$7);
+		ZEPHIR_CALL_METHOD(NULL, &tcpSocketClient, "enablecrypto", NULL, 124, &_18$$7);
 		zephir_check_call_status();
 	}
 	ZEPHIR_INIT_NVAR(&_13);
@@ -247,7 +247,7 @@ PHP_METHOD(Nc_NetUtils_Smtp, __construct) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "cmd", &_20, 0, &_21$$8, &_22$$8, &_23$$8);
 		zephir_check_call_status();
 		ZVAL_LONG(&_23$$8, 9);
-		ZEPHIR_CALL_METHOD(NULL, &tcpSocketClient, "enablecrypto", NULL, 115, &_23$$8);
+		ZEPHIR_CALL_METHOD(NULL, &tcpSocketClient, "enablecrypto", NULL, 124, &_23$$8);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(&_21$$8);
 		ZVAL_STRING(&_21$$8, "EHLO HELO");
@@ -264,14 +264,14 @@ PHP_METHOD(Nc_NetUtils_Smtp, __construct) {
 	ZVAL_LONG(&_15, 334);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "cmd", &_20, 0, &_13, &_19, &_15);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_24, "base64_encode", &_25, 109, &user);
+	ZEPHIR_CALL_FUNCTION(&_24, "base64_encode", &_25, 118, &user);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_13);
 	ZVAL_STRING(&_13, "AUTH USER");
 	ZVAL_LONG(&_15, 334);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "cmd", &_20, 0, &_13, &_24, &_15);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_26, "base64_encode", &_25, 109, &passwd);
+	ZEPHIR_CALL_FUNCTION(&_26, "base64_encode", &_25, 118, &passwd);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_13);
 	ZVAL_STRING(&_13, "AUTH PASSWD");
@@ -547,7 +547,7 @@ PHP_METHOD(Nc_NetUtils_Smtp, sendMessageTo) {
 	zephir_array_append(&data, &_42, PH_SEPARATE, "nc/netutils/smtp.zep", 141);
 	ZEPHIR_INIT_NVAR(&_42);
 	ZVAL_STRING(&_42, "r");
-	ZEPHIR_CALL_FUNCTION(&_44, "gmdate", NULL, 116, &_42);
+	ZEPHIR_CALL_FUNCTION(&_44, "gmdate", NULL, 125, &_42);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_45);
 	ZEPHIR_CONCAT_SV(&_45, "Date: ", &_44);
@@ -593,9 +593,9 @@ PHP_METHOD(Nc_NetUtils_Smtp, sendMessageTo) {
 		ZEPHIR_INIT_NVAR(&body);
 		ZVAL_STRING(&body, " ");
 	}
-	ZEPHIR_CALL_FUNCTION(&_51, "base64_encode", &_52, 109, &body);
+	ZEPHIR_CALL_FUNCTION(&_51, "base64_encode", &_52, 118, &body);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_53, "chunk_split", &_54, 117, &_51);
+	ZEPHIR_CALL_FUNCTION(&_53, "chunk_split", &_54, 126, &_51);
 	zephir_check_call_status();
 	zephir_array_append(&data, &_53, PH_SEPARATE, "nc/netutils/smtp.zep", 162);
 	ZEPHIR_INIT_NVAR(&_42);
@@ -648,9 +648,9 @@ PHP_METHOD(Nc_NetUtils_Smtp, sendMessageTo) {
 			zephir_array_append(&data, &_66$$15, PH_SEPARATE, "nc/netutils/smtp.zep", 174);
 			ZEPHIR_INIT_NVAR(&_66$$15);
 			zephir_file_get_contents(&_66$$15, &path TSRMLS_CC);
-			ZEPHIR_CALL_FUNCTION(&_67$$15, "base64_encode", &_52, 109, &_66$$15);
+			ZEPHIR_CALL_FUNCTION(&_67$$15, "base64_encode", &_52, 118, &_66$$15);
 			zephir_check_call_status();
-			ZEPHIR_CALL_FUNCTION(&_68$$15, "chunk_split", &_54, 117, &_67$$15);
+			ZEPHIR_CALL_FUNCTION(&_68$$15, "chunk_split", &_54, 126, &_67$$15);
 			zephir_check_call_status();
 			zephir_array_append(&data, &_68$$15, PH_SEPARATE, "nc/netutils/smtp.zep", 175);
 			ZEPHIR_INIT_NVAR(&_69$$15);

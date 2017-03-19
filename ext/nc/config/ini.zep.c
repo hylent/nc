@@ -45,7 +45,7 @@ PHP_METHOD(Nc_Config_Ini, readFromPath) {
 
 
 	ZVAL_LONG(&_0, 1);
-	ZEPHIR_RETURN_CALL_FUNCTION("parse_ini_file", NULL, 41, &path, &__$true, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("parse_ini_file", NULL, 44, &path, &__$true, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 

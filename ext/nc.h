@@ -68,6 +68,8 @@
 #include "nc/mvc/controllercliswoole.zep.h"
 #include "nc/mvc/controllerdefault.zep.h"
 #include "nc/mvc/exception.zep.h"
+#include "nc/mvc/sessionautogcsavehandler.zep.h"
+#include "nc/mvc/sessionautogcstorageinterface.zep.h"
 #include "nc/mvc/uploadedfile.zep.h"
 #include "nc/netutils/smtp.zep.h"
 #include "nc/netutils/smtpexception.zep.h"

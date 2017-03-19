@@ -20,7 +20,7 @@ if (PHP_NC != "no") {
 	ADD_SOURCES(configure_module_dirname + "/nc/config", "configinterface.zep.c filesystemabstract.zep.c exception.zep.c ini.zep.c php.zep.c", "nc");
 	ADD_SOURCES(configure_module_dirname + "/nc/db", "daoabstract.zep.c dbinterface.zep.c dbabstract.zep.c daomysql.zep.c daooracle.zep.c daopgsql.zep.c exception.zep.c oci8.zep.c pdo.zep.c", "nc");
 	ADD_SOURCES(configure_module_dirname + "/nc/image", "imageinterface.zep.c imageabstract.zep.c area.zep.c exception.zep.c gd.zep.c imagick.zep.c", "nc");
-	ADD_SOURCES(configure_module_dirname + "/nc/mvc", "contextabstract.zep.c controllerinterface.zep.c contexthttp.zep.c application.zep.c contextcli.zep.c contexthttpswoole.zep.c controllercliswoole.zep.c controllerdefault.zep.c exception.zep.c uploadedfile.zep.c", "nc");
+	ADD_SOURCES(configure_module_dirname + "/nc/mvc", "contextabstract.zep.c controllerinterface.zep.c contexthttp.zep.c application.zep.c contextcli.zep.c contexthttpswoole.zep.c controllercliswoole.zep.c controllerdefault.zep.c exception.zep.c sessionautogcsavehandler.zep.c sessionautogcstorageinterface.zep.c uploadedfile.zep.c", "nc");
 	ADD_SOURCES(configure_module_dirname + "/nc/ratelimiter", "ratelimiterbackendinterface.zep.c ratelimiterbackendabstract.zep.c exception.zep.c mysql.zep.c ratelimiter.zep.c redis.zep.c", "nc");
 	ADD_SOURCES(configure_module_dirname + "/nc/netutils", "exception.zep.c smtp.zep.c smtpexception.zep.c tcpsocketclient.zep.c tcpsocketclientexception.zep.c", "nc");
 	ADD_SOURCES(configure_module_dirname + "/nc/queue", "queueinterface.zep.c exception.zep.c mysql.zep.c redis.zep.c", "nc");

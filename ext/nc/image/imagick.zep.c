@@ -47,7 +47,7 @@ PHP_METHOD(Nc_Image_Imagick, __construct) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "imagick");
-	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 25, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 28, &_0);
 	zephir_check_call_status();
 	if (unlikely(!zephir_is_true(&_1))) {
 		ZEPHIR_INIT_VAR(&_2$$3);
@@ -245,7 +245,7 @@ PHP_METHOD(Nc_Image_Imagick, byPath) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_FUNCTION(&eit, "exif_imagetype", NULL, 74, &path);
+	ZEPHIR_CALL_FUNCTION(&eit, "exif_imagetype", NULL, 77, &path);
 	zephir_check_call_status();
 	if (unlikely(ZEPHIR_IS_FALSE_IDENTICAL(&eit))) {
 		ZEPHIR_INIT_VAR(&_2$$4);
@@ -997,7 +997,7 @@ PHP_METHOD(Nc_Image_Imagick, annotate) {
 	ZEPHIR_CALL_METHOD(NULL, &imagickDraw, "setresolution", NULL, 0, &_15, &_16);
 	zephir_check_call_status();
 	zephir_array_fetch_string(&_17, &mo, SL("font"), PH_NOISY | PH_READONLY, "nc/image/imagick.zep", 297 TSRMLS_CC);
-	ZEPHIR_CALL_FUNCTION(&_18, "realpath", NULL, 91, &_17);
+	ZEPHIR_CALL_FUNCTION(&_18, "realpath", NULL, 94, &_17);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &imagickDraw, "setfont", NULL, 0, &_18);
 	zephir_check_call_status();
@@ -1114,7 +1114,7 @@ PHP_METHOD(Nc_Image_Imagick, queryTextArea) {
 	ZVAL_LONG(&testF, (fontSize * 2));
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "UTF-8");
-	ZEPHIR_CALL_FUNCTION(&_1, "mb_strlen", NULL, 92, &text, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "mb_strlen", NULL, 95, &text, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&testW);
 	ZVAL_LONG(&testW, (zephir_get_numberval(&testF) * (zephir_get_numberval(&_1) + 2)));
@@ -1128,7 +1128,7 @@ PHP_METHOD(Nc_Image_Imagick, queryTextArea) {
 	ZVAL_LONG(&_3, 96);
 	ZEPHIR_CALL_METHOD(NULL, &imagickDraw, "setresolution", NULL, 0, &_2, &_3);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_4, "realpath", NULL, 91, &font);
+	ZEPHIR_CALL_FUNCTION(&_4, "realpath", NULL, 94, &font);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &imagickDraw, "setfont", NULL, 0, &_4);
 	zephir_check_call_status();

@@ -166,7 +166,7 @@ PHP_METHOD(Nc_Db_DaoMysql, insert) {
 
 
 	ZVAL_BOOL(&_1, 1);
-	ZEPHIR_CALL_PARENT(&rc, nc_db_daomysql_ce, this_ptr, "insert", &_0, 42, &inserts, &_1);
+	ZEPHIR_CALL_PARENT(&rc, nc_db_daomysql_ce, this_ptr, "insert", &_0, 45, &inserts, &_1);
 	zephir_check_call_status();
 	while (1) {
 		_2$$3 = ignoreSequence;

@@ -76,7 +76,7 @@ PHP_METHOD(Nc_Mvc_UploadedFile, __construct) {
 	zephir_update_property_zval(this_ptr, SL("name"), &name);
 	zephir_update_property_zval(this_ptr, SL("tmpName"), &tmpName);
 	if (error == 0) {
-		ZEPHIR_CALL_FUNCTION(&imageType, "exif_imagetype", NULL, 74, &tmpName);
+		ZEPHIR_CALL_FUNCTION(&imageType, "exif_imagetype", NULL, 77, &tmpName);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_FALSE_IDENTICAL(&imageType)) {
 			ZEPHIR_INIT_VAR(&_1$$4);
@@ -92,7 +92,7 @@ PHP_METHOD(Nc_Mvc_UploadedFile, __construct) {
 				ZVAL_STRING(&_4$$6, "jpg");
 				zephir_update_property_zval(this_ptr, SL("extension"), &_4$$6);
 			} else {
-				ZEPHIR_CALL_FUNCTION(&_5$$7, "image_type_to_extension", NULL, 108, &imageType, &__$false);
+				ZEPHIR_CALL_FUNCTION(&_5$$7, "image_type_to_extension", NULL, 117, &imageType, &__$false);
 				zephir_check_call_status();
 				zephir_update_property_zval(this_ptr, SL("extension"), &_5$$7);
 			}

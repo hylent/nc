@@ -45,7 +45,7 @@ PHP_METHOD(Nc_Di_CreatorClassNamespace, __construct) {
 
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_CONCAT_VS(&_1, &classNamespace, "\\");
-	ZEPHIR_CALL_PARENT(NULL, nc_di_creatorclassnamespace_ce, this_ptr, "__construct", &_0, 53, &_1);
+	ZEPHIR_CALL_PARENT(NULL, nc_di_creatorclassnamespace_ce, this_ptr, "__construct", &_0, 56, &_1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

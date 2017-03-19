@@ -702,14 +702,14 @@ PHP_METHOD(Nc_Log_Logger, stringifyLog) {
 		} ZEND_HASH_FOREACH_END();
 		ZEPHIR_INIT_NVAR(&v);
 		ZEPHIR_INIT_NVAR(&k);
-		ZEPHIR_CALL_FUNCTION(&m, "strtr", NULL, 94, &message, &r);
+		ZEPHIR_CALL_FUNCTION(&m, "strtr", NULL, 97, &message, &r);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_CPY_WRT(&m, &message);
 	}
 	ZEPHIR_INIT_VAR(&_5);
 	ZVAL_STRING(&_5, "c");
-	ZEPHIR_CALL_FUNCTION(&_6, "date", NULL, 93, &_5);
+	ZEPHIR_CALL_FUNCTION(&_6, "date", NULL, 96, &_5);
 	zephir_check_call_status();
 	zephir_read_property(&_7, this_ptr, SL("logId"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_NVAR(&_5);

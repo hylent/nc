@@ -3,6 +3,7 @@ extern zend_class_entry *nc_mvc_contexthttp_ce;
 
 ZEPHIR_INIT_CLASS(Nc_Mvc_ContextHttp);
 
+PHP_METHOD(Nc_Mvc_ContextHttp, generateSessionId);
 PHP_METHOD(Nc_Mvc_ContextHttp, __construct);
 PHP_METHOD(Nc_Mvc_ContextHttp, getRoutingNames);
 PHP_METHOD(Nc_Mvc_ContextHttp, getRawInput);
@@ -23,6 +24,7 @@ PHP_METHOD(Nc_Mvc_ContextHttp, getHttpUserAgent);
 PHP_METHOD(Nc_Mvc_ContextHttp, getHttpReferer);
 PHP_METHOD(Nc_Mvc_ContextHttp, setDefaultCookieOptions);
 PHP_METHOD(Nc_Mvc_ContextHttp, getDefaultCookieOptions);
+PHP_METHOD(Nc_Mvc_ContextHttp, startSession);
 PHP_METHOD(Nc_Mvc_ContextHttp, status);
 PHP_METHOD(Nc_Mvc_ContextHttp, cookie);
 PHP_METHOD(Nc_Mvc_ContextHttp, header);
@@ -73,6 +75,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_mvc_contexthttp_setdefaultcookieoptions, 0, 0,
 	ZEND_ARG_ARRAY_INFO(0, options, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_mvc_contexthttp_startsession, 0, 0, 0)
+	ZEND_ARG_INFO(0, sessionIdGenerator)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_mvc_contexthttp_status, 0, 0, 1)
 	ZEND_ARG_INFO(0, status)
 ZEND_END_ARG_INFO()
@@ -97,6 +103,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_nc_mvc_contexthttp_sendfile, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(nc_mvc_contexthttp_method_entry) {
+	PHP_ME(Nc_Mvc_ContextHttp, generateSessionId, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Nc_Mvc_ContextHttp, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Nc_Mvc_ContextHttp, getRoutingNames, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Mvc_ContextHttp, getRawInput, NULL, ZEND_ACC_PUBLIC)
@@ -117,6 +124,7 @@ ZEPHIR_INIT_FUNCS(nc_mvc_contexthttp_method_entry) {
 	PHP_ME(Nc_Mvc_ContextHttp, getHttpReferer, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Mvc_ContextHttp, setDefaultCookieOptions, arginfo_nc_mvc_contexthttp_setdefaultcookieoptions, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Mvc_ContextHttp, getDefaultCookieOptions, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Nc_Mvc_ContextHttp, startSession, arginfo_nc_mvc_contexthttp_startsession, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Mvc_ContextHttp, status, arginfo_nc_mvc_contexthttp_status, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Mvc_ContextHttp, cookie, arginfo_nc_mvc_contexthttp_cookie, ZEND_ACC_PUBLIC)
 	PHP_ME(Nc_Mvc_ContextHttp, header, arginfo_nc_mvc_contexthttp_header, ZEND_ACC_PUBLIC)

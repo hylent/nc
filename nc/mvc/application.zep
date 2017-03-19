@@ -92,7 +92,17 @@ class Application
 
     public function onSwooleRequest(<\Swoole_Http_Request> req, <\Swoole_Http_Response> resp) -> void
     {
-        this->__invoke(new ContextHttpSwoole(req, resp));
+        var ex = null;
+
+        try {
+            this->__invoke(new ContextHttpSwoole(req, resp));
+        } catch \Exception, ex {
+            file_put_contents("php://stderr", ex . PHP_EOL);
+        }
+
+        if session_status() == PHP_SESSION_ACTIVE {
+            session_write_close();
+        }
     }
 
     protected function route(<ContextAbstract> context) -> string

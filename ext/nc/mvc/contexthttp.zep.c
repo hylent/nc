@@ -12,15 +12,16 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/object.h"
-#include "kernel/fcall.h"
 #include "kernel/memory.h"
+#include "kernel/time.h"
+#include "kernel/concat.h"
+#include "kernel/fcall.h"
+#include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/file.h"
 #include "kernel/operators.h"
 #include "kernel/exception.h"
 #include "kernel/hash.h"
-#include "kernel/concat.h"
 #include "kernel/string.h"
 
 
@@ -39,6 +40,43 @@ ZEPHIR_INIT_CLASS(Nc_Mvc_ContextHttp) {
 	zend_declare_property_null(nc_mvc_contexthttp_ce, SL("defaultCookieOptions"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
+
+}
+
+PHP_METHOD(Nc_Mvc_ContextHttp, generateSessionId) {
+
+	zval __$true, _0, _1, _2, _3, _4, _5, _6;
+	int ZEPHIR_LAST_CALL_STATUS;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_BOOL(&__$true, 1);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_6);
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_INIT_VAR(&_0);
+	zephir_time(&_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "mt_rand", NULL, 7);
+	zephir_check_call_status();
+	ZEPHIR_CALL_FUNCTION(&_2, "uniqid", NULL, 8, &_1, &__$true);
+	zephir_check_call_status();
+	ZEPHIR_CALL_FUNCTION(&_3, "php_uname", NULL, 18);
+	zephir_check_call_status();
+	ZEPHIR_INIT_VAR(&_4);
+	ZEPHIR_CONCAT_VV(&_4, &_2, &_3);
+	ZEPHIR_CALL_FUNCTION(&_5, "sha1", NULL, 9, &_4);
+	zephir_check_call_status();
+	ZEPHIR_INIT_VAR(&_6);
+	ZVAL_STRING(&_6, "%08x%s");
+	ZEPHIR_RETURN_CALL_FUNCTION("sprintf", NULL, 2, &_6, &_0, &_5);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 
@@ -118,7 +156,7 @@ PHP_METHOD(Nc_Mvc_ContextHttp, getParamMap) {
 
 	zephir_read_property(&_0, this_ptr, SL("queries"), PH_NOISY_CC | PH_READONLY);
 	zephir_read_property(&_1, this_ptr, SL("posts"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_FUNCTION("array_replace", NULL, 18, &_0, &_1);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_replace", NULL, 19, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -272,7 +310,7 @@ PHP_METHOD(Nc_Mvc_ContextHttp, newUploadedFile) {
 
 
 	object_init_ex(return_value, nc_mvc_uploadedfile_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 19, error, size, name, tmpName);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 20, error, size, name, tmpName);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -298,7 +336,7 @@ PHP_METHOD(Nc_Mvc_ContextHttp, hasUploadedFile) {
 
 	ZEPHIR_OBS_VAR(&error);
 	zephir_read_property(&_0, this_ptr, SL("files"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_1, &_0, &index, PH_READONLY, "nc/mvc/contexthttp.zep", 98 TSRMLS_CC);
+	zephir_array_fetch(&_1, &_0, &index, PH_READONLY, "nc/mvc/contexthttp.zep", 103 TSRMLS_CC);
 	_2 = zephir_array_isset_string_fetch(&error, &_1, SL("error"), 0);
 	if (_2) {
 		_2 = zephir_is_numeric(&error);
@@ -387,7 +425,7 @@ PHP_METHOD(Nc_Mvc_ContextHttp, getUploadedFile) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &_7, "__construct", NULL, 3, &_9);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_7, "nc/mvc/contexthttp.zep", 126 TSRMLS_CC);
+	zephir_throw_exception_debug(&_7, "nc/mvc/contexthttp.zep", 131 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -444,7 +482,7 @@ PHP_METHOD(Nc_Mvc_ContextHttp, getUploadedFiles) {
 	if (unlikely(_2)) {
 		RETURN_CCTOR(files);
 	}
-	zephir_is_iterable(&errors, 0, "nc/mvc/contexthttp.zep", 155);
+	zephir_is_iterable(&errors, 0, "nc/mvc/contexthttp.zep", 160);
 	ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&errors), _4, _5, _3)
 	{
 		ZEPHIR_INIT_NVAR(&i);
@@ -456,7 +494,7 @@ PHP_METHOD(Nc_Mvc_ContextHttp, getUploadedFiles) {
 		ZEPHIR_INIT_NVAR(&error);
 		ZVAL_COPY(&error, _3);
 		ZEPHIR_OBS_NVAR(&size);
-		zephir_array_fetch_string(&_6$$5, &a, SL("size"), PH_READONLY, "nc/mvc/contexthttp.zep", 142 TSRMLS_CC);
+		zephir_array_fetch_string(&_6$$5, &a, SL("size"), PH_READONLY, "nc/mvc/contexthttp.zep", 147 TSRMLS_CC);
 		_7$$5 = !(zephir_array_isset_fetch(&size, &_6$$5, &i, 0 TSRMLS_CC));
 		if (!(_7$$5)) {
 			_7$$5 = Z_TYPE_P(&size) != IS_LONG;
@@ -465,7 +503,7 @@ PHP_METHOD(Nc_Mvc_ContextHttp, getUploadedFiles) {
 			continue;
 		}
 		ZEPHIR_OBS_NVAR(&name);
-		zephir_array_fetch_string(&_8$$5, &a, SL("name"), PH_READONLY, "nc/mvc/contexthttp.zep", 145 TSRMLS_CC);
+		zephir_array_fetch_string(&_8$$5, &a, SL("name"), PH_READONLY, "nc/mvc/contexthttp.zep", 150 TSRMLS_CC);
 		_9$$5 = !(zephir_array_isset_fetch(&name, &_8$$5, &i, 0 TSRMLS_CC));
 		if (!(_9$$5)) {
 			_9$$5 = Z_TYPE_P(&name) != IS_STRING;
@@ -474,7 +512,7 @@ PHP_METHOD(Nc_Mvc_ContextHttp, getUploadedFiles) {
 			continue;
 		}
 		ZEPHIR_OBS_NVAR(&tmpName);
-		zephir_array_fetch_string(&_10$$5, &a, SL("tmp_name"), PH_READONLY, "nc/mvc/contexthttp.zep", 148 TSRMLS_CC);
+		zephir_array_fetch_string(&_10$$5, &a, SL("tmp_name"), PH_READONLY, "nc/mvc/contexthttp.zep", 153 TSRMLS_CC);
 		_11$$5 = !(zephir_array_isset_fetch(&tmpName, &_10$$5, &i, 0 TSRMLS_CC));
 		if (!(_11$$5)) {
 			_11$$5 = Z_TYPE_P(&tmpName) != IS_STRING;
@@ -669,14 +707,59 @@ PHP_METHOD(Nc_Mvc_ContextHttp, getDefaultCookieOptions) {
 	if (Z_TYPE_P(&_0) == IS_NULL) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		zephir_create_array(&_1$$3, 5, 0 TSRMLS_CC);
-		add_assoc_long_ex(&_1$$3, SL("expire"), 0);
+		add_assoc_long_ex(&_1$$3, SL("lifetime"), 0);
 		add_assoc_stringl_ex(&_1$$3, SL("path"), SL("/"));
 		add_assoc_stringl_ex(&_1$$3, SL("domain"), SL(""));
 		zephir_array_update_string(&_1$$3, SL("secure"), &__$false, PH_COPY | PH_SEPARATE);
-		zephir_array_update_string(&_1$$3, SL("httpOnly"), &__$false, PH_COPY | PH_SEPARATE);
+		zephir_array_update_string(&_1$$3, SL("httponly"), &__$false, PH_COPY | PH_SEPARATE);
 		zephir_update_property_zval(this_ptr, SL("defaultCookieOptions"), &_1$$3);
 	}
 	RETURN_MM_MEMBER(this_ptr, "defaultCookieOptions");
+
+}
+
+PHP_METHOD(Nc_Mvc_ContextHttp, startSession) {
+
+	zval _1$$3;
+	zephir_fcall_cache_entry *_2 = NULL, *_3 = NULL;
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *sessionIdGenerator = NULL, sessionIdGenerator_sub, __$null, id, _0$$3;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&sessionIdGenerator_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&id);
+	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&_1$$3);
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &sessionIdGenerator);
+
+	if (!sessionIdGenerator) {
+		sessionIdGenerator = &sessionIdGenerator_sub;
+		sessionIdGenerator = &__$null;
+	}
+
+
+	if (Z_TYPE_P(sessionIdGenerator) != IS_NULL) {
+		ZEPHIR_INIT_VAR(&_0$$3);
+		ZEPHIR_CALL_USER_FUNC(&_0$$3, sessionIdGenerator);
+		zephir_check_call_status();
+		zephir_get_strval(&_1$$3, &_0$$3);
+		ZEPHIR_CPY_WRT(&id, &_1$$3);
+		if (zephir_fast_strlen_ev(&id) > 0) {
+			ZEPHIR_CALL_FUNCTION(NULL, "session_id", &_2, 21, &id);
+			zephir_check_call_status();
+			ZEPHIR_CALL_FUNCTION(NULL, "session_start", &_3, 22);
+			zephir_check_call_status();
+			RETURN_CCTOR(id);
+		}
+	}
+	ZEPHIR_CALL_FUNCTION(NULL, "session_start", &_3, 22);
+	zephir_check_call_status();
+	ZEPHIR_RETURN_CALL_FUNCTION("session_id", &_2, 21);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 
@@ -696,7 +779,7 @@ PHP_METHOD(Nc_Mvc_ContextHttp, status) {
 
 
 	ZVAL_LONG(&_0, status);
-	ZEPHIR_CALL_FUNCTION(NULL, "http_response_code", NULL, 20, &_0);
+	ZEPHIR_CALL_FUNCTION(NULL, "http_response_code", NULL, 23, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -738,12 +821,12 @@ PHP_METHOD(Nc_Mvc_ContextHttp, cookie) {
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&a);
 	zephir_fast_array_merge(&a, &_0, &options TSRMLS_CC);
-	zephir_array_fetch_string(&_1, &a, SL("expire"), PH_NOISY | PH_READONLY, "nc/mvc/contexthttp.zep", 218 TSRMLS_CC);
-	zephir_array_fetch_string(&_2, &a, SL("path"), PH_NOISY | PH_READONLY, "nc/mvc/contexthttp.zep", 218 TSRMLS_CC);
-	zephir_array_fetch_string(&_3, &a, SL("domain"), PH_NOISY | PH_READONLY, "nc/mvc/contexthttp.zep", 218 TSRMLS_CC);
-	zephir_array_fetch_string(&_4, &a, SL("secure"), PH_NOISY | PH_READONLY, "nc/mvc/contexthttp.zep", 218 TSRMLS_CC);
-	zephir_array_fetch_string(&_5, &a, SL("httpOnly"), PH_NOISY | PH_READONLY, "nc/mvc/contexthttp.zep", 218 TSRMLS_CC);
-	ZEPHIR_CALL_FUNCTION(NULL, "setcookie", NULL, 21, &name, &value, &_1, &_2, &_3, &_4, &_5);
+	zephir_array_fetch_string(&_1, &a, SL("lifetime"), PH_NOISY | PH_READONLY, "nc/mvc/contexthttp.zep", 240 TSRMLS_CC);
+	zephir_array_fetch_string(&_2, &a, SL("path"), PH_NOISY | PH_READONLY, "nc/mvc/contexthttp.zep", 240 TSRMLS_CC);
+	zephir_array_fetch_string(&_3, &a, SL("domain"), PH_NOISY | PH_READONLY, "nc/mvc/contexthttp.zep", 240 TSRMLS_CC);
+	zephir_array_fetch_string(&_4, &a, SL("secure"), PH_NOISY | PH_READONLY, "nc/mvc/contexthttp.zep", 240 TSRMLS_CC);
+	zephir_array_fetch_string(&_5, &a, SL("httponly"), PH_NOISY | PH_READONLY, "nc/mvc/contexthttp.zep", 240 TSRMLS_CC);
+	ZEPHIR_CALL_FUNCTION(NULL, "setcookie", NULL, 24, &name, &value, &_1, &_2, &_3, &_4, &_5);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -769,7 +852,7 @@ PHP_METHOD(Nc_Mvc_ContextHttp, header) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CONCAT_VSV(&_0, &name, ": ", &value);
-	ZEPHIR_CALL_FUNCTION(NULL, "header", NULL, 22, &_0);
+	ZEPHIR_CALL_FUNCTION(NULL, "header", NULL, 25, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -814,7 +897,7 @@ PHP_METHOD(Nc_Mvc_ContextHttp, sendFile) {
 	zephir_get_strval(&path, path_param);
 
 
-	ZEPHIR_CALL_FUNCTION(NULL, "readfile", NULL, 23, &path);
+	ZEPHIR_CALL_FUNCTION(NULL, "readfile", NULL, 26, &path);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -862,7 +945,7 @@ PHP_METHOD(Nc_Mvc_ContextHttp, initArgVectorFromRequestUri) {
 	ZEPHIR_INIT_VAR(&_6);
 	ZVAL_STRING(&_6, "#/+#");
 	ZVAL_LONG(&_7, 1);
-	ZEPHIR_CALL_FUNCTION(&_8, "preg_split", NULL, 24, &_6, &uri, &__$null, &_7);
+	ZEPHIR_CALL_FUNCTION(&_8, "preg_split", NULL, 27, &_6, &uri, &__$null, &_7);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("argVector"), &_8);
 	ZEPHIR_MM_RESTORE();

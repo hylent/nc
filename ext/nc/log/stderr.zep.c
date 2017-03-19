@@ -48,7 +48,7 @@ PHP_METHOD(Nc_Log_StdErr, __construct) {
 	ZVAL_STRING(&_0, "php://stderr");
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "w");
-	ZEPHIR_CALL_FUNCTION(&_2, "fopen", NULL, 96, &_0, &_1);
+	ZEPHIR_CALL_FUNCTION(&_2, "fopen", NULL, 99, &_0, &_1);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("fp"), &_2);
 	ZEPHIR_MM_RESTORE();

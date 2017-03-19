@@ -77,13 +77,13 @@ PHP_METHOD(Nc_Di_Injector, __isset) {
 	}
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, ".");
-	ZEPHIR_CALL_FUNCTION(&pos, "strrpos", NULL, 54, &name, &_2);
+	ZEPHIR_CALL_FUNCTION(&pos, "strrpos", NULL, 57, &name, &_2);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_FALSE_IDENTICAL(&pos)) {
 		ZVAL_LONG(&_3$$5, 0);
 		ZEPHIR_INIT_VAR(&containerName);
 		zephir_substr(&containerName, &name, 0 , zephir_get_intval(&pos), 0);
-		ZEPHIR_CALL_METHOD(&_4$$5, this_ptr, "__isset", NULL, 55, &containerName);
+		ZEPHIR_CALL_METHOD(&_4$$5, this_ptr, "__isset", NULL, 58, &containerName);
 		zephir_check_call_status();
 		if (zephir_is_true(&_4$$5)) {
 			ZEPHIR_CALL_METHOD(&container, this_ptr, "__get", NULL, 0, &containerName);
@@ -168,7 +168,7 @@ PHP_METHOD(Nc_Di_Injector, __get) {
 		ZEPHIR_OBS_NVAR(&delegate);
 		zephir_read_property(&_6$$5, this_ptr, SL("delegates"), PH_NOISY_CC | PH_READONLY);
 		if (zephir_array_isset_fetch(&delegate, &_6$$5, &name, 0 TSRMLS_CC)) {
-			ZEPHIR_CALL_FUNCTION(&obj, "call_user_func", &_7, 56, &delegate, this_ptr, &name);
+			ZEPHIR_CALL_FUNCTION(&obj, "call_user_func", &_7, 59, &delegate, this_ptr, &name);
 			zephir_check_call_status();
 			_8$$6 = Z_TYPE_P(&obj) == IS_OBJECT;
 			if (_8$$6) {
@@ -182,13 +182,13 @@ PHP_METHOD(Nc_Di_Injector, __get) {
 		}
 		ZEPHIR_INIT_NVAR(&_9$$5);
 		ZVAL_STRING(&_9$$5, ".");
-		ZEPHIR_CALL_FUNCTION(&pos, "strrpos", &_10, 54, &name, &_9$$5);
+		ZEPHIR_CALL_FUNCTION(&pos, "strrpos", &_10, 57, &name, &_9$$5);
 		zephir_check_call_status();
 		if (!ZEPHIR_IS_FALSE_IDENTICAL(&pos)) {
 			ZVAL_LONG(&_11$$8, 0);
 			ZEPHIR_INIT_NVAR(&containerName);
 			zephir_substr(&containerName, &name, 0 , zephir_get_intval(&pos), 0);
-			ZEPHIR_CALL_METHOD(&container, this_ptr, "__get", &_12, 57, &containerName);
+			ZEPHIR_CALL_METHOD(&container, this_ptr, "__get", &_12, 60, &containerName);
 			zephir_check_call_status();
 			_13$$8 = Z_TYPE_P(&container) == IS_OBJECT;
 			if (_13$$8) {
@@ -350,7 +350,7 @@ PHP_METHOD(Nc_Di_Injector, __invoke) {
 	object_init_ex(&refClass, zephir_get_internal_ce(SL("reflectionclass")));
 	ZEPHIR_CALL_METHOD(NULL, &refClass, "__construct", NULL, 14, &className);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_5, &refClass, "isinstantiable", NULL, 58);
+	ZEPHIR_CALL_METHOD(&_5, &refClass, "isinstantiable", NULL, 61);
 	zephir_check_call_status();
 	if (unlikely(!zephir_is_true(&_5))) {
 		ZEPHIR_INIT_VAR(&_6$$4);
@@ -383,11 +383,11 @@ PHP_METHOD(Nc_Di_Injector, __invoke) {
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		ZEPHIR_CALL_METHOD(&_13$$5, &refClass, "issubclassof", NULL, 59, &type);
+		ZEPHIR_CALL_METHOD(&_13$$5, &refClass, "issubclassof", NULL, 62, &type);
 		zephir_check_call_status();
 		_14$$5 = !zephir_is_true(&_13$$5);
 		if (_14$$5) {
-			ZEPHIR_CALL_FUNCTION(&_15$$5, "strcasecmp", NULL, 60, &className, &type);
+			ZEPHIR_CALL_FUNCTION(&_15$$5, "strcasecmp", NULL, 63, &className, &type);
 			zephir_check_call_status();
 			_14$$5 = !ZEPHIR_IS_LONG(&_15$$5, 0);
 		}
@@ -408,7 +408,7 @@ PHP_METHOD(Nc_Di_Injector, __invoke) {
 	ZEPHIR_CALL_METHOD(&obj, &refClass, "newinstancewithoutconstructor", NULL, 15);
 	zephir_check_call_status();
 	if (zephir_instance_of_ev(&obj, nc_di_injectedpropertyinterface_ce TSRMLS_CC)) {
-		ZEPHIR_CALL_METHOD(&_19$$8, &refClass, "getproperties", NULL, 61);
+		ZEPHIR_CALL_METHOD(&_19$$8, &refClass, "getproperties", NULL, 64);
 		zephir_check_call_status();
 		zephir_is_iterable(&_19$$8, 0, "nc/di/injector.zep", 136);
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_19$$8), _20$$8)
@@ -444,12 +444,12 @@ PHP_METHOD(Nc_Di_Injector, __invoke) {
 	}
 	ZEPHIR_INIT_VAR(&_28);
 	ZVAL_STRING(&_28, "__construct");
-	ZEPHIR_CALL_METHOD(&_27, &refClass, "hasmethod", NULL, 62, &_28);
+	ZEPHIR_CALL_METHOD(&_27, &refClass, "hasmethod", NULL, 65, &_28);
 	zephir_check_call_status();
 	if (zephir_is_true(&_27)) {
 		ZEPHIR_INIT_VAR(&_29$$14);
 		ZVAL_STRING(&_29$$14, "__construct");
-		ZEPHIR_CALL_METHOD(&refCtor, &refClass, "getmethod", NULL, 63, &_29$$14);
+		ZEPHIR_CALL_METHOD(&refCtor, &refClass, "getmethod", NULL, 66, &_29$$14);
 		zephir_check_call_status();
 		if (zephir_instance_of_ev(&obj, nc_di_injectedctorparamsinterface_ce TSRMLS_CC)) {
 			ZEPHIR_CALL_METHOD(&_30$$15, &refCtor, "getdoccomment", NULL, 0);
@@ -583,7 +583,7 @@ PHP_METHOD(Nc_Di_Injector, setClassMapper) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, nc_di_creatorclassmapper_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 64, &classMapper);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 67, &classMapper);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "__set", NULL, 0, &name, &_0);
 	zephir_check_call_status();
@@ -611,7 +611,7 @@ PHP_METHOD(Nc_Di_Injector, setClassPrefix) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, nc_di_creatorclassprefix_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 53, &prefix);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 56, &prefix);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "__set", NULL, 0, &name, &_0);
 	zephir_check_call_status();
@@ -639,7 +639,7 @@ PHP_METHOD(Nc_Di_Injector, setClassNamespace) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, nc_di_creatorclassnamespace_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 65, &ns);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 68, &ns);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "__set", NULL, 0, &name, &_0);
 	zephir_check_call_status();
@@ -759,7 +759,7 @@ PHP_METHOD(Nc_Di_Injector, resolveAll) {
 	ZVAL_STRING(&_0, "/^[ \\t]*\\*[ \\t]*@@[ \\t]*(\\S*)[ \\t]*(\\S*)[ \\t]*$/m");
 	ZVAL_LONG(&_1, 2);
 	ZEPHIR_MAKE_REF(&mVec);
-	ZEPHIR_CALL_FUNCTION(&_2, "preg_match_all", NULL, 66, &_0, &annotation, &mVec, &_1);
+	ZEPHIR_CALL_FUNCTION(&_2, "preg_match_all", NULL, 69, &_0, &annotation, &mVec, &_1);
 	ZEPHIR_UNREF(&mVec);
 	zephir_check_call_status();
 	if (zephir_is_true(&_2)) {

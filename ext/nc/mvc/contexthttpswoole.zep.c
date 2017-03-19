@@ -73,7 +73,7 @@ PHP_METHOD(Nc_Mvc_ContextHttpSwoole, __construct) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "swoole");
-	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 25, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 28, &_0);
 	zephir_check_call_status();
 	if (unlikely(!zephir_is_true(&_1))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_mvc_exception_ce, "ExtensionMissing swoole", "nc/mvc/contexthttpswoole.zep", 13);
@@ -132,7 +132,7 @@ PHP_METHOD(Nc_Mvc_ContextHttpSwoole, __construct) {
 			ZVAL_STRING(&_13$$7, "-");
 			ZEPHIR_INIT_NVAR(&_14$$7);
 			ZVAL_STRING(&_14$$7, "_");
-			ZEPHIR_CALL_FUNCTION(&_15$$7, "strtr", &_16, 94, &k, &_13$$7, &_14$$7);
+			ZEPHIR_CALL_FUNCTION(&_15$$7, "strtr", &_16, 97, &k, &_13$$7, &_14$$7);
 			zephir_check_call_status();
 			zephir_fast_strtoupper(&_12$$7, &_15$$7);
 			ZEPHIR_INIT_LNVAR(_17$$7);
@@ -251,6 +251,59 @@ PHP_METHOD(Nc_Mvc_ContextHttpSwoole, getRawInput) {
 
 }
 
+PHP_METHOD(Nc_Mvc_ContextHttpSwoole, startSession) {
+
+	zval _1$$4;
+	int ZEPHIR_LAST_CALL_STATUS;
+	zval *sessionIdGenerator = NULL, sessionIdGenerator_sub, __$null, sessName, id, _0$$4, _2$$3;
+	ZEPHIR_INIT_THIS();
+
+	ZVAL_UNDEF(&sessionIdGenerator_sub);
+	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&sessName);
+	ZVAL_UNDEF(&id);
+	ZVAL_UNDEF(&_0$$4);
+	ZVAL_UNDEF(&_2$$3);
+	ZVAL_UNDEF(&_1$$4);
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &sessionIdGenerator);
+
+	if (!sessionIdGenerator) {
+		sessionIdGenerator = &sessionIdGenerator_sub;
+		sessionIdGenerator = &__$null;
+	}
+
+
+	ZEPHIR_CALL_FUNCTION(&sessName, "session_name", NULL, 112);
+	zephir_check_call_status();
+	ZEPHIR_CALL_METHOD(&id, this_ptr, "getcookie", NULL, 0, &sessName);
+	zephir_check_call_status();
+	if (Z_TYPE_P(&id) == IS_NULL) {
+		if (Z_TYPE_P(sessionIdGenerator) != IS_NULL) {
+			ZEPHIR_INIT_VAR(&_0$$4);
+			ZEPHIR_CALL_USER_FUNC(&_0$$4, sessionIdGenerator);
+			zephir_check_call_status();
+			zephir_get_strval(&_1$$4, &_0$$4);
+			ZEPHIR_CPY_WRT(&id, &_1$$4);
+		}
+		if (zephir_fast_strlen_ev(&id) < 1) {
+			ZEPHIR_CALL_SELF(&id, "generatesessionid", NULL, 0);
+			zephir_check_call_status();
+		}
+		ZEPHIR_CALL_FUNCTION(&_2$$3, "session_get_cookie_params", NULL, 113);
+		zephir_check_call_status();
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "cookie", NULL, 0, &sessName, &id, &_2$$3);
+		zephir_check_call_status();
+	}
+	ZEPHIR_CALL_FUNCTION(NULL, "session_id", NULL, 21, &id);
+	zephir_check_call_status();
+	ZEPHIR_CALL_FUNCTION(NULL, "session_start", NULL, 22);
+	zephir_check_call_status();
+	RETURN_CCTOR(id);
+
+}
+
 PHP_METHOD(Nc_Mvc_ContextHttpSwoole, status) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
@@ -313,11 +366,11 @@ PHP_METHOD(Nc_Mvc_ContextHttpSwoole, cookie) {
 	ZEPHIR_INIT_VAR(&a);
 	zephir_fast_array_merge(&a, &_0, &options TSRMLS_CC);
 	zephir_read_property(&_1, this_ptr, SL("swooleResponse"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch_string(&_2, &a, SL("expire"), PH_NOISY | PH_READONLY, "nc/mvc/contexthttpswoole.zep", 90 TSRMLS_CC);
-	zephir_array_fetch_string(&_3, &a, SL("path"), PH_NOISY | PH_READONLY, "nc/mvc/contexthttpswoole.zep", 90 TSRMLS_CC);
-	zephir_array_fetch_string(&_4, &a, SL("domain"), PH_NOISY | PH_READONLY, "nc/mvc/contexthttpswoole.zep", 90 TSRMLS_CC);
-	zephir_array_fetch_string(&_5, &a, SL("secure"), PH_NOISY | PH_READONLY, "nc/mvc/contexthttpswoole.zep", 90 TSRMLS_CC);
-	zephir_array_fetch_string(&_6, &a, SL("httpOnly"), PH_NOISY | PH_READONLY, "nc/mvc/contexthttpswoole.zep", 90 TSRMLS_CC);
+	zephir_array_fetch_string(&_2, &a, SL("lifetime"), PH_NOISY | PH_READONLY, "nc/mvc/contexthttpswoole.zep", 113 TSRMLS_CC);
+	zephir_array_fetch_string(&_3, &a, SL("path"), PH_NOISY | PH_READONLY, "nc/mvc/contexthttpswoole.zep", 113 TSRMLS_CC);
+	zephir_array_fetch_string(&_4, &a, SL("domain"), PH_NOISY | PH_READONLY, "nc/mvc/contexthttpswoole.zep", 113 TSRMLS_CC);
+	zephir_array_fetch_string(&_5, &a, SL("secure"), PH_NOISY | PH_READONLY, "nc/mvc/contexthttpswoole.zep", 113 TSRMLS_CC);
+	zephir_array_fetch_string(&_6, &a, SL("httponly"), PH_NOISY | PH_READONLY, "nc/mvc/contexthttpswoole.zep", 113 TSRMLS_CC);
 	ZEPHIR_CALL_METHOD(NULL, &_1, "cookie", NULL, 0, &name, &value, &_2, &_3, &_4, &_5, &_6);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

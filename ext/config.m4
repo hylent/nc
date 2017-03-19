@@ -73,6 +73,8 @@ if test "$PHP_NC" = "yes"; then
 	nc/mvc/controllercliswoole.zep.c
 	nc/mvc/controllerdefault.zep.c
 	nc/mvc/exception.zep.c
+	nc/mvc/sessionautogcsavehandler.zep.c
+	nc/mvc/sessionautogcstorageinterface.zep.c
 	nc/mvc/uploadedfile.zep.c
 	nc/netutils/smtp.zep.c
 	nc/netutils/smtpexception.zep.c

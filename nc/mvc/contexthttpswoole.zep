@@ -77,6 +77,29 @@ class ContextHttpSwoole extends ContextHttp
         return this->swooleRequest->rawContent();
     }
 
+    public function startSession(var sessionIdGenerator = null) -> string
+    {
+        var sessName, id;
+
+        let sessName = session_name();
+        let id = this->getCookie(sessName);
+
+        if id === null {
+            if sessionIdGenerator !== null {
+                let id = (string) call_user_func(sessionIdGenerator);
+            }
+            if strlen(id) < 1 {
+                let id = self::generateSessionId();
+            }
+            this->cookie(sessName, id, session_get_cookie_params());
+        }
+
+        session_id(id);
+        session_start();
+
+        return id;
+    }
+
     public function status(long status) -> void
     {
         this->swooleResponse->status(status);
@@ -87,7 +110,7 @@ class ContextHttpSwoole extends ContextHttp
         var a;
 
         let a = array_merge(this->getDefaultCookieOptions(), options);
-        this->swooleResponse->cookie(name, value, a["expire"], a["path"], a["domain"], a["secure"], a["httpOnly"]);
+        this->swooleResponse->cookie(name, value, a["lifetime"], a["path"], a["domain"], a["secure"], a["httponly"]);
     }
 
     public function header(string name, string value) -> void

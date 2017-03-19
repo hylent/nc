@@ -85,7 +85,7 @@ PHP_METHOD(Nc_Db_Pdo, __construct) {
 	ZVAL_NULL(&ex);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "pdo");
-	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 25, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 28, &_0);
 	zephir_check_call_status();
 	if (unlikely(!zephir_is_true(&_1))) {
 		ZEPHIR_INIT_VAR(&_2$$3);

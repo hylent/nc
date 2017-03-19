@@ -9,6 +9,11 @@ class ContextHttp extends ContextAbstract
 
     protected defaultCookieOptions;
 
+    public static function generateSessionId() -> string
+    {
+        return sprintf("%08x%s", time(), sha1(uniqid(mt_rand(), true) . php_uname()));
+    }
+
     public function __construct() -> void
     {
         let this->serverVars = _SERVER;
@@ -194,15 +199,32 @@ class ContextHttp extends ContextAbstract
     {
         if this->defaultCookieOptions === null {
             let this->defaultCookieOptions = [
-                "expire"    : 0,
+                "lifetime"  : 0,
                 "path"      : "/",
                 "domain"    : "",
                 "secure"    : false,
-                "httpOnly"  : false
+                "httponly"  : false
             ];
         }
 
         return this->defaultCookieOptions;
+    }
+
+    public function startSession(var sessionIdGenerator = null) -> string
+    {
+        var id;
+
+        if sessionIdGenerator !== null {
+            let id = (string) call_user_func(sessionIdGenerator);
+            if strlen(id) > 0 {
+                session_id(id);
+                session_start();
+                return id;
+            }
+        }
+
+        session_start();
+        return session_id();
     }
 
     public function status(long status) -> void
@@ -215,7 +237,7 @@ class ContextHttp extends ContextAbstract
         var a;
 
         let a = array_merge(this->getDefaultCookieOptions(), options);
-        setcookie(name, value, a["expire"], a["path"], a["domain"], a["secure"], a["httpOnly"]);
+        setcookie(name, value, a["lifetime"], a["path"], a["domain"], a["secure"], a["httponly"]);
     }
 
     public function header(string name, string value) -> void
