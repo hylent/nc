@@ -3,8 +3,8 @@
 REMOTE='root@s1'
 REMOTE_DIR='/opt/nc'
 
-main:
+gen:
 	git commit -am "Debug"
 	git push
-	ssh $(REMOTE) 'cd '$(REMOTE_DIR)' && sh generate-ext.sh'
+	ssh $(REMOTE) 'cd '$(REMOTE_DIR)' && git pull && rm -rf ext && zephir generate && git add --all . && git commit -m "Generate ext" && git push'
 	git pull
