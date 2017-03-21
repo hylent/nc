@@ -277,8 +277,8 @@ PHP_METHOD(Nc_Di_Injector, __invoke) {
 
 	zend_bool _0, _9$$5, _14$$5;
 	int ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_4 = NULL, *_26 = NULL;
-	zval *className_param = NULL, *type_param = NULL, refClass, obj, refProperty, resolvedValue, refCtor, params, _5, _27, _28, _1$$3, _2$$3, _3$$3, _6$$4, _7$$4, _8$$4, _13$$5, _15$$5, _10$$6, _11$$6, _12$$6, _16$$7, _17$$7, _18$$7, _19$$8, *_20$$8, _21$$9, _22$$9, _24$$9, _23$$11, _25$$12, _29$$14, _31$$14, _30$$15;
+	zephir_fcall_cache_entry *_4 = NULL, *_25 = NULL;
+	zval *className_param = NULL, *type_param = NULL, refClass, obj, refProperty, resolvedValue, refCtor, params, _5, _26, _27, _1$$3, _2$$3, _3$$3, _6$$4, _7$$4, _8$$4, _13$$5, _15$$5, _10$$6, _11$$6, _12$$6, _16$$7, _17$$7, _18$$7, _19$$8, *_20$$8, _21$$9, _22$$9, _24$$9, _23$$11, _28$$13, _30$$13, _29$$14;
 	zval className, type;
 	ZEPHIR_INIT_THIS();
 
@@ -291,8 +291,8 @@ PHP_METHOD(Nc_Di_Injector, __invoke) {
 	ZVAL_UNDEF(&refCtor);
 	ZVAL_UNDEF(&params);
 	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_26);
 	ZVAL_UNDEF(&_27);
-	ZVAL_UNDEF(&_28);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_3$$3);
@@ -312,10 +312,9 @@ PHP_METHOD(Nc_Di_Injector, __invoke) {
 	ZVAL_UNDEF(&_22$$9);
 	ZVAL_UNDEF(&_24$$9);
 	ZVAL_UNDEF(&_23$$11);
-	ZVAL_UNDEF(&_25$$12);
+	ZVAL_UNDEF(&_28$$13);
+	ZVAL_UNDEF(&_30$$13);
 	ZVAL_UNDEF(&_29$$14);
-	ZVAL_UNDEF(&_31$$14);
-	ZVAL_UNDEF(&_30$$15);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &className_param, &type_param);
@@ -410,7 +409,7 @@ PHP_METHOD(Nc_Di_Injector, __invoke) {
 	if (zephir_instance_of_ev(&obj, nc_di_injectedpropertyinterface_ce TSRMLS_CC)) {
 		ZEPHIR_CALL_METHOD(&_19$$8, &refClass, "getproperties", NULL, 64);
 		zephir_check_call_status();
-		zephir_is_iterable(&_19$$8, 0, "nc/di/injector.zep", 136);
+		zephir_is_iterable(&_19$$8, 0, "nc/di/injector.zep", 134);
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_19$$8), _20$$8)
 		{
 			ZEPHIR_INIT_NVAR(&refProperty);
@@ -427,43 +426,39 @@ PHP_METHOD(Nc_Di_Injector, __invoke) {
 				ZEPHIR_CALL_METHOD(NULL, &refProperty, "setaccessible", NULL, 0, &_23$$11);
 				zephir_check_call_status();
 			}
-			ZEPHIR_CALL_METHOD(&_24$$9, &refProperty, "getvalue", NULL, 0, &obj);
+			ZEPHIR_CALL_METHOD(&_24$$9, &refProperty, "getdoccomment", NULL, 0);
 			zephir_check_call_status();
-			if (Z_TYPE_P(&_24$$9) == IS_NULL) {
-				ZEPHIR_CALL_METHOD(&_25$$12, &refProperty, "getdoccomment", NULL, 0);
+			ZEPHIR_CALL_METHOD(&resolvedValue, this_ptr, "resolvefirst", &_25, 0, &_24$$9);
+			zephir_check_call_status();
+			if (Z_TYPE_P(&resolvedValue) != IS_NULL) {
+				ZEPHIR_CALL_METHOD(NULL, &refProperty, "setvalue", NULL, 0, &obj, &resolvedValue);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&resolvedValue, this_ptr, "resolvefirst", &_26, 0, &_25$$12);
-				zephir_check_call_status();
-				if (Z_TYPE_P(&resolvedValue) != IS_NULL) {
-					ZEPHIR_CALL_METHOD(NULL, &refProperty, "setvalue", NULL, 0, &obj, &resolvedValue);
-					zephir_check_call_status();
-				}
 			}
 		} ZEND_HASH_FOREACH_END();
 		ZEPHIR_INIT_NVAR(&refProperty);
 	}
-	ZEPHIR_INIT_VAR(&_28);
-	ZVAL_STRING(&_28, "__construct");
-	ZEPHIR_CALL_METHOD(&_27, &refClass, "hasmethod", NULL, 65, &_28);
+	ZEPHIR_INIT_VAR(&_27);
+	ZVAL_STRING(&_27, "__construct");
+	ZEPHIR_CALL_METHOD(&_26, &refClass, "hasmethod", NULL, 65, &_27);
 	zephir_check_call_status();
-	if (zephir_is_true(&_27)) {
-		ZEPHIR_INIT_VAR(&_29$$14);
-		ZVAL_STRING(&_29$$14, "__construct");
-		ZEPHIR_CALL_METHOD(&refCtor, &refClass, "getmethod", NULL, 66, &_29$$14);
+	if (zephir_is_true(&_26)) {
+		ZEPHIR_INIT_VAR(&_28$$13);
+		ZVAL_STRING(&_28$$13, "__construct");
+		ZEPHIR_CALL_METHOD(&refCtor, &refClass, "getmethod", NULL, 66, &_28$$13);
 		zephir_check_call_status();
 		if (zephir_instance_of_ev(&obj, nc_di_injectedctorparamsinterface_ce TSRMLS_CC)) {
-			ZEPHIR_CALL_METHOD(&_30$$15, &refCtor, "getdoccomment", NULL, 0);
+			ZEPHIR_CALL_METHOD(&_29$$14, &refCtor, "getdoccomment", NULL, 0);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&params, this_ptr, "resolveall", NULL, 0, &_30$$15);
+			ZEPHIR_CALL_METHOD(&params, this_ptr, "resolveall", NULL, 0, &_29$$14);
 			zephir_check_call_status();
 		} else {
 			ZEPHIR_INIT_NVAR(&params);
 			array_init(&params);
 		}
-		ZEPHIR_CALL_METHOD(&_31$$14, &refCtor, "getnumberofrequiredparameters", NULL, 0);
+		ZEPHIR_CALL_METHOD(&_30$$13, &refCtor, "getnumberofrequiredparameters", NULL, 0);
 		zephir_check_call_status();
-		if (unlikely(ZEPHIR_GT_LONG(&_31$$14, zephir_fast_count_int(&params TSRMLS_CC)))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_di_exception_ce, "MissingRequiredParam", "nc/di/injector.zep", 146);
+		if (unlikely(ZEPHIR_GT_LONG(&_30$$13, zephir_fast_count_int(&params TSRMLS_CC)))) {
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_di_exception_ce, "MissingRequiredParam", "nc/di/injector.zep", 144);
 			return;
 		}
 		ZEPHIR_CALL_METHOD(NULL, &refCtor, "invokeargs", NULL, 0, &obj, &params);
@@ -684,11 +679,11 @@ PHP_METHOD(Nc_Di_Injector, resolveFirst) {
 		RETURN_MM_NULL();
 	}
 	ZEPHIR_OBS_VAR(&_2);
-	zephir_array_fetch_long(&_2, &m, 1, PH_NOISY, "nc/di/injector.zep", 205 TSRMLS_CC);
+	zephir_array_fetch_long(&_2, &m, 1, PH_NOISY, "nc/di/injector.zep", 203 TSRMLS_CC);
 	zephir_get_strval(&_3, &_2);
 	ZEPHIR_CPY_WRT(&m1, &_3);
 	ZEPHIR_OBS_VAR(&_4);
-	zephir_array_fetch_long(&_4, &m, 2, PH_NOISY, "nc/di/injector.zep", 206 TSRMLS_CC);
+	zephir_array_fetch_long(&_4, &m, 2, PH_NOISY, "nc/di/injector.zep", 204 TSRMLS_CC);
 	zephir_get_strval(&_5, &_4);
 	ZEPHIR_CPY_WRT(&m2, &_5);
 	if (ZEPHIR_IS_STRING_IDENTICAL(&m1, "")) {
@@ -704,7 +699,7 @@ PHP_METHOD(Nc_Di_Injector, resolveFirst) {
 		_6 = !((zephir_instance_of_ev(&obj, nc_di_containerinterface_ce TSRMLS_CC)));
 	}
 	if (_6) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_di_exception_ce, "InvalidContainer", "nc/di/injector.zep", 218);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_di_exception_ce, "InvalidContainer", "nc/di/injector.zep", 216);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&_7, &obj, "__isset", NULL, 0, &m2);
@@ -763,27 +758,27 @@ PHP_METHOD(Nc_Di_Injector, resolveAll) {
 	ZEPHIR_UNREF(&mVec);
 	zephir_check_call_status();
 	if (zephir_is_true(&_2)) {
-		zephir_is_iterable(&mVec, 0, "nc/di/injector.zep", 259);
+		zephir_is_iterable(&mVec, 0, "nc/di/injector.zep", 257);
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&mVec), _3$$3)
 		{
 			ZEPHIR_INIT_NVAR(&m);
 			ZVAL_COPY(&m, _3$$3);
 			ZEPHIR_OBS_NVAR(&_4$$4);
-			zephir_array_fetch_long(&_4$$4, &m, 1, PH_NOISY, "nc/di/injector.zep", 234 TSRMLS_CC);
+			zephir_array_fetch_long(&_4$$4, &m, 1, PH_NOISY, "nc/di/injector.zep", 232 TSRMLS_CC);
 			zephir_get_strval(&_5$$4, &_4$$4);
 			ZEPHIR_CPY_WRT(&m1, &_5$$4);
 			ZEPHIR_OBS_NVAR(&_6$$4);
-			zephir_array_fetch_long(&_6$$4, &m, 2, PH_NOISY, "nc/di/injector.zep", 235 TSRMLS_CC);
+			zephir_array_fetch_long(&_6$$4, &m, 2, PH_NOISY, "nc/di/injector.zep", 233 TSRMLS_CC);
 			zephir_get_strval(&_7$$4, &_6$$4);
 			ZEPHIR_CPY_WRT(&m2, &_7$$4);
 			if (ZEPHIR_IS_STRING_IDENTICAL(&m1, "")) {
-				zephir_array_append(&r, &__$null, PH_SEPARATE, "nc/di/injector.zep", 238);
+				zephir_array_append(&r, &__$null, PH_SEPARATE, "nc/di/injector.zep", 236);
 				continue;
 			}
 			ZEPHIR_CALL_METHOD(&obj, this_ptr, "__get", &_8, 0, &m1);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_STRING_IDENTICAL(&m2, "")) {
-				zephir_array_append(&r, &obj, PH_SEPARATE, "nc/di/injector.zep", 244);
+				zephir_array_append(&r, &obj, PH_SEPARATE, "nc/di/injector.zep", 242);
 				continue;
 			}
 			_9$$4 = Z_TYPE_P(&obj) != IS_OBJECT;
@@ -791,18 +786,18 @@ PHP_METHOD(Nc_Di_Injector, resolveAll) {
 				_9$$4 = !((zephir_instance_of_ev(&obj, nc_di_containerinterface_ce TSRMLS_CC)));
 			}
 			if (_9$$4) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_di_exception_ce, "InvalidContainer", "nc/di/injector.zep", 249);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_di_exception_ce, "InvalidContainer", "nc/di/injector.zep", 247);
 				return;
 			}
 			ZEPHIR_CALL_METHOD(&_10$$4, &obj, "__isset", NULL, 0, &m2);
 			zephir_check_call_status();
 			if (!(zephir_is_true(&_10$$4))) {
-				zephir_array_append(&r, &__$null, PH_SEPARATE, "nc/di/injector.zep", 253);
+				zephir_array_append(&r, &__$null, PH_SEPARATE, "nc/di/injector.zep", 251);
 				continue;
 			}
 			ZEPHIR_CALL_METHOD(&_11$$4, &obj, "__get", NULL, 0, &m2);
 			zephir_check_call_status();
-			zephir_array_append(&r, &_11$$4, PH_SEPARATE, "nc/di/injector.zep", 257);
+			zephir_array_append(&r, &_11$$4, PH_SEPARATE, "nc/di/injector.zep", 255);
 		} ZEND_HASH_FOREACH_END();
 		ZEPHIR_INIT_NVAR(&m);
 	}

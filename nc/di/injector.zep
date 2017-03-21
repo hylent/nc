@@ -126,11 +126,9 @@ class Injector implements ContainerInterface, \ArrayAccess
                 if ! refProperty->isPublic() {
                     refProperty->setAccessible(true);
                 }
-                if refProperty->getValue(obj) === null {
-                    let resolvedValue = this->resolveFirst(refProperty->getDocComment());
-                    if resolvedValue !== null {
-                        refProperty->setValue(obj, resolvedValue);
-                    }
+                let resolvedValue = this->resolveFirst(refProperty->getDocComment());
+                if resolvedValue !== null {
+                    refProperty->setValue(obj, resolvedValue);
                 }
             }
         }
