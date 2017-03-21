@@ -338,17 +338,20 @@ PHP_METHOD(Nc_Mvc_Application, __invoke) {
 PHP_METHOD(Nc_Mvc_Application, onSwooleRequest) {
 
 	int ZEPHIR_LAST_CALL_STATUS;
-	zval *req, req_sub, *resp, resp_sub, ex, _4, _0$$3, _1$$4, _2$$4, _3$$4;
+	zval *req, req_sub, *resp, resp_sub, ex, _0$$3, _1$$4, _2$$4, _3$$4, _4$$5, _5$$7, _6$$7, _7$$7;
 	ZEPHIR_INIT_THIS();
 
 	ZVAL_UNDEF(&req_sub);
 	ZVAL_UNDEF(&resp_sub);
 	ZVAL_UNDEF(&ex);
-	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$4);
 	ZVAL_UNDEF(&_2$$4);
 	ZVAL_UNDEF(&_3$$4);
+	ZVAL_UNDEF(&_4$$5);
+	ZVAL_UNDEF(&_5$$7);
+	ZVAL_UNDEF(&_6$$7);
+	ZVAL_UNDEF(&_7$$7);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &req, &resp);
@@ -383,12 +386,34 @@ PHP_METHOD(Nc_Mvc_Application, onSwooleRequest) {
 			zephir_file_put_contents(NULL, &_3$$4, &_2$$4 TSRMLS_CC);
 		}
 	}
-	ZEPHIR_CALL_FUNCTION(&_4, "session_status", NULL, 109);
-	zephir_check_call_status();
-	if (ZEPHIR_IS_LONG(&_4, 2)) {
-		ZEPHIR_CALL_FUNCTION(NULL, "session_write_close", NULL, 110);
-		zephir_check_call_status();
+
+	/* try_start_2: */
+
+		ZEPHIR_CALL_FUNCTION(&_4$$5, "session_status", NULL, 109);
+		zephir_check_call_status_or_jump(try_end_2);
+		if (ZEPHIR_IS_LONG(&_4$$5, 2)) {
+			ZEPHIR_CALL_FUNCTION(NULL, "session_write_close", NULL, 110);
+			zephir_check_call_status_or_jump(try_end_2);
+		}
+
+	try_end_2:
+
+	if (EG(exception)) {
+		ZVAL_OBJ(&ex, EG(exception));
+		Z_ADDREF_P(&ex);
+		if (zephir_instance_of_ev(&ex, zend_exception_get_default(TSRMLS_C) TSRMLS_CC)) {
+			zend_clear_exception(TSRMLS_C);
+			ZEPHIR_INIT_VAR(&_5$$7);
+			ZEPHIR_GET_CONSTANT(&_5$$7, "PHP_EOL");
+			ZEPHIR_INIT_VAR(&_6$$7);
+			ZEPHIR_CONCAT_VV(&_6$$7, &ex, &_5$$7);
+			ZEPHIR_INIT_VAR(&_7$$7);
+			ZVAL_STRING(&_7$$7, "php://stderr");
+			zephir_file_put_contents(NULL, &_7$$7, &_6$$7 TSRMLS_CC);
+		}
 	}
+	ZEPHIR_CALL_METHOD(NULL, resp, "end", NULL, 0);
+	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -432,7 +457,7 @@ PHP_METHOD(Nc_Mvc_Application, route) {
 		ZEPHIR_CALL_METHOD(&routingNames, context, "getroutingnames", NULL, 0);
 		zephir_check_call_status();
 		zephir_read_property(&_1$$3, this_ptr, SL("routingRules"), PH_NOISY_CC | PH_READONLY);
-		zephir_is_iterable(&_1$$3, 0, "nc/mvc/application.zep", 132);
+		zephir_is_iterable(&_1$$3, 0, "nc/mvc/application.zep", 138);
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_1$$3), _3$$3, _4$$3, _2$$3)
 		{
 			ZEPHIR_INIT_NVAR(&n);
@@ -457,7 +482,7 @@ PHP_METHOD(Nc_Mvc_Application, route) {
 			} else {
 				ZVAL_STRING(&uri, "");
 			}
-			zephir_is_iterable(&routingNames, 0, "nc/mvc/application.zep", 131);
+			zephir_is_iterable(&routingNames, 0, "nc/mvc/application.zep", 137);
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&routingNames), _9$$4)
 			{
 				ZEPHIR_INIT_NVAR(&routingName);

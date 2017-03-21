@@ -100,9 +100,15 @@ class Application
             file_put_contents("php://stderr", ex . PHP_EOL);
         }
 
-        if session_status() == PHP_SESSION_ACTIVE {
-            session_write_close();
+        try {
+            if session_status() == PHP_SESSION_ACTIVE {
+                session_write_close();
+            }
+        } catch \Exception, ex {
+            file_put_contents("php://stderr", ex . PHP_EOL);
         }
+
+        resp->end();
     }
 
     protected function route(<ContextAbstract> context) -> string
