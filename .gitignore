@@ -1,7 +1,8 @@
 /.temp
 /.svn
 /.bkp
-/build/*.dll
+/build/*
+!/build/.gitkeep
 config.local.php
 *.phar
 /compile*.log

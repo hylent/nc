@@ -1,10 +1,17 @@
 # Makefile
 
 REMOTE='root@s1'
-REMOTE_DIR='/opt/nc'
+WORKDIR='/tmp/nc'
+TARNAME='nc-pre-gen.tgz'
 
 gen:
-	git commit -am "Debug"
-	git push
-	ssh $(REMOTE) 'cd '$(REMOTE_DIR)' && git pull && rm -rf ext && zephir generate && git add --all . && git commit -m "Generate ext" && git push'
-	git pull
+	rm -rf build/ext build/nc
+	tar czf build/$(TARNAME) config.json nc
+	ssh $(REMOTE) "rm -rf $(WORKDIR) && mkdir -p $(WORKDIR)"
+	scp build/$(TARNAME) $(REMOTE):$(WORKDIR)/
+	ssh $(REMOTE) "cd $(WORKDIR) && tar xzf $(TARNAME) && zephir generate && tar czf ext.tgz ext"
+	scp $(REMOTE):$(WORKDIR)/ext.tgz build/
+	tar xzf build/ext.tgz -C build/
+	sed -i 's# /Oi /Ot /Oy /Ob2 /Gs /GF /Gy /GL##g' build/ext/config.w32
+	sed -i '/\/LTCG/d' build/ext/config.w32
+	mv build/ext build/nc
