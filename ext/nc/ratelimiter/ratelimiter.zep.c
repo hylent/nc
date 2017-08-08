@@ -35,7 +35,7 @@ PHP_METHOD(Nc_RateLimiter_RateLimiter, __construct) {
 
 	zval name;
 	zval *backend, backend_sub, *name_param = NULL;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&backend_sub);
 	ZVAL_UNDEF(&name);
@@ -54,29 +54,29 @@ PHP_METHOD(Nc_RateLimiter_RateLimiter, __construct) {
 
 PHP_METHOD(Nc_RateLimiter_RateLimiter, getBackend) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "backend");
+	RETURN_MEMBER(getThis(), "backend");
 
 }
 
 PHP_METHOD(Nc_RateLimiter_RateLimiter, getName) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "name");
+	RETURN_MEMBER(getThis(), "name");
 
 }
 
 PHP_METHOD(Nc_RateLimiter_RateLimiter, pass) {
 
 	zval _0;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *seconds_param = NULL, *times_param = NULL, _1;
 	long seconds, times;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_0);
@@ -101,10 +101,10 @@ PHP_METHOD(Nc_RateLimiter_RateLimiter, pass) {
 
 PHP_METHOD(Nc_RateLimiter_RateLimiter, passRateLimits) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *rateLimits_param = NULL, _0, _1;
 	zval rateLimits;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&rateLimits);
 	ZVAL_UNDEF(&_0);

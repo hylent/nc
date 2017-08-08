@@ -15,7 +15,6 @@
 #include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
-#include "kernel/hash.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
@@ -46,7 +45,7 @@ PHP_METHOD(Nc_Db_DaoAbstract, __construct) {
 	zval pk;
 	zval tb, sf;
 	zval *db, db_sub, *tb_param = NULL, *pk_param = NULL, *sf_param = NULL;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&db_sub);
 	ZVAL_UNDEF(&tb);
@@ -71,46 +70,46 @@ PHP_METHOD(Nc_Db_DaoAbstract, __construct) {
 
 PHP_METHOD(Nc_Db_DaoAbstract, getDb) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "db");
+	RETURN_MEMBER(getThis(), "db");
 
 }
 
 PHP_METHOD(Nc_Db_DaoAbstract, getTable) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "table");
+	RETURN_MEMBER(getThis(), "table");
 
 }
 
 PHP_METHOD(Nc_Db_DaoAbstract, getPrimaryKey) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "primaryKey");
+	RETURN_MEMBER(getThis(), "primaryKey");
 
 }
 
 PHP_METHOD(Nc_Db_DaoAbstract, getSequenceField) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "sequenceField");
+	RETURN_MEMBER(getThis(), "sequenceField");
 
 }
 
 PHP_METHOD(Nc_Db_DaoAbstract, lastSequence) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "lastSequence");
+	RETURN_MEMBER(getThis(), "lastSequence");
 
 }
 
@@ -118,11 +117,11 @@ PHP_METHOD(Nc_Db_DaoAbstract, insert) {
 
 	zend_string *_3;
 	zend_ulong _2;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool ignoreSequence, _10;
 	zval *inserts_param = NULL, *ignoreSequence_param = NULL, s, k, v, ks, vs, _0, *_1, _7, _8, _9, _11, _13, _14, _15, _16, _4$$5, _5$$5, _6$$6, _12$$7;
 	zval inserts;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&inserts);
 	ZVAL_UNDEF(&s);
@@ -227,10 +226,10 @@ PHP_METHOD(Nc_Db_DaoAbstract, insert) {
 
 PHP_METHOD(Nc_Db_DaoAbstract, upsert) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *inserts_param = NULL, *updates_param = NULL, _0, _1, _2;
 	zval inserts, updates;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&inserts);
 	ZVAL_UNDEF(&updates);
@@ -268,10 +267,10 @@ PHP_METHOD(Nc_Db_DaoAbstract, update) {
 	zval _5$$6;
 	zend_string *_2;
 	zend_ulong _1;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *updates_param = NULL, *where = NULL, where_sub, s, k, v, kvs, *_0, _7, _8, _9, _10, _11, _3$$5, _4$$5, _6$$7;
 	zval updates;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&updates);
 	ZVAL_UNDEF(&where_sub);
@@ -350,11 +349,11 @@ PHP_METHOD(Nc_Db_DaoAbstract, update) {
 
 PHP_METHOD(Nc_Db_DaoAbstract, updateTop) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	long limit;
 	zval *updates_param = NULL, *where = NULL, where_sub, *order = NULL, order_sub, *limit_param = NULL, __$null, _0, _1, _2;
 	zval updates;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&updates);
 	ZVAL_UNDEF(&where_sub);
@@ -399,9 +398,9 @@ PHP_METHOD(Nc_Db_DaoAbstract, updateTop) {
 
 PHP_METHOD(Nc_Db_DaoAbstract, delete) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *where = NULL, where_sub, s, _0, _1, _2, _3;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&where_sub);
 	ZVAL_UNDEF(&s);
@@ -436,10 +435,10 @@ PHP_METHOD(Nc_Db_DaoAbstract, delete) {
 
 PHP_METHOD(Nc_Db_DaoAbstract, deleteTop) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	long limit;
 	zval *where = NULL, where_sub, *order = NULL, order_sub, *limit_param = NULL, __$null, _0, _1, _2;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&where_sub);
 	ZVAL_UNDEF(&order_sub);
@@ -482,12 +481,12 @@ PHP_METHOD(Nc_Db_DaoAbstract, deleteTop) {
 
 PHP_METHOD(Nc_Db_DaoAbstract, find) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool lock;
 	long limit, skip;
 	zval *fields_param = NULL, *where, where_sub, *order, order_sub, *limit_param = NULL, *skip_param = NULL, *lock_param = NULL, s, _0, _1, _2, _3, _8, _4$$3, _5$$3, _6$$3;
 	zval fields, _7$$3;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&fields);
 	ZVAL_UNDEF(&_7$$3);
@@ -541,12 +540,12 @@ PHP_METHOD(Nc_Db_DaoAbstract, find) {
 
 PHP_METHOD(Nc_Db_DaoAbstract, countAndFind) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool lock, _0;
 	long limit, skip;
 	zval *fields_param = NULL, *where, where_sub, *order, order_sub, *limit_param = NULL, *skip_param = NULL, *lock_param = NULL, numRows, data, _1$$3, _2$$3, _3$$3;
 	zval fields;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&fields);
 	ZVAL_UNDEF(&where_sub);
@@ -594,10 +593,10 @@ PHP_METHOD(Nc_Db_DaoAbstract, countAndFind) {
 
 PHP_METHOD(Nc_Db_DaoAbstract, findAll) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	long limit, skip;
 	zval *where = NULL, where_sub, *order = NULL, order_sub, *limit_param = NULL, *skip_param = NULL, __$null, _0, _1, _2, _3;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&where_sub);
 	ZVAL_UNDEF(&order_sub);
@@ -646,10 +645,10 @@ PHP_METHOD(Nc_Db_DaoAbstract, findPaged) {
 
 	zend_bool _6;
 	zephir_fcall_cache_entry *_5 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	long limit, page, skip = 0, numRows = 0, numPages = 0;
 	zval *where = NULL, where_sub, *order = NULL, order_sub, *limit_param = NULL, *page_param = NULL, __$null, result, data, _0, _1, _2, _3, _4;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&where_sub);
 	ZVAL_UNDEF(&order_sub);
@@ -700,7 +699,7 @@ PHP_METHOD(Nc_Db_DaoAbstract, findPaged) {
 	ZVAL_BOOL(&_3, 0);
 	ZEPHIR_CALL_METHOD(&result, this_ptr, "countandfind", NULL, 0, &_0, where, order, &_1, &_2, &_3);
 	zephir_check_call_status();
-	if (unlikely(Z_TYPE_P(&result) != IS_ARRAY)) {
+	if (UNEXPECTED(Z_TYPE_P(&result) != IS_ARRAY)) {
 		ZEPHIR_INIT_NVAR(&result);
 		array_init(&result);
 	}
@@ -745,11 +744,11 @@ PHP_METHOD(Nc_Db_DaoAbstract, findPaged) {
 
 PHP_METHOD(Nc_Db_DaoAbstract, findTop) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool lock;
 	long limit;
 	zval *where = NULL, where_sub, *order = NULL, order_sub, *limit_param = NULL, *lock_param = NULL, __$null, _0, _1, _2, _3;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&where_sub);
 	ZVAL_UNDEF(&order_sub);
@@ -800,10 +799,10 @@ PHP_METHOD(Nc_Db_DaoAbstract, findTop) {
 
 PHP_METHOD(Nc_Db_DaoAbstract, findFirst) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool lock;
 	zval *where = NULL, where_sub, *order = NULL, order_sub, *lock_param = NULL, __$null, data, row, _0, _1, _2, _3;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&where_sub);
 	ZVAL_UNDEF(&order_sub);
@@ -846,7 +845,7 @@ PHP_METHOD(Nc_Db_DaoAbstract, findFirst) {
 	ZEPHIR_CALL_METHOD(&data, this_ptr, "find", NULL, 0, &_0, where, order, &_1, &_2, &_3);
 	zephir_check_call_status();
 	if (zephir_array_isset_long_fetch(&row, &data, 0, 1 TSRMLS_CC)) {
-		RETURN_CTOR(row);
+		RETURN_CTOR(&row);
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -855,11 +854,11 @@ PHP_METHOD(Nc_Db_DaoAbstract, findFirst) {
 PHP_METHOD(Nc_Db_DaoAbstract, findVector) {
 
 	zephir_fcall_cache_entry *_5 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	long limit;
 	zval *field_param = NULL, *where = NULL, where_sub, *order = NULL, order_sub, *limit_param = NULL, __$null, data, row, result, _0, _1, _2, *_3, _4$$4;
 	zval field, _6$$4;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&field);
 	ZVAL_UNDEF(&_6$$4);
@@ -916,18 +915,18 @@ PHP_METHOD(Nc_Db_DaoAbstract, findVector) {
 		}
 	} ZEND_HASH_FOREACH_END();
 	ZEPHIR_INIT_NVAR(&row);
-	RETURN_CCTOR(result);
+	RETURN_CCTOR(&result);
 
 }
 
 PHP_METHOD(Nc_Db_DaoAbstract, findMap) {
 
 	zephir_fcall_cache_entry *_6 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	long limit;
 	zval *kField_param = NULL, *vField_param = NULL, *where = NULL, where_sub, *order = NULL, order_sub, *limit_param = NULL, __$null, data, row, k, v, result, _1, _2, _3, *_4, _5$$4, _8$$4;
 	zval kField, vField, _0, _7$$4, _9$$4;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&kField);
 	ZVAL_UNDEF(&vField);
@@ -1000,17 +999,17 @@ PHP_METHOD(Nc_Db_DaoAbstract, findMap) {
 		}
 	} ZEND_HASH_FOREACH_END();
 	ZEPHIR_INIT_NVAR(&row);
-	RETURN_CCTOR(result);
+	RETURN_CCTOR(&result);
 
 }
 
 PHP_METHOD(Nc_Db_DaoAbstract, findCell) {
 
 	zend_bool _3;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *field_param = NULL, *where = NULL, where_sub, *order = NULL, order_sub, __$null, data, row, _0, _1, _2, _4$$3;
 	zval field, _5$$3;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&field);
 	ZVAL_UNDEF(&_5$$3);
@@ -1055,7 +1054,7 @@ PHP_METHOD(Nc_Db_DaoAbstract, findCell) {
 		ZEPHIR_UNREF(&row);
 		zephir_check_call_status();
 		zephir_get_strval(&_5$$3, &_4$$3);
-		RETURN_CTOR(_5$$3);
+		RETURN_CTOR(&_5$$3);
 	}
 	RETURN_MM_STRING("");
 
@@ -1066,11 +1065,11 @@ PHP_METHOD(Nc_Db_DaoAbstract, group) {
 	zend_string *_2;
 	zend_ulong _1;
 	zephir_fcall_cache_entry *_6 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval aggrs;
 	zval *byField_param = NULL, *aggrs_param = NULL, *where = NULL, where_sub, *having = NULL, having_sub, *order = NULL, order_sub, __$null, f, k, v, s, *_0, _4, _5, _7, _8, _9, _10, _3$$3;
 	zval byField;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&byField);
 	ZVAL_UNDEF(&where_sub);
@@ -1153,10 +1152,10 @@ PHP_METHOD(Nc_Db_DaoAbstract, aggregations) {
 
 	zend_string *_2;
 	zend_ulong _1;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *aggrs_param = NULL, *where = NULL, where_sub, k, v, a, s, *_0, _4, _5, _6, _7, _8, _3$$3;
 	zval aggrs;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&aggrs);
 	ZVAL_UNDEF(&where_sub);
@@ -1219,10 +1218,10 @@ PHP_METHOD(Nc_Db_DaoAbstract, aggregations) {
 
 PHP_METHOD(Nc_Db_DaoAbstract, aggregation) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *aggrFunction_param = NULL, *field_param = NULL, *where = NULL, where_sub, s, _0, _1, _2, _3;
 	zval aggrFunction, field;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&aggrFunction);
 	ZVAL_UNDEF(&field);
@@ -1261,9 +1260,9 @@ PHP_METHOD(Nc_Db_DaoAbstract, aggregation) {
 
 PHP_METHOD(Nc_Db_DaoAbstract, countAll) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *where = NULL, where_sub, _0, _1, _2;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&where_sub);
 	ZVAL_UNDEF(&_0);
@@ -1292,10 +1291,10 @@ PHP_METHOD(Nc_Db_DaoAbstract, countAll) {
 
 PHP_METHOD(Nc_Db_DaoAbstract, count) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *field_param = NULL, *where = NULL, where_sub, _0, _1;
 	zval field;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&field);
 	ZVAL_UNDEF(&where_sub);
@@ -1323,10 +1322,10 @@ PHP_METHOD(Nc_Db_DaoAbstract, count) {
 
 PHP_METHOD(Nc_Db_DaoAbstract, max) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *field_param = NULL, *where = NULL, where_sub, _0;
 	zval field;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&field);
 	ZVAL_UNDEF(&where_sub);
@@ -1353,10 +1352,10 @@ PHP_METHOD(Nc_Db_DaoAbstract, max) {
 
 PHP_METHOD(Nc_Db_DaoAbstract, min) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *field_param = NULL, *where = NULL, where_sub, _0;
 	zval field;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&field);
 	ZVAL_UNDEF(&where_sub);
@@ -1383,10 +1382,10 @@ PHP_METHOD(Nc_Db_DaoAbstract, min) {
 
 PHP_METHOD(Nc_Db_DaoAbstract, sum) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *field_param = NULL, *where = NULL, where_sub, _0;
 	zval field;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&field);
 	ZVAL_UNDEF(&where_sub);
@@ -1413,10 +1412,10 @@ PHP_METHOD(Nc_Db_DaoAbstract, sum) {
 
 PHP_METHOD(Nc_Db_DaoAbstract, avg) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *field_param = NULL, *where = NULL, where_sub, _0;
 	zval field;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&field);
 	ZVAL_UNDEF(&where_sub);
@@ -1443,10 +1442,10 @@ PHP_METHOD(Nc_Db_DaoAbstract, avg) {
 
 PHP_METHOD(Nc_Db_DaoAbstract, makeWhere) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval connector, _0$$4;
 	zval *where, where_sub, *connector_param = NULL, s;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&where_sub);
 	ZVAL_UNDEF(&s);
@@ -1475,7 +1474,7 @@ PHP_METHOD(Nc_Db_DaoAbstract, makeWhere) {
 		ZEPHIR_CONCAT_VV(return_value, &connector, &s);
 		RETURN_MM();
 	}
-	RETURN_CCTOR(s);
+	RETURN_CCTOR(&s);
 
 }
 
@@ -1485,11 +1484,11 @@ PHP_METHOD(Nc_Db_DaoAbstract, parseWhere) {
 	zend_string *_2;
 	zend_ulong _1;
 	zephir_fcall_cache_entry *_8 = NULL, *_18 = NULL, *_21 = NULL, *_32 = NULL, *_43 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval sep, _9$$3, _11$$3;
 	zval *where_param = NULL, *sep_param = NULL, k, v, ws, ks, k1, k2, *_0, _3$$5, _4$$5, _5$$5, _6$$6, _7$$3, _10$$3, _12$$7, _13$$7, _14$$7, _19$$8, _20$$8, _16$$9, _17$$9, _25$$10, _26$$10, _23$$11, _24$$11, _30$$12, _31$$12, _28$$13, _29$$13, _36$$14, _37$$14, _34$$15, _35$$15, _41$$16, _42$$16, _44$$16, _39$$17, _40$$17, _48$$18, _49$$18, _50$$18, _46$$19, _47$$19, _54$$20, _55$$20, _56$$20, _52$$21, _53$$21, _57$$22, _58$$22;
 	zval where;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&where);
 	ZVAL_UNDEF(&k);
@@ -1613,7 +1612,7 @@ PHP_METHOD(Nc_Db_DaoAbstract, parseWhere) {
 				if (_15$$8) {
 					_15$$8 = zephir_fast_count_int(&v TSRMLS_CC) < 1;
 				}
-				if (unlikely(_15$$8)) {
+				if (UNEXPECTED(_15$$8)) {
 					ZEPHIR_INIT_NVAR(&_16$$9);
 					object_init_ex(&_16$$9, nc_db_exception_ce);
 					ZVAL_LONG(&_17$$9, 6);
@@ -1634,7 +1633,7 @@ PHP_METHOD(Nc_Db_DaoAbstract, parseWhere) {
 				if (_22$$10) {
 					_22$$10 = zephir_fast_count_int(&v TSRMLS_CC) < 1;
 				}
-				if (unlikely(_22$$10)) {
+				if (UNEXPECTED(_22$$10)) {
 					ZEPHIR_INIT_NVAR(&_23$$11);
 					object_init_ex(&_23$$11, nc_db_exception_ce);
 					ZVAL_LONG(&_24$$11, 6);
@@ -1655,7 +1654,7 @@ PHP_METHOD(Nc_Db_DaoAbstract, parseWhere) {
 				if (!(_27$$12)) {
 					_27$$12 = zephir_fast_count_int(&v TSRMLS_CC) != 2;
 				}
-				if (unlikely(_27$$12)) {
+				if (UNEXPECTED(_27$$12)) {
 					ZEPHIR_INIT_NVAR(&_28$$13);
 					object_init_ex(&_28$$13, nc_db_exception_ce);
 					ZVAL_LONG(&_29$$13, 6);
@@ -1676,7 +1675,7 @@ PHP_METHOD(Nc_Db_DaoAbstract, parseWhere) {
 				if (!(_33$$14)) {
 					_33$$14 = zephir_fast_count_int(&v TSRMLS_CC) != 2;
 				}
-				if (unlikely(_33$$14)) {
+				if (UNEXPECTED(_33$$14)) {
 					ZEPHIR_INIT_NVAR(&_34$$15);
 					object_init_ex(&_34$$15, nc_db_exception_ce);
 					ZVAL_LONG(&_35$$15, 6);
@@ -1697,7 +1696,7 @@ PHP_METHOD(Nc_Db_DaoAbstract, parseWhere) {
 				if (!(_38$$16)) {
 					_38$$16 = zephir_fast_count_int(&v TSRMLS_CC) < 1;
 				}
-				if (unlikely(_38$$16)) {
+				if (UNEXPECTED(_38$$16)) {
 					ZEPHIR_INIT_NVAR(&_39$$17);
 					object_init_ex(&_39$$17, nc_db_exception_ce);
 					ZVAL_LONG(&_40$$17, 6);
@@ -1721,7 +1720,7 @@ PHP_METHOD(Nc_Db_DaoAbstract, parseWhere) {
 				if (!(_45$$18)) {
 					_45$$18 = zephir_fast_count_int(&v TSRMLS_CC) < 1;
 				}
-				if (unlikely(_45$$18)) {
+				if (UNEXPECTED(_45$$18)) {
 					ZEPHIR_INIT_NVAR(&_46$$19);
 					object_init_ex(&_46$$19, nc_db_exception_ce);
 					ZVAL_LONG(&_47$$19, 6);
@@ -1745,7 +1744,7 @@ PHP_METHOD(Nc_Db_DaoAbstract, parseWhere) {
 				if (!(_51$$20)) {
 					_51$$20 = zephir_fast_count_int(&v TSRMLS_CC) < 1;
 				}
-				if (unlikely(_51$$20)) {
+				if (UNEXPECTED(_51$$20)) {
 					ZEPHIR_INIT_NVAR(&_52$$21);
 					object_init_ex(&_52$$21, nc_db_exception_ce);
 					ZVAL_LONG(&_53$$21, 6);
@@ -1786,11 +1785,11 @@ PHP_METHOD(Nc_Db_DaoAbstract, parseWhereIn) {
 
 	zval _0$$3;
 	zephir_fcall_cache_entry *_6 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool not;
 	zval *field_param = NULL, *values, values_sub, *not_param = NULL, v, _7, _1$$3, _2$$3, _3$$3, _5$$5;
 	zval field, _4$$4;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&field);
 	ZVAL_UNDEF(&_4$$4);
@@ -1848,13 +1847,13 @@ PHP_METHOD(Nc_Db_DaoAbstract, parseWhereIn) {
 
 PHP_METHOD(Nc_Db_DaoAbstract, parseWhereBetween) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_2 = NULL, *_6 = NULL;
 	zend_bool not;
 	zval values;
 	zval *field_param = NULL, *values_param = NULL, *not_param = NULL, v1, v2, _0, _1, _3, _4, _7, _5$$3;
 	zval field;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&field);
 	ZVAL_UNDEF(&v1);
@@ -1914,9 +1913,9 @@ PHP_METHOD(Nc_Db_DaoAbstract, makeOrder) {
 	zend_string *_4$$5;
 	zend_ulong _3$$5;
 	zephir_fcall_cache_entry *_1 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *order, order_sub, s, a, k, v, _0$$4, *_2$$5, _7$$5, _5$$8, _6$$9;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&order_sub);
 	ZVAL_UNDEF(&s);
@@ -1944,7 +1943,7 @@ PHP_METHOD(Nc_Db_DaoAbstract, makeOrder) {
 			break;
 		}
 		if (Z_TYPE_P(order) == IS_ARRAY) {
-			if (unlikely(zephir_fast_count_int(order TSRMLS_CC) < 1)) {
+			if (UNEXPECTED(zephir_fast_count_int(order TSRMLS_CC) < 1)) {
 				RETURN_MM_STRING("");
 			}
 			ZEPHIR_INIT_NVAR(&a);
@@ -1984,15 +1983,15 @@ PHP_METHOD(Nc_Db_DaoAbstract, makeOrder) {
 		}
 		RETURN_MM_STRING("");
 	}
-	RETURN_CCTOR(s);
+	RETURN_CCTOR(&s);
 
 }
 
 PHP_METHOD(Nc_Db_DaoAbstract, makeRandomOrder) {
 
 	zval _0, _1, _2;
-	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
@@ -2015,11 +2014,11 @@ PHP_METHOD(Nc_Db_DaoAbstract, makeRandomOrder) {
 
 PHP_METHOD(Nc_Db_DaoAbstract, makePagination) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	long limit, skip;
 	zval *sql_param = NULL, *limit_param = NULL, *skip_param = NULL, _0, _1, _2;
 	zval sql;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&sql);
 	ZVAL_UNDEF(&_0);

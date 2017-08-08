@@ -32,7 +32,7 @@ PHP_METHOD(Nc_Di_CreatorClassMapper, __construct) {
 
 	zval *classMapper_param = NULL;
 	zval classMapper;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&classMapper);
 
@@ -51,7 +51,7 @@ PHP_METHOD(Nc_Di_CreatorClassMapper, getValidClassName) {
 
 	zval *name_param = NULL, className, _0;
 	zval name, _1$$3;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&_1$$3);
@@ -68,10 +68,10 @@ PHP_METHOD(Nc_Di_CreatorClassMapper, getValidClassName) {
 	zephir_read_property(&_0, this_ptr, SL("classMapper"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_isset_fetch(&className, &_0, &name, 0 TSRMLS_CC)) {
 		zephir_get_strval(&_1$$3, &className);
-		RETURN_CTOR(_1$$3);
+		RETURN_CTOR(&_1$$3);
 	}
 	if (zephir_class_exists(&className, 1 TSRMLS_CC)) {
-		RETURN_CCTOR(className);
+		RETURN_CCTOR(&className);
 	}
 	RETURN_MM_STRING("");
 

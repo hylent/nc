@@ -29,10 +29,10 @@ ZEPHIR_INIT_CLASS(Nc_Config_Ini) {
 
 PHP_METHOD(Nc_Config_Ini, readFromPath) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *path_param = NULL, __$true, _0;
 	zval path;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&path);
 	ZVAL_BOOL(&__$true, 1);
@@ -45,7 +45,7 @@ PHP_METHOD(Nc_Config_Ini, readFromPath) {
 
 
 	ZVAL_LONG(&_0, 1);
-	ZEPHIR_RETURN_CALL_FUNCTION("parse_ini_file", NULL, 44, &path, &__$true, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("parse_ini_file", NULL, 45, &path, &__$true, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 

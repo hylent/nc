@@ -33,14 +33,15 @@ ZEPHIR_INIT_CLASS(Nc_Mvc_ControllerDefault) {
 
 PHP_METHOD(Nc_Mvc_ControllerDefault, __invoke) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
-	zval *injector, injector_sub, *context, context_sub, re, ex;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *injector, injector_sub, *context, context_sub, re, ex, _0;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&injector_sub);
 	ZVAL_UNDEF(&context_sub);
 	ZVAL_UNDEF(&re);
 	ZVAL_UNDEF(&ex);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &injector, &context);
@@ -64,10 +65,12 @@ PHP_METHOD(Nc_Mvc_ControllerDefault, __invoke) {
 	try_end_1:
 
 	if (EG(exception)) {
-		ZVAL_OBJ(&ex, EG(exception));
-		Z_ADDREF_P(&ex);
-		if (zephir_instance_of_ev(&ex, zend_exception_get_default(TSRMLS_C) TSRMLS_CC)) {
+		ZEPHIR_INIT_VAR(&_0);
+		ZVAL_OBJ(&_0, EG(exception));
+		Z_ADDREF_P(&_0);
+		if (zephir_instance_of_ev(&_0, zend_exception_get_default(TSRMLS_C) TSRMLS_CC)) {
 			zend_clear_exception(TSRMLS_C);
+			ZEPHIR_CPY_WRT(&ex, &_0);
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "onexception", NULL, 0, &ex);
 			zephir_check_call_status();
 			RETURN_MM_NULL();
@@ -81,7 +84,7 @@ PHP_METHOD(Nc_Mvc_ControllerDefault, __invoke) {
 
 PHP_METHOD(Nc_Mvc_ControllerDefault, initialize) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
 	RETURN_NULL();
@@ -90,7 +93,7 @@ PHP_METHOD(Nc_Mvc_ControllerDefault, initialize) {
 
 PHP_METHOD(Nc_Mvc_ControllerDefault, execute) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
 	RETURN_NULL();
@@ -100,7 +103,7 @@ PHP_METHOD(Nc_Mvc_ControllerDefault, execute) {
 PHP_METHOD(Nc_Mvc_ControllerDefault, onReturn) {
 
 	zval *re, re_sub;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&re_sub);
 
@@ -115,7 +118,7 @@ PHP_METHOD(Nc_Mvc_ControllerDefault, onReturn) {
 PHP_METHOD(Nc_Mvc_ControllerDefault, onException) {
 
 	zval *ex, ex_sub;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&ex_sub);
 

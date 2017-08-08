@@ -37,7 +37,7 @@ PHP_METHOD(Nc_Image_Area, __construct) {
 
 	zval *x_param = NULL, *y_param = NULL, *w_param = NULL, *h_param = NULL, _0;
 	long x, y, w, h;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 

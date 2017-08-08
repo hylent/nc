@@ -17,7 +17,6 @@
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
-#include "kernel/hash.h"
 #include "kernel/exception.h"
 
 
@@ -40,7 +39,7 @@ PHP_METHOD(Nc_Log_RedisList, __construct) {
 	long ttl;
 	zval keyName;
 	zval *redis, redis_sub, *keyName_param = NULL, *ttl_param = NULL, _0;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&redis_sub);
 	ZVAL_UNDEF(&_0);
@@ -68,38 +67,38 @@ PHP_METHOD(Nc_Log_RedisList, __construct) {
 
 PHP_METHOD(Nc_Log_RedisList, getRedis) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "redis");
+	RETURN_MEMBER(getThis(), "redis");
 
 }
 
 PHP_METHOD(Nc_Log_RedisList, getKeyName) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "keyName");
+	RETURN_MEMBER(getThis(), "keyName");
 
 }
 
 PHP_METHOD(Nc_Log_RedisList, getTtl) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "ttl");
+	RETURN_MEMBER(getThis(), "ttl");
 
 }
 
 PHP_METHOD(Nc_Log_RedisList, retrieveLogs) {
 
 	zend_bool _3$$3;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *maxLogs_param = NULL, *blocking_param = NULL, log, logs, _0$$3, _1$$3, _2$$3, _4$$3, _5$$5, _6$$5;
 	long maxLogs, blocking, c;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&log);
 	ZVAL_UNDEF(&logs);
@@ -139,7 +138,7 @@ PHP_METHOD(Nc_Log_RedisList, retrieveLogs) {
 			_3$$3 = zephir_fast_count_int(&log TSRMLS_CC) != 2;
 		}
 		if (_3$$3) {
-			RETURN_CCTOR(logs);
+			RETURN_CCTOR(&logs);
 		}
 		zephir_array_fetch_long(&_4$$3, &log, 1, PH_NOISY | PH_READONLY, "nc/log/redislist.zep", 42 TSRMLS_CC);
 		zephir_array_append(&logs, &_4$$3, PH_SEPARATE, "nc/log/redislist.zep", 42);
@@ -159,7 +158,7 @@ PHP_METHOD(Nc_Log_RedisList, retrieveLogs) {
 		zephir_array_append(&logs, &log, PH_SEPARATE, "nc/log/redislist.zep", 56);
 		c++;
 	}
-	RETURN_CCTOR(logs);
+	RETURN_CCTOR(&logs);
 
 }
 
@@ -167,10 +166,10 @@ PHP_METHOD(Nc_Log_RedisList, writeLogs) {
 
 	long numCmds;
 	zephir_fcall_cache_entry *_4 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *logs_param = NULL, redis, log, res, _0, _1, *_2, _7, _3$$4, _5$$5, _6$$5;
 	zval logs;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&logs);
 	ZVAL_UNDEF(&redis);
@@ -220,7 +219,7 @@ PHP_METHOD(Nc_Log_RedisList, writeLogs) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&_7, "array_filter", NULL, 98, &res);
 	zephir_check_call_status();
-	if (unlikely(zephir_fast_count_int(&_7 TSRMLS_CC) != numCmds)) {
+	if (UNEXPECTED(zephir_fast_count_int(&_7 TSRMLS_CC) != numCmds)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_log_exception_ce, "Failed to write logs", "nc/log/redislist.zep", 87);
 		return;
 	}

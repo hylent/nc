@@ -28,10 +28,10 @@ ZEPHIR_INIT_CLASS(Nc_RateLimiter_RateLimiterBackendAbstract) {
 
 PHP_METHOD(Nc_RateLimiter_RateLimiterBackendAbstract, getRateLimiter) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL;
 	zval name;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 
@@ -42,7 +42,7 @@ PHP_METHOD(Nc_RateLimiter_RateLimiterBackendAbstract, getRateLimiter) {
 
 
 	object_init_ex(return_value, nc_ratelimiter_ratelimiter_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 17, this_ptr, &name);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 18, this_ptr, &name);
 	zephir_check_call_status();
 	RETURN_MM();
 

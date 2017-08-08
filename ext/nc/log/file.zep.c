@@ -46,7 +46,7 @@ PHP_METHOD(Nc_Log_File, __construct) {
 	long suffixType;
 	zval *basePath_param = NULL, *suffixType_param = NULL, _0;
 	zval basePath;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&basePath);
 	ZVAL_UNDEF(&_0);
@@ -72,28 +72,28 @@ PHP_METHOD(Nc_Log_File, __construct) {
 
 PHP_METHOD(Nc_Log_File, getBasePath) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "basePath");
+	RETURN_MEMBER(getThis(), "basePath");
 
 }
 
 PHP_METHOD(Nc_Log_File, getSuffixType) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "suffixType");
+	RETURN_MEMBER(getThis(), "suffixType");
 
 }
 
 PHP_METHOD(Nc_Log_File, writeLogs) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *logs_param = NULL, res, _0, _1, _2, _3, _4;
 	zval logs;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&logs);
 	ZVAL_UNDEF(&res);
@@ -121,9 +121,9 @@ PHP_METHOD(Nc_Log_File, writeLogs) {
 	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_CONCAT_VS(&_3, &_1, "\n");
 	ZVAL_LONG(&_4, (8 | 2));
-	ZEPHIR_CALL_FUNCTION(&res, "file_put_contents", NULL, 40, &_0, &_3, &_4);
+	ZEPHIR_CALL_FUNCTION(&res, "file_put_contents", NULL, 41, &_0, &_3, &_4);
 	zephir_check_call_status();
-	if (unlikely(!zephir_is_true(&res))) {
+	if (UNEXPECTED(!zephir_is_true(&res))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_log_exception_ce, "Failed to write to log file", "nc/log/file.zep", 45);
 		return;
 	}
@@ -134,9 +134,9 @@ PHP_METHOD(Nc_Log_File, writeLogs) {
 PHP_METHOD(Nc_Log_File, getPath) {
 
 	zval path, _0, _1$$3, _2$$3, _4$$4, _5$$4;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_3 = NULL;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&path);
 	ZVAL_UNDEF(&_0);
@@ -169,7 +169,7 @@ PHP_METHOD(Nc_Log_File, getPath) {
 		}
 	} while(0);
 
-	RETURN_CCTOR(path);
+	RETURN_CCTOR(&path);
 
 }
 

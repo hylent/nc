@@ -15,7 +15,6 @@
 #include "kernel/string.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
-#include "kernel/hash.h"
 #include "kernel/concat.h"
 #include "kernel/array.h"
 #include "kernel/fcall.h"
@@ -41,7 +40,7 @@ PHP_METHOD(Nc_Mvc_Application, autoloadCompareFunction) {
 
 	zval *a_param = NULL, *b_param = NULL;
 	zval a, b;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&a);
 	ZVAL_UNDEF(&b);
@@ -63,10 +62,10 @@ PHP_METHOD(Nc_Mvc_Application, __construct) {
 	zend_string *_2, *_10;
 	zend_ulong _1, _9;
 	zephir_fcall_cache_entry *_13 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *autoloads_param = NULL, *routingRules_param = NULL, __$false, __$true, a, k, v, *_0, _7, *_8, _3$$3, _4$$3, _11$$5, _12$$5, _14$$6;
 	zval autoloads, routingRules, _6;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&autoloads);
 	ZVAL_UNDEF(&routingRules);
@@ -166,8 +165,8 @@ PHP_METHOD(Nc_Mvc_Application, __destruct) {
 
 	zval _1;
 	zval _0;
-	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
@@ -190,11 +189,11 @@ PHP_METHOD(Nc_Mvc_Application, autoload) {
 
 	zend_string *_5$$3;
 	zend_ulong _4$$3;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_12 = NULL;
 	zval *name_param = NULL, lcName, p, d, path, _0, _1$$3, _2$$3, *_3$$3, _6$$4, _7$$5, _8$$5, _9$$5, _10$$5, _11$$5;
 	zval name;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&lcName);
@@ -265,9 +264,9 @@ PHP_METHOD(Nc_Mvc_Application, autoload) {
 
 PHP_METHOD(Nc_Mvc_Application, __invoke) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *context = NULL, context_sub, __$null, injector, controllerClass, _4, _5, _0$$3, _1$$6, _2$$6, _3$$6;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&context_sub);
 	ZVAL_NULL(&__$null);
@@ -337,18 +336,19 @@ PHP_METHOD(Nc_Mvc_Application, __invoke) {
 
 PHP_METHOD(Nc_Mvc_Application, onSwooleRequest) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
-	zval *req, req_sub, *resp, resp_sub, ex, _4, _0$$3, _1$$4, _2$$4, _3$$4;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *req, req_sub, *resp, resp_sub, ex, _1, _5, _0$$3, _2$$4, _3$$4, _4$$4;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&req_sub);
 	ZVAL_UNDEF(&resp_sub);
 	ZVAL_UNDEF(&ex);
-	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_0$$3);
-	ZVAL_UNDEF(&_1$$4);
 	ZVAL_UNDEF(&_2$$4);
 	ZVAL_UNDEF(&_3$$4);
+	ZVAL_UNDEF(&_4$$4);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &req, &resp);
@@ -370,22 +370,26 @@ PHP_METHOD(Nc_Mvc_Application, onSwooleRequest) {
 	try_end_1:
 
 	if (EG(exception)) {
-		ZVAL_OBJ(&ex, EG(exception));
-		Z_ADDREF_P(&ex);
-		if (zephir_instance_of_ev(&ex, zend_exception_get_default(TSRMLS_C) TSRMLS_CC)) {
+		ZEPHIR_INIT_VAR(&_1);
+		ZVAL_OBJ(&_1, EG(exception));
+		Z_ADDREF_P(&_1);
+		if (zephir_instance_of_ev(&_1, zend_exception_get_default(TSRMLS_C) TSRMLS_CC)) {
 			zend_clear_exception(TSRMLS_C);
-			ZEPHIR_INIT_VAR(&_1$$4);
-			ZEPHIR_GET_CONSTANT(&_1$$4, "PHP_EOL");
+			ZEPHIR_CPY_WRT(&ex, &_1);
 			ZEPHIR_INIT_VAR(&_2$$4);
-			ZEPHIR_CONCAT_VV(&_2$$4, &ex, &_1$$4);
+			ZEPHIR_GET_CONSTANT(&_2$$4, "PHP_EOL");
 			ZEPHIR_INIT_VAR(&_3$$4);
-			ZVAL_STRING(&_3$$4, "php://stderr");
-			zephir_file_put_contents(NULL, &_3$$4, &_2$$4 TSRMLS_CC);
+			ZEPHIR_CONCAT_VV(&_3$$4, &ex, &_2$$4);
+			ZEPHIR_INIT_VAR(&_4$$4);
+			ZVAL_STRING(&_4$$4, "php://stderr");
+			zephir_file_put_contents(NULL, &_4$$4, &_3$$4 TSRMLS_CC);
 		}
 	}
-	ZEPHIR_CALL_FUNCTION(&_4, "session_status", NULL, 109);
+	ZEPHIR_CALL_METHOD(NULL, resp, "end", NULL, 0);
 	zephir_check_call_status();
-	if (ZEPHIR_IS_LONG(&_4, 2)) {
+	ZEPHIR_CALL_FUNCTION(&_5, "session_status", NULL, 109);
+	zephir_check_call_status();
+	if (ZEPHIR_IS_LONG(&_5, 2)) {
 		ZEPHIR_CALL_FUNCTION(NULL, "session_write_close", NULL, 110);
 		zephir_check_call_status();
 	}
@@ -397,10 +401,10 @@ PHP_METHOD(Nc_Mvc_Application, route) {
 
 	zend_string *_4$$3;
 	zend_ulong _3$$3;
-	zephir_fcall_cache_entry *_8 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zephir_fcall_cache_entry *_8 = NULL, *_11 = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *context, context_sub, args, numArgs, routingNames, n, rules, uri, routingName, controllerClass, _0, _1$$3, *_2$$3, _5$$6, _6$$6, _7$$6, *_9$$4, _10$$8;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&context_sub);
 	ZVAL_UNDEF(&args);
@@ -432,7 +436,7 @@ PHP_METHOD(Nc_Mvc_Application, route) {
 		ZEPHIR_CALL_METHOD(&routingNames, context, "getroutingnames", NULL, 0);
 		zephir_check_call_status();
 		zephir_read_property(&_1$$3, this_ptr, SL("routingRules"), PH_NOISY_CC | PH_READONLY);
-		zephir_is_iterable(&_1$$3, 0, "nc/mvc/application.zep", 132);
+		zephir_is_iterable(&_1$$3, 0, "nc/mvc/application.zep", 135);
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_1$$3), _3$$3, _4$$3, _2$$3)
 		{
 			ZEPHIR_INIT_NVAR(&n);
@@ -450,22 +454,25 @@ PHP_METHOD(Nc_Mvc_Application, route) {
 			if (ZEPHIR_GT_LONG(&n, 0)) {
 				ZEPHIR_INIT_NVAR(&_5$$6);
 				ZVAL_LONG(&_6$$6, 0);
-				ZEPHIR_CALL_FUNCTION(&_7$$6, "array_slice", &_8, 111, &args, &_6$$6, &n);
+				ZEPHIR_CALL_FUNCTION(&_7$$6, "array_slice", &_8, 7, &args, &_6$$6, &n);
 				zephir_check_call_status();
 				zephir_fast_join_str(&_5$$6, SL("/"), &_7$$6 TSRMLS_CC);
 				ZEPHIR_CONCAT_SV(&uri, "/", &_5$$6);
 			} else {
 				ZVAL_STRING(&uri, "");
 			}
-			zephir_is_iterable(&routingNames, 0, "nc/mvc/application.zep", 131);
+			zephir_is_iterable(&routingNames, 0, "nc/mvc/application.zep", 134);
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&routingNames), _9$$4)
 			{
 				ZEPHIR_INIT_NVAR(&routingName);
 				ZVAL_COPY(&routingName, _9$$4);
+				ZEPHIR_OBS_NVAR(&controllerClass);
 				ZEPHIR_INIT_LNVAR(_10$$8);
 				ZEPHIR_CONCAT_VV(&_10$$8, &routingName, &uri);
-				if (zephir_array_isset_fetch(&controllerClass, &rules, &_10$$8, 1 TSRMLS_CC)) {
-					RETURN_CTOR(controllerClass);
+				if (zephir_array_isset_fetch(&controllerClass, &rules, &_10$$8, 0 TSRMLS_CC)) {
+					ZEPHIR_CALL_METHOD(NULL, context, "setnumusedargs", &_11, 0, &n);
+					zephir_check_call_status();
+					RETURN_CCTOR(&controllerClass);
 				}
 			} ZEND_HASH_FOREACH_END();
 			ZEPHIR_INIT_NVAR(&routingName);

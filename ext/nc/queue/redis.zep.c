@@ -38,7 +38,7 @@ PHP_METHOD(Nc_Queue_Redis, __construct) {
 
 	zval keyName;
 	zval *redis, redis_sub, *keyName_param = NULL;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&redis_sub);
 	ZVAL_UNDEF(&keyName);
@@ -57,29 +57,29 @@ PHP_METHOD(Nc_Queue_Redis, __construct) {
 
 PHP_METHOD(Nc_Queue_Redis, getRedis) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "redis");
+	RETURN_MEMBER(getThis(), "redis");
 
 }
 
 PHP_METHOD(Nc_Queue_Redis, getKeyName) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "keyName");
+	RETURN_MEMBER(getThis(), "keyName");
 
 }
 
 PHP_METHOD(Nc_Queue_Redis, put) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	long delay;
 	zval *id_param = NULL, *delay_param = NULL, r, _0, _1, _2, _3, _4$$3, _5$$3, _6$$3;
 	zval id;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&id);
 	ZVAL_UNDEF(&r);
@@ -109,7 +109,7 @@ PHP_METHOD(Nc_Queue_Redis, put) {
 	ZVAL_LONG(&_3, (zephir_get_numberval(&_2) + delay));
 	ZEPHIR_CALL_METHOD(&r, &_0, "zadd", NULL, 0, &_1, &_3, &id);
 	zephir_check_call_status();
-	if (unlikely(ZEPHIR_IS_FALSE_IDENTICAL(&r))) {
+	if (UNEXPECTED(ZEPHIR_IS_FALSE_IDENTICAL(&r))) {
 		ZEPHIR_INIT_VAR(&_4$$3);
 		object_init_ex(&_4$$3, nc_queue_exception_ce);
 		zephir_read_property(&_5$$3, this_ptr, SL("keyName"), PH_NOISY_CC | PH_READONLY);
@@ -127,10 +127,10 @@ PHP_METHOD(Nc_Queue_Redis, put) {
 PHP_METHOD(Nc_Queue_Redis, reserve) {
 
 	zval _9, _13;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *ttr_param = NULL, args, r, _3, _4, _5, _6, _7, _8, _0$$3, _1$$3, _2$$3, _10$$4, _11$$4, _12$$4;
 	long ttr;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&args);
 	ZVAL_UNDEF(&r);
@@ -157,7 +157,7 @@ PHP_METHOD(Nc_Queue_Redis, reserve) {
 
 	ZEPHIR_INIT_VAR(&args);
 	array_init(&args);
-	if (unlikely(ttr < 1)) {
+	if (UNEXPECTED(ttr < 1)) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, nc_queue_exception_ce);
 		ZEPHIR_INIT_VAR(&_1$$3);
@@ -185,7 +185,7 @@ PHP_METHOD(Nc_Queue_Redis, reserve) {
 	zephir_check_call_status();
 	zephir_get_strval(&_9, &_7);
 	ZEPHIR_CPY_WRT(&r, &_9);
-	if (unlikely(ZEPHIR_IS_FALSE_IDENTICAL(&r))) {
+	if (UNEXPECTED(ZEPHIR_IS_FALSE_IDENTICAL(&r))) {
 		ZEPHIR_INIT_VAR(&_10$$4);
 		object_init_ex(&_10$$4, nc_queue_exception_ce);
 		zephir_read_property(&_11$$4, this_ptr, SL("keyName"), PH_NOISY_CC | PH_READONLY);
@@ -197,16 +197,16 @@ PHP_METHOD(Nc_Queue_Redis, reserve) {
 		return;
 	}
 	zephir_get_strval(&_13, &r);
-	RETURN_CTOR(_13);
+	RETURN_CTOR(&_13);
 
 }
 
 PHP_METHOD(Nc_Queue_Redis, delete) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *id_param = NULL, r, _0, _1, _2$$3, _3$$3, _4$$3;
 	zval id;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&id);
 	ZVAL_UNDEF(&r);
@@ -226,7 +226,7 @@ PHP_METHOD(Nc_Queue_Redis, delete) {
 	zephir_read_property(&_1, this_ptr, SL("keyName"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&r, &_0, "zrem", NULL, 0, &_1, &id);
 	zephir_check_call_status();
-	if (unlikely(ZEPHIR_IS_FALSE_IDENTICAL(&r))) {
+	if (UNEXPECTED(ZEPHIR_IS_FALSE_IDENTICAL(&r))) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		object_init_ex(&_2$$3, nc_queue_exception_ce);
 		zephir_read_property(&_3$$3, this_ptr, SL("keyName"), PH_NOISY_CC | PH_READONLY);

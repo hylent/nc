@@ -34,10 +34,10 @@ ZEPHIR_INIT_CLASS(Nc_Sequence_MysqlMyisam) {
 PHP_METHOD(Nc_Sequence_MysqlMyisam, __construct) {
 
 	zval _1;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval table;
 	zval *db, db_sub, *table_param = NULL, _0, _2;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&db_sub);
 	ZVAL_UNDEF(&_0);
@@ -60,7 +60,7 @@ PHP_METHOD(Nc_Sequence_MysqlMyisam, __construct) {
 	zephir_array_fast_append(&_1, &_2);
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "sequence");
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 136, db, &table, &_1, &_2);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 135, db, &table, &_1, &_2);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("daoMysql"), &_0);
 	ZEPHIR_MM_RESTORE();
@@ -69,18 +69,18 @@ PHP_METHOD(Nc_Sequence_MysqlMyisam, __construct) {
 
 PHP_METHOD(Nc_Sequence_MysqlMyisam, getDaoMysql) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "daoMysql");
+	RETURN_MEMBER(getThis(), "daoMysql");
 
 }
 
 PHP_METHOD(Nc_Sequence_MysqlMyisam, initialize) {
 
 	zval _0, _1, _2, _3, _4, _5;
-	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
@@ -110,10 +110,10 @@ PHP_METHOD(Nc_Sequence_MysqlMyisam, initialize) {
 PHP_METHOD(Nc_Sequence_MysqlMyisam, next) {
 
 	zval _1;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, _0, _2, _3;
 	zval name;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&_0);
@@ -143,11 +143,11 @@ PHP_METHOD(Nc_Sequence_MysqlMyisam, next) {
 PHP_METHOD(Nc_Sequence_MysqlMyisam, restore) {
 
 	zval _1;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	long sequence;
 	zval *name_param = NULL, *sequence_param = NULL, _0, _2;
 	zval name;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&_0);
@@ -177,8 +177,8 @@ PHP_METHOD(Nc_Sequence_MysqlMyisam, restore) {
 PHP_METHOD(Nc_Sequence_MysqlMyisam, clear) {
 
 	zval _0;
-	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 

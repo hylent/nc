@@ -41,11 +41,11 @@ ZEPHIR_INIT_CLASS(Nc_Mvc_UploadedFile) {
 
 PHP_METHOD(Nc_Mvc_UploadedFile, __construct) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval name, tmpName;
 	zval *error_param = NULL, *size_param = NULL, *name_param = NULL, *tmpName_param = NULL, __$false, imageType, _0, _1$$4, _2$$4, _3$$4, _4$$6, _5$$7;
 	long error, size;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_BOOL(&__$false, 0);
 	ZVAL_UNDEF(&imageType);
@@ -81,7 +81,7 @@ PHP_METHOD(Nc_Mvc_UploadedFile, __construct) {
 		if (ZEPHIR_IS_FALSE_IDENTICAL(&imageType)) {
 			ZEPHIR_INIT_VAR(&_1$$4);
 			ZVAL_LONG(&_2$$4, 4);
-			ZEPHIR_CALL_FUNCTION(&_3$$4, "pathinfo", NULL, 12, &name, &_2$$4);
+			ZEPHIR_CALL_FUNCTION(&_3$$4, "pathinfo", NULL, 13, &name, &_2$$4);
 			zephir_check_call_status();
 			zephir_fast_strtolower(&_1$$4, &_3$$4);
 			zephir_update_property_zval(this_ptr, SL("extension"), &_1$$4);
@@ -92,7 +92,7 @@ PHP_METHOD(Nc_Mvc_UploadedFile, __construct) {
 				ZVAL_STRING(&_4$$6, "jpg");
 				zephir_update_property_zval(this_ptr, SL("extension"), &_4$$6);
 			} else {
-				ZEPHIR_CALL_FUNCTION(&_5$$7, "image_type_to_extension", NULL, 117, &imageType, &__$false);
+				ZEPHIR_CALL_FUNCTION(&_5$$7, "image_type_to_extension", NULL, 116, &imageType, &__$false);
 				zephir_check_call_status();
 				zephir_update_property_zval(this_ptr, SL("extension"), &_5$$7);
 			}
@@ -105,62 +105,62 @@ PHP_METHOD(Nc_Mvc_UploadedFile, __construct) {
 
 PHP_METHOD(Nc_Mvc_UploadedFile, getError) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "error");
+	RETURN_MEMBER(getThis(), "error");
 
 }
 
 PHP_METHOD(Nc_Mvc_UploadedFile, getSize) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "size");
+	RETURN_MEMBER(getThis(), "size");
 
 }
 
 PHP_METHOD(Nc_Mvc_UploadedFile, getName) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "name");
+	RETURN_MEMBER(getThis(), "name");
 
 }
 
 PHP_METHOD(Nc_Mvc_UploadedFile, getTmpName) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "tmpName");
+	RETURN_MEMBER(getThis(), "tmpName");
 
 }
 
 PHP_METHOD(Nc_Mvc_UploadedFile, getExtension) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "extension");
+	RETURN_MEMBER(getThis(), "extension");
 
 }
 
 PHP_METHOD(Nc_Mvc_UploadedFile, getImageType) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "imageType");
+	RETURN_MEMBER(getThis(), "imageType");
 
 }
 
 PHP_METHOD(Nc_Mvc_UploadedFile, isImage) {
 
 	zval _0;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 

@@ -37,7 +37,7 @@ PHP_METHOD(Nc_Log_WriterBufferedAbstract, setBufferSize) {
 
 	zval *bufferSize_param = NULL, _0;
 	long bufferSize;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 
@@ -54,20 +54,20 @@ PHP_METHOD(Nc_Log_WriterBufferedAbstract, setBufferSize) {
 
 PHP_METHOD(Nc_Log_WriterBufferedAbstract, getBufferSize) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "bufferSize");
+	RETURN_MEMBER(getThis(), "bufferSize");
 
 }
 
 PHP_METHOD(Nc_Log_WriterBufferedAbstract, appendLog) {
 
 	zend_bool _1;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *log_param = NULL, _0, _2, _3;
 	zval log;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&log);
 	ZVAL_UNDEF(&_0);
@@ -99,8 +99,8 @@ PHP_METHOD(Nc_Log_WriterBufferedAbstract, appendLog) {
 PHP_METHOD(Nc_Log_WriterBufferedAbstract, flush) {
 
 	zval __$null, _0, _1;
-	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0);
@@ -122,8 +122,8 @@ PHP_METHOD(Nc_Log_WriterBufferedAbstract, flush) {
 
 PHP_METHOD(Nc_Log_WriterBufferedAbstract, __destruct) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 
 	ZEPHIR_MM_GROW();

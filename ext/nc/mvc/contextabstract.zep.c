@@ -16,8 +16,8 @@
 #include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
-#include "kernel/exception.h"
 #include "kernel/fcall.h"
+#include "kernel/exception.h"
 
 
 ZEPHIR_INIT_CLASS(Nc_Mvc_ContextAbstract) {
@@ -28,13 +28,15 @@ ZEPHIR_INIT_CLASS(Nc_Mvc_ContextAbstract) {
 
 	zend_declare_property_null(nc_mvc_contextabstract_ce, SL("argVector"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	zend_declare_property_long(nc_mvc_contextabstract_ce, SL("numUsedArgs"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+
 	return SUCCESS;
 
 }
 
 PHP_METHOD(Nc_Mvc_ContextAbstract, getRoutingNames) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
 	array_init(return_value);
@@ -46,7 +48,7 @@ PHP_METHOD(Nc_Mvc_ContextAbstract, getServerVar) {
 
 	zval *name_param = NULL, *defaultValue = NULL, defaultValue_sub, __$null, value, _0;
 	zval name;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&defaultValue_sub);
@@ -66,7 +68,7 @@ PHP_METHOD(Nc_Mvc_ContextAbstract, getServerVar) {
 
 	zephir_read_property(&_0, this_ptr, SL("serverVars"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_isset_fetch(&value, &_0, &name, 1 TSRMLS_CC)) {
-		RETURN_CTOR(value);
+		RETURN_CTOR(&value);
 	}
 	RETVAL_ZVAL(defaultValue, 1, 0);
 	RETURN_MM();
@@ -75,19 +77,60 @@ PHP_METHOD(Nc_Mvc_ContextAbstract, getServerVar) {
 
 PHP_METHOD(Nc_Mvc_ContextAbstract, getArgVector) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "argVector");
+	RETURN_MEMBER(getThis(), "argVector");
+
+}
+
+PHP_METHOD(Nc_Mvc_ContextAbstract, setNumUsedArgs) {
+
+	zval *numUsedArgs_param = NULL, _0;
+	long numUsedArgs;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&_0);
+
+	zephir_fetch_params(0, 1, 0, &numUsedArgs_param);
+
+	numUsedArgs = zephir_get_intval(numUsedArgs_param);
+
+
+	if (numUsedArgs < 0) {
+		numUsedArgs = 0;
+	}
+	ZEPHIR_INIT_ZVAL_NREF(_0);
+	ZVAL_LONG(&_0, numUsedArgs);
+	zephir_update_property_zval(this_ptr, SL("numUsedArgs"), &_0);
+
+}
+
+PHP_METHOD(Nc_Mvc_ContextAbstract, getAvailableArgs) {
+
+	zval _0, _1;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+
+	ZEPHIR_MM_GROW();
+
+	zephir_read_property(&_0, this_ptr, SL("argVector"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, SL("numUsedArgs"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_slice", NULL, 7, &_0, &_1);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 
 PHP_METHOD(Nc_Mvc_ContextAbstract, getParamMap) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(nc_mvc_exception_ce, "Unaccomplished", "nc/mvc/contextabstract.zep", 31);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(nc_mvc_exception_ce, "Unaccomplished", "nc/mvc/contextabstract.zep", 46);
 	return;
 
 }
@@ -96,7 +139,7 @@ PHP_METHOD(Nc_Mvc_ContextAbstract, getParam) {
 
 	zval *name_param = NULL, *defaultValue = NULL, defaultValue_sub, __$null;
 	zval name;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&defaultValue_sub);
@@ -112,7 +155,7 @@ PHP_METHOD(Nc_Mvc_ContextAbstract, getParam) {
 	}
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_mvc_exception_ce, "Unaccomplished", "nc/mvc/contextabstract.zep", 36);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_mvc_exception_ce, "Unaccomplished", "nc/mvc/contextabstract.zep", 51);
 	return;
 
 }
@@ -120,8 +163,8 @@ PHP_METHOD(Nc_Mvc_ContextAbstract, getParam) {
 PHP_METHOD(Nc_Mvc_ContextAbstract, getRequestTime) {
 
 	zval _0;
-	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 
@@ -138,8 +181,8 @@ PHP_METHOD(Nc_Mvc_ContextAbstract, getRequestTime) {
 PHP_METHOD(Nc_Mvc_ContextAbstract, getRequestTimeFloat) {
 
 	zval _0;
-	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 
@@ -157,7 +200,7 @@ PHP_METHOD(Nc_Mvc_ContextAbstract, output) {
 
 	zval *content_param = NULL;
 	zval content;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&content);
 

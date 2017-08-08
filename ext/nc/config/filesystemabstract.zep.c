@@ -20,7 +20,6 @@
 #include "kernel/array.h"
 #include "kernel/concat.h"
 #include "kernel/file.h"
-#include "kernel/hash.h"
 
 
 ZEPHIR_INIT_CLASS(Nc_Config_FileSystemAbstract) {
@@ -45,7 +44,7 @@ PHP_METHOD(Nc_Config_FileSystemAbstract, __construct) {
 
 	zval *baseDirectory_param = NULL;
 	zval baseDirectory;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&baseDirectory);
 
@@ -64,7 +63,7 @@ PHP_METHOD(Nc_Config_FileSystemAbstract, __isset) {
 
 	zval *name_param = NULL;
 	zval name;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 
@@ -80,10 +79,10 @@ PHP_METHOD(Nc_Config_FileSystemAbstract, __isset) {
 
 PHP_METHOD(Nc_Config_FileSystemAbstract, __get) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL;
 	zval name;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 
@@ -102,10 +101,10 @@ PHP_METHOD(Nc_Config_FileSystemAbstract, __get) {
 PHP_METHOD(Nc_Config_FileSystemAbstract, get) {
 
 	zend_bool _7$$7;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, *defaultValue = NULL, defaultValue_sub, __$null, parts, part, value, path, tmpValue, _0, *_6, _1$$3, _2$$3, _3$$3, _4$$3, _5$$3;
 	zval name;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&defaultValue_sub);
@@ -146,7 +145,7 @@ PHP_METHOD(Nc_Config_FileSystemAbstract, get) {
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZVAL_STRING(&_3$$3, "#^[\\w]+$#");
 		zephir_preg_match(&_2$$3, &_3$$3, &part, &_1$$3, 0, 0 , 0  TSRMLS_CC);
-		if (unlikely(!zephir_is_true(&_2$$3))) {
+		if (UNEXPECTED(!zephir_is_true(&_2$$3))) {
 			RETVAL_ZVAL(defaultValue, 1, 0);
 			RETURN_MM();
 		}
@@ -179,7 +178,7 @@ PHP_METHOD(Nc_Config_FileSystemAbstract, get) {
 		ZEPHIR_CPY_WRT(&value, &tmpValue);
 	} ZEND_HASH_FOREACH_END();
 	ZEPHIR_INIT_NVAR(&part);
-	RETURN_CCTOR(value);
+	RETURN_CCTOR(&value);
 
 }
 
@@ -188,8 +187,8 @@ PHP_METHOD(Nc_Config_FileSystemAbstract, loadAll) {
 	zval _7$$4;
 	zval paths, path, name, value, configs, _0, _1, _2, *_3$$3, _4$$4, _5$$4, _8$$4, _9$$4, _10$$4;
 	zephir_fcall_cache_entry *_6 = NULL, *_11 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&paths);
 	ZVAL_UNDEF(&path);
@@ -214,7 +213,7 @@ PHP_METHOD(Nc_Config_FileSystemAbstract, loadAll) {
 	zephir_read_property(&_1, this_ptr, SL("fileExtension"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_CONCAT_VSV(&_2, &_0, "/*.", &_1);
-	ZEPHIR_CALL_FUNCTION(&paths, "glob", NULL, 11, &_2);
+	ZEPHIR_CALL_FUNCTION(&paths, "glob", NULL, 12, &_2);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&paths) == IS_ARRAY) {
 		zephir_is_iterable(&paths, 0, "nc/config/filesystemabstract.zep", 78);
@@ -223,7 +222,7 @@ PHP_METHOD(Nc_Config_FileSystemAbstract, loadAll) {
 			ZEPHIR_INIT_NVAR(&path);
 			ZVAL_COPY(&path, _3$$3);
 			ZVAL_LONG(&_4$$4, 8);
-			ZEPHIR_CALL_FUNCTION(&_5$$4, "pathinfo", &_6, 12, &path, &_4$$4);
+			ZEPHIR_CALL_FUNCTION(&_5$$4, "pathinfo", &_6, 13, &path, &_4$$4);
 			zephir_check_call_status();
 			zephir_get_strval(&_7$$4, &_5$$4);
 			ZEPHIR_CPY_WRT(&name, &_7$$4);
@@ -248,7 +247,7 @@ PHP_METHOD(Nc_Config_FileSystemAbstract, loadAll) {
 		} ZEND_HASH_FOREACH_END();
 		ZEPHIR_INIT_NVAR(&path);
 	}
-	RETURN_CCTOR(configs);
+	RETURN_CCTOR(&configs);
 
 }
 

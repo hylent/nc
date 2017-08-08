@@ -31,7 +31,7 @@ PHP_METHOD(Nc_Config_Php, readFromPath) {
 
 	zval *path_param = NULL, _0;
 	zval path;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&path);
 	ZVAL_UNDEF(&_0);
@@ -46,7 +46,7 @@ PHP_METHOD(Nc_Config_Php, readFromPath) {
 	if (zephir_require_zval_ret(&_0, &path TSRMLS_CC) == FAILURE) {
 		RETURN_MM_NULL();
 	}
-	RETURN_CCTOR(_0);
+	RETURN_CCTOR(&_0);
 
 }
 

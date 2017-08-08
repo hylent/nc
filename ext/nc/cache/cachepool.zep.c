@@ -34,7 +34,7 @@ PHP_METHOD(Nc_Cache_CachePool, __construct) {
 
 	zval name;
 	zval *backend, backend_sub, *name_param = NULL;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&backend_sub);
 	ZVAL_UNDEF(&name);
@@ -53,27 +53,27 @@ PHP_METHOD(Nc_Cache_CachePool, __construct) {
 
 PHP_METHOD(Nc_Cache_CachePool, getBackend) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "backend");
+	RETURN_MEMBER(getThis(), "backend");
 
 }
 
 PHP_METHOD(Nc_Cache_CachePool, getName) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "name");
+	RETURN_MEMBER(getThis(), "name");
 
 }
 
 PHP_METHOD(Nc_Cache_CachePool, clear) {
 
 	zval _0, _1;
-	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
@@ -90,11 +90,11 @@ PHP_METHOD(Nc_Cache_CachePool, clear) {
 
 PHP_METHOD(Nc_Cache_CachePool, store) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	long ttl;
 	zval *key_param = NULL, *value, value_sub, *ttl_param = NULL, _0, _1, _2;
 	zval key;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&value_sub);
@@ -124,11 +124,11 @@ PHP_METHOD(Nc_Cache_CachePool, store) {
 
 PHP_METHOD(Nc_Cache_CachePool, storeMany) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	long ttl;
 	zval *keyValues_param = NULL, *ttl_param = NULL, _0, _1, _2;
 	zval keyValues;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&keyValues);
 	ZVAL_UNDEF(&_0);
@@ -157,10 +157,10 @@ PHP_METHOD(Nc_Cache_CachePool, storeMany) {
 
 PHP_METHOD(Nc_Cache_CachePool, fetch) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, _0, _1;
 	zval key;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&_0);
@@ -182,10 +182,10 @@ PHP_METHOD(Nc_Cache_CachePool, fetch) {
 
 PHP_METHOD(Nc_Cache_CachePool, fetchMany) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *keys_param = NULL, _0, _1;
 	zval keys;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&keys);
 	ZVAL_UNDEF(&_0);
@@ -207,10 +207,10 @@ PHP_METHOD(Nc_Cache_CachePool, fetchMany) {
 
 PHP_METHOD(Nc_Cache_CachePool, forget) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, _0, _1;
 	zval key;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&_0);
@@ -232,10 +232,10 @@ PHP_METHOD(Nc_Cache_CachePool, forget) {
 
 PHP_METHOD(Nc_Cache_CachePool, forgetMany) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *keys_param = NULL, _0, _1;
 	zval keys;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&keys);
 	ZVAL_UNDEF(&_0);

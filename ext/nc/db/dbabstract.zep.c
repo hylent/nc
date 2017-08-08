@@ -20,7 +20,6 @@
 #include "kernel/concat.h"
 #include "kernel/string.h"
 #include "kernel/array.h"
-#include "kernel/hash.h"
 #include "kernel/time.h"
 
 
@@ -39,10 +38,10 @@ ZEPHIR_INIT_CLASS(Nc_Db_DbAbstract) {
 
 PHP_METHOD(Nc_Db_DbAbstract, inTransaction) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "inTransaction");
+	RETURN_MEMBER(getThis(), "inTransaction");
 
 }
 
@@ -50,8 +49,8 @@ PHP_METHOD(Nc_Db_DbAbstract, begin) {
 
 	zend_bool _1;
 	zval __$true, __$false, _0, _2, _3$$3, _4$$3, _5$$3;
-	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
@@ -70,7 +69,7 @@ PHP_METHOD(Nc_Db_DbAbstract, begin) {
 		zephir_check_call_status();
 		_1 = !zephir_is_true(&_2);
 	}
-	if (unlikely(_1)) {
+	if (UNEXPECTED(_1)) {
 		ZEPHIR_INIT_VAR(&_3$$3);
 		object_init_ex(&_3$$3, nc_db_exception_ce);
 		ZEPHIR_INIT_VAR(&_4$$3);
@@ -95,8 +94,8 @@ PHP_METHOD(Nc_Db_DbAbstract, commit) {
 
 	zend_bool _1;
 	zval __$true, __$false, _0, _2, _3$$3, _4$$3, _5$$3;
-	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
@@ -115,7 +114,7 @@ PHP_METHOD(Nc_Db_DbAbstract, commit) {
 		zephir_check_call_status();
 		_1 = !zephir_is_true(&_2);
 	}
-	if (unlikely(_1)) {
+	if (UNEXPECTED(_1)) {
 		ZEPHIR_INIT_VAR(&_3$$3);
 		object_init_ex(&_3$$3, nc_db_exception_ce);
 		ZEPHIR_INIT_VAR(&_4$$3);
@@ -140,8 +139,8 @@ PHP_METHOD(Nc_Db_DbAbstract, rollback) {
 
 	zend_bool _1;
 	zval __$true, __$false, _0, _2, _3$$3, _4$$3, _5$$3;
-	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
@@ -160,7 +159,7 @@ PHP_METHOD(Nc_Db_DbAbstract, rollback) {
 		zephir_check_call_status();
 		_1 = !zephir_is_true(&_2);
 	}
-	if (unlikely(_1)) {
+	if (UNEXPECTED(_1)) {
 		ZEPHIR_INIT_VAR(&_3$$3);
 		object_init_ex(&_3$$3, nc_db_exception_ce);
 		ZEPHIR_INIT_VAR(&_4$$3);
@@ -183,10 +182,10 @@ PHP_METHOD(Nc_Db_DbAbstract, rollback) {
 
 PHP_METHOD(Nc_Db_DbAbstract, savepoint) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *savepoint_param = NULL, _0, _1$$3, _2$$3, _3$$3;
 	zval savepoint, _4;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&savepoint);
 	ZVAL_UNDEF(&_4);
@@ -202,7 +201,7 @@ PHP_METHOD(Nc_Db_DbAbstract, savepoint) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("inTransaction"), PH_NOISY_CC | PH_READONLY);
-	if (unlikely(!zephir_is_true(&_0))) {
+	if (UNEXPECTED(!zephir_is_true(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, nc_db_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
@@ -224,10 +223,10 @@ PHP_METHOD(Nc_Db_DbAbstract, savepoint) {
 
 PHP_METHOD(Nc_Db_DbAbstract, releaseSavepoint) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *savepoint_param = NULL, _0, _1$$3, _2$$3, _3$$3;
 	zval savepoint, _4;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&savepoint);
 	ZVAL_UNDEF(&_4);
@@ -243,7 +242,7 @@ PHP_METHOD(Nc_Db_DbAbstract, releaseSavepoint) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("inTransaction"), PH_NOISY_CC | PH_READONLY);
-	if (unlikely(!zephir_is_true(&_0))) {
+	if (UNEXPECTED(!zephir_is_true(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, nc_db_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
@@ -265,10 +264,10 @@ PHP_METHOD(Nc_Db_DbAbstract, releaseSavepoint) {
 
 PHP_METHOD(Nc_Db_DbAbstract, rollbackToSavepoint) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *savepoint_param = NULL, _0, _1$$3, _2$$3, _3$$3;
 	zval savepoint, _4;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&savepoint);
 	ZVAL_UNDEF(&_4);
@@ -284,7 +283,7 @@ PHP_METHOD(Nc_Db_DbAbstract, rollbackToSavepoint) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("inTransaction"), PH_NOISY_CC | PH_READONLY);
-	if (unlikely(!zephir_is_true(&_0))) {
+	if (UNEXPECTED(!zephir_is_true(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, nc_db_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
@@ -307,10 +306,10 @@ PHP_METHOD(Nc_Db_DbAbstract, rollbackToSavepoint) {
 PHP_METHOD(Nc_Db_DbAbstract, expression) {
 
 	zval _5;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *input_param = NULL, _0, _2, _4, _7;
 	zval input, _1, _3, _6;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&input);
 	ZVAL_UNDEF(&_1);
@@ -359,7 +358,7 @@ PHP_METHOD(Nc_Db_DbAbstract, expression) {
 	zephir_array_fast_append(&_6, &_2);
 	ZEPHIR_CALL_FUNCTION(&_7, "array_map", NULL, 6, &_6, &input);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("vsprintf", NULL, 13, &_0, &_7);
+	ZEPHIR_RETURN_CALL_FUNCTION("vsprintf", NULL, 14, &_0, &_7);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -367,11 +366,11 @@ PHP_METHOD(Nc_Db_DbAbstract, expression) {
 
 PHP_METHOD(Nc_Db_DbAbstract, execute) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval params;
 	zval *sql_param = NULL, *params_param = NULL, _0;
 	zval sql;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&sql);
 	ZVAL_UNDEF(&_0);
@@ -398,11 +397,11 @@ PHP_METHOD(Nc_Db_DbAbstract, execute) {
 
 PHP_METHOD(Nc_Db_DbAbstract, query) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval params;
 	zval *sql_param = NULL, *params_param = NULL, _0;
 	zval sql;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&sql);
 	ZVAL_UNDEF(&_0);
@@ -430,11 +429,11 @@ PHP_METHOD(Nc_Db_DbAbstract, query) {
 PHP_METHOD(Nc_Db_DbAbstract, queryRow) {
 
 	zend_bool _0;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval params;
 	zval *sql_param = NULL, *params_param = NULL, data, row;
 	zval sql;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&sql);
 	ZVAL_UNDEF(&data);
@@ -460,7 +459,7 @@ PHP_METHOD(Nc_Db_DbAbstract, queryRow) {
 		_0 = Z_TYPE_P(&row) == IS_ARRAY;
 	}
 	if (_0) {
-		RETURN_CTOR(row);
+		RETURN_CTOR(&row);
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -469,11 +468,11 @@ PHP_METHOD(Nc_Db_DbAbstract, queryRow) {
 PHP_METHOD(Nc_Db_DbAbstract, queryCell) {
 
 	zend_bool _0;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval params;
 	zval *sql_param = NULL, *params_param = NULL, data, row, _1$$3;
 	zval sql, _2$$3;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&sql);
 	ZVAL_UNDEF(&_2$$3);
@@ -507,7 +506,7 @@ PHP_METHOD(Nc_Db_DbAbstract, queryCell) {
 		ZEPHIR_UNREF(&row);
 		zephir_check_call_status();
 		zephir_get_strval(&_2$$3, &_1$$3);
-		RETURN_CTOR(_2$$3);
+		RETURN_CTOR(&_2$$3);
 	}
 	RETURN_MM_STRING("");
 
@@ -516,11 +515,11 @@ PHP_METHOD(Nc_Db_DbAbstract, queryCell) {
 PHP_METHOD(Nc_Db_DbAbstract, queryVector) {
 
 	zephir_fcall_cache_entry *_2 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval params;
 	zval *sql_param = NULL, *params_param = NULL, data, row, result, *_0, _1$$4;
 	zval sql, _3$$4;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&sql);
 	ZVAL_UNDEF(&_3$$4);
@@ -561,18 +560,18 @@ PHP_METHOD(Nc_Db_DbAbstract, queryVector) {
 		}
 	} ZEND_HASH_FOREACH_END();
 	ZEPHIR_INIT_NVAR(&row);
-	RETURN_CCTOR(result);
+	RETURN_CCTOR(&result);
 
 }
 
 PHP_METHOD(Nc_Db_DbAbstract, queryMap) {
 
 	zephir_fcall_cache_entry *_2 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval params;
 	zval *sql_param = NULL, *params_param = NULL, data, row, k, v, result, *_0, _1$$4, _4$$4;
 	zval sql, _3$$4, _5$$4;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&sql);
 	ZVAL_UNDEF(&_3$$4);
@@ -624,21 +623,21 @@ PHP_METHOD(Nc_Db_DbAbstract, queryMap) {
 		}
 	} ZEND_HASH_FOREACH_END();
 	ZEPHIR_INIT_NVAR(&row);
-	RETURN_CCTOR(result);
+	RETURN_CCTOR(&result);
 
 }
 
 PHP_METHOD(Nc_Db_DbAbstract, getSqls) {
 
 	zval _0;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 
 
 	zephir_read_property(&_0, this_ptr, SL("sqls"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_fast_count_int(&_0 TSRMLS_CC) > 0) {
-		RETURN_MEMBER(this_ptr, "sqls");
+		RETURN_MEMBER(getThis(), "sqls");
 	}
 	array_init(return_value);
 	return;
@@ -663,12 +662,12 @@ PHP_METHOD(Nc_Db_DbAbstract, executeQuery) {
 
 PHP_METHOD(Nc_Db_DbAbstract, addSql) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	double startTime;
 	zval params;
 	zval *sql_param = NULL, *params_param = NULL, *startTime_param = NULL, __$true, s, _0, _1, _2, _3$$3, _4$$3, _5$$3;
 	zval sql;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&sql);
 	ZVAL_BOOL(&__$true, 1);
@@ -705,7 +704,7 @@ PHP_METHOD(Nc_Db_DbAbstract, addSql) {
 		zephir_concat_self(&s, &_5$$3 TSRMLS_CC);
 	}
 	zephir_update_property_array_append(this_ptr, SL("sqls"), &s TSRMLS_CC);
-	RETURN_CCTOR(s);
+	RETURN_CCTOR(&s);
 
 }
 

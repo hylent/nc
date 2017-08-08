@@ -37,7 +37,7 @@ PHP_METHOD(Nc_Sequence_RedisHash, __construct) {
 
 	zval hashName;
 	zval *redis, redis_sub, *hashName_param = NULL;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&redis_sub);
 	ZVAL_UNDEF(&hashName);
@@ -61,28 +61,28 @@ PHP_METHOD(Nc_Sequence_RedisHash, __construct) {
 
 PHP_METHOD(Nc_Sequence_RedisHash, getRedis) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "redis");
+	RETURN_MEMBER(getThis(), "redis");
 
 }
 
 PHP_METHOD(Nc_Sequence_RedisHash, getHashName) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "hashName");
+	RETURN_MEMBER(getThis(), "hashName");
 
 }
 
 PHP_METHOD(Nc_Sequence_RedisHash, next) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, s, _0, _1, _2, _3$$3, _4$$3, _5$$3;
 	zval name;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&s);
@@ -104,7 +104,7 @@ PHP_METHOD(Nc_Sequence_RedisHash, next) {
 	ZVAL_LONG(&_2, 1);
 	ZEPHIR_CALL_METHOD(&s, &_0, "hincrby", NULL, 0, &_1, &name, &_2);
 	zephir_check_call_status();
-	if (unlikely(ZEPHIR_IS_FALSE_IDENTICAL(&s))) {
+	if (UNEXPECTED(ZEPHIR_IS_FALSE_IDENTICAL(&s))) {
 		ZEPHIR_INIT_VAR(&_3$$3);
 		object_init_ex(&_3$$3, nc_sequence_exception_ce);
 		ZEPHIR_INIT_VAR(&_4$$3);
@@ -123,11 +123,11 @@ PHP_METHOD(Nc_Sequence_RedisHash, next) {
 
 PHP_METHOD(Nc_Sequence_RedisHash, restore) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	long sequence;
 	zval *name_param = NULL, *sequence_param = NULL, _0, _1, _2;
 	zval name;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&_0);
@@ -153,8 +153,8 @@ PHP_METHOD(Nc_Sequence_RedisHash, restore) {
 PHP_METHOD(Nc_Sequence_RedisHash, clear) {
 
 	zval _0, _1;
-	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);

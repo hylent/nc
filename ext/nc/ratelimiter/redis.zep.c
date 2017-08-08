@@ -17,7 +17,6 @@
 #include "kernel/operators.h"
 #include "kernel/concat.h"
 #include "kernel/time.h"
-#include "kernel/hash.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
@@ -41,7 +40,7 @@ PHP_METHOD(Nc_RateLimiter_Redis, __construct) {
 
 	zval prefix;
 	zval *redis, redis_sub, *prefix_param = NULL;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&redis_sub);
 	ZVAL_UNDEF(&prefix);
@@ -65,19 +64,19 @@ PHP_METHOD(Nc_RateLimiter_Redis, __construct) {
 
 PHP_METHOD(Nc_RateLimiter_Redis, getRedis) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "redis");
+	RETURN_MEMBER(getThis(), "redis");
 
 }
 
 PHP_METHOD(Nc_RateLimiter_Redis, getPrefix) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "prefix");
+	RETURN_MEMBER(getThis(), "prefix");
 
 }
 
@@ -87,12 +86,12 @@ PHP_METHOD(Nc_RateLimiter_Redis, passRateLimits) {
 	zend_string *_3;
 	zend_ulong _2;
 	long index = 0;
-	int ZEPHIR_LAST_CALL_STATUS, _4$$4, _5$$4;
+	zend_long ZEPHIR_LAST_CALL_STATUS, _4$$4, _5$$4;
 	zephir_fcall_cache_entry *_10 = NULL, *_11 = NULL;
 	zval rateLimits;
 	zval *name_param = NULL, *rateLimits_param = NULL, pre, now, seconds, times, keys, argv, _0, *_1, _16, _17, _18, _19, _20, _12$$4, _13$$4, _14$$4, _15$$4, _7$$5, _8$$5, _9$$5;
 	zval name;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&pre);
@@ -156,7 +155,7 @@ PHP_METHOD(Nc_RateLimiter_Redis, passRateLimits) {
 		if (!(_6$$4)) {
 			_6$$4 = ZEPHIR_LT_LONG(&times, 1);
 		}
-		if (unlikely(_6$$4)) {
+		if (UNEXPECTED(_6$$4)) {
 			ZEPHIR_INIT_NVAR(&_7$$5);
 			object_init_ex(&_7$$5, nc_ratelimiter_exception_ce);
 			ZEPHIR_INIT_NVAR(&_8$$5);

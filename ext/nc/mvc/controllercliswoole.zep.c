@@ -33,9 +33,9 @@ PHP_METHOD(Nc_Mvc_ControllerCliSwoole, __invoke) {
 
 	zval _9, _13;
 	zend_bool _5, _6;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *injector, injector_sub, *context, context_sub, dbg, obj, opts, serv, _0, _1, _2, _3, _4, _10, _11, _12, _7$$4, _8$$4;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&injector_sub);
 	ZVAL_UNDEF(&context_sub);
@@ -63,15 +63,15 @@ PHP_METHOD(Nc_Mvc_ControllerCliSwoole, __invoke) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "swoole");
-	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 28, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 29, &_0);
 	zephir_check_call_status();
-	if (unlikely(!zephir_is_true(&_1))) {
+	if (UNEXPECTED(!zephir_is_true(&_1))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_mvc_exception_ce, "ExtensionMissing swoole", "nc/mvc/controllercliswoole.zep", 12);
 		return;
 	}
 	ZVAL_LONG(&_2, (2 | 1));
 	ZVAL_LONG(&_3, 2);
-	ZEPHIR_CALL_FUNCTION(&dbg, "debug_backtrace", NULL, 114, &_2, &_3);
+	ZEPHIR_CALL_FUNCTION(&dbg, "debug_backtrace", NULL, 113, &_2, &_3);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(&obj);
 	zephir_array_fetch_long(&_4, &dbg, 1, PH_READONLY, "nc/mvc/controllercliswoole.zep", 16 TSRMLS_CC);
@@ -83,7 +83,7 @@ PHP_METHOD(Nc_Mvc_ControllerCliSwoole, __invoke) {
 	if (!(_6)) {
 		_6 = !((zephir_instance_of_ev(&obj, nc_mvc_application_ce TSRMLS_CC)));
 	}
-	if (unlikely(_6)) {
+	if (UNEXPECTED(_6)) {
 		ZEPHIR_INIT_VAR(&_7$$4);
 		object_init_ex(&_7$$4, nc_mvc_exception_ce);
 		ZEPHIR_INIT_VAR(&_8$$4);

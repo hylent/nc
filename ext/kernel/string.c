@@ -2,7 +2,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Zephir Team (http://www.zephir-lang.com)       |
+  | Copyright (c) 2011-2017 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -578,7 +578,7 @@ void zephir_camelize(zval *return_value, const zval *str, const zval *delimiter)
 	smart_str camelize_str = {0};
 	char *marker, ch, *delim;
 
-	if (unlikely(Z_TYPE_P(str) != IS_STRING)) {
+	if (UNEXPECTED(Z_TYPE_P(str) != IS_STRING)) {
 		zend_error(E_WARNING, "Invalid arguments supplied for camelize()");
 		RETURN_EMPTY_STRING();
 	}
@@ -717,7 +717,7 @@ int zephir_memnstr_str(const zval *haystack, char *needle, unsigned int needle_l
  */
 void zephir_fast_explode(zval *return_value, zval *delimiter, zval *str, long limit)
 {
-	if (unlikely(Z_TYPE_P(str) != IS_STRING || Z_TYPE_P(delimiter) != IS_STRING)) {
+	if (UNEXPECTED(Z_TYPE_P(str) != IS_STRING || Z_TYPE_P(delimiter) != IS_STRING)) {
 		zend_error(E_WARNING, "Invalid arguments supplied for explode()");
 		RETURN_EMPTY_STRING();
 	}
@@ -733,7 +733,7 @@ void zephir_fast_explode_str(zval *return_value, const char *delim, int delim_le
 {
 	zend_string *delimiter;
 
-	if (unlikely(Z_TYPE_P(str) != IS_STRING)) {
+	if (UNEXPECTED(Z_TYPE_P(str) != IS_STRING)) {
 		zend_error(E_WARNING, "Invalid arguments supplied for explode()");
 		RETURN_EMPTY_STRING();
 	}
@@ -751,7 +751,7 @@ void zephir_fast_strpos(zval *return_value, const zval *haystack, const zval *ne
 {
 	const char *found = NULL;
 
-	if (unlikely(Z_TYPE_P(haystack) != IS_STRING || Z_TYPE_P(needle) != IS_STRING)) {
+	if (UNEXPECTED(Z_TYPE_P(haystack) != IS_STRING || Z_TYPE_P(needle) != IS_STRING)) {
 		ZVAL_NULL(return_value);
 		zend_error(E_WARNING, "Invalid arguments supplied for strpos()");
 		return;
@@ -785,7 +785,7 @@ void zephir_fast_strpos_str(zval *return_value, const zval *haystack, char *need
 {
 	const char *found = NULL;
 
-	if (unlikely(Z_TYPE_P(haystack) != IS_STRING)) {
+	if (UNEXPECTED(Z_TYPE_P(haystack) != IS_STRING)) {
 		ZVAL_NULL(return_value);
 		zend_error(E_WARNING, "Invalid arguments supplied for strpos()");
 		return;
@@ -1085,6 +1085,7 @@ void zephir_preg_match(zval *return_value, zval *regex, zval *subject, zval *mat
 	if (matches) {
 		zval *php_matches = &tmp_matches;
 
+		zval_dtor(matches);
 		ZVAL_DEREF(php_matches);
 		ZVAL_COPY(matches, php_matches);
 	}
@@ -1111,7 +1112,8 @@ void zephir_preg_match(zval *return_value, zval *regex, zval *subject, zval *mat
 	ZVAL_LONG(&tmp_flags, flags);
 	ZVAL_LONG(&tmp_offset, offset);
 
-	ZVAL_UNDEF(&tmp_matches);
+	ZVAL_NULL(&tmp_matches);
+	ZVAL_MAKE_REF(&tmp_matches);
 
 	{
 		zval *tmp_params[5] = { regex, subject, &tmp_matches, &tmp_flags, &tmp_offset };
@@ -1158,7 +1160,7 @@ int zephir_json_decode(zval *return_value, zval *v, zend_bool assoc)
 	zval copy;
 	int use_copy = 0;
 
-	if (unlikely(Z_TYPE_P(v) != IS_STRING)) {
+	if (UNEXPECTED(Z_TYPE_P(v) != IS_STRING)) {
 		use_copy = zend_make_printable_zval(v, &copy);
 		if (use_copy) {
 			v = &copy;
@@ -1167,7 +1169,7 @@ int zephir_json_decode(zval *return_value, zval *v, zend_bool assoc)
 
 	php_json_decode(return_value, Z_STRVAL_P(v), Z_STRLEN_P(v), assoc, 512 /* JSON_PARSER_DEFAULT_DEPTH */);
 
-	if (unlikely(use_copy)) {
+	if (UNEXPECTED(use_copy)) {
 		zval_dtor(&copy);
 	}
 
@@ -1267,7 +1269,7 @@ void zephir_ucfirst(zval *return_value, zval *s)
 	char *c;
 	int use_copy = 0;
 
-	if (unlikely(Z_TYPE_P(s) != IS_STRING)) {
+	if (UNEXPECTED(Z_TYPE_P(s) != IS_STRING)) {
 		use_copy = zend_make_printable_zval(s, &copy);
 		if (use_copy) {
 			s = &copy;
@@ -1283,7 +1285,7 @@ void zephir_ucfirst(zval *return_value, zval *s)
 		*c = toupper((unsigned char)*c);
 	}
 
-	if (unlikely(use_copy)) {
+	if (UNEXPECTED(use_copy)) {
 		zval_dtor(&copy);
 	}
 }
@@ -1293,7 +1295,7 @@ void zephir_addslashes(zval *return_value, zval *str)
 	zval copy;
 	int use_copy = 0;
 
-	if (unlikely(Z_TYPE_P(str) != IS_STRING)) {
+	if (UNEXPECTED(Z_TYPE_P(str) != IS_STRING)) {
 		use_copy = zend_make_printable_zval(str, &copy);
 		if (use_copy) {
 			str = &copy;
@@ -1302,7 +1304,7 @@ void zephir_addslashes(zval *return_value, zval *str)
 
 	ZVAL_STR(return_value, php_addslashes(Z_STR_P(str), 0));
 
-	if (unlikely(use_copy)) {
+	if (UNEXPECTED(use_copy)) {
 		zval_dtor(&copy);
 	}
 }
@@ -1312,7 +1314,7 @@ void zephir_stripslashes(zval *return_value, zval *str)
 	zval copy;
 	int use_copy = 0;
 
-	if (unlikely(Z_TYPE_P(str) != IS_STRING)) {
+	if (UNEXPECTED(Z_TYPE_P(str) != IS_STRING)) {
 		use_copy = zend_make_printable_zval(str, &copy);
 		if (use_copy) {
 			str = &copy;
@@ -1322,7 +1324,7 @@ void zephir_stripslashes(zval *return_value, zval *str)
 	ZVAL_STRINGL(return_value, Z_STRVAL_P(str), Z_STRLEN_P(str));
 	php_stripslashes(Z_STR_P(return_value));
 
-	if (unlikely(use_copy)) {
+	if (UNEXPECTED(use_copy)) {
 		zval_dtor(&copy);
 	}
 }
@@ -1332,7 +1334,7 @@ void zephir_stripcslashes(zval *return_value, zval *str)
 	zval copy;
 	int use_copy = 0;
 
-	if (unlikely(Z_TYPE_P(str) != IS_STRING)) {
+	if (UNEXPECTED(Z_TYPE_P(str) != IS_STRING)) {
 		use_copy = zend_make_printable_zval(str, &copy);
 		if (use_copy) {
 			str = &copy;
@@ -1342,7 +1344,7 @@ void zephir_stripcslashes(zval *return_value, zval *str)
 	ZVAL_STRINGL(return_value, Z_STRVAL_P(str), Z_STRLEN_P(str));
 	php_stripcslashes(Z_STR_P(return_value));
 
-	if (unlikely(use_copy)) {
+	if (UNEXPECTED(use_copy)) {
 		zval_dtor(&copy);
 	}
 }
@@ -1373,4 +1375,35 @@ int zephir_hash_equals(const zval *known_zval, const zval *user_zval)
 	}
 
 	return (int) (result == 0);
+}
+
+void zephir_string_to_hex(zval *return_value, zval *var)
+{
+	int use_copy = 0;
+	zval copy;
+	size_t i;
+	char *s;
+	zend_string *res;
+
+	if (Z_TYPE_P(var) != IS_STRING) {
+		use_copy = zend_make_printable_zval(var, &copy);
+		if (use_copy) {
+			var = &copy;
+		}
+	}
+
+	res = zend_string_alloc(2*Z_STRLEN_P(var) + 1, 0);
+	s   = Z_STRVAL_P(var);
+	for (i=0; i<Z_STRLEN_P(var); ++i) {
+		sprintf(res->val + 2*i, "%hhX", s[i]);
+	}
+
+	res->val[2*Z_STRLEN_P(var)] = 0;
+	res->len = 2*Z_STRLEN_P(var);
+	zend_string_forget_hash_val(res);
+	ZVAL_STR(return_value, res);
+
+	if (use_copy) {
+		zval_dtor(var);
+	}
 }

@@ -12,7 +12,6 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/hash.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
@@ -38,10 +37,10 @@ PHP_METHOD(Nc_Di_Creators, __construct) {
 	zend_string *_2;
 	zend_ulong _1;
 	zephir_fcall_cache_entry *_3 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *creators_param = NULL, name, creator, *_0;
 	zval creators;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&creators);
 	ZVAL_UNDEF(&name);
@@ -81,10 +80,10 @@ PHP_METHOD(Nc_Di_Creators, __construct) {
 PHP_METHOD(Nc_Di_Creators, offsetSet) {
 
 	zend_bool _0;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, *creator, creator_sub, _1$$3;
 	zval name, _2$$3;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&_2$$3);
@@ -101,7 +100,7 @@ PHP_METHOD(Nc_Di_Creators, offsetSet) {
 	if (!(_0)) {
 		_0 = !((zephir_instance_of_ev(creator, nc_di_creatorabstract_ce TSRMLS_CC)));
 	}
-	if (unlikely(_0)) {
+	if (UNEXPECTED(_0)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, nc_di_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
@@ -119,10 +118,10 @@ PHP_METHOD(Nc_Di_Creators, offsetSet) {
 
 PHP_METHOD(Nc_Di_Creators, offsetGet) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, creator, _0, _1$$3;
 	zval name, _2$$3;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&_2$$3);
@@ -138,7 +137,7 @@ PHP_METHOD(Nc_Di_Creators, offsetGet) {
 
 	ZEPHIR_OBS_VAR(&creator);
 	zephir_read_property(&_0, this_ptr, SL("creators"), PH_NOISY_CC | PH_READONLY);
-	if (unlikely(!(zephir_array_isset_fetch(&creator, &_0, &name, 0 TSRMLS_CC)))) {
+	if (UNEXPECTED(!(zephir_array_isset_fetch(&creator, &_0, &name, 0 TSRMLS_CC)))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, nc_di_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
@@ -149,7 +148,7 @@ PHP_METHOD(Nc_Di_Creators, offsetGet) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	RETURN_CCTOR(creator);
+	RETURN_CCTOR(&creator);
 
 }
 
@@ -157,7 +156,7 @@ PHP_METHOD(Nc_Di_Creators, offsetExists) {
 
 	zval *name_param = NULL, _0;
 	zval name;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&_0);
@@ -177,7 +176,7 @@ PHP_METHOD(Nc_Di_Creators, offsetUnset) {
 
 	zval *name_param = NULL, _0;
 	zval name;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&_0);
@@ -196,10 +195,10 @@ PHP_METHOD(Nc_Di_Creators, offsetUnset) {
 
 PHP_METHOD(Nc_Di_Creators, getValidClassName) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, creator, className, _0, _1$$3, *_2$$3, _3$$4;
 	zval name, _4$$4;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&_4$$4);
@@ -228,7 +227,7 @@ PHP_METHOD(Nc_Di_Creators, getValidClassName) {
 			zephir_get_strval(&_4$$4, &_3$$4);
 			ZEPHIR_CPY_WRT(&className, &_4$$4);
 			if (!ZEPHIR_IS_STRING_IDENTICAL(&className, "")) {
-				RETURN_CCTOR(className);
+				RETURN_CCTOR(&className);
 			}
 		} ZEND_HASH_FOREACH_END();
 		ZEPHIR_INIT_NVAR(&creator);

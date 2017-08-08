@@ -18,7 +18,6 @@
 #include "kernel/exception.h"
 #include "kernel/object.h"
 #include "kernel/array.h"
-#include "kernel/hash.h"
 #include "kernel/string.h"
 #include "kernel/concat.h"
 
@@ -41,13 +40,12 @@ PHP_METHOD(Nc_Mvc_ContextHttpSwoole, __construct) {
 	zend_ulong _5$$4, _10$$6;
 	zend_bool _3, _8, _18, _20, _22, _24;
 	zephir_fcall_cache_entry *_16 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
-	zval *swooleRequest, swooleRequest_sub, *swooleResponse, swooleResponse_sub, _SERVER, a, k, v, _0, _1, _2, *_4$$4, _7$$5, *_9$$6, _12$$7, _13$$7, _14$$7, _15$$7, _17$$7, _19$$9, _21$$11, _23$$13, _25$$15;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *swooleRequest, swooleRequest_sub, *swooleResponse, swooleResponse_sub, *_SERVER, a, k, v, _0, _1, _2, *_4$$4, _7$$5, *_9$$6, _12$$7, _13$$7, _14$$7, _15$$7, _17$$7, _19$$9, _21$$11, _23$$13, _25$$15;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&swooleRequest_sub);
 	ZVAL_UNDEF(&swooleResponse_sub);
-	ZVAL_UNDEF(&_SERVER);
 	ZVAL_UNDEF(&a);
 	ZVAL_UNDEF(&k);
 	ZVAL_UNDEF(&v);
@@ -67,21 +65,25 @@ PHP_METHOD(Nc_Mvc_ContextHttpSwoole, __construct) {
 
 	ZEPHIR_MM_GROW();
 	zephir_get_global(&_SERVER, SL("_SERVER"));
+	if (!_SERVER) {
+		ZEPHIR_THROW_EXCEPTION_STR(zend_exception_get_default(), "Invalid superglobal");
+		return;
+	}
 	zephir_fetch_params(1, 2, 0, &swooleRequest, &swooleResponse);
 
 
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "swoole");
-	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 28, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 29, &_0);
 	zephir_check_call_status();
-	if (unlikely(!zephir_is_true(&_1))) {
+	if (UNEXPECTED(!zephir_is_true(&_1))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_mvc_exception_ce, "ExtensionMissing swoole", "nc/mvc/contexthttpswoole.zep", 13);
 		return;
 	}
 	zephir_update_property_zval(this_ptr, SL("swooleRequest"), swooleRequest);
 	zephir_update_property_zval(this_ptr, SL("swooleResponse"), swooleResponse);
-	zephir_update_property_zval(this_ptr, SL("serverVars"), &_SERVER);
+	zephir_update_property_zval(this_ptr, SL("serverVars"), _SERVER);
 	zephir_read_property(&_2, swooleRequest, SL("fd"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "SWOOLE_FD");
@@ -199,7 +201,7 @@ PHP_METHOD(Nc_Mvc_ContextHttpSwoole, __construct) {
 PHP_METHOD(Nc_Mvc_ContextHttpSwoole, getRoutingNames) {
 
 	zval _0;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 
@@ -218,27 +220,27 @@ PHP_METHOD(Nc_Mvc_ContextHttpSwoole, getRoutingNames) {
 
 PHP_METHOD(Nc_Mvc_ContextHttpSwoole, getSwooleRequest) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "swooleRequest");
+	RETURN_MEMBER(getThis(), "swooleRequest");
 
 }
 
 PHP_METHOD(Nc_Mvc_ContextHttpSwoole, getSwooleResponse) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "swooleResponse");
+	RETURN_MEMBER(getThis(), "swooleResponse");
 
 }
 
 PHP_METHOD(Nc_Mvc_ContextHttpSwoole, getRawInput) {
 
 	zval _0;
-	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 
@@ -254,9 +256,9 @@ PHP_METHOD(Nc_Mvc_ContextHttpSwoole, getRawInput) {
 PHP_METHOD(Nc_Mvc_ContextHttpSwoole, startSession) {
 
 	zval _1$$4;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *sessionIdGenerator = NULL, sessionIdGenerator_sub, __$null, sessName, id, _0$$4, _2$$3;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&sessionIdGenerator_sub);
 	ZVAL_NULL(&__$null);
@@ -275,7 +277,7 @@ PHP_METHOD(Nc_Mvc_ContextHttpSwoole, startSession) {
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&sessName, "session_name", NULL, 112);
+	ZEPHIR_CALL_FUNCTION(&sessName, "session_name", NULL, 111);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&id, this_ptr, "getcookie", NULL, 0, &sessName);
 	zephir_check_call_status();
@@ -291,25 +293,25 @@ PHP_METHOD(Nc_Mvc_ContextHttpSwoole, startSession) {
 			ZEPHIR_CALL_SELF(&id, "generatesessionid", NULL, 0);
 			zephir_check_call_status();
 		}
-		ZEPHIR_CALL_FUNCTION(&_2$$3, "session_get_cookie_params", NULL, 113);
+		ZEPHIR_CALL_FUNCTION(&_2$$3, "session_get_cookie_params", NULL, 112);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "cookie", NULL, 0, &sessName, &id, &_2$$3);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_FUNCTION(NULL, "session_id", NULL, 21, &id);
+	ZEPHIR_CALL_FUNCTION(NULL, "session_id", NULL, 22, &id);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(NULL, "session_start", NULL, 22);
+	ZEPHIR_CALL_FUNCTION(NULL, "session_start", NULL, 23);
 	zephir_check_call_status();
-	RETURN_CCTOR(id);
+	RETURN_CCTOR(&id);
 
 }
 
 PHP_METHOD(Nc_Mvc_ContextHttpSwoole, status) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *status_param = NULL, _0, _1;
 	long status;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
@@ -330,11 +332,11 @@ PHP_METHOD(Nc_Mvc_ContextHttpSwoole, status) {
 
 PHP_METHOD(Nc_Mvc_ContextHttpSwoole, cookie) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval options;
 	zval *name_param = NULL, *value_param = NULL, *options_param = NULL, a, _0, _1, _2, _3, _4, _5, _6;
 	zval name, value;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&value);
@@ -379,10 +381,10 @@ PHP_METHOD(Nc_Mvc_ContextHttpSwoole, cookie) {
 
 PHP_METHOD(Nc_Mvc_ContextHttpSwoole, header) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, *value_param = NULL, _0;
 	zval name, value;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&value);
@@ -404,10 +406,10 @@ PHP_METHOD(Nc_Mvc_ContextHttpSwoole, header) {
 
 PHP_METHOD(Nc_Mvc_ContextHttpSwoole, sendFile) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *path_param = NULL, _0;
 	zval path;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&path);
 	ZVAL_UNDEF(&_0);
@@ -427,10 +429,10 @@ PHP_METHOD(Nc_Mvc_ContextHttpSwoole, sendFile) {
 
 PHP_METHOD(Nc_Mvc_ContextHttpSwoole, output) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *content_param = NULL, _0;
 	zval content;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&content);
 	ZVAL_UNDEF(&_0);

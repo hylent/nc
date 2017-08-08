@@ -33,7 +33,7 @@ PHP_METHOD(Nc_Di_CreatorClassPrefix, __construct) {
 
 	zval *classPrefix_param = NULL;
 	zval classPrefix;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&classPrefix);
 
@@ -52,7 +52,7 @@ PHP_METHOD(Nc_Di_CreatorClassPrefix, getValidClassName) {
 
 	zval *name_param = NULL, className, _0, _1;
 	zval name;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&className);
@@ -71,7 +71,7 @@ PHP_METHOD(Nc_Di_CreatorClassPrefix, getValidClassName) {
 	ZEPHIR_INIT_VAR(&className);
 	ZEPHIR_CONCAT_VV(&className, &_0, &_1);
 	if (zephir_class_exists(&className, 1 TSRMLS_CC)) {
-		RETURN_CCTOR(className);
+		RETURN_CCTOR(&className);
 	}
 	RETURN_MM_STRING("");
 

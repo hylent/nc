@@ -20,7 +20,6 @@
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
 #include "kernel/string.h"
-#include "kernel/hash.h"
 
 
 ZEPHIR_INIT_CLASS(Nc_Storage_Ftp) {
@@ -41,7 +40,7 @@ PHP_METHOD(Nc_Storage_Ftp, ignoreError) {
 	zval s, f, l;
 	zval *n_param = NULL, *s_param = NULL, *f_param = NULL, *l_param = NULL, *context_param = NULL;
 	long n;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&s);
 	ZVAL_UNDEF(&f);
@@ -72,11 +71,11 @@ PHP_METHOD(Nc_Storage_Ftp, __construct) {
 	zend_bool ssl, _9;
 	long port, timeout;
 	zephir_fcall_cache_entry *_8 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval options;
 	zval *host_param = NULL, *user_param = NULL, *passwd_param = NULL, *options_param = NULL, __$true, o, ftp, _10, _14, _1$$7, _2$$7, _3$$9, _4$$9, _5$$11, _6$$11, _7$$11, _11$$12, _12$$12, _13$$12;
 	zval host, user, passwd, baseDirectory, _0$$3;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&host);
 	ZVAL_UNDEF(&user);
@@ -137,25 +136,25 @@ PHP_METHOD(Nc_Storage_Ftp, __construct) {
 		ssl = zephir_get_boolval(&o);
 	}
 	if (ssl) {
-		if (unlikely(!((zephir_function_exists_ex(SL("ftp_ssl_connect") TSRMLS_CC) == SUCCESS)))) {
+		if (UNEXPECTED(!((zephir_function_exists_ex(SL("ftp_ssl_connect") TSRMLS_CC) == SUCCESS)))) {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_storage_exception_ce, "Missing ssl ftp support", "nc/storage/ftp.zep", 35);
 			return;
 		}
 		ZVAL_LONG(&_1$$7, port);
 		ZVAL_LONG(&_2$$7, timeout);
-		ZEPHIR_CALL_FUNCTION(&ftp, "ftp_ssl_connect", NULL, 140, &host, &_1$$7, &_2$$7);
+		ZEPHIR_CALL_FUNCTION(&ftp, "ftp_ssl_connect", NULL, 139, &host, &_1$$7, &_2$$7);
 		zephir_check_call_status();
 	} else {
-		if (unlikely(!((zephir_function_exists_ex(SL("ftp_connect") TSRMLS_CC) == SUCCESS)))) {
+		if (UNEXPECTED(!((zephir_function_exists_ex(SL("ftp_connect") TSRMLS_CC) == SUCCESS)))) {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_storage_exception_ce, "Missing ftp support", "nc/storage/ftp.zep", 41);
 			return;
 		}
 		ZVAL_LONG(&_3$$9, port);
 		ZVAL_LONG(&_4$$9, timeout);
-		ZEPHIR_CALL_FUNCTION(&ftp, "ftp_connect", NULL, 141, &host, &_3$$9, &_4$$9);
+		ZEPHIR_CALL_FUNCTION(&ftp, "ftp_connect", NULL, 140, &host, &_3$$9, &_4$$9);
 		zephir_check_call_status();
 	}
-	if (unlikely(!zephir_is_true(&ftp))) {
+	if (UNEXPECTED(!zephir_is_true(&ftp))) {
 		ZEPHIR_INIT_VAR(&_5$$11);
 		object_init_ex(&_5$$11, nc_storage_exception_ce);
 		ZEPHIR_INIT_VAR(&_6$$11);
@@ -170,11 +169,11 @@ PHP_METHOD(Nc_Storage_Ftp, __construct) {
 	}
 	_9 = zephir_is_true(&user);
 	if (_9) {
-		ZEPHIR_CALL_FUNCTION(&_10, "ftp_login", NULL, 142, &ftp, &user, &passwd);
+		ZEPHIR_CALL_FUNCTION(&_10, "ftp_login", NULL, 141, &ftp, &user, &passwd);
 		zephir_check_call_status();
 		_9 = !zephir_is_true(&_10);
 	}
-	if (unlikely(_9)) {
+	if (UNEXPECTED(_9)) {
 		ZEPHIR_INIT_VAR(&_11$$12);
 		object_init_ex(&_11$$12, nc_storage_exception_ce);
 		ZEPHIR_INIT_VAR(&_12$$12);
@@ -187,9 +186,9 @@ PHP_METHOD(Nc_Storage_Ftp, __construct) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_FUNCTION(&_14, "ftp_pasv", NULL, 143, &ftp, &__$true);
+	ZEPHIR_CALL_FUNCTION(&_14, "ftp_pasv", NULL, 142, &ftp, &__$true);
 	zephir_check_call_status();
-	if (unlikely(!zephir_is_true(&_14))) {
+	if (UNEXPECTED(!zephir_is_true(&_14))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_storage_exception_ce, "Cannot set PASV mode", "nc/storage/ftp.zep", 56);
 		return;
 	}
@@ -201,29 +200,29 @@ PHP_METHOD(Nc_Storage_Ftp, __construct) {
 
 PHP_METHOD(Nc_Storage_Ftp, getInternalHandler) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "ftp");
+	RETURN_MEMBER(getThis(), "ftp");
 
 }
 
 PHP_METHOD(Nc_Storage_Ftp, getBaseDirectory) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "baseDirectory");
+	RETURN_MEMBER(getThis(), "baseDirectory");
 
 }
 
 PHP_METHOD(Nc_Storage_Ftp, store) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	long type;
 	zval *src_param = NULL, *pre_param = NULL, *ext_param = NULL, *type_param = NULL, _0, _2, _3, _4, _5, _6, _7, _8$$3;
 	zval src, pre, ext, destUri, destPath, _1, _9$$3;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&src);
 	ZVAL_UNDEF(&pre);
@@ -272,15 +271,15 @@ PHP_METHOD(Nc_Storage_Ftp, store) {
 	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_CONCAT_VV(&_3, &_2, &destUri);
 	zephir_get_strval(&destPath, &_3);
-	ZEPHIR_CALL_FUNCTION(&_4, "dirname", NULL, 42, &destPath);
+	ZEPHIR_CALL_FUNCTION(&_4, "dirname", NULL, 43, &destPath);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "mkdirifnotexists", NULL, 0, &_4);
 	zephir_check_call_status();
 	zephir_read_property(&_5, this_ptr, SL("ftp"), PH_NOISY_CC | PH_READONLY);
 	ZVAL_LONG(&_6, 2);
-	ZEPHIR_CALL_FUNCTION(&_7, "ftp_put", NULL, 144, &_5, &destPath, &src, &_6);
+	ZEPHIR_CALL_FUNCTION(&_7, "ftp_put", NULL, 143, &_5, &destPath, &src, &_6);
 	zephir_check_call_status();
-	if (unlikely(!zephir_is_true(&_7))) {
+	if (UNEXPECTED(!zephir_is_true(&_7))) {
 		ZEPHIR_INIT_VAR(&_8$$3);
 		object_init_ex(&_8$$3, nc_storage_exception_ce);
 		ZEPHIR_INIT_VAR(&_9$$3);
@@ -293,22 +292,22 @@ PHP_METHOD(Nc_Storage_Ftp, store) {
 	}
 	do {
 		if (type == 3 || type == 2) {
-			ZEPHIR_CALL_FUNCTION(NULL, "unlink", NULL, 38, &src);
+			ZEPHIR_CALL_FUNCTION(NULL, "unlink", NULL, 39, &src);
 			zephir_check_call_status();
 			break;
 		}
 	} while(0);
 
-	RETURN_CTOR(destUri);
+	RETURN_CTOR(&destUri);
 
 }
 
 PHP_METHOD(Nc_Storage_Ftp, remove) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *uri_param = NULL, _0;
 	zval uri;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&uri);
 	ZVAL_UNDEF(&_0);
@@ -320,7 +319,7 @@ PHP_METHOD(Nc_Storage_Ftp, remove) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("ftp"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_FUNCTION("ftp_delete", NULL, 145, &_0, &uri);
+	ZEPHIR_RETURN_CALL_FUNCTION("ftp_delete", NULL, 144, &_0, &uri);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -328,10 +327,10 @@ PHP_METHOD(Nc_Storage_Ftp, remove) {
 
 PHP_METHOD(Nc_Storage_Ftp, exists) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *uri_param = NULL, _0, _1;
 	zval uri;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&uri);
 	ZVAL_UNDEF(&_0);
@@ -344,7 +343,7 @@ PHP_METHOD(Nc_Storage_Ftp, exists) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("ftp"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_FUNCTION(&_1, "ftp_mdtm", NULL, 146, &_0, &uri);
+	ZEPHIR_CALL_FUNCTION(&_1, "ftp_mdtm", NULL, 145, &_0, &uri);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(!ZEPHIR_IS_LONG_IDENTICAL(&_1, -1));
 
@@ -353,15 +352,15 @@ PHP_METHOD(Nc_Storage_Ftp, exists) {
 PHP_METHOD(Nc_Storage_Ftp, __destruct) {
 
 	zval _0;
-	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 
 	zephir_read_property(&_0, this_ptr, SL("ftp"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_FUNCTION(NULL, "ftp_close", NULL, 147, &_0);
+	ZEPHIR_CALL_FUNCTION(NULL, "ftp_close", NULL, 146, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -370,10 +369,10 @@ PHP_METHOD(Nc_Storage_Ftp, __destruct) {
 PHP_METHOD(Nc_Storage_Ftp, mkDirIfNotExists) {
 
 	zephir_fcall_cache_entry *_6 = NULL, *_7 = NULL, *_9 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *dir_param = NULL, ftp, parts, cur, stack, _0, _1, _2, *_8, _4$$3, _5$$3;
 	zval dir, _3;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&dir);
 	ZVAL_UNDEF(&_3);
@@ -401,11 +400,11 @@ PHP_METHOD(Nc_Storage_Ftp, mkDirIfNotExists) {
 	ZVAL_STRING(&_1, "#/+#");
 	ZVAL_LONG(&_0, -1);
 	ZVAL_LONG(&_2, 1);
-	ZEPHIR_CALL_FUNCTION(&parts, "preg_split", NULL, 27, &_1, &dir, &_0, &_2);
+	ZEPHIR_CALL_FUNCTION(&parts, "preg_split", NULL, 28, &_1, &dir, &_0, &_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_CONCAT_SS(&_3, "Nc\\Storage\\Ftp", "::ignoreError");
-	ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 148, &_3);
+	ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 147, &_3);
 	zephir_check_call_status();
 	while (1) {
 		if (!(zephir_fast_count_int(&parts TSRMLS_CC) > 0)) {
@@ -415,24 +414,24 @@ PHP_METHOD(Nc_Storage_Ftp, mkDirIfNotExists) {
 		zephir_fast_join_str(&_4$$3, SL("/"), &parts TSRMLS_CC);
 		ZEPHIR_INIT_NVAR(&cur);
 		ZEPHIR_CONCAT_SV(&cur, "/", &_4$$3);
-		ZEPHIR_CALL_FUNCTION(&_5$$3, "ftp_chdir", &_6, 149, &ftp, &cur);
+		ZEPHIR_CALL_FUNCTION(&_5$$3, "ftp_chdir", &_6, 148, &ftp, &cur);
 		zephir_check_call_status();
 		if (!(zephir_is_true(&_5$$3))) {
 			zephir_array_append(&stack, &cur, PH_SEPARATE, "nc/storage/ftp.zep", 123);
 		}
 		ZEPHIR_MAKE_REF(&parts);
-		ZEPHIR_CALL_FUNCTION(NULL, "array_pop", &_7, 150, &parts);
+		ZEPHIR_CALL_FUNCTION(NULL, "array_pop", &_7, 149, &parts);
 		ZEPHIR_UNREF(&parts);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 151);
+	ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 150);
 	zephir_check_call_status();
 	zephir_is_iterable(&stack, 0, "nc/storage/ftp.zep", 133);
 	ZEND_HASH_REVERSE_FOREACH_VAL(Z_ARRVAL_P(&stack), _8)
 	{
 		ZEPHIR_INIT_NVAR(&cur);
 		ZVAL_COPY(&cur, _8);
-		ZEPHIR_CALL_FUNCTION(NULL, "ftp_mkdir", &_9, 152, &ftp, &cur);
+		ZEPHIR_CALL_FUNCTION(NULL, "ftp_mkdir", &_9, 151, &ftp, &cur);
 		zephir_check_call_status();
 	} ZEND_HASH_FOREACH_END();
 	ZEPHIR_INIT_NVAR(&cur);

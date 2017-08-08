@@ -38,7 +38,7 @@ PHP_METHOD(Nc_Storage_FileSystem, __construct) {
 	long mode;
 	zval *baseDirectory_param = NULL, *mode_param = NULL, _0;
 	zval baseDirectory;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&baseDirectory);
 	ZVAL_UNDEF(&_0);
@@ -64,19 +64,19 @@ PHP_METHOD(Nc_Storage_FileSystem, __construct) {
 
 PHP_METHOD(Nc_Storage_FileSystem, getBaseDirectory) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "baseDirectory");
+	RETURN_MEMBER(getThis(), "baseDirectory");
 
 }
 
 PHP_METHOD(Nc_Storage_FileSystem, getMode) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "mode");
+	RETURN_MEMBER(getThis(), "mode");
 
 }
 
@@ -84,7 +84,7 @@ PHP_METHOD(Nc_Storage_FileSystem, getPath) {
 
 	zval *uri_param = NULL, _0;
 	zval uri;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&uri);
 	ZVAL_UNDEF(&_0);
@@ -104,11 +104,11 @@ PHP_METHOD(Nc_Storage_FileSystem, getPath) {
 PHP_METHOD(Nc_Storage_FileSystem, store) {
 
 	zend_bool _5;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	long type;
 	zval *src_param = NULL, *pre_param = NULL, *ext_param = NULL, *type_param = NULL, __$true, temp, success, _0, _2, _3, _4, _6, _7, _8$$3, _9$$3, _10$$7;
 	zval src, pre, ext, destUri, destPath, _1, _11$$7;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&src);
 	ZVAL_UNDEF(&pre);
@@ -161,18 +161,18 @@ PHP_METHOD(Nc_Storage_FileSystem, store) {
 	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_CONCAT_VV(&_3, &_2, &destUri);
 	zephir_get_strval(&destPath, &_3);
-	ZEPHIR_CALL_FUNCTION(&temp, "dirname", NULL, 42, &destPath);
+	ZEPHIR_CALL_FUNCTION(&temp, "dirname", NULL, 43, &destPath);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_4, "is_dir", NULL, 37, &temp);
+	ZEPHIR_CALL_FUNCTION(&_4, "is_dir", NULL, 38, &temp);
 	zephir_check_call_status();
 	_5 = !zephir_is_true(&_4);
 	if (_5) {
 		zephir_read_property(&_6, this_ptr, SL("mode"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_FUNCTION(&_7, "mkdir", NULL, 43, &temp, &_6, &__$true);
+		ZEPHIR_CALL_FUNCTION(&_7, "mkdir", NULL, 44, &temp, &_6, &__$true);
 		zephir_check_call_status();
 		_5 = !zephir_is_true(&_7);
 	}
-	if (unlikely(_5)) {
+	if (UNEXPECTED(_5)) {
 		ZEPHIR_INIT_VAR(&_8$$3);
 		object_init_ex(&_8$$3, nc_storage_exception_ce);
 		ZEPHIR_INIT_VAR(&_9$$3);
@@ -185,21 +185,21 @@ PHP_METHOD(Nc_Storage_FileSystem, store) {
 	}
 	do {
 		if (type == 3) {
-			ZEPHIR_CALL_FUNCTION(&success, "move_uploaded_file", NULL, 137, &src, &destPath);
+			ZEPHIR_CALL_FUNCTION(&success, "move_uploaded_file", NULL, 136, &src, &destPath);
 			zephir_check_call_status();
 			break;
 		}
 		if (type == 2) {
-			ZEPHIR_CALL_FUNCTION(&success, "rename", NULL, 138, &src, &destPath);
+			ZEPHIR_CALL_FUNCTION(&success, "rename", NULL, 137, &src, &destPath);
 			zephir_check_call_status();
 			break;
 		}
-		ZEPHIR_CALL_FUNCTION(&success, "copy", NULL, 139, &src, &destPath);
+		ZEPHIR_CALL_FUNCTION(&success, "copy", NULL, 138, &src, &destPath);
 		zephir_check_call_status();
 		break;
 	} while(0);
 
-	if (unlikely(!zephir_is_true(&success))) {
+	if (UNEXPECTED(!zephir_is_true(&success))) {
 		ZEPHIR_INIT_VAR(&_10$$7);
 		object_init_ex(&_10$$7, nc_storage_exception_ce);
 		ZEPHIR_INIT_VAR(&_11$$7);
@@ -210,16 +210,16 @@ PHP_METHOD(Nc_Storage_FileSystem, store) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	RETURN_CTOR(destUri);
+	RETURN_CTOR(&destUri);
 
 }
 
 PHP_METHOD(Nc_Storage_FileSystem, remove) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *uri_param = NULL, path;
 	zval uri;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&uri);
 	ZVAL_UNDEF(&path);
@@ -233,7 +233,7 @@ PHP_METHOD(Nc_Storage_FileSystem, remove) {
 	ZEPHIR_CALL_METHOD(&path, this_ptr, "getpath", NULL, 0, &uri);
 	zephir_check_call_status();
 	if ((zephir_file_exists(&path TSRMLS_CC) == SUCCESS)) {
-		ZEPHIR_RETURN_CALL_FUNCTION("unlink", NULL, 38, &path);
+		ZEPHIR_RETURN_CALL_FUNCTION("unlink", NULL, 39, &path);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -243,10 +243,10 @@ PHP_METHOD(Nc_Storage_FileSystem, remove) {
 
 PHP_METHOD(Nc_Storage_FileSystem, exists) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *uri_param = NULL, _0;
 	zval uri;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&uri);
 	ZVAL_UNDEF(&_0);

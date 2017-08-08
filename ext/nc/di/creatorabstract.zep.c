@@ -33,7 +33,7 @@ ZEPHIR_INIT_CLASS(Nc_Di_CreatorAbstract) {
 PHP_METHOD(Nc_Di_CreatorAbstract, setupByInjector) {
 
 	zval *injector, injector_sub;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&injector_sub);
 
@@ -47,10 +47,10 @@ PHP_METHOD(Nc_Di_CreatorAbstract, setupByInjector) {
 
 PHP_METHOD(Nc_Di_CreatorAbstract, __isset) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, _0;
 	zval name, _1;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&_1);
@@ -71,10 +71,10 @@ PHP_METHOD(Nc_Di_CreatorAbstract, __isset) {
 
 PHP_METHOD(Nc_Di_CreatorAbstract, __get) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, className, _0, _2;
 	zval name, _1;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&_1);

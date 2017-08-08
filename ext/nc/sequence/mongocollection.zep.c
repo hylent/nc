@@ -33,7 +33,7 @@ ZEPHIR_INIT_CLASS(Nc_Sequence_MongoCollection) {
 PHP_METHOD(Nc_Sequence_MongoCollection, __construct) {
 
 	zval *mongoCollection, mongoCollection_sub;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&mongoCollection_sub);
 
@@ -47,10 +47,10 @@ PHP_METHOD(Nc_Sequence_MongoCollection, __construct) {
 
 PHP_METHOD(Nc_Sequence_MongoCollection, getMongoCollection) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "mongoCollection");
+	RETURN_MEMBER(getThis(), "mongoCollection");
 
 }
 
@@ -58,10 +58,10 @@ PHP_METHOD(Nc_Sequence_MongoCollection, next) {
 
 	zend_bool _5;
 	zval _1, _2, _3;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, __$true, r, s, _0, _4, _6$$3, _7$$3, _8$$3;
 	zval name;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_BOOL(&__$true, 1);
@@ -104,7 +104,7 @@ PHP_METHOD(Nc_Sequence_MongoCollection, next) {
 		ZEPHIR_OBS_VAR(&s);
 		_5 = !(zephir_array_isset_string_fetch(&s, &r, SL("sequence"), 0));
 	}
-	if (unlikely(_5)) {
+	if (UNEXPECTED(_5)) {
 		ZEPHIR_INIT_VAR(&_6$$3);
 		object_init_ex(&_6$$3, nc_sequence_exception_ce);
 		ZEPHIR_INIT_VAR(&_7$$3);
@@ -124,11 +124,11 @@ PHP_METHOD(Nc_Sequence_MongoCollection, next) {
 PHP_METHOD(Nc_Sequence_MongoCollection, restore) {
 
 	zval _1, _2, _3;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	long sequence;
 	zval *name_param = NULL, *sequence_param = NULL, __$true, _0, _4;
 	zval name;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_BOOL(&__$true, 1);
@@ -169,8 +169,8 @@ PHP_METHOD(Nc_Sequence_MongoCollection, restore) {
 PHP_METHOD(Nc_Sequence_MongoCollection, clear) {
 
 	zval _0;
-	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 

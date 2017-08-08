@@ -35,8 +35,8 @@ ZEPHIR_INIT_CLASS(Nc_Log_StdErr) {
 PHP_METHOD(Nc_Log_StdErr, __construct) {
 
 	zval _0, _1, _2;
-	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
@@ -57,10 +57,10 @@ PHP_METHOD(Nc_Log_StdErr, __construct) {
 
 PHP_METHOD(Nc_Log_StdErr, appendLog) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *log_param = NULL, _0, _1, _2, _3, _4$$3, _5$$3;
 	zval log;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&log);
 	ZVAL_UNDEF(&_0);
@@ -83,7 +83,7 @@ PHP_METHOD(Nc_Log_StdErr, appendLog) {
 	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_CONCAT_VV(&_3, &log, &_2);
 	zephir_fwrite(&_0, &_1, &_3 TSRMLS_CC);
-	if (unlikely(ZEPHIR_IS_FALSE_IDENTICAL(&_0))) {
+	if (UNEXPECTED(ZEPHIR_IS_FALSE_IDENTICAL(&_0))) {
 		ZEPHIR_INIT_VAR(&_4$$3);
 		object_init_ex(&_4$$3, nc_log_exception_ce);
 		ZEPHIR_INIT_VAR(&_5$$3);

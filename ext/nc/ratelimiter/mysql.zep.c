@@ -18,7 +18,6 @@
 #include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/time.h"
-#include "kernel/hash.h"
 #include "kernel/exception.h"
 #include "kernel/string.h"
 
@@ -40,11 +39,11 @@ ZEPHIR_INIT_CLASS(Nc_RateLimiter_Mysql) {
 PHP_METHOD(Nc_RateLimiter_Mysql, __construct) {
 
 	zval _1;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	long numRetries;
 	zval table;
 	zval *db, db_sub, *table_param = NULL, *numRetries_param = NULL, _0, _2, _3;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&db_sub);
 	ZVAL_UNDEF(&_0);
@@ -73,7 +72,7 @@ PHP_METHOD(Nc_RateLimiter_Mysql, __construct) {
 	zephir_array_fast_append(&_1, &_2);
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "");
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 136, db, &table, &_1, &_2);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 135, db, &table, &_1, &_2);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("daoMysql"), &_0);
 	ZEPHIR_INIT_ZVAL_NREF(_3);
@@ -85,18 +84,18 @@ PHP_METHOD(Nc_RateLimiter_Mysql, __construct) {
 
 PHP_METHOD(Nc_RateLimiter_Mysql, getDaoMysql) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "daoMysql");
+	RETURN_MEMBER(getThis(), "daoMysql");
 
 }
 
 PHP_METHOD(Nc_RateLimiter_Mysql, initialize) {
 
 	zval _0, _1, _2, _3, _4, _5;
-	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
@@ -125,10 +124,10 @@ PHP_METHOD(Nc_RateLimiter_Mysql, initialize) {
 
 PHP_METHOD(Nc_RateLimiter_Mysql, getNumRetries) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "numRetries");
+	RETURN_MEMBER(getThis(), "numRetries");
 
 }
 
@@ -138,12 +137,12 @@ PHP_METHOD(Nc_RateLimiter_Mysql, passRateLimits) {
 	zend_string *_2, *_24$$6;
 	zend_ulong _1, _23$$6;
 	long numRetries;
-	int ZEPHIR_LAST_CALL_STATUS, _3$$4, _4$$4;
+	zend_long ZEPHIR_LAST_CALL_STATUS, _3$$4, _4$$4;
 	zephir_fcall_cache_entry *_9 = NULL, *_10 = NULL;
 	zval rateLimits, _15$$6, _19$$8, _31$$14, _33$$14;
 	zval *name_param = NULL, *rateLimits_param = NULL, __$true, now, s, t, item, rate, row, rateOld, itemOld, *_0, _11$$4, _12$$4, _13$$4, _6$$5, _7$$5, _8$$5, _14$$6, _16$$6, _17$$6, _21$$6, *_22$$6, _18$$8, _20$$8, _26$$10, _27$$10, _28$$10, _29$$10, _30$$14, _32$$14;
 	zval name;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_BOOL(&__$true, 1);
@@ -215,7 +214,7 @@ PHP_METHOD(Nc_RateLimiter_Mysql, passRateLimits) {
 		if (!(_5$$4)) {
 			_5$$4 = ZEPHIR_LT_LONG(&t, 1);
 		}
-		if (unlikely(_5$$4)) {
+		if (UNEXPECTED(_5$$4)) {
 			ZEPHIR_INIT_NVAR(&_6$$5);
 			object_init_ex(&_6$$5, nc_ratelimiter_exception_ce);
 			ZEPHIR_INIT_NVAR(&_7$$5);

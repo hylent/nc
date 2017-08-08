@@ -4,6 +4,7 @@ abstract class ContextAbstract
 {
     protected serverVars;
     protected argVector;
+    protected numUsedArgs = 0;
 
     public function getRoutingNames() -> array
     {
@@ -24,6 +25,20 @@ abstract class ContextAbstract
     public function getArgVector() -> array
     {
         return this->argVector;
+    }
+
+    public function setNumUsedArgs(long numUsedArgs) -> void
+    {
+        if numUsedArgs < 0 {
+            let numUsedArgs = 0;
+        }
+
+        let this->numUsedArgs = numUsedArgs;
+    }
+
+    public function getAvailableArgs() -> array
+    {
+        return array_slice(this->argVector, this->numUsedArgs);
     }
 
     public function getParamMap() -> array

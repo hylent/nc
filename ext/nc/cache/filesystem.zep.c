@@ -41,10 +41,10 @@ PHP_METHOD(Nc_Cache_FileSystem, rmDirRecursively) {
 
 	zend_bool _1$$4;
 	zephir_fcall_cache_entry *_0 = NULL, *_4 = NULL, *_5 = NULL, *_6 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *dir_param = NULL, handle, path, _2$$4, _3$$4;
 	zval dir;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&dir);
 	ZVAL_UNDEF(&handle);
@@ -58,13 +58,13 @@ PHP_METHOD(Nc_Cache_FileSystem, rmDirRecursively) {
 	zephir_get_strval(&dir, dir_param);
 
 
-	ZEPHIR_CALL_FUNCTION(&handle, "opendir", NULL, 35, &dir);
+	ZEPHIR_CALL_FUNCTION(&handle, "opendir", NULL, 36, &dir);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&handle))) {
 		RETURN_MM_NULL();
 	}
 	while (1) {
-		ZEPHIR_CALL_FUNCTION(&path, "readdir", &_0, 36, &handle);
+		ZEPHIR_CALL_FUNCTION(&path, "readdir", &_0, 37, &handle);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_FALSE_IDENTICAL(&path)) {
 			break;
@@ -79,17 +79,17 @@ PHP_METHOD(Nc_Cache_FileSystem, rmDirRecursively) {
 		ZEPHIR_INIT_LNVAR(_2$$4);
 		ZEPHIR_CONCAT_VSV(&_2$$4, &dir, "/", &path);
 		ZEPHIR_CPY_WRT(&path, &_2$$4);
-		ZEPHIR_CALL_FUNCTION(&_3$$4, "is_dir", &_4, 37, &path);
+		ZEPHIR_CALL_FUNCTION(&_3$$4, "is_dir", &_4, 38, &path);
 		zephir_check_call_status();
 		if (zephir_is_true(&_3$$4)) {
 			ZEPHIR_CALL_SELF(NULL, "rmdirrecursively", &_5, 0, &path);
 			zephir_check_call_status();
 		} else {
-			ZEPHIR_CALL_FUNCTION(NULL, "unlink", &_6, 38, &path);
+			ZEPHIR_CALL_FUNCTION(NULL, "unlink", &_6, 39, &path);
 			zephir_check_call_status();
 		}
 	}
-	ZEPHIR_CALL_FUNCTION(NULL, "rmdir", NULL, 39, &dir);
+	ZEPHIR_CALL_FUNCTION(NULL, "rmdir", NULL, 40, &dir);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -100,7 +100,7 @@ PHP_METHOD(Nc_Cache_FileSystem, __construct) {
 	long mode;
 	zval *baseDirectory_param = NULL, *mode_param = NULL, _0;
 	zval baseDirectory;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&baseDirectory);
 	ZVAL_UNDEF(&_0);
@@ -126,28 +126,28 @@ PHP_METHOD(Nc_Cache_FileSystem, __construct) {
 
 PHP_METHOD(Nc_Cache_FileSystem, getBaseDirectory) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "baseDirectory");
+	RETURN_MEMBER(getThis(), "baseDirectory");
 
 }
 
 PHP_METHOD(Nc_Cache_FileSystem, getMode) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "mode");
+	RETURN_MEMBER(getThis(), "mode");
 
 }
 
 PHP_METHOD(Nc_Cache_FileSystem, clear) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *poolName_param = NULL, _0, _2, _1$$3;
 	zval poolName;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&poolName);
 	ZVAL_UNDEF(&_0);
@@ -181,11 +181,11 @@ PHP_METHOD(Nc_Cache_FileSystem, clear) {
 
 PHP_METHOD(Nc_Cache_FileSystem, store) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	long ttl;
 	zval *poolName_param = NULL, *key_param = NULL, *value, value_sub, *ttl_param = NULL, path, _0, _1, _2, _3$$3, _4$$3, _5$$3;
 	zval poolName, key;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&poolName);
 	ZVAL_UNDEF(&key);
@@ -217,9 +217,9 @@ PHP_METHOD(Nc_Cache_FileSystem, store) {
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "packdata", NULL, 0, value, &_0);
 	zephir_check_call_status();
 	ZVAL_LONG(&_0, 2);
-	ZEPHIR_CALL_FUNCTION(&_2, "file_put_contents", NULL, 40, &path, &_1, &_0);
+	ZEPHIR_CALL_FUNCTION(&_2, "file_put_contents", NULL, 41, &path, &_1, &_0);
 	zephir_check_call_status();
-	if (unlikely(!zephir_is_true(&_2))) {
+	if (UNEXPECTED(!zephir_is_true(&_2))) {
 		ZEPHIR_INIT_VAR(&_3$$3);
 		object_init_ex(&_3$$3, nc_cache_exception_ce);
 		ZEPHIR_INIT_VAR(&_4$$3);
@@ -238,10 +238,10 @@ PHP_METHOD(Nc_Cache_FileSystem, store) {
 
 PHP_METHOD(Nc_Cache_FileSystem, fetch) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *poolName_param = NULL, *key_param = NULL, path, _0$$3;
 	zval poolName, key;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&poolName);
 	ZVAL_UNDEF(&key);
@@ -262,7 +262,7 @@ PHP_METHOD(Nc_Cache_FileSystem, fetch) {
 		if (zephir_require_zval_ret(&_0$$3, &path TSRMLS_CC) == FAILURE) {
 			RETURN_MM_NULL();
 		}
-		RETURN_CCTOR(_0$$3);
+		RETURN_CCTOR(&_0$$3);
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -271,10 +271,10 @@ PHP_METHOD(Nc_Cache_FileSystem, fetch) {
 PHP_METHOD(Nc_Cache_FileSystem, forget) {
 
 	zend_bool _0;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *poolName_param = NULL, *key_param = NULL, path, _1, _2$$3, _3$$3, _4$$3;
 	zval poolName, key;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&poolName);
 	ZVAL_UNDEF(&key);
@@ -295,11 +295,11 @@ PHP_METHOD(Nc_Cache_FileSystem, forget) {
 	zephir_check_call_status();
 	_0 = (zephir_file_exists(&path TSRMLS_CC) == SUCCESS);
 	if (_0) {
-		ZEPHIR_CALL_FUNCTION(&_1, "unlink", NULL, 38, &path);
+		ZEPHIR_CALL_FUNCTION(&_1, "unlink", NULL, 39, &path);
 		zephir_check_call_status();
 		_0 = !zephir_is_true(&_1);
 	}
-	if (unlikely(_0)) {
+	if (UNEXPECTED(_0)) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		object_init_ex(&_2$$3, nc_cache_exception_ce);
 		ZEPHIR_INIT_VAR(&_3$$3);
@@ -318,10 +318,10 @@ PHP_METHOD(Nc_Cache_FileSystem, forget) {
 
 PHP_METHOD(Nc_Cache_FileSystem, getDir) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *poolName_param = NULL, _0, _1;
 	zval poolName;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&poolName);
 	ZVAL_UNDEF(&_0);
@@ -334,7 +334,7 @@ PHP_METHOD(Nc_Cache_FileSystem, getDir) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("baseDirectory"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_FUNCTION(&_1, "urlencode", NULL, 41, &poolName);
+	ZEPHIR_CALL_FUNCTION(&_1, "urlencode", NULL, 42, &poolName);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_VSV(return_value, &_0, "/", &_1);
 	RETURN_MM();
@@ -344,11 +344,11 @@ PHP_METHOD(Nc_Cache_FileSystem, getDir) {
 PHP_METHOD(Nc_Cache_FileSystem, getPath) {
 
 	unsigned char _4, _5;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool mkDirIfNeeded, _6$$3;
 	zval *poolName_param = NULL, *key_param = NULL, *mkDirIfNeeded_param = NULL, __$true, dirname, _0, _2, _7$$3, _8$$3, _9$$4, _10$$4, _11$$4;
 	zval poolName, key, hash, path, _1, _3;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&poolName);
 	ZVAL_UNDEF(&key);
@@ -378,7 +378,7 @@ PHP_METHOD(Nc_Cache_FileSystem, getPath) {
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "sha1", NULL, 9, &key);
+	ZEPHIR_CALL_FUNCTION(&_0, "sha1", NULL, 10, &key);
 	zephir_check_call_status();
 	zephir_get_strval(&_1, &_0);
 	ZEPHIR_CPY_WRT(&hash, &_1);
@@ -395,16 +395,16 @@ PHP_METHOD(Nc_Cache_FileSystem, getPath) {
 	zephir_concat_self(&path, &hash TSRMLS_CC);
 	zephir_concat_self_str(&path, ".php", sizeof(".php")-1 TSRMLS_CC);
 	if (mkDirIfNeeded) {
-		ZEPHIR_CALL_FUNCTION(&dirname, "dirname", NULL, 42, &path);
+		ZEPHIR_CALL_FUNCTION(&dirname, "dirname", NULL, 43, &path);
 		zephir_check_call_status();
 		_6$$3 = !((zephir_file_exists(&dirname TSRMLS_CC) == SUCCESS));
 		if (_6$$3) {
 			zephir_read_property(&_7$$3, this_ptr, SL("mode"), PH_NOISY_CC | PH_READONLY);
-			ZEPHIR_CALL_FUNCTION(&_8$$3, "mkdir", NULL, 43, &dirname, &_7$$3, &__$true);
+			ZEPHIR_CALL_FUNCTION(&_8$$3, "mkdir", NULL, 44, &dirname, &_7$$3, &__$true);
 			zephir_check_call_status();
 			_6$$3 = !zephir_is_true(&_8$$3);
 		}
-		if (unlikely(_6$$3)) {
+		if (UNEXPECTED(_6$$3)) {
 			ZEPHIR_INIT_VAR(&_9$$4);
 			object_init_ex(&_9$$4, nc_cache_exception_ce);
 			ZEPHIR_INIT_VAR(&_10$$4);
@@ -418,17 +418,17 @@ PHP_METHOD(Nc_Cache_FileSystem, getPath) {
 			return;
 		}
 	}
-	RETURN_CTOR(path);
+	RETURN_CTOR(&path);
 
 }
 
 PHP_METHOD(Nc_Cache_FileSystem, packData) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_2 = NULL;
 	long ttl;
 	zval *value, value_sub, *ttl_param = NULL, _0$$3, _1$$3, _3, _4, _5, _6;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&value_sub);
 	ZVAL_UNDEF(&_0$$3);

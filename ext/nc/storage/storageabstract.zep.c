@@ -36,10 +36,10 @@ ZEPHIR_INIT_CLASS(Nc_Storage_StorageAbstract) {
 
 PHP_METHOD(Nc_Storage_StorageAbstract, uuid) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *salt_param = NULL, __$true, _0, _1, _2, _3, _4, _5, _6, _7;
 	zval salt;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&salt);
 	ZVAL_BOOL(&__$true, 1);
@@ -63,13 +63,13 @@ PHP_METHOD(Nc_Storage_StorageAbstract, uuid) {
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "mt_rand", NULL, 7);
+	ZEPHIR_CALL_FUNCTION(&_0, "mt_rand", NULL, 8);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_1, "uniqid", NULL, 8, &_0, &__$true);
+	ZEPHIR_CALL_FUNCTION(&_1, "uniqid", NULL, 9, &_0, &__$true);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_CONCAT_VV(&_2, &_1, &salt);
-	ZEPHIR_CALL_FUNCTION(&_3, "sha1", NULL, 9, &_2);
+	ZEPHIR_CALL_FUNCTION(&_3, "sha1", NULL, 10, &_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_4);
 	zephir_time(&_4);
@@ -86,7 +86,7 @@ PHP_METHOD(Nc_Storage_StorageAbstract, uuid) {
 PHP_METHOD(Nc_Storage_StorageAbstract, setUriGenerator) {
 
 	zval *uriGenerator = NULL, uriGenerator_sub, __$null;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&uriGenerator_sub);
 	ZVAL_NULL(&__$null);
@@ -105,10 +105,10 @@ PHP_METHOD(Nc_Storage_StorageAbstract, setUriGenerator) {
 
 PHP_METHOD(Nc_Storage_StorageAbstract, getUriGenerator) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "uriGenerator");
+	RETURN_MEMBER(getThis(), "uriGenerator");
 
 }
 
@@ -116,10 +116,10 @@ PHP_METHOD(Nc_Storage_StorageAbstract, generateUri) {
 
 	unsigned char _12, _13, _14, _15;
 	zend_bool _1;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *src_param = NULL, *pre_param = NULL, *ext_param = NULL, uriGenerator, _0, _2, _9, _16, _3$$4, _4$$4, _5$$4, _6$$5, _7$$5, _8$$5;
 	zval src, pre, ext, uri, uuid, _10, _11, _17$$6;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&src);
 	ZVAL_UNDEF(&pre);
@@ -168,7 +168,7 @@ PHP_METHOD(Nc_Storage_StorageAbstract, generateUri) {
 		ZEPHIR_INIT_VAR(&_5$$4);
 		ZVAL_STRING(&_5$$4, "#^(\\w+/)*\\w*$#");
 		zephir_preg_match(&_4$$4, &_5$$4, &pre, &_3$$4, 0, 0 , 0  TSRMLS_CC);
-		if (unlikely(!zephir_is_true(&_4$$4))) {
+		if (UNEXPECTED(!zephir_is_true(&_4$$4))) {
 			ZEPHIR_INIT_VAR(&_6$$5);
 			object_init_ex(&_6$$5, nc_storage_exception_ce);
 			ZEPHIR_INIT_VAR(&_7$$5);
@@ -205,7 +205,7 @@ PHP_METHOD(Nc_Storage_StorageAbstract, generateUri) {
 		ZEPHIR_CONCAT_SV(&_17$$6, ".", &ext);
 		zephir_concat_self(&uri, &_17$$6 TSRMLS_CC);
 	}
-	RETURN_CTOR(uri);
+	RETURN_CTOR(&uri);
 
 }
 

@@ -15,7 +15,6 @@
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
-#include "kernel/hash.h"
 #include "kernel/array.h"
 #include "kernel/concat.h"
 #include "kernel/string.h"
@@ -34,8 +33,8 @@ ZEPHIR_INIT_CLASS(Nc_Db_DaoMysql) {
 PHP_METHOD(Nc_Db_DaoMysql, queryLastInsertId) {
 
 	zval _0, _1;
-	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
@@ -55,10 +54,10 @@ PHP_METHOD(Nc_Db_DaoMysql, replace) {
 
 	zend_string *_3;
 	zend_ulong _2;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *data_param = NULL, s, k, v, ks, vs, _0, *_1, _7, _8, _9, _10, _4$$5, _5$$5, _6$$6;
 	zval data;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&data);
 	ZVAL_UNDEF(&s);
@@ -138,12 +137,12 @@ PHP_METHOD(Nc_Db_DaoMysql, replace) {
 PHP_METHOD(Nc_Db_DaoMysql, insert) {
 
 	zval _6$$5;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL, *_8 = NULL;
 	zend_bool ignoreSequence, _2$$3, _5$$3;
 	zval *inserts_param = NULL, *ignoreSequence_param = NULL, rc, sequence, _1, _3$$3, _4$$3, _7$$3;
 	zval inserts;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&inserts);
 	ZVAL_UNDEF(&rc);
@@ -166,7 +165,7 @@ PHP_METHOD(Nc_Db_DaoMysql, insert) {
 
 
 	ZVAL_BOOL(&_1, 1);
-	ZEPHIR_CALL_PARENT(&rc, nc_db_daomysql_ce, this_ptr, "insert", &_0, 45, &inserts, &_1);
+	ZEPHIR_CALL_PARENT(&rc, nc_db_daomysql_ce, getThis(), "insert", &_0, 0, &inserts, &_1);
 	zephir_check_call_status();
 	while (1) {
 		_2$$3 = ignoreSequence;
@@ -193,7 +192,7 @@ PHP_METHOD(Nc_Db_DaoMysql, insert) {
 		zephir_update_property_zval(this_ptr, SL("lastSequence"), &_7$$3);
 		break;
 	}
-	RETURN_CCTOR(rc);
+	RETURN_CCTOR(&rc);
 
 }
 
@@ -203,10 +202,10 @@ PHP_METHOD(Nc_Db_DaoMysql, upsert) {
 	zend_bool _6$$4;
 	zend_string *_11, *_20$$12;
 	zend_ulong _10, _19$$12;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *inserts_param = NULL, *updates_param = NULL, iPre, uPre, k, kPrefixed, v, iks, ivs, us, params, s, _0, _4, *_5, *_9, _25, _26, _27, _28, _29, _30, _1$$3, _2$$3, _3$$3, _7$$5, _8$$5, _12$$8, _13$$8, _14$$9, _15$$10, *_16$$10, _17$$11, *_18$$12, _21$$15, _22$$15, _24$$17;
 	zval inserts, updates;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&inserts);
 	ZVAL_UNDEF(&updates);
@@ -268,7 +267,7 @@ PHP_METHOD(Nc_Db_DaoMysql, upsert) {
 	ZEPHIR_INIT_VAR(&params);
 	array_init(&params);
 	zephir_read_property(&_0, this_ptr, SL("primaryKey"), PH_NOISY_CC | PH_READONLY);
-	if (unlikely(zephir_fast_count_int(&_0 TSRMLS_CC) < 1)) {
+	if (UNEXPECTED(zephir_fast_count_int(&_0 TSRMLS_CC) < 1)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, nc_db_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
@@ -291,7 +290,7 @@ PHP_METHOD(Nc_Db_DaoMysql, upsert) {
 		if (!(_6$$4)) {
 			_6$$4 = Z_TYPE_P(&v) == IS_NULL;
 		}
-		if (unlikely(_6$$4)) {
+		if (UNEXPECTED(_6$$4)) {
 			ZEPHIR_INIT_NVAR(&_7$$5);
 			object_init_ex(&_7$$5, nc_db_exception_ce);
 			ZVAL_LONG(&_8$$5, 8);
@@ -403,11 +402,11 @@ PHP_METHOD(Nc_Db_DaoMysql, updateTop) {
 	zval _5$$6;
 	zend_string *_2;
 	zend_ulong _1;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	long limit;
 	zval *updates_param = NULL, *where = NULL, where_sub, *order = NULL, order_sub, *limit_param = NULL, __$null, k, v, us, s, *_0, _7, _8, _9, _10, _11, _12, _3$$5, _4$$5, _6$$7;
 	zval updates;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&updates);
 	ZVAL_UNDEF(&where_sub);
@@ -501,10 +500,10 @@ PHP_METHOD(Nc_Db_DaoMysql, updateTop) {
 
 PHP_METHOD(Nc_Db_DaoMysql, deleteTop) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	long limit;
 	zval *where = NULL, where_sub, *order = NULL, order_sub, *limit_param = NULL, __$null, s, _0, _1, _2, _3, _4;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&where_sub);
 	ZVAL_UNDEF(&order_sub);
@@ -554,12 +553,12 @@ PHP_METHOD(Nc_Db_DaoMysql, deleteTop) {
 
 PHP_METHOD(Nc_Db_DaoMysql, countAndFind) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool lock;
 	long limit, skip, numRows = 0;
 	zval *fields_param = NULL, *where, where_sub, *order, order_sub, *limit_param = NULL, *skip_param = NULL, *lock_param = NULL, s, data, _0, _1, _2, _3, _8, _9, _10, _4$$3, _5$$3, _6$$3;
 	zval fields, _7$$3;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&fields);
 	ZVAL_UNDEF(&_7$$3);
@@ -627,7 +626,7 @@ PHP_METHOD(Nc_Db_DaoMysql, countAndFind) {
 
 PHP_METHOD(Nc_Db_DaoMysql, makeRandomOrder) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
 	RETURN_STRING("RAND()");
@@ -636,12 +635,12 @@ PHP_METHOD(Nc_Db_DaoMysql, makeRandomOrder) {
 
 PHP_METHOD(Nc_Db_DaoMysql, makePagination) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_2 = NULL;
 	long limit, skip;
 	zval *sql_param = NULL, *limit_param = NULL, *skip_param = NULL, _0$$3, _1$$3, _3, _4, _5;
 	zval sql;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&sql);
 	ZVAL_UNDEF(&_0$$3);

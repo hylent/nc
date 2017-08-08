@@ -29,7 +29,7 @@ PHP_METHOD(Nc_Log_Nil, appendLog) {
 
 	zval *log_param = NULL;
 	zval log;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&log);
 

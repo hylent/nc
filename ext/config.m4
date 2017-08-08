@@ -9,7 +9,7 @@ if test "$PHP_NC" = "yes"; then
 	fi
 
 	AC_DEFINE(HAVE_NC, 1, [Whether you have Nc])
-	nc_sources="nc.c kernel/main.c kernel/memory.c kernel/exception.c kernel/hash.c kernel/debug.c kernel/backtrace.c kernel/object.c kernel/array.c kernel/extended/array.c kernel/string.c kernel/fcall.c kernel/extended/fcall.c kernel/require.c kernel/file.c kernel/operators.c kernel/math.c kernel/concat.c kernel/variables.c kernel/filter.c kernel/iterator.c kernel/time.c kernel/exit.c nc/exception.zep.c
+	nc_sources="nc.c kernel/main.c kernel/memory.c kernel/exception.c kernel/debug.c kernel/backtrace.c kernel/object.c kernel/array.c kernel/string.c kernel/fcall.c kernel/require.c kernel/file.c kernel/operators.c kernel/math.c kernel/concat.c kernel/variables.c kernel/filter.c kernel/iterator.c kernel/time.c kernel/exit.c nc/exception.zep.c
 	nc/di/containerinterface.zep.c
 	nc/sequence/sequencebackendinterface.zep.c
 	nc/di/injectedsetupmethodinterface.zep.c

@@ -35,8 +35,8 @@ ZEPHIR_INIT_CLASS(Nc_Image_Imagick) {
 PHP_METHOD(Nc_Image_Imagick, __construct) {
 
 	zval _0, _1, _2$$3, _3$$3;
-	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
@@ -47,9 +47,9 @@ PHP_METHOD(Nc_Image_Imagick, __construct) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "imagick");
-	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 28, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 29, &_0);
 	zephir_check_call_status();
-	if (unlikely(!zephir_is_true(&_1))) {
+	if (UNEXPECTED(!zephir_is_true(&_1))) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		object_init_ex(&_2$$3, nc_image_exception_ce);
 		ZEPHIR_INIT_VAR(&_3$$3);
@@ -66,11 +66,11 @@ PHP_METHOD(Nc_Image_Imagick, __construct) {
 
 PHP_METHOD(Nc_Image_Imagick, bySize) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval extension;
 	zval *w_param = NULL, *h_param = NULL, *extension_param = NULL, handler, _2, _3, _4, _5, _6, _0$$3, _1$$3, _7$$5, _8$$5;
 	long w, h;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&handler);
 	ZVAL_UNDEF(&_2);
@@ -101,7 +101,7 @@ PHP_METHOD(Nc_Image_Imagick, bySize) {
 	}
 
 
-	if (unlikely(w < 1)) {
+	if (UNEXPECTED(w < 1)) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, nc_image_exception_ce);
 		ZEPHIR_INIT_VAR(&_1$$3);
@@ -129,7 +129,7 @@ PHP_METHOD(Nc_Image_Imagick, bySize) {
 	ZVAL_LONG(&_6, h);
 	ZEPHIR_CALL_METHOD(&_2, &handler, "newimage", NULL, 0, &_5, &_6, &_3, &extension);
 	zephir_check_call_status();
-	if (unlikely(!zephir_is_true(&_2))) {
+	if (UNEXPECTED(!zephir_is_true(&_2))) {
 		ZEPHIR_INIT_VAR(&_7$$5);
 		object_init_ex(&_7$$5, nc_image_exception_ce);
 		ZEPHIR_INIT_VAR(&_8$$5);
@@ -148,10 +148,10 @@ PHP_METHOD(Nc_Image_Imagick, bySize) {
 
 PHP_METHOD(Nc_Image_Imagick, byString) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *data_param = NULL, *extension_param = NULL, handler, _0, _3, _1$$3, _2$$3, _4$$4, _5$$4;
 	zval data, extension;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&data);
 	ZVAL_UNDEF(&extension);
@@ -175,7 +175,7 @@ PHP_METHOD(Nc_Image_Imagick, byString) {
 	}
 
 
-	if (unlikely(zephir_fast_strlen_ev(&data) < 1)) {
+	if (UNEXPECTED(zephir_fast_strlen_ev(&data) < 1)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, nc_image_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
@@ -192,7 +192,7 @@ PHP_METHOD(Nc_Image_Imagick, byString) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_3, &handler, "readimageblob", NULL, 0, &data);
 	zephir_check_call_status();
-	if (unlikely(!zephir_is_true(&_3))) {
+	if (UNEXPECTED(!zephir_is_true(&_3))) {
 		ZEPHIR_INIT_VAR(&_4$$4);
 		object_init_ex(&_4$$4, nc_image_exception_ce);
 		ZEPHIR_INIT_VAR(&_5$$4);
@@ -211,10 +211,10 @@ PHP_METHOD(Nc_Image_Imagick, byString) {
 
 PHP_METHOD(Nc_Image_Imagick, byPath) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *path_param = NULL, eit, handler, extension, _4, _0$$3, _1$$3, _2$$4, _3$$4, _5$$5, _6$$5;
 	zval path;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&path);
 	ZVAL_UNDEF(&eit);
@@ -234,7 +234,7 @@ PHP_METHOD(Nc_Image_Imagick, byPath) {
 	zephir_get_strval(&path, path_param);
 
 
-	if (unlikely(!((zephir_file_exists(&path TSRMLS_CC) == SUCCESS)))) {
+	if (UNEXPECTED(!((zephir_file_exists(&path TSRMLS_CC) == SUCCESS)))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, nc_image_exception_ce);
 		ZEPHIR_INIT_VAR(&_1$$3);
@@ -247,7 +247,7 @@ PHP_METHOD(Nc_Image_Imagick, byPath) {
 	}
 	ZEPHIR_CALL_FUNCTION(&eit, "exif_imagetype", NULL, 77, &path);
 	zephir_check_call_status();
-	if (unlikely(ZEPHIR_IS_FALSE_IDENTICAL(&eit))) {
+	if (UNEXPECTED(ZEPHIR_IS_FALSE_IDENTICAL(&eit))) {
 		ZEPHIR_INIT_VAR(&_2$$4);
 		object_init_ex(&_2$$4, nc_image_exception_ce);
 		ZEPHIR_INIT_VAR(&_3$$4);
@@ -264,7 +264,7 @@ PHP_METHOD(Nc_Image_Imagick, byPath) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_4, &handler, "readimage", NULL, 0, &path);
 	zephir_check_call_status();
-	if (unlikely(!zephir_is_true(&_4))) {
+	if (UNEXPECTED(!zephir_is_true(&_4))) {
 		ZEPHIR_INIT_VAR(&_5$$5);
 		object_init_ex(&_5$$5, nc_image_exception_ce);
 		ZEPHIR_INIT_VAR(&_6$$5);
@@ -305,8 +305,8 @@ PHP_METHOD(Nc_Image_Imagick, byPath) {
 PHP_METHOD(Nc_Image_Imagick, copy) {
 
 	zval dstHandler, _0, _3, _4, _1$$3, _2$$3;
-	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&dstHandler);
 	ZVAL_UNDEF(&_0);
@@ -318,7 +318,7 @@ PHP_METHOD(Nc_Image_Imagick, copy) {
 	ZEPHIR_MM_GROW();
 
 	zephir_read_property(&_0, this_ptr, SL("handler"), PH_NOISY_CC | PH_READONLY);
-	if (unlikely(!zephir_is_true(&_0))) {
+	if (UNEXPECTED(!zephir_is_true(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, nc_image_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
@@ -345,10 +345,10 @@ PHP_METHOD(Nc_Image_Imagick, copy) {
 
 PHP_METHOD(Nc_Image_Imagick, largest) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *w_param = NULL, *h_param = NULL, dstHandler, _0, _5, _6, _7, _1$$3, _2$$3, _3$$4, _4$$4;
 	long w, h;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&dstHandler);
 	ZVAL_UNDEF(&_0);
@@ -368,7 +368,7 @@ PHP_METHOD(Nc_Image_Imagick, largest) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("handler"), PH_NOISY_CC | PH_READONLY);
-	if (unlikely(!zephir_is_true(&_0))) {
+	if (UNEXPECTED(!zephir_is_true(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, nc_image_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
@@ -379,7 +379,7 @@ PHP_METHOD(Nc_Image_Imagick, largest) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	if (unlikely(w < 1)) {
+	if (UNEXPECTED(w < 1)) {
 		ZEPHIR_INIT_VAR(&_3$$4);
 		object_init_ex(&_3$$4, nc_image_exception_ce);
 		ZEPHIR_INIT_VAR(&_4$$4);
@@ -413,10 +413,10 @@ PHP_METHOD(Nc_Image_Imagick, largest) {
 
 PHP_METHOD(Nc_Image_Imagick, resize) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *w_param = NULL, *h_param = NULL, dstHandler, _0, _5, _6, _7, _8, _1$$3, _2$$3, _3$$4, _4$$4;
 	long w, h;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&dstHandler);
 	ZVAL_UNDEF(&_0);
@@ -441,7 +441,7 @@ PHP_METHOD(Nc_Image_Imagick, resize) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("handler"), PH_NOISY_CC | PH_READONLY);
-	if (unlikely(!zephir_is_true(&_0))) {
+	if (UNEXPECTED(!zephir_is_true(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, nc_image_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
@@ -452,7 +452,7 @@ PHP_METHOD(Nc_Image_Imagick, resize) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	if (unlikely(w < 1)) {
+	if (UNEXPECTED(w < 1)) {
 		ZEPHIR_INIT_VAR(&_3$$4);
 		object_init_ex(&_3$$4, nc_image_exception_ce);
 		ZEPHIR_INIT_VAR(&_4$$4);
@@ -487,10 +487,10 @@ PHP_METHOD(Nc_Image_Imagick, resize) {
 
 PHP_METHOD(Nc_Image_Imagick, thumbnail) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *w_param = NULL, *h_param = NULL, dstHandler, _0, _5, _6, _7, _8, _9, _1$$3, _2$$3, _3$$4, _4$$4;
 	long w, h;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&dstHandler);
 	ZVAL_UNDEF(&_0);
@@ -516,7 +516,7 @@ PHP_METHOD(Nc_Image_Imagick, thumbnail) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("handler"), PH_NOISY_CC | PH_READONLY);
-	if (unlikely(!zephir_is_true(&_0))) {
+	if (UNEXPECTED(!zephir_is_true(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, nc_image_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
@@ -527,7 +527,7 @@ PHP_METHOD(Nc_Image_Imagick, thumbnail) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	if (unlikely(w < 1)) {
+	if (UNEXPECTED(w < 1)) {
 		ZEPHIR_INIT_VAR(&_3$$4);
 		object_init_ex(&_3$$4, nc_image_exception_ce);
 		ZEPHIR_INIT_VAR(&_4$$4);
@@ -563,10 +563,10 @@ PHP_METHOD(Nc_Image_Imagick, thumbnail) {
 
 PHP_METHOD(Nc_Image_Imagick, cropThumbnail) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *w_param = NULL, *h_param = NULL, dstHandler, _0, _5, _6, _7, _1$$3, _2$$3, _3$$4, _4$$4;
 	long w, h;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&dstHandler);
 	ZVAL_UNDEF(&_0);
@@ -590,7 +590,7 @@ PHP_METHOD(Nc_Image_Imagick, cropThumbnail) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("handler"), PH_NOISY_CC | PH_READONLY);
-	if (unlikely(!zephir_is_true(&_0))) {
+	if (UNEXPECTED(!zephir_is_true(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, nc_image_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
@@ -601,7 +601,7 @@ PHP_METHOD(Nc_Image_Imagick, cropThumbnail) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	if (unlikely(w < 1)) {
+	if (UNEXPECTED(w < 1)) {
 		ZEPHIR_INIT_VAR(&_3$$4);
 		object_init_ex(&_3$$4, nc_image_exception_ce);
 		ZEPHIR_INIT_VAR(&_4$$4);
@@ -636,10 +636,10 @@ PHP_METHOD(Nc_Image_Imagick, cropThumbnail) {
 PHP_METHOD(Nc_Image_Imagick, crop) {
 
 	zend_bool _3, _10;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *x_param = NULL, *y_param = NULL, *w_param = NULL, *h_param = NULL, dstHandler, _0, _8, _9, _13, _14, _15, _16, _17, _1$$3, _2$$3, _4$$4, _5$$4, _6$$5, _7$$5, _11$$7, _12$$7;
 	long x, y, w, h, oriW = 0, oriH = 0;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&dstHandler);
 	ZVAL_UNDEF(&_0);
@@ -673,7 +673,7 @@ PHP_METHOD(Nc_Image_Imagick, crop) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("handler"), PH_NOISY_CC | PH_READONLY);
-	if (unlikely(!zephir_is_true(&_0))) {
+	if (UNEXPECTED(!zephir_is_true(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, nc_image_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
@@ -688,7 +688,7 @@ PHP_METHOD(Nc_Image_Imagick, crop) {
 	if (!(_3)) {
 		_3 = y < 0;
 	}
-	if (unlikely(_3)) {
+	if (UNEXPECTED(_3)) {
 		ZEPHIR_INIT_VAR(&_4$$4);
 		object_init_ex(&_4$$4, nc_image_exception_ce);
 		ZEPHIR_INIT_VAR(&_5$$4);
@@ -699,7 +699,7 @@ PHP_METHOD(Nc_Image_Imagick, crop) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	if (unlikely(w < 1)) {
+	if (UNEXPECTED(w < 1)) {
 		ZEPHIR_INIT_VAR(&_6$$5);
 		object_init_ex(&_6$$5, nc_image_exception_ce);
 		ZEPHIR_INIT_VAR(&_7$$5);
@@ -723,7 +723,7 @@ PHP_METHOD(Nc_Image_Imagick, crop) {
 	if (!(_10)) {
 		_10 = (y + h) > oriH;
 	}
-	if (unlikely(_10)) {
+	if (UNEXPECTED(_10)) {
 		ZEPHIR_INIT_VAR(&_11$$7);
 		object_init_ex(&_11$$7, nc_image_exception_ce);
 		ZEPHIR_INIT_VAR(&_12$$7);
@@ -756,10 +756,10 @@ PHP_METHOD(Nc_Image_Imagick, crop) {
 
 PHP_METHOD(Nc_Image_Imagick, paste) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	long x, y;
 	zval *im, im_sub, *x_param = NULL, *y_param = NULL, srcIm, dstIm, paintingArea, _0, _3, _10, _11, _12, _13, _14, _15, _1$$3, _2$$3, _4$$6, _5$$6, _6$$7, _7$$7, _8$$7, _9$$7, _16$$8, _17$$8;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&im_sub);
 	ZVAL_UNDEF(&srcIm);
@@ -796,7 +796,7 @@ PHP_METHOD(Nc_Image_Imagick, paste) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("handler"), PH_NOISY_CC | PH_READONLY);
-	if (unlikely(!zephir_is_true(&_0))) {
+	if (UNEXPECTED(!zephir_is_true(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, nc_image_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
@@ -814,7 +814,7 @@ PHP_METHOD(Nc_Image_Imagick, paste) {
 		zephir_check_call_status();
 	}
 	zephir_read_property(&_3, &srcIm, SL("handler"), PH_NOISY_CC | PH_READONLY);
-	if (unlikely(!zephir_is_true(&_3))) {
+	if (UNEXPECTED(!zephir_is_true(&_3))) {
 		ZEPHIR_INIT_VAR(&_4$$6);
 		object_init_ex(&_4$$6, nc_image_exception_ce);
 		ZEPHIR_INIT_VAR(&_5$$6);
@@ -847,7 +847,7 @@ PHP_METHOD(Nc_Image_Imagick, paste) {
 	ZVAL_LONG(&_15, y);
 	ZEPHIR_CALL_METHOD(&_11, &_10, "compositeimage", NULL, 0, &_12, &_13, &_14, &_15);
 	zephir_check_call_status();
-	if (unlikely(!zephir_is_true(&_11))) {
+	if (UNEXPECTED(!zephir_is_true(&_11))) {
 		ZEPHIR_INIT_VAR(&_16$$8);
 		object_init_ex(&_16$$8, nc_image_exception_ce);
 		ZEPHIR_INIT_VAR(&_17$$8);
@@ -858,18 +858,18 @@ PHP_METHOD(Nc_Image_Imagick, paste) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	RETURN_CCTOR(dstIm);
+	RETURN_CCTOR(&dstIm);
 
 }
 
 PHP_METHOD(Nc_Image_Imagick, annotate) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	long x, y;
 	zval options, _3;
 	zval *text_param = NULL, *options_param = NULL, *x_param = NULL, *y_param = NULL, dstIm, dstHandler, mo, textArea, paintingArea, imagickDraw, _0, _4, _5, _6, _15, _16, _17, _18, _19, _20, _21, _22, _23, _24, _32, _33, _34, _35, _37, _38, _39, _1$$3, _2$$3, _7$$4, _8$$4, _9$$4, _10$$4, _11$$4, _12$$4, _13$$5, _14$$5, _25$$6, _26$$6, _27$$6, _28$$6, _29$$6, _30$$7, _31$$7, _36$$8, _40$$9, _41$$9;
 	zval text;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&text);
 	ZVAL_UNDEF(&dstIm);
@@ -936,7 +936,7 @@ PHP_METHOD(Nc_Image_Imagick, annotate) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("handler"), PH_NOISY_CC | PH_READONLY);
-	if (unlikely(!zephir_is_true(&_0))) {
+	if (UNEXPECTED(!zephir_is_true(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, nc_image_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
@@ -1022,7 +1022,7 @@ PHP_METHOD(Nc_Image_Imagick, annotate) {
 		ZVAL_LONG(&_29$$6, 0);
 		ZEPHIR_CALL_METHOD(&_26$$6, &dstHandler, "annotateimage", NULL, 0, &imagickDraw, &_27$$6, &_28$$6, &_29$$6, &text);
 		zephir_check_call_status();
-		if (unlikely(!zephir_is_true(&_26$$6))) {
+		if (UNEXPECTED(!zephir_is_true(&_26$$6))) {
 			ZEPHIR_INIT_VAR(&_30$$7);
 			object_init_ex(&_30$$7, nc_image_exception_ce);
 			ZEPHIR_INIT_VAR(&_31$$7);
@@ -1053,7 +1053,7 @@ PHP_METHOD(Nc_Image_Imagick, annotate) {
 	ZVAL_LONG(&_39, 0);
 	ZEPHIR_CALL_METHOD(&_38, &dstHandler, "annotateimage", NULL, 0, &imagickDraw, &_15, &_16, &_39, &text);
 	zephir_check_call_status();
-	if (unlikely(!zephir_is_true(&_38))) {
+	if (UNEXPECTED(!zephir_is_true(&_38))) {
 		ZEPHIR_INIT_VAR(&_40$$9);
 		object_init_ex(&_40$$9, nc_image_exception_ce);
 		ZEPHIR_INIT_VAR(&_41$$9);
@@ -1064,17 +1064,17 @@ PHP_METHOD(Nc_Image_Imagick, annotate) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	RETURN_CCTOR(dstIm);
+	RETURN_CCTOR(&dstIm);
 
 }
 
 PHP_METHOD(Nc_Image_Imagick, queryTextArea) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	long fontSize, padding, x = 0, y = 0, w = 0, h = 0;
 	zval *text_param = NULL, *font_param = NULL, *fontSize_param = NULL, *padding_param = NULL, testF, testW, testH, imagickDraw, imagick, page, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11;
 	zval text, font;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&text);
 	ZVAL_UNDEF(&font);
@@ -1170,7 +1170,7 @@ PHP_METHOD(Nc_Image_Imagick, queryTextArea) {
 	ZVAL_LONG(&_3, y);
 	ZVAL_LONG(&_10, w);
 	ZVAL_LONG(&_11, h);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 16, &_2, &_3, &_10, &_11);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 17, &_2, &_3, &_10, &_11);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -1178,10 +1178,10 @@ PHP_METHOD(Nc_Image_Imagick, queryTextArea) {
 
 PHP_METHOD(Nc_Image_Imagick, save) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *path_param = NULL, _0, _3, _4, _1$$3, _2$$3, _5$$4, _6$$4;
 	zval path;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&path);
 	ZVAL_UNDEF(&_0);
@@ -1199,7 +1199,7 @@ PHP_METHOD(Nc_Image_Imagick, save) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("handler"), PH_NOISY_CC | PH_READONLY);
-	if (unlikely(!zephir_is_true(&_0))) {
+	if (UNEXPECTED(!zephir_is_true(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, nc_image_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
@@ -1213,7 +1213,7 @@ PHP_METHOD(Nc_Image_Imagick, save) {
 	zephir_read_property(&_3, this_ptr, SL("handler"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_4, &_3, "writeimage", NULL, 0, &path);
 	zephir_check_call_status();
-	if (unlikely(!zephir_is_true(&_4))) {
+	if (UNEXPECTED(!zephir_is_true(&_4))) {
 		ZEPHIR_INIT_VAR(&_5$$4);
 		object_init_ex(&_5$$4, nc_image_exception_ce);
 		ZEPHIR_INIT_VAR(&_6$$4);
@@ -1232,8 +1232,8 @@ PHP_METHOD(Nc_Image_Imagick, toString) {
 
 	zval _5;
 	zval _0, _3, _4, _1$$3, _2$$3;
-	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_3);
@@ -1245,7 +1245,7 @@ PHP_METHOD(Nc_Image_Imagick, toString) {
 	ZEPHIR_MM_GROW();
 
 	zephir_read_property(&_0, this_ptr, SL("handler"), PH_NOISY_CC | PH_READONLY);
-	if (unlikely(!zephir_is_true(&_0))) {
+	if (UNEXPECTED(!zephir_is_true(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, nc_image_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
@@ -1260,15 +1260,15 @@ PHP_METHOD(Nc_Image_Imagick, toString) {
 	ZEPHIR_CALL_METHOD(&_4, &_3, "getimageblob", NULL, 0);
 	zephir_check_call_status();
 	zephir_get_strval(&_5, &_4);
-	RETURN_CTOR(_5);
+	RETURN_CTOR(&_5);
 
 }
 
 PHP_METHOD(Nc_Image_Imagick, __destruct) {
 
 	zval _0$$3, _1$$4;
-	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$4);
@@ -1294,9 +1294,9 @@ PHP_METHOD(Nc_Image_Imagick, __destruct) {
 
 PHP_METHOD(Nc_Image_Imagick, newImage) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *handler, handler_sub, *extension, extension_sub, im, _0, _3, _4, _5, _1$$3, _2$$3;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&handler_sub);
 	ZVAL_UNDEF(&extension_sub);
@@ -1315,7 +1315,7 @@ PHP_METHOD(Nc_Image_Imagick, newImage) {
 
 	ZEPHIR_CALL_METHOD(&_0, handler, "setimageformat", NULL, 0, extension);
 	zephir_check_call_status();
-	if (unlikely(!zephir_is_true(&_0))) {
+	if (UNEXPECTED(!zephir_is_true(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, nc_image_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
@@ -1339,7 +1339,7 @@ PHP_METHOD(Nc_Image_Imagick, newImage) {
 	ZEPHIR_CALL_METHOD(&_5, handler, "getimagemimetype", NULL, 0);
 	zephir_check_call_status();
 	zephir_update_property_zval(&im, SL("mimeType"), &_5);
-	RETURN_CCTOR(im);
+	RETURN_CCTOR(&im);
 
 }
 

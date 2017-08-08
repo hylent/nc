@@ -38,9 +38,9 @@ ZEPHIR_INIT_CLASS(Nc_Image_ImageAbstract) {
 
 PHP_METHOD(Nc_Image_ImageAbstract, byImage) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *im, im_sub, _0, _1;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&im_sub);
 	ZVAL_UNDEF(&_0);
@@ -63,8 +63,8 @@ PHP_METHOD(Nc_Image_ImageAbstract, byImage) {
 
 PHP_METHOD(Nc_Image_ImageAbstract, copy) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 
 	ZEPHIR_MM_GROW();
@@ -77,37 +77,37 @@ PHP_METHOD(Nc_Image_ImageAbstract, copy) {
 
 PHP_METHOD(Nc_Image_ImageAbstract, getWidth) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "width");
+	RETURN_MEMBER(getThis(), "width");
 
 }
 
 PHP_METHOD(Nc_Image_ImageAbstract, getHeight) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "height");
+	RETURN_MEMBER(getThis(), "height");
 
 }
 
 PHP_METHOD(Nc_Image_ImageAbstract, getExtension) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "extension");
+	RETURN_MEMBER(getThis(), "extension");
 
 }
 
 PHP_METHOD(Nc_Image_ImageAbstract, getMimeType) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "mimeType");
+	RETURN_MEMBER(getThis(), "mimeType");
 
 }
 
@@ -115,8 +115,8 @@ PHP_METHOD(Nc_Image_ImageAbstract, __toString) {
 
 	zval _1$$3;
 	zval _0$$3;
-	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$3);
@@ -129,7 +129,7 @@ PHP_METHOD(Nc_Image_ImageAbstract, __toString) {
 		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "tostring", NULL, 0);
 		zephir_check_call_status_or_jump(try_end_1);
 		zephir_get_strval(&_1$$3, &_0$$3);
-		RETURN_CTOR(_1$$3);
+		RETURN_CTOR(&_1$$3);
 
 	try_end_1:
 
@@ -141,8 +141,8 @@ PHP_METHOD(Nc_Image_ImageAbstract, __toString) {
 PHP_METHOD(Nc_Image_ImageAbstract, newInstance) {
 
 	zval _0, _1;
-	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
@@ -153,9 +153,9 @@ PHP_METHOD(Nc_Image_ImageAbstract, newInstance) {
 	object_init_ex(&_0, zephir_get_internal_ce(SL("reflectionclass")));
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_get_called_class(&_1 TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 14, &_1);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 15, &_1);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "newinstancewithoutconstructor", NULL, 15);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "newinstancewithoutconstructor", NULL, 16);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -163,10 +163,10 @@ PHP_METHOD(Nc_Image_ImageAbstract, newInstance) {
 
 PHP_METHOD(Nc_Image_ImageAbstract, getPaintingAreaByPosition) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *w_param = NULL, *h_param = NULL, *position_param = NULL, x, y, _0, _1, _4, _5, _2$$12, _3$$12;
 	long w, h, position, oriW = 0, oriH = 0;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&x);
 	ZVAL_UNDEF(&y);
@@ -269,7 +269,7 @@ PHP_METHOD(Nc_Image_ImageAbstract, getPaintingAreaByPosition) {
 	object_init_ex(return_value, nc_image_area_ce);
 	ZVAL_LONG(&_4, w);
 	ZVAL_LONG(&_5, h);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 16, &x, &y, &_4, &_5);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 17, &x, &y, &_4, &_5);
 	zephir_check_call_status();
 	RETURN_MM();
 

@@ -122,6 +122,7 @@ PHP_INI_END()
 static PHP_MINIT_FUNCTION(nc)
 {
 	REGISTER_INI_ENTRIES();
+	zephir_module_init();
 	ZEPHIR_INIT(Nc_Di_ContainerInterface);
 	ZEPHIR_INIT(Nc_Sequence_SequenceBackendInterface);
 	ZEPHIR_INIT(Nc_Di_InjectedSetupMethodInterface);

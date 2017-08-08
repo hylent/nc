@@ -34,10 +34,10 @@ ZEPHIR_INIT_CLASS(Nc_Storage_Fastdfs) {
 
 PHP_METHOD(Nc_Storage_Fastdfs, __construct) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *prefixGroups_param = NULL, _0, _1;
 	zval prefixGroups;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&prefixGroups);
 	ZVAL_UNDEF(&_0);
@@ -56,9 +56,9 @@ PHP_METHOD(Nc_Storage_Fastdfs, __construct) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "fastdfs_client");
-	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 28, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 29, &_0);
 	zephir_check_call_status();
-	if (unlikely(!zephir_is_true(&_1))) {
+	if (UNEXPECTED(!zephir_is_true(&_1))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_storage_exception_ce, "Missing extension 'fastdfs_client'", "nc/storage/fastdfs.zep", 10);
 		return;
 	}
@@ -69,11 +69,11 @@ PHP_METHOD(Nc_Storage_Fastdfs, __construct) {
 
 PHP_METHOD(Nc_Storage_Fastdfs, store) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	long type;
 	zval *src_param = NULL, *pre_param = NULL, *ext_param = NULL, *type_param = NULL, extArg, groupArg, destUri, _0, _1, _2;
 	zval src, pre, ext, fun;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&src);
 	ZVAL_UNDEF(&pre);
@@ -126,13 +126,13 @@ PHP_METHOD(Nc_Storage_Fastdfs, store) {
 	array_init(&_2);
 	ZEPHIR_CALL_ZVAL_FUNCTION(&destUri, &fun, NULL, 0, &src, &extArg, &_2, &groupArg);
 	zephir_check_call_status();
-	if (unlikely(ZEPHIR_IS_FALSE_IDENTICAL(&destUri))) {
+	if (UNEXPECTED(ZEPHIR_IS_FALSE_IDENTICAL(&destUri))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(nc_storage_exception_ce, "Cannot store file", "nc/storage/fastdfs.zep", 30);
 		return;
 	}
 	do {
 		if (type == 3 || type == 2) {
-			ZEPHIR_CALL_FUNCTION(NULL, "unlink", NULL, 38, &src);
+			ZEPHIR_CALL_FUNCTION(NULL, "unlink", NULL, 39, &src);
 			zephir_check_call_status();
 			break;
 		}
@@ -145,10 +145,10 @@ PHP_METHOD(Nc_Storage_Fastdfs, store) {
 
 PHP_METHOD(Nc_Storage_Fastdfs, remove) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *uri_param = NULL, _0, _1;
 	zval uri, fun;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&uri);
 	ZVAL_UNDEF(&fun);
@@ -175,10 +175,10 @@ PHP_METHOD(Nc_Storage_Fastdfs, remove) {
 
 PHP_METHOD(Nc_Storage_Fastdfs, exists) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *uri_param = NULL, _0, _1;
 	zval uri, fun;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&uri);
 	ZVAL_UNDEF(&fun);

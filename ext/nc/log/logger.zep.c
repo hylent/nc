@@ -22,7 +22,6 @@
 #include "kernel/exception.h"
 #include "kernel/concat.h"
 #include "kernel/array.h"
-#include "kernel/hash.h"
 
 
 ZEPHIR_INIT_CLASS(Nc_Log_Logger) {
@@ -64,9 +63,9 @@ PHP_METHOD(Nc_Log_Logger, generateLogId) {
 
 	long mt0 = 0;
 	double mt = 0;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval __$true, _0, _1, _2, _3, _4, _5, _6;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_UNDEF(&_0);
@@ -98,10 +97,10 @@ PHP_METHOD(Nc_Log_Logger, generateLogId) {
 
 PHP_METHOD(Nc_Log_Logger, __construct) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *logId_param = NULL, _0, _1$$4;
 	zval logId;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&logId);
 	ZVAL_UNDEF(&_0);
@@ -131,17 +130,17 @@ PHP_METHOD(Nc_Log_Logger, __construct) {
 
 PHP_METHOD(Nc_Log_Logger, getLogId) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "logId");
+	RETURN_MEMBER(getThis(), "logId");
 
 }
 
 PHP_METHOD(Nc_Log_Logger, setFallbackWriter) {
 
 	zval *writer = NULL, writer_sub, __$null;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&writer_sub);
 	ZVAL_NULL(&__$null);
@@ -160,20 +159,20 @@ PHP_METHOD(Nc_Log_Logger, setFallbackWriter) {
 
 PHP_METHOD(Nc_Log_Logger, getFallbackWriter) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "fallbackWriter");
+	RETURN_MEMBER(getThis(), "fallbackWriter");
 
 }
 
 PHP_METHOD(Nc_Log_Logger, offsetSet) {
 
 	zend_bool _0;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *level_param = NULL, *writer, writer_sub, _1$$3;
 	zval level, _2$$3;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&level);
 	ZVAL_UNDEF(&_2$$3);
@@ -190,7 +189,7 @@ PHP_METHOD(Nc_Log_Logger, offsetSet) {
 	if (!(_0)) {
 		_0 = !((zephir_instance_of_ev(writer, nc_log_writerinterface_ce TSRMLS_CC)));
 	}
-	if (unlikely(_0)) {
+	if (UNEXPECTED(_0)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, nc_log_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
@@ -210,7 +209,7 @@ PHP_METHOD(Nc_Log_Logger, offsetGet) {
 
 	zval *level_param = NULL, writer, _0;
 	zval level;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&level);
 	ZVAL_UNDEF(&writer);
@@ -224,9 +223,9 @@ PHP_METHOD(Nc_Log_Logger, offsetGet) {
 
 	zephir_read_property(&_0, this_ptr, SL("writers"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_isset_fetch(&writer, &_0, &level, 1 TSRMLS_CC)) {
-		RETURN_CTOR(writer);
+		RETURN_CTOR(&writer);
 	}
-	RETURN_MM_MEMBER(this_ptr, "fallbackWriter");
+	RETURN_MM_MEMBER(getThis(), "fallbackWriter");
 
 }
 
@@ -234,7 +233,7 @@ PHP_METHOD(Nc_Log_Logger, offsetExists) {
 
 	zval *level_param = NULL, _0;
 	zval level;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&level);
 	ZVAL_UNDEF(&_0);
@@ -254,7 +253,7 @@ PHP_METHOD(Nc_Log_Logger, offsetUnset) {
 
 	zval *level_param = NULL, _0;
 	zval level;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&level);
 	ZVAL_UNDEF(&_0);
@@ -273,11 +272,11 @@ PHP_METHOD(Nc_Log_Logger, offsetUnset) {
 
 PHP_METHOD(Nc_Log_Logger, emergency) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval context;
 	zval *message_param = NULL, *context_param = NULL, _0;
 	zval message;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&_0);
@@ -305,11 +304,11 @@ PHP_METHOD(Nc_Log_Logger, emergency) {
 
 PHP_METHOD(Nc_Log_Logger, alert) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval context;
 	zval *message_param = NULL, *context_param = NULL, _0;
 	zval message;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&_0);
@@ -337,11 +336,11 @@ PHP_METHOD(Nc_Log_Logger, alert) {
 
 PHP_METHOD(Nc_Log_Logger, critical) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval context;
 	zval *message_param = NULL, *context_param = NULL, _0;
 	zval message;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&_0);
@@ -369,11 +368,11 @@ PHP_METHOD(Nc_Log_Logger, critical) {
 
 PHP_METHOD(Nc_Log_Logger, error) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval context;
 	zval *message_param = NULL, *context_param = NULL, _0;
 	zval message;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&_0);
@@ -401,11 +400,11 @@ PHP_METHOD(Nc_Log_Logger, error) {
 
 PHP_METHOD(Nc_Log_Logger, warning) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval context;
 	zval *message_param = NULL, *context_param = NULL, _0;
 	zval message;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&_0);
@@ -433,11 +432,11 @@ PHP_METHOD(Nc_Log_Logger, warning) {
 
 PHP_METHOD(Nc_Log_Logger, notice) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval context;
 	zval *message_param = NULL, *context_param = NULL, _0;
 	zval message;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&_0);
@@ -465,11 +464,11 @@ PHP_METHOD(Nc_Log_Logger, notice) {
 
 PHP_METHOD(Nc_Log_Logger, info) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval context;
 	zval *message_param = NULL, *context_param = NULL, _0;
 	zval message;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&_0);
@@ -497,11 +496,11 @@ PHP_METHOD(Nc_Log_Logger, info) {
 
 PHP_METHOD(Nc_Log_Logger, debug) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval context;
 	zval *message_param = NULL, *context_param = NULL, _0;
 	zval message;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&_0);
@@ -529,11 +528,11 @@ PHP_METHOD(Nc_Log_Logger, debug) {
 
 PHP_METHOD(Nc_Log_Logger, log) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval context;
 	zval *level_param = NULL, *message_param = NULL, *context_param = NULL, writer, _0, _1;
 	zval level, message;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&level);
 	ZVAL_UNDEF(&message);
@@ -577,7 +576,7 @@ PHP_METHOD(Nc_Log_Logger, main) {
 	zend_bool duplicate;
 	zval *key_param = NULL, *value, value_sub, *duplicate_param = NULL, mainLog, _0, _1;
 	zval key;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&value_sub);
@@ -613,8 +612,8 @@ PHP_METHOD(Nc_Log_Logger, main) {
 PHP_METHOD(Nc_Log_Logger, __destruct) {
 
 	zval _0, _1$$4, _2$$4, _3$$4;
-	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$4);
@@ -649,11 +648,11 @@ PHP_METHOD(Nc_Log_Logger, stringifyLog) {
 
 	zend_string *_2$$3;
 	zend_ulong _1$$3;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval context;
 	zval *level_param = NULL, *message_param = NULL, *context_param = NULL, m, k, v, r, _5, _6, _7, *_0$$3, _4$$4;
 	zval level, message, _3$$4;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&level);
 	ZVAL_UNDEF(&message);

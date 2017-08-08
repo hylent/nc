@@ -3,7 +3,7 @@
   +------------------------------------------------------------------------+
   | Zephir Language                                                        |
   +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Zephir Team (http://www.zephir-lang.com)       |
+  | Copyright (c) 2011-2017 Zephir Team (https://www.zephir-lang.com)      |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
   | with this package in the file docs/LICENSE.txt.                        |
@@ -21,22 +21,26 @@
 #include "config.h"
 #endif
 
-#include "php.h"
-#include "php_ext.h"
-#include "php_main.h"
-#include "ext/spl/spl_exceptions.h"
+#include <php.h>
+#include <php_ext.h>
+#include <php_main.h>
+#include <Zend/zend_exceptions.h>
+#include <Zend/zend_interfaces.h>
+#include <ext/spl/spl_exceptions.h>
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/exception.h"
 
-#include "Zend/zend_exceptions.h"
-#include "Zend/zend_interfaces.h"
+
+zend_string* i_parent = NULL;
+zend_string* i_static = NULL;
+zend_string* i_self   = NULL;
 
 int zephir_is_iterable_ex(zval *arr, int duplicate)
 {
-	if (unlikely(Z_TYPE_P(arr) != IS_ARRAY)) {
+	if (UNEXPECTED(Z_TYPE_P(arr) != IS_ARRAY)) {
 		return 0;
 	}
     //TODO: duplicate
@@ -86,7 +90,7 @@ int zephir_fetch_parameters(int num_args, int required_args, int optional_args, 
 /**
  * Gets the global zval into PG macro
  */
-int zephir_get_global(zval *arr, const char *global, unsigned int global_length)
+int zephir_get_global(zval **arr, const char *global, unsigned int global_length)
 {
 	zval *gv;
 	zend_bool jit_initialization = PG(auto_globals_jit);
@@ -96,25 +100,20 @@ int zephir_get_global(zval *arr, const char *global, unsigned int global_length)
 		zend_is_auto_global(str);
 	}
 
-	zval_ptr_dtor(arr);
-	ZVAL_UNDEF(arr);
-
 	if (&EG(symbol_table)) {
-		if ((gv = zend_hash_find(&EG(symbol_table), str)) != NULL) {
+		if ((gv = zend_hash_find_ind(&EG(symbol_table), str)) != NULL) {
 			ZVAL_DEREF(gv);
 			if (Z_TYPE_P(gv) == IS_ARRAY) {
-				ZVAL_COPY_VALUE(arr, gv);
-				zend_string_free(str);
+				*arr = gv;
+				zend_string_release(str);
 				return SUCCESS;
 			}
 		}
 	}
 
-	array_init(arr);
-	zend_hash_update(&EG(symbol_table), str, arr);
-	//zend_string_free(str);
-
-	return SUCCESS;
+	*arr = NULL;
+	zend_string_release(str);
+	return FAILURE;
 }
 
 /**
@@ -182,7 +181,7 @@ int zephir_fast_count_ev(zval *value)
 		#endif
 
 		if (Z_OBJ_HT_P(value)->count_elements) {
-			Z_OBJ_HT(*value)->count_elements(value, &count TSRMLS_CC);
+			Z_OBJ_HT(*value)->count_elements(value, &count);
 			return (int) count > 0;
 		}
 
@@ -227,7 +226,7 @@ int zephir_fast_count_int(zval *value)
 		#endif
 
 		if (Z_OBJ_HT_P(value)->count_elements) {
-			Z_OBJ_HT(*value)->count_elements(value, &count TSRMLS_CC);
+			Z_OBJ_HT(*value)->count_elements(value, &count);
 			return (int) count;
 		}
 
@@ -368,6 +367,7 @@ void zephir_gettype(zval *return_value, zval *arg)
 					break;
 				}
 			}
+			/* no break */
 
 		default:
 			RETVAL_STRING("unknown type");
@@ -391,7 +391,7 @@ int zephir_declare_class_constant(zend_class_entry *ce, const char *name, size_t
 {
 #if PHP_VERSION_ID >= 70100
 	int ret;
- 
+
 	zend_string *key = zend_string_init(name, name_length, ce->type & ZEND_INTERNAL_CLASS);
 	ret = zend_declare_class_constant_ex(ce, key, value, ZEND_ACC_PUBLIC, NULL);
 	zend_string_release(key);
@@ -449,4 +449,92 @@ int zephir_declare_class_constant_stringl(zend_class_entry *ce, const char *name
 int zephir_declare_class_constant_string(zend_class_entry *ce, const char *name, size_t name_length, const char *value)
 {
 	return zephir_declare_class_constant_stringl(ce, name, name_length, value, strlen(value));
+}
+
+void zephir_get_args(zval *return_value)
+{
+	zend_execute_data *ex = EG(current_execute_data);
+	uint32_t arg_count    = ZEND_CALL_NUM_ARGS(ex);
+
+	array_init_size(return_value, arg_count);
+	if (arg_count) {
+		uint32_t first_extra_arg = ex->func->op_array.num_args;
+		zval *p    = ZEND_CALL_ARG(ex, 1);
+		uint32_t i = 0;
+
+		if (arg_count > first_extra_arg) {
+			while (i < first_extra_arg) {
+				zval *q = p;
+
+				if (Z_TYPE_P(q) != IS_UNDEF) {
+					ZVAL_DEREF(q);
+					Z_TRY_ADDREF_P(q);
+					zend_hash_next_index_insert_new(Z_ARRVAL_P(return_value), q);
+				}
+
+				++p;
+				++i;
+			}
+
+			p = ZEND_CALL_VAR_NUM(ex, ex->func->op_array.last_var + ex->func->op_array.T);
+		}
+
+		while (i < arg_count) {
+			zval *q = p;
+
+			if (Z_TYPE_P(q) != IS_UNDEF) {
+				ZVAL_DEREF(q);
+				Z_TRY_ADDREF_P(q);
+				zend_hash_next_index_insert_new(Z_ARRVAL_P(return_value), q);
+			}
+
+			++p;
+			++i;
+		}
+	}
+}
+
+void zephir_get_arg(zval *return_value, zend_long idx)
+{
+	zend_execute_data *ex = EG(current_execute_data);
+	uint32_t arg_count    = ZEND_CALL_NUM_ARGS(ex);
+	zval *arg;
+	uint32_t first_extra_arg;
+
+	if (UNEXPECTED(idx < 0)) {
+		zend_error(E_WARNING, "zephir_get_arg():  The argument number should be >= 0");
+		RETURN_FALSE;
+	}
+
+	if (UNEXPECTED((zend_ulong)idx >= arg_count)) {
+		zend_error(E_WARNING, "zephir_get_arg():  Argument " ZEND_LONG_FMT " not passed to function", idx);
+		RETURN_FALSE;
+	}
+
+	first_extra_arg = ex->func->op_array.num_args;
+	if ((zend_ulong)idx >= first_extra_arg && (arg_count > first_extra_arg)) {
+		arg = ZEND_CALL_VAR_NUM(ex, ex->func->op_array.last_var + ex->func->op_array.T) + (idx - first_extra_arg);
+	}
+	else {
+		arg = ZEND_CALL_VAR_NUM(ex, idx);
+	}
+
+	if (EXPECTED(!Z_ISUNDEF_P(arg))) {
+		ZVAL_DEREF(arg);
+		ZVAL_COPY(return_value, arg);
+		return;
+	}
+
+	RETURN_NULL();
+}
+
+void zephir_module_init()
+{
+	/* Though these strings won't be interned in ZTS,
+	 * we still benefit from using zend_string* instead of char*
+	 * in hash tables
+	 */
+	i_parent = zend_new_interned_string(zend_string_init(ZEND_STRL("parent"), 1));
+	i_static = zend_new_interned_string(zend_string_init(ZEND_STRL("static"), 1));
+	i_self   = zend_new_interned_string(zend_string_init(ZEND_STRL("self"), 1));
 }

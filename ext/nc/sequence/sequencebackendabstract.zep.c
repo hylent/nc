@@ -28,10 +28,10 @@ ZEPHIR_INIT_CLASS(Nc_Sequence_SequenceBackendAbstract) {
 
 PHP_METHOD(Nc_Sequence_SequenceBackendAbstract, getSequence) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL;
 	zval name;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 

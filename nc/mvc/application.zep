@@ -100,6 +100,8 @@ class Application
             file_put_contents("php://stderr", ex . PHP_EOL);
         }
 
+        resp->end();
+
         if session_status() == PHP_SESSION_ACTIVE {
             session_write_close();
         }
@@ -125,6 +127,7 @@ class Application
                 }
                 for routingName in routingNames {
                     if fetch controllerClass, rules[routingName . uri] {
+                        context->setNumUsedArgs(n);
                         return controllerClass;
                     }
                 }

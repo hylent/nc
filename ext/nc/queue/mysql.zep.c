@@ -37,10 +37,10 @@ ZEPHIR_INIT_CLASS(Nc_Queue_Mysql) {
 PHP_METHOD(Nc_Queue_Mysql, __construct) {
 
 	zval _1;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval table;
 	zval *db, db_sub, *table_param = NULL, _0, _2;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&db_sub);
 	ZVAL_UNDEF(&_0);
@@ -63,7 +63,7 @@ PHP_METHOD(Nc_Queue_Mysql, __construct) {
 	zephir_array_fast_append(&_1, &_2);
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "");
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 136, db, &table, &_1, &_2);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 135, db, &table, &_1, &_2);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("daoMysql"), &_0);
 	ZEPHIR_MM_RESTORE();
@@ -72,18 +72,18 @@ PHP_METHOD(Nc_Queue_Mysql, __construct) {
 
 PHP_METHOD(Nc_Queue_Mysql, getDaoMysql) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "daoMysql");
+	RETURN_MEMBER(getThis(), "daoMysql");
 
 }
 
 PHP_METHOD(Nc_Queue_Mysql, initialize) {
 
 	zval _0, _1, _2, _3, _4, _5;
-	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
@@ -113,11 +113,11 @@ PHP_METHOD(Nc_Queue_Mysql, initialize) {
 PHP_METHOD(Nc_Queue_Mysql, put) {
 
 	zval _1;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	long delay;
 	zval *id_param = NULL, *delay_param = NULL, _0, _2;
 	zval id;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&id);
 	ZVAL_UNDEF(&_0);
@@ -151,10 +151,10 @@ PHP_METHOD(Nc_Queue_Mysql, put) {
 PHP_METHOD(Nc_Queue_Mysql, reserve) {
 
 	zval _4, _6, _7;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *ttr_param = NULL, now, rc, _3, _5, _8, _0$$3, _1$$3, _2$$3, _9$$4;
 	long ttr;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&now);
 	ZVAL_UNDEF(&rc);
@@ -175,7 +175,7 @@ PHP_METHOD(Nc_Queue_Mysql, reserve) {
 	ttr = zephir_get_intval(ttr_param);
 
 
-	if (unlikely(ttr < 1)) {
+	if (UNEXPECTED(ttr < 1)) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, nc_queue_exception_ce);
 		ZEPHIR_INIT_VAR(&_1$$3);
@@ -220,10 +220,10 @@ PHP_METHOD(Nc_Queue_Mysql, reserve) {
 PHP_METHOD(Nc_Queue_Mysql, delete) {
 
 	zval _1;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *id_param = NULL, _0;
 	zval id;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&id);
 	ZVAL_UNDEF(&_0);

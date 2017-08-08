@@ -16,7 +16,6 @@
 #include "kernel/object.h"
 #include "kernel/exception.h"
 #include "kernel/fcall.h"
-#include "kernel/hash.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
 #include "kernel/concat.h"
@@ -38,10 +37,10 @@ PHP_METHOD(Nc_Db_DaoPgsql, upsert) {
 	zend_string *_11, *_24$$11;
 	zend_ulong _10, _23$$11;
 	zephir_fcall_cache_entry *_21 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *inserts_param = NULL, *updates_param = NULL, iPre, uPre, k, kPrefixed, v, iks, ivs, us, params, s, _0, _4, *_5, *_9, _15, _16, _17, _18, _19, _20, _32, _1$$3, _2$$3, _3$$3, _7$$5, _8$$5, _12$$8, _13$$8, _14$$9, *_22$$11, _29$$11, _30$$11, _31$$11, _25$$14, _26$$14, _28$$16;
 	zval inserts, updates;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&inserts);
 	ZVAL_UNDEF(&updates);
@@ -105,7 +104,7 @@ PHP_METHOD(Nc_Db_DaoPgsql, upsert) {
 	ZEPHIR_INIT_VAR(&params);
 	array_init(&params);
 	zephir_read_property(&_0, this_ptr, SL("primaryKey"), PH_NOISY_CC | PH_READONLY);
-	if (unlikely(zephir_fast_count_int(&_0 TSRMLS_CC) < 1)) {
+	if (UNEXPECTED(zephir_fast_count_int(&_0 TSRMLS_CC) < 1)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, nc_db_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
@@ -128,7 +127,7 @@ PHP_METHOD(Nc_Db_DaoPgsql, upsert) {
 		if (!(_6$$4)) {
 			_6$$4 = Z_TYPE_P(&v) == IS_NULL;
 		}
-		if (unlikely(_6$$4)) {
+		if (UNEXPECTED(_6$$4)) {
 			ZEPHIR_INIT_NVAR(&_7$$5);
 			object_init_ex(&_7$$5, nc_db_exception_ce);
 			ZVAL_LONG(&_8$$5, 8);
@@ -237,11 +236,11 @@ PHP_METHOD(Nc_Db_DaoPgsql, updateTop) {
 	zval _5$$6;
 	zend_string *_2;
 	zend_ulong _1;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	long limit;
 	zval *updates_param = NULL, *where = NULL, where_sub, *order = NULL, order_sub, *limit_param = NULL, __$null, k, v, us, pks, s, *_0, _7, _8, _9, _10, _11, _12, _13, _14, _3$$5, _4$$5, _6$$7;
 	zval updates;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&updates);
 	ZVAL_UNDEF(&where_sub);
@@ -342,10 +341,10 @@ PHP_METHOD(Nc_Db_DaoPgsql, updateTop) {
 
 PHP_METHOD(Nc_Db_DaoPgsql, deleteTop) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	long limit;
 	zval *where = NULL, where_sub, *order = NULL, order_sub, *limit_param = NULL, __$null, pks, s, _0, _1, _2, _3, _4, _5, _6;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&where_sub);
 	ZVAL_UNDEF(&order_sub);
@@ -402,7 +401,7 @@ PHP_METHOD(Nc_Db_DaoPgsql, deleteTop) {
 
 PHP_METHOD(Nc_Db_DaoPgsql, makeRandomOrder) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
 	RETURN_STRING("RANDOM()");
@@ -411,12 +410,12 @@ PHP_METHOD(Nc_Db_DaoPgsql, makeRandomOrder) {
 
 PHP_METHOD(Nc_Db_DaoPgsql, makePagination) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_2 = NULL;
 	long limit, skip;
 	zval *sql_param = NULL, *limit_param = NULL, *skip_param = NULL, _0$$3, _1$$3, _3, _4, _5;
 	zval sql;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&sql);
 	ZVAL_UNDEF(&_0$$3);

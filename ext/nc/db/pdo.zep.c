@@ -19,7 +19,6 @@
 #include "ext/pdo/php_pdo_driver.h"
 #include "kernel/object.h"
 #include "kernel/time.h"
-#include "kernel/hash.h"
 #include "kernel/concat.h"
 #include "kernel/array.h"
 
@@ -36,11 +35,11 @@ ZEPHIR_INIT_CLASS(Nc_Db_Pdo) {
 
 PHP_METHOD(Nc_Db_Pdo, __construct) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval driverOptions;
 	zval *dsn_param = NULL, *user_param = NULL, *passwd_param = NULL, *driverOptions_param = NULL, ex, _0, _1, _2$$3, _3$$3, _4$$3, _5$$4, _6$$5, _7$$5, _8$$5;
 	zval dsn, user, passwd;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&dsn);
 	ZVAL_UNDEF(&user);
@@ -85,9 +84,9 @@ PHP_METHOD(Nc_Db_Pdo, __construct) {
 	ZVAL_NULL(&ex);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "pdo");
-	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 28, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 29, &_0);
 	zephir_check_call_status();
-	if (unlikely(!zephir_is_true(&_1))) {
+	if (UNEXPECTED(!zephir_is_true(&_1))) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		object_init_ex(&_2$$3, nc_db_exception_ce);
 		ZEPHIR_INIT_VAR(&_3$$3);
@@ -111,10 +110,12 @@ PHP_METHOD(Nc_Db_Pdo, __construct) {
 	try_end_1:
 
 	if (EG(exception)) {
-		ZVAL_OBJ(&ex, EG(exception));
-		Z_ADDREF_P(&ex);
-		if (zephir_instance_of_ev(&ex, php_pdo_get_exception() TSRMLS_CC)) {
+		ZEPHIR_INIT_NVAR(&_0);
+		ZVAL_OBJ(&_0, EG(exception));
+		Z_ADDREF_P(&_0);
+		if (zephir_instance_of_ev(&_0, php_pdo_get_exception() TSRMLS_CC)) {
 			zend_clear_exception(TSRMLS_C);
+			ZEPHIR_CPY_WRT(&ex, &_0);
 			ZEPHIR_INIT_VAR(&_6$$5);
 			object_init_ex(&_6$$5, nc_db_exception_ce);
 			ZEPHIR_CALL_METHOD(&_7$$5, &ex, "getmessage", NULL, 0);
@@ -133,19 +134,19 @@ PHP_METHOD(Nc_Db_Pdo, __construct) {
 
 PHP_METHOD(Nc_Db_Pdo, getPdo) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "pdo");
+	RETURN_MEMBER(getThis(), "pdo");
 
 }
 
 PHP_METHOD(Nc_Db_Pdo, quote) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *value_param = NULL, _0;
 	zval value;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_0);
@@ -166,8 +167,8 @@ PHP_METHOD(Nc_Db_Pdo, quote) {
 PHP_METHOD(Nc_Db_Pdo, tryToBegin) {
 
 	zval _0;
-	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 
@@ -183,8 +184,8 @@ PHP_METHOD(Nc_Db_Pdo, tryToBegin) {
 PHP_METHOD(Nc_Db_Pdo, tryToCommit) {
 
 	zval _0;
-	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 
@@ -200,8 +201,8 @@ PHP_METHOD(Nc_Db_Pdo, tryToCommit) {
 PHP_METHOD(Nc_Db_Pdo, tryToRollback) {
 
 	zval _0;
-	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 
@@ -219,12 +220,12 @@ PHP_METHOD(Nc_Db_Pdo, executeQuery) {
 	zend_string *_3$$3;
 	zend_ulong _2$$3;
 	zephir_fcall_cache_entry *_6 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool executionOnly, success = 0;
 	zval params;
 	zval *sql_param = NULL, *params_param = NULL, *executionOnly_param = NULL, __$true, t, s, statement, k, v, err, _0, _7, _13, *_1$$3, _4$$5, _5$$5, _8$$6, _9$$6, _10$$6, _11$$6, _12$$7;
 	zval sql;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&sql);
 	ZVAL_BOOL(&__$true, 1);
@@ -296,7 +297,7 @@ PHP_METHOD(Nc_Db_Pdo, executeQuery) {
 	success = zephir_get_boolval(&_7);
 	ZEPHIR_CALL_METHOD(&s, this_ptr, "addsql", NULL, 0, &sql, &params, &t);
 	zephir_check_call_status();
-	if (unlikely(!success)) {
+	if (UNEXPECTED(!success)) {
 		ZEPHIR_CALL_METHOD(&err, &statement, "errorinfo", NULL, 0);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_8$$6);

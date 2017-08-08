@@ -18,7 +18,6 @@
 #include "kernel/fcall.h"
 #include "kernel/concat.h"
 #include "kernel/exception.h"
-#include "kernel/hash.h"
 
 
 ZEPHIR_INIT_CLASS(Nc_Sequence_Redis) {
@@ -39,7 +38,7 @@ PHP_METHOD(Nc_Sequence_Redis, __construct) {
 
 	zval prefix;
 	zval *redis, redis_sub, *prefix_param = NULL;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&redis_sub);
 	ZVAL_UNDEF(&prefix);
@@ -63,28 +62,28 @@ PHP_METHOD(Nc_Sequence_Redis, __construct) {
 
 PHP_METHOD(Nc_Sequence_Redis, getRedis) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "redis");
+	RETURN_MEMBER(getThis(), "redis");
 
 }
 
 PHP_METHOD(Nc_Sequence_Redis, getPrefix) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "prefix");
+	RETURN_MEMBER(getThis(), "prefix");
 
 }
 
 PHP_METHOD(Nc_Sequence_Redis, next) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, s, _0, _1, _2, _3, _4$$3, _5$$3, _6$$3;
 	zval name;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&s);
@@ -109,7 +108,7 @@ PHP_METHOD(Nc_Sequence_Redis, next) {
 	ZVAL_LONG(&_3, 1);
 	ZEPHIR_CALL_METHOD(&s, &_0, "incr", NULL, 0, &_2, &_3);
 	zephir_check_call_status();
-	if (unlikely(ZEPHIR_IS_FALSE_IDENTICAL(&s))) {
+	if (UNEXPECTED(ZEPHIR_IS_FALSE_IDENTICAL(&s))) {
 		ZEPHIR_INIT_VAR(&_4$$3);
 		object_init_ex(&_4$$3, nc_sequence_exception_ce);
 		ZEPHIR_INIT_VAR(&_5$$3);
@@ -128,11 +127,11 @@ PHP_METHOD(Nc_Sequence_Redis, next) {
 
 PHP_METHOD(Nc_Sequence_Redis, restore) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	long sequence;
 	zval *name_param = NULL, *sequence_param = NULL, _0, _1, _2, _3;
 	zval name;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&_0);
@@ -162,8 +161,8 @@ PHP_METHOD(Nc_Sequence_Redis, clear) {
 
 	zval redis, pat, iter, ks, k, _0, _1, _2, _3$$3, *_6$$3;
 	zephir_fcall_cache_entry *_4 = NULL, *_5 = NULL, *_7 = NULL, *_8 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&redis);
 	ZVAL_UNDEF(&pat);

@@ -15,7 +15,6 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
-#include "kernel/hash.h"
 #include "kernel/operators.h"
 #include "kernel/string.h"
 #include "kernel/array.h"
@@ -34,11 +33,10 @@ ZEPHIR_INIT_CLASS(Nc_Mvc_ContextCli) {
 PHP_METHOD(Nc_Mvc_ContextCli, __construct) {
 
 	zval _4$$4, _9$$4, _14$$7;
-	int ZEPHIR_LAST_CALL_STATUS;
-	zval _SERVER, args, arg, pos, _0, _1, _2, *_3$$3, _5$$4, _6$$4, _7$$4, _8$$4, _10$$4, _11$$6, _12$$7, _13$$7, _15$$7, _16$$7;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *_SERVER, args, arg, pos, _0, _1, _2, *_3$$3, _5$$4, _6$$4, _7$$4, _8$$4, _10$$4, _11$$6, _12$$7, _13$$7, _15$$7, _16$$7;
+	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&_SERVER);
 	ZVAL_UNDEF(&args);
 	ZVAL_UNDEF(&arg);
 	ZVAL_UNDEF(&pos);
@@ -61,8 +59,12 @@ PHP_METHOD(Nc_Mvc_ContextCli, __construct) {
 
 	ZEPHIR_MM_GROW();
 	zephir_get_global(&_SERVER, SL("_SERVER"));
+	if (!_SERVER) {
+		ZEPHIR_THROW_EXCEPTION_STR(zend_exception_get_default(), "Invalid superglobal");
+		return;
+	}
 
-	zephir_update_property_zval(this_ptr, SL("serverVars"), &_SERVER);
+	zephir_update_property_zval(this_ptr, SL("serverVars"), _SERVER);
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
 	zephir_update_property_zval(this_ptr, SL("argVector"), &_0);
@@ -126,7 +128,7 @@ PHP_METHOD(Nc_Mvc_ContextCli, __construct) {
 PHP_METHOD(Nc_Mvc_ContextCli, getRoutingNames) {
 
 	zval _0;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 
@@ -142,10 +144,10 @@ PHP_METHOD(Nc_Mvc_ContextCli, getRoutingNames) {
 
 PHP_METHOD(Nc_Mvc_ContextCli, getParamMap) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "paramMap");
+	RETURN_MEMBER(getThis(), "paramMap");
 
 }
 
@@ -153,7 +155,7 @@ PHP_METHOD(Nc_Mvc_ContextCli, getParam) {
 
 	zval *name_param = NULL, *defaultValue = NULL, defaultValue_sub, __$null, value, _0;
 	zval name;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&defaultValue_sub);
@@ -173,7 +175,7 @@ PHP_METHOD(Nc_Mvc_ContextCli, getParam) {
 
 	zephir_read_property(&_0, this_ptr, SL("paramMap"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_isset_fetch(&value, &_0, &name, 1 TSRMLS_CC)) {
-		RETURN_CTOR(value);
+		RETURN_CTOR(&value);
 	}
 	RETVAL_ZVAL(defaultValue, 1, 0);
 	RETURN_MM();

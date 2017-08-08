@@ -15,7 +15,6 @@
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
-#include "kernel/hash.h"
 #include "kernel/array.h"
 
 
@@ -30,10 +29,10 @@ ZEPHIR_INIT_CLASS(Nc_Cache_CacheBackendAbstract) {
 
 PHP_METHOD(Nc_Cache_CacheBackendAbstract, getPool) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *poolName_param = NULL;
 	zval poolName;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&poolName);
 
@@ -44,7 +43,7 @@ PHP_METHOD(Nc_Cache_CacheBackendAbstract, getPool) {
 
 
 	object_init_ex(return_value, nc_cache_cachepool_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 10, this_ptr, &poolName);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 11, this_ptr, &poolName);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -55,12 +54,12 @@ PHP_METHOD(Nc_Cache_CacheBackendAbstract, storeMany) {
 	zend_string *_2;
 	zend_ulong _1;
 	zephir_fcall_cache_entry *_4 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	long ttl;
 	zval keyValues;
 	zval *poolName_param = NULL, *keyValues_param = NULL, *ttl_param = NULL, key, value, *_0, _3$$3;
 	zval poolName;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&poolName);
 	ZVAL_UNDEF(&key);
@@ -104,11 +103,11 @@ PHP_METHOD(Nc_Cache_CacheBackendAbstract, storeMany) {
 PHP_METHOD(Nc_Cache_CacheBackendAbstract, fetchMany) {
 
 	zephir_fcall_cache_entry *_1 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval keys;
 	zval *poolName_param = NULL, *keys_param = NULL, key, value, keyValues, *_0;
 	zval poolName;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&poolName);
 	ZVAL_UNDEF(&key);
@@ -137,18 +136,18 @@ PHP_METHOD(Nc_Cache_CacheBackendAbstract, fetchMany) {
 		}
 	} ZEND_HASH_FOREACH_END();
 	ZEPHIR_INIT_NVAR(&key);
-	RETURN_CCTOR(keyValues);
+	RETURN_CCTOR(&keyValues);
 
 }
 
 PHP_METHOD(Nc_Cache_CacheBackendAbstract, forgetMany) {
 
 	zephir_fcall_cache_entry *_1 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval keys;
 	zval *poolName_param = NULL, *keys_param = NULL, key, *_0;
 	zval poolName;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&poolName);
 	ZVAL_UNDEF(&key);

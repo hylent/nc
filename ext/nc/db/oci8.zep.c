@@ -20,7 +20,6 @@
 #include "kernel/concat.h"
 #include "kernel/string.h"
 #include "kernel/time.h"
-#include "kernel/hash.h"
 #include "kernel/array.h"
 
 
@@ -36,10 +35,10 @@ ZEPHIR_INIT_CLASS(Nc_Db_Oci8) {
 
 PHP_METHOD(Nc_Db_Oci8, __construct) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *dsn_param = NULL, *user_param = NULL, *passwd_param = NULL, oci, _0, _1, _2$$3, _3$$3, _4$$3, _5$$4, _6$$4;
 	zval dsn, user, passwd;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&dsn);
 	ZVAL_UNDEF(&user);
@@ -73,9 +72,9 @@ PHP_METHOD(Nc_Db_Oci8, __construct) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "oci8");
-	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 28, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 29, &_0);
 	zephir_check_call_status();
-	if (unlikely(!zephir_is_true(&_1))) {
+	if (UNEXPECTED(!zephir_is_true(&_1))) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		object_init_ex(&_2$$3, nc_db_exception_ce);
 		ZEPHIR_INIT_VAR(&_3$$3);
@@ -91,7 +90,7 @@ PHP_METHOD(Nc_Db_Oci8, __construct) {
 	ZVAL_STRING(&_0, "utf8");
 	ZEPHIR_CALL_FUNCTION(&oci, "oci_connect", NULL, 46, &user, &passwd, &dsn, &_0);
 	zephir_check_call_status();
-	if (unlikely(!zephir_is_true(&oci))) {
+	if (UNEXPECTED(!zephir_is_true(&oci))) {
 		ZEPHIR_INIT_VAR(&_5$$4);
 		object_init_ex(&_5$$4, nc_db_exception_ce);
 		ZVAL_LONG(&_6$$4, 2);
@@ -108,10 +107,10 @@ PHP_METHOD(Nc_Db_Oci8, __construct) {
 
 PHP_METHOD(Nc_Db_Oci8, getOciResource) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "oci");
+	RETURN_MEMBER(getThis(), "oci");
 
 }
 
@@ -119,7 +118,7 @@ PHP_METHOD(Nc_Db_Oci8, quote) {
 
 	zval *value_param = NULL, _0, _1, _2;
 	zval value;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_0);
@@ -145,7 +144,7 @@ PHP_METHOD(Nc_Db_Oci8, quote) {
 
 PHP_METHOD(Nc_Db_Oci8, tryToBegin) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
 	RETURN_BOOL(1);
@@ -155,8 +154,8 @@ PHP_METHOD(Nc_Db_Oci8, tryToBegin) {
 PHP_METHOD(Nc_Db_Oci8, tryToCommit) {
 
 	zval _0;
-	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 
@@ -172,8 +171,8 @@ PHP_METHOD(Nc_Db_Oci8, tryToCommit) {
 PHP_METHOD(Nc_Db_Oci8, tryToRollback) {
 
 	zval _0;
-	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 
@@ -191,12 +190,12 @@ PHP_METHOD(Nc_Db_Oci8, executeQuery) {
 	zend_string *_3$$3;
 	zend_ulong _2$$3;
 	zephir_fcall_cache_entry *_5 = NULL, *_14 = NULL, *_16 = NULL;
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool executionOnly, success = 0;
 	zval params;
 	zval *sql_param = NULL, *params_param = NULL, *executionOnly_param = NULL, __$true, t, s, statement, k, v, mode, err, result, resultRow, _0, _6, _7, *_1$$3, _4$$5, _8$$8, _9$$8, _10$$8, _11$$8, _12$$8, _13$$9, _15$$10;
 	zval sql;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&sql);
 	ZVAL_BOOL(&__$true, 1);
@@ -280,7 +279,7 @@ PHP_METHOD(Nc_Db_Oci8, executeQuery) {
 	success = zephir_get_boolval(&_7);
 	ZEPHIR_CALL_METHOD(&s, this_ptr, "addsql", NULL, 0, &sql, &params, &t);
 	zephir_check_call_status();
-	if (unlikely(!success)) {
+	if (UNEXPECTED(!success)) {
 		zephir_read_property(&_8$$8, this_ptr, SL("oci"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_FUNCTION(&err, "oci_error", NULL, 52, &_8$$8);
 		zephir_check_call_status();
@@ -315,7 +314,7 @@ PHP_METHOD(Nc_Db_Oci8, executeQuery) {
 		zephir_check_call_status();
 		zephir_array_append(&result, &_15$$10, PH_SEPARATE, "nc/db/oci8.zep", 90);
 	}
-	RETURN_CCTOR(result);
+	RETURN_CCTOR(&result);
 
 }
 

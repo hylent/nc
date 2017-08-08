@@ -34,7 +34,7 @@ PHP_METHOD(Nc_Sequence_Sequence, __construct) {
 
 	zval name;
 	zval *backend, backend_sub, *name_param = NULL;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&backend_sub);
 	ZVAL_UNDEF(&name);
@@ -53,27 +53,27 @@ PHP_METHOD(Nc_Sequence_Sequence, __construct) {
 
 PHP_METHOD(Nc_Sequence_Sequence, getBackend) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "backend");
+	RETURN_MEMBER(getThis(), "backend");
 
 }
 
 PHP_METHOD(Nc_Sequence_Sequence, getName) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "name");
+	RETURN_MEMBER(getThis(), "name");
 
 }
 
 PHP_METHOD(Nc_Sequence_Sequence, next) {
 
 	zval _0, _1;
-	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
@@ -90,10 +90,10 @@ PHP_METHOD(Nc_Sequence_Sequence, next) {
 
 PHP_METHOD(Nc_Sequence_Sequence, restore) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *sequence_param = NULL, _0, _1, _2;
 	long sequence;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);

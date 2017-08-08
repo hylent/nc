@@ -33,9 +33,9 @@ ZEPHIR_INIT_CLASS(Nc_Mvc_SessionAutoGcSaveHandler) {
 
 PHP_METHOD(Nc_Mvc_SessionAutoGcSaveHandler, __construct) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *storage, storage_sub, _0, _1, _2;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&storage_sub);
 	ZVAL_UNDEF(&_0);
@@ -50,7 +50,7 @@ PHP_METHOD(Nc_Mvc_SessionAutoGcSaveHandler, __construct) {
 	zephir_update_property_zval(this_ptr, SL("storage"), storage);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "session.gc_maxlifetime");
-	ZEPHIR_CALL_FUNCTION(&_1, "ini_get", NULL, 29, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "ini_get", NULL, 30, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_ZVAL_NREF(_2);
 	ZVAL_LONG(&_2, zephir_get_intval(&_1));
@@ -62,20 +62,20 @@ PHP_METHOD(Nc_Mvc_SessionAutoGcSaveHandler, __construct) {
 PHP_METHOD(Nc_Mvc_SessionAutoGcSaveHandler, register) {
 
 	zval _0, _1;
-	int ZEPHIR_LAST_CALL_STATUS;
-	ZEPHIR_INIT_THIS();
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_FUNCTION(NULL, "session_set_save_handler", NULL, 115, this_ptr);
+	ZEPHIR_CALL_FUNCTION(NULL, "session_set_save_handler", NULL, 114, this_ptr);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "session.gc_probability");
 	ZVAL_LONG(&_1, 0);
-	ZEPHIR_CALL_FUNCTION(NULL, "ini_set", NULL, 116, &_0, &_1);
+	ZEPHIR_CALL_FUNCTION(NULL, "ini_set", NULL, 115, &_0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -83,10 +83,10 @@ PHP_METHOD(Nc_Mvc_SessionAutoGcSaveHandler, register) {
 
 PHP_METHOD(Nc_Mvc_SessionAutoGcSaveHandler, getStorage) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(this_ptr, "storage");
+	RETURN_MEMBER(getThis(), "storage");
 
 }
 
@@ -94,7 +94,7 @@ PHP_METHOD(Nc_Mvc_SessionAutoGcSaveHandler, open) {
 
 	zval *savePath_param = NULL, *sessionName_param = NULL;
 	zval savePath, sessionName;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&savePath);
 	ZVAL_UNDEF(&sessionName);
@@ -112,10 +112,10 @@ PHP_METHOD(Nc_Mvc_SessionAutoGcSaveHandler, open) {
 
 PHP_METHOD(Nc_Mvc_SessionAutoGcSaveHandler, read) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *id_param = NULL, _0$$3, _1$$3;
 	zval id, _2$$3;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&id);
 	ZVAL_UNDEF(&_2$$3);
@@ -135,7 +135,7 @@ PHP_METHOD(Nc_Mvc_SessionAutoGcSaveHandler, read) {
 		ZEPHIR_CALL_METHOD(&_1$$3, &_0$$3, "readsessiondata", NULL, 0, &id);
 		zephir_check_call_status_or_jump(try_end_1);
 		zephir_get_strval(&_2$$3, &_1$$3);
-		RETURN_CTOR(_2$$3);
+		RETURN_CTOR(&_2$$3);
 
 	try_end_1:
 
@@ -146,10 +146,10 @@ PHP_METHOD(Nc_Mvc_SessionAutoGcSaveHandler, read) {
 
 PHP_METHOD(Nc_Mvc_SessionAutoGcSaveHandler, write) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *id_param = NULL, *data_param = NULL, _0$$3, _1$$3;
 	zval id, data;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&id);
 	ZVAL_UNDEF(&data);
@@ -181,10 +181,10 @@ PHP_METHOD(Nc_Mvc_SessionAutoGcSaveHandler, write) {
 
 PHP_METHOD(Nc_Mvc_SessionAutoGcSaveHandler, destroy) {
 
-	int ZEPHIR_LAST_CALL_STATUS;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *id_param = NULL, _0$$3;
 	zval id;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&id);
 	ZVAL_UNDEF(&_0$$3);
@@ -212,7 +212,7 @@ PHP_METHOD(Nc_Mvc_SessionAutoGcSaveHandler, destroy) {
 
 PHP_METHOD(Nc_Mvc_SessionAutoGcSaveHandler, close) {
 
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
 	RETURN_BOOL(1);
@@ -223,7 +223,7 @@ PHP_METHOD(Nc_Mvc_SessionAutoGcSaveHandler, gc) {
 
 	zval *maxLifetime_param = NULL;
 	long maxLifetime;
-	ZEPHIR_INIT_THIS();
+	zval *this_ptr = getThis();
 
 
 	zephir_fetch_params(0, 1, 0, &maxLifetime_param);
