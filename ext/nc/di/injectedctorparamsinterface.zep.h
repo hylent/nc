@@ -1,5 +1,0 @@
-
-extern zend_class_entry *nc_di_injectedctorparamsinterface_ce;
-
-ZEPHIR_INIT_CLASS(Nc_Di_InjectedCtorParamsInterface);
-
